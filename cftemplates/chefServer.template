@@ -1,11 +1,21 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "chef server on amazon linux,set up chef server and set up chef workstation registed as ec2-user admin client",
+    "Description": "chef server on amazon linux,set up chef server and chef workstation registed as ec2-user admin client.a drupal database is installed to rds and configure the source code ",
     "Parameters": {
         "KeyName": {
             "Type": "String",
             "Default": "drucloud",
             "Description": "Note: do not input .pem suffix! Name of an existing EC2 KeyPair to enable SSH access to the web server"
+        },
+        "ChefSubnet" : {
+            	"Type" : "String",
+        		"Default" : "subnet-37fcb671",
+        		"Description" : "a vpc subnet used for chef server and chef clients"
+        },
+        "ChefVpc" : {
+        		"Type" : "String",
+        		"Default" : "vpc-353d3557",
+        		"Description" : "a chef vpc"
         },
         "ResourceBucket" : {
             	"Type" : "String",
@@ -138,6 +148,13 @@
         }
     },
     "Resources": {
+    		"ChefEIP" : {
+    				"Type" : "AWS::EC2::EIP",
+    				"Properties" : {
+    								"Domain" : "vpc",
+    								"InstanceId" : {"Ref" : "ChefServer"}
+    				}
+    		},
         "ChefServer": {
             "Type": "AWS::EC2::Instance",
             "Metadata": {
@@ -162,6 +179,22 @@
                             }
                         },
                         "files": {
+                        		"/home/ec2-user/removeNode.sh": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "#!/bin/bash\n",
+                                            "cd /home/ec2-user/chef11/chef-repo\n",
+                                            "/opt/chef-server/bin/knife node delete $1\n",
+                                            "/opt/chef-server/bin/knife client delete $1\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000777",
+                                "owner": "root",
+                                "group": "root"
+                            },
                             "/home/ec2-user/.aws/config": {
                                 "content": {
                                     "Fn::Join": [
@@ -278,10 +311,14 @@
                                     "command" : "mkdir -p /home/ec2-user/chef11/chef-repo/.chef;touch /home/ec2-user/chef11/chef-repo/.chef/knife.rb",
                                     "cwd" : "/home/ec2-user"
                             },
+                            "12oinstallec2metadata" : {
+                            		"command" : "wget http://s3.amazonaws.com/ec2metadata/ec2-metadata;chmod u+x ./ec2-metadata",
+                            		"cwd" : "/home/ec2-user/tools"
+                            },
                             "13setworkstation" : {
                             				"command" : {"Fn::Join" : ["",[
                             									"/opt/chef-server/bin/knife configure -y -i -c /home/ec2-user/chef11/chef-repo/.chef/knife.rb --server-url ",
-                            									"https://127.0.0.1:443 ",
+                            									"https://$( /home/ec2-user/tools/ec2-metadata -o | cut -d ' ' -f2 ):443 ",
                         											"-u ec2-user --validation-client-name chef-validator --validation-key /etc/chef-server/chef-validator.pem -r /home/ec2-user/chef11/chef-repo --admin-client-name chef-webui --admin-client-key /etc/chef-server/chef-webui.pem"
                             				
                             				]]},
@@ -404,6 +441,10 @@
                             					]]
                             		},
                             		"cwd" : "/home/ec2-user/chef11/chef-repo"
+                            },
+                            "24addchecknodecron" : {
+                            		"command" : "echo '*/2  *  *  *  * root /home/ec2-user/chef11/chef-repo/crontab/validateNode.sh' >> /etc/crontab;chmod +x /home/ec2-user/chef11/chef-repo/crontab/validateNode.sh",
+                            		"cwd" : "/home/ec2-user"
                             }
                             
                             
@@ -412,7 +453,7 @@
                 }
             },
             "Properties": {
-                "SecurityGroups": [
+                "SecurityGroupIds": [
                     {
                         "Ref": "ChefServerSecurityGroup"
                     }
@@ -492,6 +533,9 @@
                 "InstanceType": {
                     "Ref": "InstanceType"
                 },
+                "SubnetId" : {
+                		"Ref" : "ChefSubnet"
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -553,17 +597,29 @@
                         "IpProtocol": "tcp",
                         "FromPort": "443",
                         "ToPort": "443",
-                        "SourceSecurityGroupName": {
+                        "SourceSecurityGroupId": {
                             "Ref": "ChefClientSecurityGroup"
                         }
                     }
-                ]
+                ],
+                "VpcId" : {"Ref" : "ChefVpc"}
             }
         },
         "ChefClientSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
-                "GroupDescription": "Group with access to Chef Server"
+                "GroupDescription": "Group with access to Chef Server",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": {
+                            "Ref": "SSHLocation"
+                        }
+                    }
+                ],
+                "VpcId" : {"Ref" : "ChefVpc"}
             }
         },
         "PrivateKeyBucket": {
@@ -657,7 +713,7 @@
                         {
                             "Fn::GetAtt": [
                                 "ChefServer",
-                                "PublicDnsName"
+                                "PrivateDnsName"
                             ]
                         },
                         ":443"
@@ -665,7 +721,7 @@
                 ]
             }
         },
-        "ChefSecurityGroup": {
+        "ChefClientSecurityGroup": {
             "Description": "EC2 Security Group with access to Opscode chef server",
             "Value": {
                 "Ref": "ChefClientSecurityGroup"

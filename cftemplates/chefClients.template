@@ -31,17 +31,37 @@
             "Description": "URL of Chef Server",
             "Type": "String"
         },
+        "ChefServerIp" : {
+                "Description" : "ip address of chef server",
+        		"Type" : "String"
+        },
         "ChefServerPrivateKeyBucket": {
             "Description": "S3 bucket containing validation private key for Chef Server",
             "Type": "String"
         },
-        "ChefServerSecurityGroup": {
+        "ChefClientSecurityGroup": {
             "Description": "Security group to get access to Opscode Chef Server",
             "Type": "String"
         },
         "InstancePort": {
             "Description": "Listener Port of ec2-instances",
-            "Type": "String"
+            "Type": "String",
+            "Default" : "80"
+        },
+        "ChefSubnet" : {
+            "Type" : "String",
+        		"Default" : "subnet-37fcb671",
+        		"Description" : "a vpc subnet used for chef server and chef clients"
+        },
+        "AvailabilityZone" : {
+        		"Type" : "String",
+        		"Default" : "ap-northeast-1c",
+        		"Description" : "specify the available zone for the subnet"
+        },
+        "ChefVpc" : {
+        		"Type" : "String",
+        		"Default" : "vpc-353d3557",
+        		"Description" : "a chef vpc"
         }
     },
     "Mappings": {
@@ -193,12 +213,13 @@
                         "CidrIp": "0.0.0.0/0"
                     },
                     {
-                        "IpProtocol": "tcp",
-                        "FromPort": "443",
-                        "ToPort": "443",
-                        "CidrIp": "0.0.0.0/0"
+                    		"IpProtocol" : "tcp",
+                    		"FromPort" : "80",
+                    		"ToPort" : "80",
+                    		"CidrIp" : "0.0.0.0/0"
                     }
-                ]
+                ],
+                "VpcId" : {"Ref" : "ChefVpc"}
             }
         },
         "ChefLaunchConfig": {
@@ -260,6 +281,23 @@
                                 "mode": "000640",
                                 "owner": "root",
                                 "group": "root"
+                            },
+                            "/etc/init.d/disregisterchefnode": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "#!/bin/bash\n",
+                                            "instanceId=$( /home/ec2-user/tools/ec2-metadata -i | cut -d' ' -f2 )\n",
+                                            "ssh -i /home/ec2-user/.pem/drucloud.pem ec2-user@",
+                                            {"Ref" : "ChefServerIp"},
+                                            " \"/home/ec2-user/removeNode.sh ${instanceId}\"\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000777",
+                                "group": "root",
+                                "owner": "root"
                             },
                             "/etc/chef/client.rb": {
                                 "content": {
@@ -351,6 +389,18 @@
                             		"command" : "gem1.9 install rdoc;gem1.9 install chef --no-rdoc --no-ri;gem1.9 install ruby-shadow;gem1.9 install ohai;gem1.9 install json",
                             		"cwd" : "/home/ec2-user/tools"
                             },
+                            "10installec2metadata" : {
+                            		"command" : "wget http://s3.amazonaws.com/ec2metadata/ec2-metadata;chmod u+x ./ec2-metadata",
+                            		"cwd" : "/home/ec2-user/tools"
+                            },
+                            "11confignodename" : {
+                            	  "command" : "tempVar=$( /home/ec2-user/tools/ec2-metadata -i | cut -d' ' -f2 );echo node_name \\'${tempVar}\\' >> /etc/chef/client.rb",
+                            	  "cwd" : "/home/ec2-user/tools"
+                            },
+                            "12removeonshutdown" : {
+                            		"command" : "ln -sf /etc/init.d/disregisterchefnode /etc/rc0.d/K99disregisternode",
+                            		"cwd" : "/home/ec2-user"
+                            },
                             "48registernode": {
                                 "command": {
                                     "Fn::Join": [
@@ -371,9 +421,10 @@
                 }
             },
             "Properties": {
+            		"AssociatePublicIpAddress" : true,
                 "SecurityGroups": [
                     {
-                        "Ref": "ChefServerSecurityGroup"
+                        "Ref": "ChefClientSecurityGroup"
                     },
                     {
                         "Ref": "ChefCSecurityGroup"
@@ -471,15 +522,24 @@
                         "CidrIp": "0.0.0.0/0"
                     }
                 ],
-                "GroupDescription": "Load Balancer Security Group"
+                "GroupDescription": "Load Balancer Security Group",
+                "SecurityGroupEgress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "ToPort": "80",
+                        "FromPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId": {"Ref" : "ChefVpc"}
             }
         },
         "ElasticLoadBalancer": {
             "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
             "Properties": {
-                "AvailabilityZones": {
-                    "Fn::GetAZs": ""
-                },
+                "Subnets": [
+                    {"Ref":"ChefSubnet"}
+                ],
                 "Listeners": [
                     {
                         "LoadBalancerPort": "80",
@@ -487,6 +547,11 @@
                             "Ref": "InstancePort"
                         },
                         "Protocol": "HTTP"
+                    }
+                ],
+                "SecurityGroups": [
+                    {
+                        "Ref": "AWSLoadBalancerSecurityGroup"
                     }
                 ],
                 "HealthCheck": {
@@ -511,12 +576,15 @@
         "AWSChefAutoScalingGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
-                "AvailabilityZones": {
-                    "Fn::GetAZs": ""
-                },
+                "AvailabilityZones": [{"Ref" : "AvailabilityZone"}]
+                    ,
+                
+                "VPCZoneIdentifier": [
+                    {"Ref" : "ChefSubnet"}
+                ],
                 "Cooldown": "360",
-                "MinSize": "1",
-                "MaxSize": "1",
+                "MinSize": "2",
+                "MaxSize": "10",
                 "LaunchConfigurationName": {
                     "Ref": "ChefLaunchConfig"
                 },
@@ -527,24 +595,76 @@
                 ]
             }
         },
-        "EC2SecurityGroup": {
-            "Type": "AWS::EC2::SecurityGroup",
+        "ChefAutoScalingScaleUpPolicy": {
+            "Type": "AWS::AutoScaling::ScalingPolicy",
             "Properties": {
-                "GroupDescription": "Open up SSH access and HTTP over port 80",
-                "SecurityGroupIngress": [
+                "AutoScalingGroupName": {
+                    "Ref": "AWSChefAutoScalingGroup"
+                },
+                "ScalingAdjustment": "2",
+                "AdjustmentType": "ChangeInCapacity"
+            }
+        },
+        "ChefAutoScalingScaleDownPolicy": {
+            "Type": "AWS::AutoScaling::ScalingPolicy",
+            "Properties": {
+                "AutoScalingGroupName": {
+                    "Ref": "AWSChefAutoScalingGroup"
+                },
+                "ScalingAdjustment": "-2",
+                "AdjustmentType": "ChangeInCapacity"
+            }
+        },
+        "AWSChefCloudwatchAlarmLow": {
+            "Type": "AWS::CloudWatch::Alarm",
+            "Properties": {
+                "Period": "300",
+                "AlarmActions": [
                     {
-                        "IpProtocol": "tcp",
-                        "FromPort": "22",
-                        "ToPort": "22",
-                        "CidrIp": "0.0.0.0/0"
-                    },
-                    {
-                        "IpProtocol": "tcp",
-                        "FromPort": "443",
-                        "ToPort": "443",
-                        "CidrIp": "0.0.0.0/0"
+                        "Ref": "ChefAutoScalingScaleDownPolicy"
                     }
-                ]
+                ],
+                "Statistic": "Average",
+                "MetricName": "NetworkOut",
+                "Threshold": "2000000",
+                "EvaluationPeriods": "1",
+                "Dimensions": [
+                    {
+                        "Name": "AutoScalingGroupName",
+                        "Value": {
+                            "Ref": "AWSChefAutoScalingGroup"
+                        }
+                    }
+                ],
+                "AlarmDescription": "chef client Default Scale Down alarm",
+                "Namespace": "AWS/EC2",
+                "ComparisonOperator": "LessThanThreshold"
+            }
+        },
+         "AWSChefCloudwatchAlarmHigh": {
+            "Type": "AWS::CloudWatch::Alarm",
+            "Properties": {
+                "Period": "60",
+                "AlarmActions": [
+                    {
+                        "Ref": "ChefAutoScalingScaleUpPolicy"
+                    }
+                ],
+                "Statistic": "Average",
+                "MetricName": "NetworkOut",
+                "Threshold": "5000000",
+                "EvaluationPeriods": "1",
+                "Dimensions": [
+                    {
+                        "Name": "AutoScalingGroupName",
+                        "Value": {
+                            "Ref": "AWSChefAutoScalingGroup"
+                        }
+                    }
+                ],
+                "AlarmDescription": "chef client Default Scale Up alarm",
+                "Namespace": "AWS/EC2",
+                "ComparisonOperator": "GreaterThanThreshold"
             }
         },
         "ChefClientWaitHandle": {
