@@ -247,6 +247,23 @@
                 }
             }
         },
+        "InboundHTTPSSHPublicOneNetworkAclEntry": {
+            "Type": "AWS::EC2::NetworkAclEntry",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "PublicNetworkAcl"
+                },
+                "RuleNumber": "120",
+                "Protocol": "6",
+                "RuleAction": "allow",
+                "Egress": "false",
+                "CidrBlock": "0.0.0.0/0",
+                "PortRange": {
+                    "From": "22",
+                    "To": "22"
+                }
+            }
+        },
         "InboundDynamicPortsPublicOneNetworkAclEntry": {
             "Type": "AWS::EC2::NetworkAclEntry",
             "Properties": {
