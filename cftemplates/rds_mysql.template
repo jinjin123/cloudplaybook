@@ -1,0 +1,257 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "AWS CloudFormation  Template RDS_MySQL_55:  template to create a highly-available, RDS DBInstance version 5.5 with alarming on important metrics that indicate the health of the database **WARNING**  ",
+    "Parameters": {
+        "VpcId": {
+            "Type": "String",
+            "Description": "VpcId of your existing Virtual Private Cloud(VPC)"
+        },
+        "Subnets": {
+            "Type": "CommaDelimitedList",
+            "Description": "The list of SubnetIds,for at least two Availability Zones in the region"
+        },
+    "DBIdentifier" : {
+	    "Type" : "String",
+            "Description" : "The identifier of this mysql database"
+	},
+        "DBName": {
+            "Default": "MyDatabase",
+            "Description": "The database name",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "64",
+            "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+            "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+        },
+        "DBUser": {
+            "Description": "The database admin account username",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "16",
+            "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+            "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+        },
+        "DBPassword": {
+            "NoEcho": "true",
+            "Description": "The database admin account password",
+            "Type": "String",
+            "MinLength": "8",
+            "MaxLength": "41",
+            "AllowedPattern": "[a-zA-Z0-9]*",
+            "ConstraintDescription": "must contain only alphanumeric characters."
+        },
+        "DBAllocatedStorage": {
+            "Default": "5",
+            "Description": "The size of the database (Gb)",
+            "Type": "Number",
+            "MinValue": "5",
+            "MaxValue": "1024",
+            "ConstraintDescription": "must be between 5 and 1024Gb."
+        },
+        "DBInstanceClass": {
+            "Default": "db.m1.small",
+            "Description": "The database instance type",
+            "Type": "String",
+            "AllowedValues": [
+                "db.m1.small",
+                "db.m1.large",
+                "db.m1.xlarge",
+                "db.m2.xlarge",
+                "db.m2.2xlarge",
+                "db.m2.4xlarge"
+            ],
+            "ConstraintDescription": "must select a valid database instance type."
+        },
+        "MultiAZ": {
+            "Default": "true",
+            "Description": "Create a multi-AZ RDS database instance",
+            "Type": "String",
+            "AllowedValues": [
+                "true",
+                "false"
+            ],
+            "ConstraintDescription": "must be either true or false."
+        }
+    },
+    "Mappings": {
+        "InstanceTypeMap": {
+            "db.m1.small": {
+                "CPULimit": "60",
+                "FreeStorageSpaceLimit": "1024",
+                "ReadIOPSLimit": "100",
+                "WriteIOPSLimit": "100"
+            },
+            "db.m1.large": {
+                "CPULimit": "60",
+                "FreeStorageSpaceLimit": "1024",
+                "ReadIOPSLimit": "100",
+                "WriteIOPSLimit": "100"
+            },
+            "db.m1.xlarge": {
+                "CPULimit": "60",
+                "FreeStorageSpaceLimit": "1024",
+                "ReadIOPSLimit": "100",
+                "WriteIOPSLimit": "100"
+            },
+            "db.m2.xlarge": {
+                "CPULimit": "60",
+                "FreeStorageSpaceLimit": "1024",
+                "ReadIOPSLimit": "100",
+                "WriteIOPSLimit": "100"
+            },
+            "db.m2.2xlarge": {
+                "CPULimit": "60",
+                "FreeStorageSpaceLimit": "1024",
+                "ReadIOPSLimit": "100",
+                "WriteIOPSLimit": "100"
+            },
+            "db.m2.4xlarge": {
+                "CPULimit": "60",
+                "FreeStorageSpaceLimit": "1024",
+                "ReadIOPSLimit": "100",
+                "WriteIOPSLimit": "100"
+            }
+        }
+    },
+    "Resources": 
+    {
+        "MyDBSubnetGroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "Subnets available for the RDS DB Instance",
+                "SubnetIds": {
+                    "Ref": "Subnets"
+                }
+            }
+        },
+        "SecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Allow access to the mysql from the Web Server",
+                "VpcId": {
+                    "Ref": "VpcId"
+                },
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "3306",
+                        "ToPort": "3306",
+                        "CidrIp": "10.0.0.0/16"
+                    }
+                ]
+            }
+        },
+        "MyDB": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "DBName": {
+                    "Ref": "DBName"
+                },
+                "AllocatedStorage": {
+                    "Ref": "DBAllocatedStorage"
+                },
+                "AutoMinorVersionUpgrade": "false",
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "SecurityGroup"
+                    }
+                ],
+                "DBInstanceClass": {
+                    "Ref": "DBInstanceClass"
+                },
+		"DBSubnetGroupName" : {"Ref":"MyDBSubnetGroup"},
+                "Engine": "MySQL",
+                "EngineVersion": "5.5",
+                "MasterUsername": {
+                    "Ref": "DBUser"
+                },
+                "MasterUserPassword": {
+                    "Ref": "DBPassword"
+                },
+                "MultiAZ": {
+                    "Ref": "MultiAZ"
+                },
+		"Tags" : [{"Key" : "Name","Value" : {"Ref" : "DBIdentifier"}}]
+            },
+            "DeletionPolicy": "Snapshot"
+        },
+        "MyDBReplica": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "SecurityGroup"
+                    }
+                ],
+                "SourceDBInstanceIdentifier": {
+                    "Ref": "MyDB"
+                },
+                "DBInstanceClass": {
+                    "Ref": "DBInstanceClass"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    {"Ref" : "DBName"},
+                                    " read replica"
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "JDBCConnectionString": {
+            "Description": "JDBC connection string for database",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "jdbc:mysql://",
+                        {
+                            "Fn::GetAtt": [
+                                "MyDB",
+                                "Endpoint.Address"
+                            ]
+                        },
+                        ":",
+                        {
+                            "Fn::GetAtt": [
+                                "MyDB",
+                                "Endpoint.Port"
+                            ]
+                        },
+                        "/",
+                        {
+                            "Ref": "DBName"
+                        }
+                    ]
+                ]
+            }
+        },
+        "DBAddress": {
+            "Description": "Address of database endpoint",
+            "Value": {
+                "Fn::GetAtt": [
+                    "MyDB",
+                    "Endpoint.Address"
+                ]
+            }
+        },
+        "DBPort": {
+            "Description": "Database endpoint port number",
+            "Value": {
+                "Fn::GetAtt": [
+                    "MyDB",
+                    "Endpoint.Port"
+                ]
+            }
+        }
+    }
+}
