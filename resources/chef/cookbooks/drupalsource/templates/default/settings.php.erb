@@ -256,7 +256,7 @@ $update_free_access = FALSE;
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-$drupal_hash_salt = 'zkXZOKgOf8qC-IDMexDukii1HuPB443-C5FHvsnW-wk';
+$drupal_hash_salt = 'HqE1NJ_Bzm1sN6dFialEuYwsT7FGuUmo-FmNouL1sb0';
 
 /**
  * Base URL (optional).
@@ -565,3 +565,8 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
  * Remove the leading hash signs to disable.
  */
 # $conf['allow_authorize_operations'] = FALSE;
+foreach (glob("drupal.d/*.php") as $filename )
+{
+                $onlyfilename = basename($filename);
+                include_once("sites/default/drupal.d/" . $onlyfilename);
+}

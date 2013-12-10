@@ -1,0 +1,26 @@
+<?php
+#MongoDB
+$conf['mongodb_connections'] = array(
+		'default' => array(
+			'host' => '<%= node[:mongodbex][:host] %>',
+			'db'  => '<%= node[:mongodbex][:dbname] %>',
+	),
+);
+include_once('./includes/cache.inc');
+#configure Cache
+$conf['cache_backends'][] = '<%= node[:mongodbex][:cachebackends] %>';
+
+$conf['cache_class_cache'] = 'DrupalMongoDBCache';
+$conf['cache_class_cache_bootstrap'] = 'DrupalMongoDBCache';
+$conf['cache_default_class'] = 'DrupalMongoDBCache';
+# -- Don't touch SQL if in Cache
+# $conf['page_cache_without_database'] = TRUE;
+# $conf['page_cache_invoke_hooks'] = FALSE;
+# # Session Caching
+# $conf['session_inc'] = '<%= node[:mongodbex][:sessioninc] %>';
+# $conf['cache_session'] = 'DrupalMongoDBCache';
+# # Field Storage
+# $conf['field_storage_default'] = 'mongodb_field_storage';
+# # Message Queue $conf['queue_default_class'] = 'MongoDBQueue';
+#
+?>
