@@ -174,27 +174,11 @@
                                 "php54-mcrypt" : [],
                                 "php54-pdo" : [],
                                 "php54-xml" : [],
-                                "php54-xmlrpc" : [],
+                                "php54-xmlrpc" : [],my
                                 "php54-mysql" : []
                             }
                         },
                         "files": {
-                        		"/home/ec2-user/removeNode.sh": {
-                                "content": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "#!/bin/bash\n",
-                                            "cd /home/ec2-user/chef11/chef-repo\n",
-                                            "/opt/chef-server/bin/knife node delete $1\n",
-                                            "/opt/chef-server/bin/knife client delete $1\n"
-                                        ]
-                                    ]
-                                },
-                                "mode": "000777",
-                                "owner": "root",
-                                "group": "root"
-                            },
                             "/home/ec2-user/.aws/config": {
                                 "content": {
                                     "Fn::Join": [
@@ -432,10 +416,7 @@
                             		"command" : {
                             					"Fn::Join" : ["",[
                             										"cp /var/app/drupal/sites/default/settings.php cookbooks/drupalsource/templates/default/settings.php.erb;",
-                            										"/opt/chef-server/bin/knife cookbook metadata cookbooks/php54/metadata.rb;",
-                            										"/opt/chef-server/bin/knife cookbook upload php54;",
-                            										"/opt/chef-server/bin/knife cookbook metadata cookbooks/drupalsource/metadata.rb;",
-                            										"/opt/chef-server/bin/knife cookbook upload drupalsource;",
+                            										"/opt/chef-server/bin/knife cookbook upload --all;",
                             										"/opt/chef-server/bin/knife role from file roles/chefclient.json "
                             					
                             					]]
