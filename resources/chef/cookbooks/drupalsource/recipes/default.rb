@@ -17,12 +17,14 @@ execute "makecustomdir " do
 	cwd "#{node[:drupalsource][:appdir]}/sites/all/modules"
 end
 
+=begin
 directory "#{node[:drupalsource][:appdir]}/sites/default/drupal.d" do
 	owner "root"
 	group "root"
 	mode 00766
 	action :create
 end
+=end
 
 
 template "/var/www/html/sites/default/settings.php" do

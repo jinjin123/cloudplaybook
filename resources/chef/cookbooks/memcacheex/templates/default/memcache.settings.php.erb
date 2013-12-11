@@ -1,0 +1,15 @@
+<?php
+
+$conf['cache_backends'][] = '<%= node[:memcacheex][:cachebackends] %>';
+$conf['cache_default_class'] = 'MemCacheDrupal';
+// The 'cache_form' bin must be assigned no non-volatile storage.
+$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
+$conf['memcache_servers'] = array(
+  '<%= node[:memcacheex][:nodeendpoint1] %>' => 'default',
+  '<%= node[:memcacheex][:nodeendpoint2] %>' => 'views',
+);
+$conf['memcache_bins'] = array(
+  'cache' => 'default',
+  'cache_views' => 'views',
+  'cache_views_data' => 'views',
+);
