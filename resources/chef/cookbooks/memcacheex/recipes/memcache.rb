@@ -33,12 +33,12 @@ template "#{node[:memcacheex][:appdir]}/sites/default/memcache.settings.php" do
 	group "root"
 end
 
-ex_code= "if(file_exists('sites/default/memcache.settings.php')){include_once('sites/default/memcache.settings.php');}"
-execute "update settings.php" do
-        command "echo \"#{ex_code}\" >> #{node[:memcacheex][:appdir]}/sites/default/settings.php"
-        not_if "cat #{node[:memcacheex][:appdir]}/sites/default/settings.php | grep 'memcache.settings.php' "
-        cwd '/root'
-end
+#ex_code= "if(file_exists('sites/default/memcache.settings.php')){include_once('sites/default/memcache.settings.php');}"
+#execute "update settings.php" do
+#        command "echo \"#{ex_code}\" >> #{node[:memcacheex][:appdir]}/sites/default/settings.php"
+#        not_if "cat #{node[:memcacheex][:appdir]}/sites/default/settings.php | grep 'memcache.settings.php' "
+#        cwd '/root'
+#end
 
 
 

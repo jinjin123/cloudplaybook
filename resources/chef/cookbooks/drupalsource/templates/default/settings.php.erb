@@ -572,4 +572,20 @@ foreach (glob("drupal.d/*.php") as $filename )
                 include_once("sites/default/drupal.d/" . $onlyfilename);
 }
 */
+if(file_exists('sites/default/memcache.settings.php'))
+{
+	include_once('sites/default/memcache.settings.php');
+}
+
+if(file_exists('sites/default/autoslave.settings.php'))
+{
+        include_once('sites/default/autoslave.settings.php');
+}
+
+if(file_exists('sites/default/mongodb.settings.php'))
+{
+        include_once('sites/default/mongodb.settings.php');
+}
+
+
 

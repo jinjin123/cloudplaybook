@@ -29,12 +29,12 @@ template "/var/www/html/sites/default/mongdbex.settings.php" do
 	group "root"
 end
 
-ex_code= "if(file_exists('sites/default/mongodb.settings.php')){include_once('sites/default/mongodb.settings.php');}"
+#ex_code= "if(file_exists('sites/default/mongodb.settings.php')){include_once('sites/default/mongodb.settings.php');}"
 
-execute "updatesettings.php" do
-	command "echo \"#{ex_code}\" >> #{node[:mongodbex][:appdir]}/sites/default/settings.php"
-	not_if "cat #{node[:mongodbex][:appdir]}/sites/default/settings.php | grep 'mongodb.settings.php' "
-end
+#execute "updatesettings.php" do
+#	command "echo \"#{ex_code}\" >> #{node[:mongodbex][:appdir]}/sites/default/settings.php"
+#	not_if "cat #{node[:mongodbex][:appdir]}/sites/default/settings.php | grep 'mongodb.settings.php' "
+#end
 
 
 execute "restarthttpd" do
