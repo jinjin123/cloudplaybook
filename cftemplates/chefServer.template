@@ -8,17 +8,15 @@
             "Description": "Note: do not input .pem suffix! Name of an existing EC2 KeyPair to enable SSH access to the web server"
         },
         "ChefSubnet" : {
-            	"Type" : "String",
-        		"Default" : "subnet-37fcb671",
+            "Type" : "String",
         		"Description" : "a vpc subnet used for chef server and chef clients"
         },
         "ChefVpc" : {
         		"Type" : "String",
-        		"Default" : "vpc-353d3557",
         		"Description" : "a chef vpc"
         },
         "ResourceBucket" : {
-            	"Type" : "String",
+            "Type" : "String",
         		"Default" : "guojing",
         		"Description" : "bucket name,where resource and rb script is put"
         },
@@ -39,6 +37,18 @@
         "S3SecKey" : {
         		"Type" : "String",
         		"Description" : "secret key to access to resource s3 bucket"
+        },
+        "DatabaseUrl" : {
+        		"Type" : "String",
+        		"Description" : "drupal database url"
+        },
+        "DatabaseUser": {
+        		"Type" : "String",
+        		"Description" : "drupal database user"
+        },
+        "DatabasePassword": {
+        		"Type" : "String",
+        		"Description" : "drupal database password"
         },
         "InstanceType": {
             "Description": "WebServer EC2 instance type",
@@ -174,7 +184,7 @@
                                 "php54-mcrypt" : [],
                                 "php54-pdo" : [],
                                 "php54-xml" : [],
-                                "php54-xmlrpc" : [],my
+                                "php54-xmlrpc" : [],
                                 "php54-mysql" : []
                             }
                         },
@@ -235,40 +245,63 @@
                                 "mode": "000600",
                                 "owner": "root",
                                 "group": "root"
+                            },
+                             "/home/ec2-user/additionalSettings.config": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "if(file_exists('sites/default/memcache.settings.php')){include_once('sites/default/memcache.settings.php');}\n",
+                               							"if(file_exists('sites/default/autoslave.settings.php')){include_once('sites/default/autoslave.settings.php');}\n",
+                                            "if(file_exists('sites/default/mongodb.settings.php')){include_once('sites/default/mongodb.settings.php');}\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000644",
+                                "owner": "root",
+                                "group": "root"
                             }
                         },
                         "commands": {
-                            "01mkdir": {
+                            "010mkdir": {
                                 "command": "mkdir -p /home/ec2-user/tools /home/ec2-user/.pem /var/app",
                                 "cwd": "/home/ec2-user",
                                 "ignoreErrors": "true"
                             },
-                            "02downloadrpm": {
+                            "012oinstallec2metadata" : {
+                            		"command" : "wget http://s3.amazonaws.com/ec2metadata/ec2-metadata;chmod u+x ./ec2-metadata",
+                            		"cwd" : "/home/ec2-user/tools"
+                            },
+                            "020downloadrpm": {
                                 "command": "wget https://opscode-omnitruck-release.s3.amazonaws.com/el/6/x86_64/chef-server-11.0.4-1.el6.x86_64.rpm",
                                 "cwd": "/home/ec2-user/tools"
                             },
-                            "03installchefS": {
+                            "030installchefS": {
                                 "command": "rpm -Uvh /home/ec2-user/tools/chef-server-11.0.4-1.el6.x86_64.rpm",
                                 "cwd": "/home/ec2-user/tools"
                             },
-                            "04replacerb": {
+                            "040replacerb": {
                                 "command": "sed -i '31s/sysvinit/upstart/g' /opt/chef-server/embedded/cookbooks/runit/recipes/default.rb",
                                 "cwd": "/home/ec2-user"
                             },
-                            "05reconfigurechef": {
+                            "042reosolvehostname" : {
+                            		"command" : "echo \"`/home/ec2-user/tools/ec2-metadata -o | cut -d ' ' -f2` `hostname`\" >> /etc/hosts",
+                            		"cwd" :  "/home/ec2-user"
+                            },
+                            "050reconfigurechef": {
                                 "command": "chef-server-ctl reconfigure",
                                 "cwd": "/home/ec2-user",
                                 "waitAfterCompletion": "10"
                             },
-                            "06s3cmd": {
+                            "060s3cmd": {
                                 "command": "wget http://hivelocity.dl.sourceforge.net/project/s3tools/s3cmd/1.5.0-alpha1/s3cmd-1.5.0-alpha1.tar.gz;tar zxvf s3cmd-1.5.0-alpha1.tar.gz",
                                 "cwd": "/home/ec2-user/tools"
                             },
-                            "07installs3cmd": {
+                            "070installs3cmd": {
                                 "command": "python setup.py install",
                                 "cwd": "/home/ec2-user/tools/s3cmd-1.5.0-alpha1"
                             },
-                            "08uploadpem2s3": {
+                            "080uploadpem2s3": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -283,23 +316,19 @@
                                 },
                                 "cwd": "/home/ec2-user"
                             },
-                            "10mkdirforchefworkstaiton" : {
+                            "100mkdirforchefworkstaiton" : {
                                     "command" : "mkdir -p /home/ec2-user/chef11",
                                     "cwd" : "/home/ec2-user"
                             },
-                            "11clonechefrepo" : {
+                            "110clonechefrepo" : {
                                     "command" : "git clone git://github.com/opscode/chef-repo.git",
                                     "cwd" : "/home/ec2-user/chef11"
                             },
-                            "12mkconfigrepo" : {
+                            "120mkconfigrepo" : {
                                     "command" : "mkdir -p /home/ec2-user/chef11/chef-repo/.chef;touch /home/ec2-user/chef11/chef-repo/.chef/knife.rb",
                                     "cwd" : "/home/ec2-user"
                             },
-                            "12oinstallec2metadata" : {
-                            		"command" : "wget http://s3.amazonaws.com/ec2metadata/ec2-metadata;chmod u+x ./ec2-metadata",
-                            		"cwd" : "/home/ec2-user/tools"
-                            },
-                            "13setworkstation" : {
+                            "130setworkstation" : {
                             				"command" : {"Fn::Join" : ["",[
                             									"/opt/chef-server/bin/knife configure -y -i -c /home/ec2-user/chef11/chef-repo/.chef/knife.rb --server-url ",
                             									"https://$( /home/ec2-user/tools/ec2-metadata -o | cut -d ' ' -f2 ):443 ",
@@ -308,11 +337,11 @@
                             				]]},
                             				"cwd" : "/home/ec2-user/chef11/chef-repo"
                             },
-                            "14installdrush" : {
+                            "140installdrush" : {
                             		"command" : "git clone https://github.com/drush-ops/drush.git;ln -sf /home/ec2-user/tools/drush/drush /usr/bin/drush",
                             		"cwd" : "/home/ec2-user/tools"
                             },
-                            "15configknifessh" : {
+                            "150configknifessh" : {
                             	  "command" : {
                             	  				"Fn::Join" : ["",[
                             	  									"echo ' ' >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb;",
@@ -324,7 +353,7 @@
                             	  },
                             	  "cwd" : "/home/ec2-user"
                             },
-                            "16downloadsshpem" : {
+                            "160downloadsshpem" : {
                             		"command" : {
                             					"Fn::Join" : ["",[
                             								"s3cmd --access_key=",
@@ -343,7 +372,7 @@
                             		},
                             		"cwd" : "/home/ec2-user/.pem"
                             },
-                            "17downloadaccesstobitbucket" : {
+                            "170downloadaccesstobitbucket" : {
                             		"command" : {
                             					"Fn::Join" : ["",[
                             								"s3cmd --access_key=",
@@ -361,7 +390,7 @@
                              		},
                             		"cwd" : "/root/.ssh"
                             },
-                            "18downloadsourcecode" : {
+                            "180downloadsourcecode" : {
                             		"command" : {"Fn::Join" : ["",[
                             								"mkdir /var/app/drupal;",
                             								{"Ref" : "DownloadSourceCommand"},
@@ -369,7 +398,7 @@
                             		]]},
                             		"cwd" : "/home/ec2-user"
                             },
-                            "19installdrupaldb" : {
+                            "190installdrupaldb" : {
                             		"command" : {
                             					"Fn::Join" : ["",[
                             								"s3cmd --access_key=",
@@ -383,16 +412,30 @@
                             		},
                             		"cwd" : "/var/app/"
                             },
-                            "20installdrupaldb" : {
+                            "200configandinstalldrupaldb" : {
                             		"command" : {
                             					"Fn::Join" : ["",[
                             								"sed -i '8s/.*/rootDir=\\/var\\/app\\/drupal/g' ./deployB.sh;",
+                            								{"Fn::Join":["",[
+                            										"sed -i '4s/.*/dburl=",
+                            										{"Ref" : "DatabaseUrl"},
+                            										"/g' ./deployB.sh;",
+                            										"sed -i '5s/.*/dbuser=",
+                            										{"Ref" : "DatabaseUser"},
+                            										"/g' ./deployB.sh;",
+                            										"sed -i '6s/.*/dbpwd=",
+                            										{"Ref" : "DatabasePassword"},
+                            										"/g' ./deployB.sh;"
+                            								]]},
+                            								{"Fn::Join":["",[
+                            										""
+                            								]]},
                             								"./deployB.sh"
                             					]]
                             		},
                             		"cwd" : "/var/app"
                             },
-                            "21downloadrecipe" : {
+                            "210downloadrecipe" : {
                             		"command" : {
                             				"Fn::Join" : ["",[
                             						"s3cmd --access_key=",
@@ -406,16 +449,17 @@
                             		},
                             		"cwd" : "/home/ec2-user/tools"
                             },
-                            "22downloadrecipe" : 
+                            "220downloadrecipe" : 
                             {
                             		"command" : "mv /home/ec2-user/tools/recipe.tar.gz ./;tar zxf recipe.tar.gz;rm recipe.tar.gz;",
                             		"cwd" : "/home/ec2-user/chef11/chef-repo/"
                             },
-                            "23uploadcook" : 
+                            "230uploadcook" : 
                             {
                             		"command" : {
                             					"Fn::Join" : ["",[
                             										"cp /var/app/drupal/sites/default/settings.php cookbooks/drupalsource/templates/default/settings.php.erb;",
+                            										"cat /home/ec2-user/additionalSettings.config >> cookbooks/drupalsource/templates/default/settings.php.erb;",
                             										"/opt/chef-server/bin/knife cookbook upload --all;",
                             										"/opt/chef-server/bin/knife role from file roles/chefclient.json "
                             					
@@ -423,7 +467,7 @@
                             		},
                             		"cwd" : "/home/ec2-user/chef11/chef-repo"
                             },
-                            "24addchecknodecron" : {
+                            "240addchecknodecron" : {
                             		"command" : "echo '*/2  *  *  *  * root /home/ec2-user/chef11/chef-repo/crontab/validateNode.sh' >> /etc/crontab;chmod +x /home/ec2-user/chef11/chef-repo/crontab/validateNode.sh",
                             		"cwd" : "/home/ec2-user"
                             }

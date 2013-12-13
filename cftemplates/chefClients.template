@@ -32,7 +32,7 @@
             "Type": "String"
         },
         "ChefServerIp" : {
-                "Description" : "ip address of chef server",
+            "Description" : "ip address of chef server",
         		"Type" : "String"
         },
         "ChefServerPrivateKeyBucket": {
@@ -48,10 +48,13 @@
             "Type": "String",
             "Default" : "80"
         },
-        "ChefSubnet" : {
+        "ChefLoadBalancerSubnet" : {
             "Type" : "String",
-        		"Default" : "subnet-37fcb671",
-        		"Description" : "a vpc subnet used for chef server and chef clients"
+        		"Description" : "A vpc subnet used for Load Balancer which can't be used by Auto Scaling Group"
+        },
+        "ChefAutoScaleSubnet" : {
+        		"Type" : "String",
+        		"Description" : "A vpc subnet used for Auto Scaling Group which can't be same with load balancer"
         },
         "AvailabilityZone" : {
         		"Type" : "String",
@@ -60,7 +63,6 @@
         },
         "ChefVpc" : {
         		"Type" : "String",
-        		"Default" : "vpc-353d3557",
         		"Description" : "a chef vpc"
         }
     },
@@ -421,7 +423,7 @@
                 }
             },
             "Properties": {
-            		"AssociatePublicIpAddress" : true,
+            	"AssociatePublicIpAddress" : true,
                 "SecurityGroups": [
                     {
                         "Ref": "ChefClientSecurityGroup"
@@ -538,7 +540,7 @@
             "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
             "Properties": {
                 "Subnets": [
-                    {"Ref":"ChefSubnet"}
+                    {"Ref":"ChefLoadBalancerSubnet"}
                 ],
                 "Listeners": [
                     {
@@ -580,7 +582,7 @@
                     ,
                 
                 "VPCZoneIdentifier": [
-                    {"Ref" : "ChefSubnet"}
+                    {"Ref" : "ChefAutoScaleSubnet"}
                 ],
                 "Cooldown": "360",
                 "MinSize": "2",
@@ -592,7 +594,8 @@
                     {
                         "Ref": "ElasticLoadBalancer"
                     }
-                ]
+                ],
+								"Tags" : [{"Key" : "Name","Value" : "chefClient","PropagateAtLaunch" : true}]
             }
         },
         "ChefAutoScalingScaleUpPolicy": {
