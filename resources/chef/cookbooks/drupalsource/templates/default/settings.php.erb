@@ -215,10 +215,10 @@ $databases = array (
   array (
     'default' => 
     array (
-      'database' => 'drusample',
+      'database' => 'mobingi',
       'username' => 'druuser',
       'password' => 'drupwd',
-      'host' => 'drucloud.c0ao1k8qfl2y.ap-northeast-1.rds.amazonaws.com',
+      'host' => 'dm1uq6sk2rtgwnh.c0ao1k8qfl2y.ap-northeast-1.rds.amazonaws.com',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
@@ -256,7 +256,7 @@ $update_free_access = FALSE;
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-$drupal_hash_salt = 'HqE1NJ_Bzm1sN6dFialEuYwsT7FGuUmo-FmNouL1sb0';
+$drupal_hash_salt = '4G4SkcoIZlIruLFjES7lHM7JWLiWhR5TgKWvASp9-64';
 
 /**
  * Base URL (optional).
@@ -565,27 +565,7 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
  * Remove the leading hash signs to disable.
  */
 # $conf['allow_authorize_operations'] = FALSE;
-/*
-foreach (glob("drupal.d/*.php") as $filename )
-{
-                $onlyfilename = basename($filename);
-                include_once("sites/default/drupal.d/" . $onlyfilename);
-}
-*/
-if(file_exists('sites/default/memcache.settings.php'))
-{
-	include_once('sites/default/memcache.settings.php');
-}
-
-if(file_exists('sites/default/autoslave.settings.php'))
-{
-        include_once('sites/default/autoslave.settings.php');
-}
-
-if(file_exists('sites/default/mongodb.settings.php'))
-{
-        include_once('sites/default/mongodb.settings.php');
-}
-
-
-
+if(file_exists('sites/default/aws.settings.php')){include_once('sites/default/aws.settings.php');}
+if(file_exists('sites/default/memcache.settings.php')){include_once('sites/default/memcache.settings.php');}
+if(file_exists('sites/default/autoslave.settings.php')){include_once('sites/default/autoslave.settings.php');}
+if(file_exists('sites/default/mongodb.settings.php')){include_once('sites/default/mongodb.settings.php');}

@@ -1,16 +1,19 @@
-execute "prepareresource" do
-	command "mkdir -p /home/ec2-user/tools;wget -O /home/ec2-user/tools/memcache.tar.gz http://pecl.php.net/get/memcache-2.2.7.tgz;tar zxf /home/ec2-user/tools/memcache.tar.gz -C /home/ec2-user/tools"
+#execute "prepareresource" do
+#	command "mkdir -p /home/ec2-user/tools;wget -O /home/ec2-user/tools/memcache.tar.gz http://pecl.php.net/get/memcache-2.2.7.tgz;tar zxf /home/ec2-user/tools/memcache.tar.gz -C /home/ec2-user/tools"
+#	cwd "/home/ec2-user"
+#	not_if { ::File.exists?("/etc/php.d/memcache.ini")}
+#	notifies :run, 'execute[installmemcache]', :immediately
+#end
+#execute "installmemcache" do 
+#	command "phpize ;./configure;make && make install"
+#	cwd "/home/ec2-user/tools/memcache-2.2.7"
+#	action :nothing
+#	notifies :run, 'execute[drushdlmemcache]', :immediately
+#end
+execute "installmemcachephp" do
+	command "yum install php54-pecl-memcache"
 	cwd "/home/ec2-user"
-	not_if { ::File.exists?("/etc/php.d/memcache.ini")}
-	notifies :run, 'execute[installmemcache]', :immediately
 end
-execute "installmemcache" do 
-	command "phpize ;./configure;make && make install"
-	cwd "/home/ec2-user/tools/memcache-2.2.7"
-	action :nothing
-	notifies :run, 'execute[drushdlmemcache]', :immediately
-end
-
 
 execute "drushdlmemcache" do
 	command 'drush dl memcache'
@@ -19,12 +22,12 @@ execute "drushdlmemcache" do
 	action :nothing
 end
 
-template "/etc/php.d/memcache.ini" do
-        source "memcache.ini.erb"
-        mode 0644
-        owner "root"
-        group "root"
-end
+#template "/etc/php.d/memcache.ini" do
+#        source "memcache.ini.erb"
+#        mode 0644
+#        owner "root"
+#        group "root"
+#end
 
 template "#{node[:memcacheex][:appdir]}/sites/default/memcache.settings.php" do
 	source "memcache.settings.php.erb"
@@ -40,7 +43,10 @@ end
 #        cwd '/root'
 #end
 
-
+execute "cleandrush" do
+	command "drush cc all"
+	cwd "#{node[:memcacheex][:appdir]}/sites"
+end
 
 execute "restarthttpd" do
 	command "/etc/init.d/httpd restart"

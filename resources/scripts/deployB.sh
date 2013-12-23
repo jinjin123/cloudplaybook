@@ -1,15 +1,15 @@
 #!/bin/bash
 #be care when modify this file,some sript may modify this file depends on line number
 #dbcmd=drop database if exists xxx;create database xxx;grant all privileges on xxx.* to 'username'@'%' identified by 'password'
-dburl=drucloud.c0ao1k8qfl2y.ap-northeast-1.rds.amazonaws.com
-dbuser=drucloud
-dbpwd=drucloud
+dburl=dm1uq6sk2rtgwnh.c0ao1k8qfl2y.ap-northeast-1.rds.amazonaws.com
+dbuser=root
+dbpwd=mxm4inch
 dbcmd=
 rootDir=/var/app/drupal
 druuser=druuser
 drupwd=drupwd
-drudb=drusample
-profilename=standard
+drudb=mobingi
+profilename=mobingi_profile
 while getopts h:u:p:c:r:a:b:d:s: opt
 do 
 	case $opt in

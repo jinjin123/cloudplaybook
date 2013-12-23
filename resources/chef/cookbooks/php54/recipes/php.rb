@@ -4,12 +4,7 @@ pkgs.each do |pkg|
     action :install
   end
 end
-template "/home/ec2-user/phptest.ini" do
-	source "phptest.ini.erb"
-	mode 0640
-	owner "root"
-	group "root"
-end
+
 template "/root/.ssh/config" do
 	source "config.erb"
 	mode 0600

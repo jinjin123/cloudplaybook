@@ -7,9 +7,14 @@
             "Default": "drucloud",
             "Description": "Note: do not input .pem suffix! Name of an existing EC2 KeyPair to enable SSH access to the web server"
         },
+        "ServerTagName": {
+        		"Type" : "String",
+        		"Default" : "cfChefServer",
+        		"Description" : "the name you want to apply to chef server"
+        },
         "ChefSubnet" : {
             "Type" : "String",
-        		"Description" : "a vpc subnet used for chef server and chef clients"
+            	"Description" : "a vpc subnet used for chef server and chef clients"
         },
         "ChefVpc" : {
         		"Type" : "String",
@@ -20,10 +25,10 @@
         		"Default" : "guojing",
         		"Description" : "bucket name,where resource and rb script is put"
         },
-        "DownloadSourceCommand" : {
+        "GitRepo" : {
         		"Type" : "String",
-        		"Default" : "git clone git@bitbucket.org:guojing/privaterepo.git",
-        		"Description" : "command to download source code from bitbucket"
+        		"Default" : "git@bitbucket.org:keithyau/mobingi_server",
+        		"Description" : "a url to your source code managed by git"
         },
         "AuthorizationFile" : {
         		"Type" : "String",
@@ -38,17 +43,25 @@
         		"Type" : "String",
         		"Description" : "secret key to access to resource s3 bucket"
         },
-        "DatabaseUrl" : {
+        "DrupalDatabaseUrl" : {
         		"Type" : "String",
         		"Description" : "drupal database url"
         },
-        "DatabaseUser": {
+        "DrupalDatabaseUser": {
         		"Type" : "String",
         		"Description" : "drupal database user"
         },
-        "DatabasePassword": {
+        "DrupalDatabasePassword": {
         		"Type" : "String",
         		"Description" : "drupal database password"
+        },
+        "Drupaldbname" : {
+        		"Type" : "String",
+        		"Description" : "drupal database name"
+        },
+        "DrupalInstallProfile" : {
+        		"Type" : "String",
+        		"Description" : "drupal install profile"
         },
         "InstanceType": {
             "Description": "WebServer EC2 instance type",
@@ -177,6 +190,7 @@
                                 "gcc-c++": [],
                                 "mysql" : [],
                                 "php54" : [],
+                                "php54-devel" : [],
                                 "php54-cli" : [],
                                 "php54-fpm" : [],
                                 "php54-gd" : [],
@@ -185,7 +199,11 @@
                                 "php54-pdo" : [],
                                 "php54-xml" : [],
                                 "php54-xmlrpc" : [],
-                                "php54-mysql" : []
+                                "php54-mysql" : [],
+                                "php54-pecl-memcache" : [],
+                                "zlib-devel" : [],
+                                "libevent" : [],
+                                "libevent-devel" : []
                             }
                         },
                         "files": {
@@ -270,6 +288,10 @@
                             },
                             "012oinstallec2metadata" : {
                             		"command" : "wget http://s3.amazonaws.com/ec2metadata/ec2-metadata;chmod u+x ./ec2-metadata",
+                            		"cwd" : "/home/ec2-user/tools"
+                            },
+                            "013installmongophp" : {
+                            		"command" : "pecl install mongo;echo extension=mongo.so >> /etc/php.d/mongo.ini;chmod 644 /etc/php.d/mongo.ini",
                             		"cwd" : "/home/ec2-user/tools"
                             },
                             "020downloadrpm": {
@@ -392,8 +414,8 @@
                             },
                             "180downloadsourcecode" : {
                             		"command" : {"Fn::Join" : ["",[
-                            								"mkdir /var/app/drupal;",
-                            								{"Ref" : "DownloadSourceCommand"},
+                            								"mkdir /var/app/drupal;git clone ",
+                            								{"Ref" : "GitRepo"},
                             								" /var/app/drupal;"
                             		]]},
                             		"cwd" : "/home/ec2-user"
@@ -418,19 +440,22 @@
                             								"sed -i '8s/.*/rootDir=\\/var\\/app\\/drupal/g' ./deployB.sh;",
                             								{"Fn::Join":["",[
                             										"sed -i '4s/.*/dburl=",
-                            										{"Ref" : "DatabaseUrl"},
+                            										{"Ref" : "DrupalDatabaseUrl"},
                             										"/g' ./deployB.sh;",
                             										"sed -i '5s/.*/dbuser=",
-                            										{"Ref" : "DatabaseUser"},
+                            										{"Ref" : "DrupalDatabaseUser"},
                             										"/g' ./deployB.sh;",
                             										"sed -i '6s/.*/dbpwd=",
-                            										{"Ref" : "DatabasePassword"},
-                            										"/g' ./deployB.sh;"
-                            								]]},
-                            								{"Fn::Join":["",[
-                            										""
-                            								]]},
-                            								"./deployB.sh"
+                            										{"Ref" : "DrupalDatabasePassword"},
+                            										"/g' ./deployB.sh;",
+                            										"sed -i '11s/.*/drudb=",
+                            										{"Ref" : "Drupaldbname"},
+                            										"/g' ./deployB.sh;",
+                            										"sed -i '12s/.*/profilename=",
+                            										{"Ref" : "DrupalInstallProfile"},
+                            										"/g' ./deployB.sh;",
+                            										"./deployB.sh"
+                            								]]}	
                             					]]
                             		},
                             		"cwd" : "/var/app"
@@ -459,6 +484,10 @@
                             		"command" : {
                             					"Fn::Join" : ["",[
                             										"cp /var/app/drupal/sites/default/settings.php cookbooks/drupalsource/templates/default/settings.php.erb;",
+                            										"cat /root/.ssh/bitbucket > cookbooks/php54/templates/default/bitbucket.erb;",
+                            										"cat /root/.ssh/bitbucket.pub > cookbooks/php54/templates/default/bitbucket.pub.erb;",
+                            										"cat /root/.ssh/config > cookbooks/php54/templates/default/config.erb;",
+                            										"cat /root/.ssh/known_hosts > cookbooks/php54/templates/default/known_hosts.erb;",
                             										"cat /home/ec2-user/additionalSettings.config >> cookbooks/drupalsource/templates/default/settings.php.erb;",
                             										"/opt/chef-server/bin/knife cookbook upload --all;",
                             										"/opt/chef-server/bin/knife role from file roles/chefclient.json "
@@ -466,10 +495,6 @@
                             					]]
                             		},
                             		"cwd" : "/home/ec2-user/chef11/chef-repo"
-                            },
-                            "240addchecknodecron" : {
-                            		"command" : "echo '*/2  *  *  *  * root /home/ec2-user/chef11/chef-repo/crontab/validateNode.sh' >> /etc/crontab;chmod +x /home/ec2-user/chef11/chef-repo/crontab/validateNode.sh",
-                            		"cwd" : "/home/ec2-user"
                             }
                             
                             
@@ -564,7 +589,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "cfChefServer"
+                        "Value": {"Ref" : "ServerTagName"}
                     },
                     {
                         "Key": "Environment",
@@ -620,8 +645,8 @@
                     },
                     {
                         "IpProtocol": "tcp",
-                        "FromPort": "443",
-                        "ToPort": "443",
+                        "FromPort": "0",
+                        "ToPort": "65535",
                         "SourceSecurityGroupId": {
                             "Ref": "ChefClientSecurityGroup"
                         }

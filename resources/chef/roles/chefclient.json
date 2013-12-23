@@ -9,7 +9,8 @@
   "chef_type": "role",
   "run_list": [
     "recipe[php54]",
-    "recipe[drupalsource]"
+    "recipe[drupalsource]",
+    "recipe[awsex]"
   ],
   "env_run_lists": {
   }

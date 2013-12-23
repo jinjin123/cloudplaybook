@@ -5,3 +5,4 @@
 # #
 #
  default[:drupalsource][:appdir] = "/var/www/html"
+ default[:drupalsource][:gitrepo] = "git@bitbucket.org:keithyau/mobingi_server"

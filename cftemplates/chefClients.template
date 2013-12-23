@@ -6,6 +6,10 @@
             "Type": "String",
             "Description": "Name of an existing EC2 KeyPair to enable SSH access to the web server"
         },
+        "ProjectPrefix" : {
+        		"Type" : "String",
+        		"Description" : "for your app identify"
+        },
         "InstanceType": {
             "Description": "WebServer EC2 instance type",
             "Type": "String",
@@ -58,7 +62,7 @@
         },
         "AvailabilityZone" : {
         		"Type" : "String",
-        		"Default" : "ap-northeast-1c",
+        		"Default" : "ap-northeast-1a",
         		"Description" : "specify the available zone for the subnet"
         },
         "ChefVpc" : {
@@ -284,23 +288,6 @@
                                 "owner": "root",
                                 "group": "root"
                             },
-                            "/etc/init.d/disregisterchefnode": {
-                                "content": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "#!/bin/bash\n",
-                                            "instanceId=$( /home/ec2-user/tools/ec2-metadata -i | cut -d' ' -f2 )\n",
-                                            "ssh -i /home/ec2-user/.pem/drucloud.pem ec2-user@",
-                                            {"Ref" : "ChefServerIp"},
-                                            " \"/home/ec2-user/removeNode.sh ${instanceId}\"\n"
-                                        ]
-                                    ]
-                                },
-                                "mode": "000777",
-                                "group": "root",
-                                "owner": "root"
-                            },
                             "/etc/chef/client.rb": {
                                 "content": {
                                     "Fn::Join": [
@@ -388,7 +375,7 @@
                             		"cwd" : "/home/ec2-user/tools"
                             },
                             "09installchefclient" : {
-                            		"command" : "gem1.9 install rdoc;gem1.9 install chef --no-rdoc --no-ri;gem1.9 install ruby-shadow;gem1.9 install ohai;gem1.9 install json",
+                            		"command" : "curl -L https://www.opscode.com/chef/install.sh | bash",
                             		"cwd" : "/home/ec2-user/tools"
                             },
                             "10installec2metadata" : {
@@ -408,7 +395,7 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "/usr/local/bin/chef-client --server ",
+                                            "/usr/bin/chef-client --server ",
                                             {
                                                 "Ref": "ChefServerURL"
                                             },
@@ -585,7 +572,7 @@
                     {"Ref" : "ChefAutoScaleSubnet"}
                 ],
                 "Cooldown": "360",
-                "MinSize": "2",
+                "MinSize": "1",
                 "MaxSize": "10",
                 "LaunchConfigurationName": {
                     "Ref": "ChefLaunchConfig"
@@ -595,7 +582,7 @@
                         "Ref": "ElasticLoadBalancer"
                     }
                 ],
-								"Tags" : [{"Key" : "Name","Value" : "chefClient","PropagateAtLaunch" : true}]
+								"Tags" : [{"Key" : "Name","Value" : {"Fn::Join" : ["",[{"Ref" : "ProjectPrefix"},"ChefClient"]]},"PropagateAtLaunch" : true}]
             }
         },
         "ChefAutoScalingScaleUpPolicy": {

@@ -144,9 +144,6 @@
         "MyDB": {
             "Type": "AWS::RDS::DBInstance",
             "Properties": {
-                "DBName": {
-                    "Ref": "DBName"
-                },
                 "AllocatedStorage": {
                     "Ref": "DBAllocatedStorage"
                 },
