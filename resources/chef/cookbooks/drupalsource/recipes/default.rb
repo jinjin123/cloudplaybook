@@ -64,6 +64,12 @@ execute "update http config" do
 	not_if "cat /etc/httpd/conf/httpd.conf | grep 'End of AWS Settings'"
 	cwd '/etc/httpd'
 end
+
+execute "change source owner" do
+	command "chown -R apache:apache #{node[:drupalsource][:appdir]};chown -R apache:apache #{node[:drupalsource][:appdir]}/*;chown -R apache:apache #{node[:drupalsource][:appdir]}/.[a-zA-Z]*;"
+	cwd "/root"
+end
+
 execute "restarthttpd" do
 	command '/etc/init.d/httpd restart'
 	cwd '/root'
