@@ -11,7 +11,7 @@
 #	notifies :run, 'execute[drushdlmemcache]', :immediately
 #end
 execute "installmemcachephp" do
-	command "yum install php54-pecl-memcache"
+	command "yum install php-pecl-memcache"
 	cwd "/home/ec2-user"
 end
 

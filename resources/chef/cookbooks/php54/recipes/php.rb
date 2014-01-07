@@ -1,4 +1,4 @@
-pkgs = [ 'php54', 'php54-cli', 'php54-fpm', 'php54-gd', 'php54-mbstring', 'php54-mcrypt', 'php54-pdo', 'php54-xml', 'php54-xmlrpc', 'php54-mysql','php-pear','php54-devel','zlib-devel','libevent','libevent-devel' ]
+pkgs = [ 'php', 'php-cli', 'php-fpm', 'php-gd', 'php-mbstring', 'php-mcrypt', 'php-pdo', 'php-xml', 'php-xmlrpc', 'php-mysql','php-pear','php-devel','zlib-devel','libevent','libevent-devel' ]
 pkgs.each do |pkg|
   package pkg do
     action :install
