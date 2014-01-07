@@ -45,8 +45,6 @@
             "Type": "AWS::EC2::VPC",
             "Properties": {
                 "CidrBlock": "10.0.0.0/16",
-		"EnableDnsSupport" : true,
-		"EnableDnsHostnames" : true,
                 "Tags": [
                     {
                         "Key": "Application",
@@ -249,6 +247,23 @@
                 }
             }
         },
+        "InboundHTTPAllTrafficPublicOneNetworkAclEntry": {
+            "Type": "AWS::EC2::NetworkAclEntry",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "PublicNetworkAcl"
+                },
+                "RuleNumber": "102",
+                "Protocol": "-1",
+                "RuleAction": "allow",
+                "Egress": "false",
+                "CidrBlock": "0.0.0.0/0",
+                "PortRange": {
+                    "From": "0",
+                    "To": "65535"
+                }
+            }
+        },
         "InboundHTTPSSHPublicOneNetworkAclEntry": {
             "Type": "AWS::EC2::NetworkAclEntry",
             "Properties": {
@@ -256,10 +271,14 @@
                     "Ref": "PublicNetworkAcl"
                 },
                 "RuleNumber": "120",
-                "Protocol": "-1",
+                "Protocol": "6",
                 "RuleAction": "allow",
-                "CidrBlock" : "0.0.0.0/0",
-                "Egress": "false"
+                "Egress": "false",
+                "CidrBlock": "0.0.0.0/0",
+                "PortRange": {
+                    "From": "22",
+                    "To": "22"
+                }
             }
         },
         "InboundDynamicPortsPublicOneNetworkAclEntry": {
