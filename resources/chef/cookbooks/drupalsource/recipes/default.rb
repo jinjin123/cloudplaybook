@@ -6,6 +6,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+
+
 execute "downloadsource" do 
 	#command 'echo `whoami` >> /home/ec2-user/who.txt'
 	command "git clone #{node[:drupalsource][:gitrepo]} #{node[:drupalsource][:appdir]}/"

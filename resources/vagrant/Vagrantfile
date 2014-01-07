@@ -148,6 +148,7 @@ Vagrant::Config.run do |config|
           "server_root_password" => "thomas",
           "server_debian_password" => "thomas",
           "server_repl_password" => "thomas",
+          "allow_remote_root" => "true",
           "bind_address" => "0.0.0.0"
         }
       }

@@ -1,8 +1,18 @@
 execute "prepareformcrypt" do
-        command "yum -y install http://mirror.us.leaseweb.net/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+        command "mkdir -p /root/.ssh"
 end
 
-pkgs = [ 'php', 'php-cli', 'php-fpm', 'php-gd', 'php-mbstring', 'php-mcrypt', 'php-pdo', 'php-xml', 'php-xmlrpc', 'php-mysql','php-pear','php-devel','zlib-devel','libevent','libevent-devel' ]
+remote_file "#{Chef::Config[:file_cache_path]}/externalsrc.rpm" do
+    source "http://mirror.us.leaseweb.net/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+    action :create
+end
+
+rpm_package "externalsrc" do
+    source "#{Chef::Config[:file_cache_path]}/externalsrc.rpm"
+    action :install
+end
+
+pkgs = [ 'php', 'git', 'php-cli', 'php-fpm', 'php-gd', 'php-mbstring', 'php-mcrypt', 'php-pdo', 'php-xml', 'php-xmlrpc', 'php-mysql','php-pear','php-devel','zlib-devel','libevent','libevent-devel' ]
 pkgs.each do |pkg|
   package pkg do
     action :install
