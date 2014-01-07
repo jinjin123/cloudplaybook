@@ -13,7 +13,7 @@ execute "downloadsource" do
 	#command 'echo `whoami` >> /home/ec2-user/who.txt'
 	command "git clone #{node[:drupalsource][:gitrepo]} #{node[:drupalsource][:appdir]}/"
 	not_if { ::File.exists?("#{node[:drupalsource][:appdir]}/.git/config") }
-	cwd '/home/ec2-user/'
+	
 end
 execute "makecustomdir " do
 	command "mkdir -p contrib custom features;chmod 777 contrib custom features" 
