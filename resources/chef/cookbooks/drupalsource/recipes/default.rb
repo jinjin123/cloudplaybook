@@ -22,7 +22,7 @@ execute "makecustomdir " do
 end
 
 execute "makefiledir" do
-	command "mkdir -p files files/ctools files/ctools/ files/ctools/css files/private files/private/awssns_keys;chmod 777 files;chmod 755 files/private;"
+	command "mkdir -p files files/ctools files/ctools/css files/private files/private/awssns_keys;chmod 777 files;chmod 755 files/private;"
 	cwd "#{node[:drupalsource][:appdir]}/sites/default"
 	not_if { ::File.exists?("#{node[:drupalsource][:appdir]}/sites/default/files")}
 end
