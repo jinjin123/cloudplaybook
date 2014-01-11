@@ -118,10 +118,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 end
 
 Vagrant::Config.run do |config|
+  config.vm.define :dev do |dev_config|
+    dev_config.vm.box = "centos_chef"
+    dev_config.vm.provision :chef_solo do |chef|
+      chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
+      chef.add_recipe("php54")
+    end
+    dev_config.vm.network :bridged
+  end
+
   config.vm.define :web do |web_config|
     web_config.vm.box = "centos_chef"
     web_config.vm.network :bridged
-    web_config.vm.forward_port 80, 8888
+    web_config.vm.forward_port 80, 80
     web_config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
       chef.roles_path = "~/src/mobingi/mocloud/resources/chef/roles"
