@@ -47,7 +47,10 @@ service "httpd" do
 	action [:enable,:start]
 end
 
+
+=begin
 execute "installDrushIfNotExist" do
         command "wget --quiet -O - http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz | tar -zxf - -C /usr/local/share; ln -s /usr/local/share/drush/drush /usr/local/bin/drush; drush"
         not_if { ::File.exists?("/usr/local/bin/drush") }
 end
+=end
