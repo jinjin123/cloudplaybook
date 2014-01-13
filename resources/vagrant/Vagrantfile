@@ -145,7 +145,7 @@ Vagrant::Config.run do |config|
     db_config.vm.network :bridged
     db_config.vm.forward_port 3306, 3306
     db_config.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = "/Users/keithyau/src/mobingi/mocloud/resources/chef/cookbooks"
+      chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
       chef.add_recipe("mysql::server")
       chef.json = {
         #"mysql" => {
