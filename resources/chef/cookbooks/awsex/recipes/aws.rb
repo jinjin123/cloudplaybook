@@ -10,6 +10,7 @@ execute "installcomposerex" do
 	cwd "#{node[:awsex][:appdir]}/sites/all/libraries/awssdk"
 	not_if { ::File.exists?("/usr/bin/composer") }
 	notifies :run , 'execute[installDrushIfNotExist]', :immediately
+	notifies :run , 'execute[installdrushcomposer]', :immediately
 end
 
 execute "installDrushIfNotExist" do
