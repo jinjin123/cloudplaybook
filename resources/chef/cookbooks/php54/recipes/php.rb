@@ -9,7 +9,7 @@ end
 
 rpm_package "externalsrc" do
     source "#{Chef::Config[:file_cache_path]}/externalsrc.rpm"
-    action :install
+    action :upgrade
 end
 
 pkgs = [ 'php', 'git', 'php-cli', 'php-fpm', 'php-gd', 'php-mbstring', 'php-mcrypt', 'php-pdo', 'php-xml', 'php-xmlrpc', 'php-mysql','php-pear','php-devel','zlib-devel','libevent','libevent-devel' ]
