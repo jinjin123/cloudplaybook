@@ -32,7 +32,7 @@ if [ "$result" == "1" ]; then
 	exit 0
 fi
 
-dbcmd="drop database  if exists $drudb;create database $drudb;grant all privileges on $drudb.* to '$druuser'@'%' identified by '$drupwd'"
+dbcmd="drop database  if exists $drudb;create database $drudb character set utf8 collate utf8_general_ci "
 
 mysql -h$dburl -u$dbuser -p$dbpwd -e"$dbcmd"
 
