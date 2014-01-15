@@ -9,7 +9,7 @@ end
 
 rpm_package "externalsrc" do
     source "#{Chef::Config[:file_cache_path]}/externalsrc.rpm"
-    action :install
+    action :upgrade
 end
 
 pkgs = [ 'php', 'git', 'php-cli', 'php-fpm', 'php-gd', 'php-mbstring', 'php-mcrypt', 'php-pdo', 'php-xml', 'php-xmlrpc', 'php-mysql','php-pear','php-devel','zlib-devel','libevent','libevent-devel' ]
@@ -47,7 +47,8 @@ service "httpd" do
 	action [:enable,:start]
 end
 
-execute "installDrushIfNotExist" do
+
+execute "installDrushIfNotExistInDevVM" do
         command "wget --quiet -O - http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz | tar -zxf - -C /usr/local/share; ln -s /usr/local/share/drush/drush /usr/local/bin/drush; drush"
         not_if { ::File.exists?("/usr/local/bin/drush") }
 end
