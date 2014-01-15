@@ -124,12 +124,14 @@ Vagrant::Config.run do |config|
       chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
       chef.add_recipe("php54")
     end
-    dev_config.vm.network :bridged
+    dev_config.vm.network :hostonly, "10.0.1.10", :adapter => 2
+    #dev_config.vm.network :bridged
   end
 
   config.vm.define :web do |web_config|
     web_config.vm.box = "centos_chef"
-    web_config.vm.network :bridged
+    web_config.vm.network :hostonly, "10.0.1.11", :adapter => 2
+    #web_config.vm.network :bridged
     web_config.vm.forward_port 80, 80
     web_config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
@@ -142,7 +144,8 @@ Vagrant::Config.run do |config|
 
   config.vm.define :db do |db_config|
     db_config.vm.box = "centos_chef"
-    db_config.vm.network :bridged
+    db_config.vm.network :hostonly, "10.0.1.12", :adapter => 2
+    #db_config.vm.network :bridged
     db_config.vm.forward_port 3306, 3306
     db_config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "/Users/keithyau/src/mobingi/mocloud/resources/chef/cookbooks"
