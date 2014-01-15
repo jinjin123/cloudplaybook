@@ -131,7 +131,7 @@ Vagrant::Config.run do |config|
   config.vm.define :web do |web_config|
     web_config.vm.box = "centos_chef"
     web_config.vm.network :hostonly, "10.0.1.11", :adapter => 2
-    #web_config.vm.network :bridged
+    web_config.vm.network :bridged, :adapter => 3
     web_config.vm.forward_port 80, 80
     web_config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
