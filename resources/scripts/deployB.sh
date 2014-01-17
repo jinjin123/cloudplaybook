@@ -32,7 +32,7 @@ if [ "$result" == "1" ]; then
 	exit 0
 fi
 
-dbcmd="drop database  if exists $drudb;create database $drudb character set utf8 collate utf8_general_ci "
+dbcmd="drop database  if exists $drudb;create database $drudb character set utf8 collate utf8_general_ci; grant all privileges on $drudb.* to $druuser@'%' identified by $drupwd; "
 
 mysql -h$dburl -u$dbuser -p$dbpwd -e"$dbcmd"
 
@@ -40,7 +40,9 @@ mysql -h$dburl -u$dbuser -p$dbpwd -e"$dbcmd"
 # please change below config files before deployment.
 drush site-install $profilename \
   --root=$rootDir \
-  --db-url=mysql://$dbuser:$dbpwd@$dburl/$drudb \
+  --db-url=mysql://$druuser:$drupwd@$dburl/$drudb \
+  --db-su=$dbuser \
+  --db-su-pw=$dbpwd \
   --account-name=admin \
   --account-pass=admin \
-  --site-name="Mobingi feature Platform" --yes
+  --site-name="Mobingi Platform" --yes
