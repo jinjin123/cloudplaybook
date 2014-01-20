@@ -145,17 +145,11 @@ Vagrant::Config.run do |config|
   config.vm.define :db do |db_config|
     db_config.vm.box = "centos_chef"
     db_config.vm.network :hostonly, "10.0.1.12", :adapter => 2
-    #db_config.vm.network :bridged
     db_config.vm.forward_port 3306, 3306
     db_config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
       chef.add_recipe("mysql::server")
       chef.json = {
-        #"mysql" => {
-        #  "db_password" => "thomas", 
-        #  "db_username" => "keithyau",
-        #  "database" => 'drupal7'
-        #},
         "mysql" => {
           "server_root_password" => "thomas",
           "server_debian_password" => "thomas",
@@ -165,8 +159,16 @@ Vagrant::Config.run do |config|
         }
       }
       #chef.roles_path = "~/src/mobingi/mocloud/resources/chef/roles"
-      #chef.add_role("db")
       chef.data_bags_path = "~/chef/data_bags"
     end
+  end
+
+  config.vm.define :mongo do |mongo_config|
+    mongo_config.vm.box = "centos_chef"
+    mongo_config.vm.provision :chef_solo do |chef|
+      chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
+      chef.add_recipe("mongodb::default")
+    end
+    mongo_config.vm.network :hostonly, "10.0.1.13", :adapter => 2
   end
 end
