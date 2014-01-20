@@ -136,8 +136,7 @@ Vagrant::Config.run do |config|
     web_config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
       chef.roles_path = "~/src/mobingi/mocloud/resources/chef/roles"
-      chef.add_role("chefclient")
-      #chef.add_recipe("apache")
+      chef.add_role("chefclient-vagrant")
       chef.data_bags_path = "~/chef/data_bags"
     end
   end
