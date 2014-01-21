@@ -18,8 +18,15 @@ end
 
 execute "dldrupalmongdbmodule" do
 	command 'drush dl mongodb'
-	cwd '/var/www/html'
+	cwd "#{node[:mongodbex][:appdir]}"
 	not_if { ::File.exists?("#{node[:mongodbex][:appdir]}/sites/all/modules/contrib/mongodb/mongodb.module")}
+	notifies :run,'execute[drushenmongodb]' ,:immediately
+end
+
+execute "drushenmongodb" do
+	command 'drush en mongodb'
+	cwd "#{node[:mongodbex][:appdir]}"
+	action :nothing
 end
 
 template "/var/www/html/sites/default/mongdbex.settings.php" do

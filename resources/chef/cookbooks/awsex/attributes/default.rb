@@ -4,11 +4,11 @@
 # # Copyright 2013
 #
  default[:awsex][:appdir] = "/var/www/html"
- default[:awsex][:awskey] = "AKIAIHQZVXI3LJT2QGRA"
- default[:awsex][:awssecret] = "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"
+ default[:awsex][:awskey] = "AKIAIMX7UYHK6NZVYBLQ"
+ default[:awsex][:awssecret] = "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"
  default[:awsex][:awsregion] = "SINGAPORE"
- default[:awsex][:mobingibucket] = "modemo"
+ default[:awsex][:mobingibucket] = "jjc34"
  default[:awsex][:mobingiregion] = "ap-southeast-1"
- default[:awsex][:mobingidevgroup] = "modemo_dev"
- default[:awsex][:mobingiplayerrole] = "modemo_facebook"
- default[:awsex][:mobingiprefix] = "modemo"
+ default[:awsex][:mobingidevgroup] = "jjc34_dev"
+ default[:awsex][:mobingiplayerrole] = "jjc34_facebook"
+ default[:awsex][:mobingiprefix] = "jjc34"

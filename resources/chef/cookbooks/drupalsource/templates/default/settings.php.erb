@@ -215,10 +215,10 @@ $databases = array (
   array (
     'default' => 
     array (
-      'database' => 'mobingi',
-      'username' => 'druuser',
-      'password' => 'drupwd',
-      'host' => 'dm1uq6sk2rtgwnh.c0ao1k8qfl2y.ap-northeast-1.rds.amazonaws.com',
+      'database' => 'demomobingi',
+      'username' => 'root',
+      'password' => 'mxm4inch',
+      'host' => 'cmt8vhxjv77gza.c0ao1k8qfl2y.ap-northeast-1.rds.amazonaws.com',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
@@ -256,7 +256,7 @@ $update_free_access = FALSE;
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-$drupal_hash_salt = '4G4SkcoIZlIruLFjES7lHM7JWLiWhR5TgKWvASp9-64';
+$drupal_hash_salt = 'gcJiapAb5tqvcW4sFMosLrOXKC4g1GtLP8IgwUGkqCs';
 
 /**
  * Base URL (optional).
@@ -565,7 +565,21 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
  * Remove the leading hash signs to disable.
  */
 # $conf['allow_authorize_operations'] = FALSE;
+
+/**
+ * Default mobingi profile settings.
+ */
+if(file_exists('sites/default/mobingi_profile.settings.php')){include_once('sites/default/mobingi_profile.settings.php');}
+
+/**
+ * AWS settings.
+ */
 if(file_exists('sites/default/aws.settings.php')){include_once('sites/default/aws.settings.php');}
+
+/**
+ * Storage related settings.
+ */
+if(file_exists('sites/default/db.settings.php')){include_once('sites/default/db.settings.php');}
 if(file_exists('sites/default/memcache.settings.php')){include_once('sites/default/memcache.settings.php');}
 if(file_exists('sites/default/autoslave.settings.php')){include_once('sites/default/autoslave.settings.php');}
 if(file_exists('sites/default/mongodb.settings.php')){include_once('sites/default/mongodb.settings.php');}

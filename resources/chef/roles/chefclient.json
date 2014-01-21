@@ -8,6 +8,7 @@
   },
   "chef_type": "role",
   "run_list": [
+    "recipe[basicservice]",
     "recipe[php54]",
     "recipe[drupalsource]",
     "recipe[awsex]"

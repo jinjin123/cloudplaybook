@@ -19,6 +19,11 @@ execute "drushdlmemcache" do
 	command 'drush dl memcache'
 	not_if { ::File.exists?("#{node[:memcacheex][:appdir]}/sites/all/modules/contrib/memcache/memcache.module") }
 	cwd "#{node[:memcacheex][:appdir]}"
+	notifies :run, 'execute[drushenmemcache]', :immediately
+end
+execute "drushenmemcache" do
+	command 'drush en memcache'
+	cwd "#{node[:memcacheex][:appdir]}"
 	action :nothing
 end
 

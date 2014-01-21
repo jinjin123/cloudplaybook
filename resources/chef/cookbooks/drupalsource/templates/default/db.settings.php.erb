@@ -1,0 +1,12 @@
+<?php
+
+// Provide database information for subsite create using drush in Drupal module
+// Location 1: mobingi_service _moUser_resource_create
+
+$conf['dburl'] = '<%= node[:drupalsource][:dburl]%>';
+$conf['dbroot'] = '<%= node[:drupalsource][:dbuser]%>';
+$conf['dbpass'] = '<%= node[:drupalsource][:dbpwd]%>';
+$conf['developer_install_profile'] = '<%= node[:drupalsource][:devprofile]%>';
+$conf['Route53HostedZoneId'] = '<%= node[:drupalsource][:route53zoneid]%>';
+
+

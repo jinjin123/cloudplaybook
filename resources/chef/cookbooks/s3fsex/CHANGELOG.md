@@ -1,0 +1,12 @@
+# CHANGELOG for s3fsex
+
+This file is used to list changes made in each version of s3fsex.
+
+## 0.1.0:
+
+* Initial release of s3fsex
+
+- - -
+Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
+
+The [Github Flavored Markdown page](http://github.github.com/github-flavored-markdown/) describes the differences between markdown on github and standard markdown.
