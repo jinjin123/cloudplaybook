@@ -13,7 +13,7 @@ default[:sourcecode][:appusergroup] = "apache"
 #nfs configuration
 default[:sourcecode][:nfssharefolder] = "/opt/nfs/source"
 default[:sourcecode][:localsourcefolder] = "/opt/nfs/app"
-default[:sourcecode][:nfsserverip] = "10.0.0.245"
+default[:sourcecode][:nfsserverip] = "iptochange"
 
 
 #db.settings.php configuration

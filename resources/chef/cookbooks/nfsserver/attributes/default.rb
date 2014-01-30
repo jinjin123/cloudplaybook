@@ -1,6 +1,6 @@
 #Author : Katt Tom
-# Cookbook Name : memcacheex
-# # Attributes:: memcacheex
+# Cookbook Name : nfsserver
+# # Attributes:: nfsserver
 # # Copyright 2013
 #
 #
