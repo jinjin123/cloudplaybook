@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: php54
+# Cookbook Name:: php
 # Recipe:: default
 #
 # Copyright 2013, YOUR_COMPANY_NAME
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "php54::php"
+include_recipe "php::php"
 
