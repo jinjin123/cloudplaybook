@@ -7,7 +7,7 @@
             "Description": "Name of an existing EC2 KeyPair to enable SSH access to the web server"
         },
         "ProjectPrefix" : {
-        		"Type" : "String",
+            	"Type" : "String",
         		"Description" : "for your app identify"
         },
         "InstanceType": {
