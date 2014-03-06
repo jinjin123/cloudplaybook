@@ -10,6 +10,13 @@ default[:sourcecode][:gitrepo] = "git@bitbucket.org:mobingi/mobingi_server.git"
 default[:sourcecode][:appuser] = "webapp"
 default[:sourcecode][:appusergroup] = "apache"
 
+#glusterfs configureation
+default[:sourcecode][:glustersharefolder] = "/opt/gluster/source"
+default[:sourcecode][:localsourcefolder] = "/opt/source/app"
+default[:sourcecode][:glusterserverip] = "iptochange"
+default[:sourcecode][:glustervolume] = "volumename"
+
+
 #nfs configuration
 default[:sourcecode][:nfssharefolder] = "/opt/nfs/source"
 default[:sourcecode][:localsourcefolder] = "/opt/nfs/app"

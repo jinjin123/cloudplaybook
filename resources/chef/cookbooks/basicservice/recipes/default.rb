@@ -6,4 +6,5 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "basicservice::rpc"
+#include_recipe "basicservice::rpc"
+include_recipe "basicservice::glusterfs"

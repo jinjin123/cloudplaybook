@@ -18,9 +18,9 @@ execute "preparemountdir" do
 	command "mkdir -p #{node[:sourcecode][:localsourcefolder]}"
 end
 
-execute "mountnfsfile" do
-	command "mount -t nfs #{node[:sourcecode][:nfsserverip]}:#{node[:sourcecode][:nfssharefolder]} #{node[:sourcecode][:localsourcefolder]}"
-	not_if "cat /proc/mounts | grep nfs"
+execute "mountfile" do
+	command "echo '#{node[:sourcecode][:glusterserverip]}:/#{node[:sourcecode][:glustervolume]} #{node[:sourcecode][:localsourcefolder]} glusterfs defaults 0 0' >>/etc/fstab;mount -a"
+	not_if "cat /proc/mounts | grep glusterfs"
 end
 
 execute "lntoapache" do
