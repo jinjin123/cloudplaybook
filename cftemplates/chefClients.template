@@ -43,8 +43,8 @@
             "Description": "S3 bucket containing validation private key for Chef Server",
             "Type": "String"
         },
-        "ChefClientSecurityGroup": {
-            "Description": "Security group to get access to Opscode Chef Server",
+        "VpcSecurityGroup": {
+            "Description": "Security group of this vpc",
             "Type": "String"
         },
         "InstancePort": {
@@ -205,27 +205,6 @@
                 "Bucket": {
                     "Ref": "ChefServerPrivateKeyBucket"
                 }
-            }
-        },
-        "ChefCSecurityGroup": {
-            "Type": "AWS::EC2::SecurityGroup",
-            "Properties": {
-                "GroupDescription": "Open up SSH access and HTTP over port 80",
-                "SecurityGroupIngress": [
-                    {
-                        "IpProtocol": "tcp",
-                        "FromPort": "22",
-                        "ToPort": "22",
-                        "CidrIp": "0.0.0.0/0"
-                    },
-                    {
-                    		"IpProtocol" : "tcp",
-                    		"FromPort" : "80",
-                    		"ToPort" : "80",
-                    		"CidrIp" : "0.0.0.0/0"
-                    }
-                ],
-                "VpcId" : {"Ref" : "ChefVpc"}
             }
         },
         "ChefLaunchConfig": {
@@ -413,10 +392,7 @@
             	"AssociatePublicIpAddress" : true,
                 "SecurityGroups": [
                     {
-                        "Ref": "ChefClientSecurityGroup"
-                    },
-                    {
-                        "Ref": "ChefCSecurityGroup"
+                        "Ref": "VpcSecurityGroup"
                     }
                 ],
                 "ImageId": {

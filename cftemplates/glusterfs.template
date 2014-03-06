@@ -1,0 +1,530 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "template to bring up gluster server cluster",
+    "Parameters": {
+        "KeyName": {
+            "Type": "String",
+            "Description": "Name of an existing EC2 KeyPair to enable SSH access to the web server"
+        },
+        "InstanceType": {
+            "Description": "WebServer EC2 instance type",
+            "Type": "String",
+            "Default": "m1.small",
+            "AllowedValues": [
+                "t1.micro",
+                "m1.small",
+                "m1.medium",
+                "m1.large",
+                "m1.xlarge",
+                "m2.xlarge",
+                "m2.2xlarge",
+                "m2.4xlarge",
+                "c1.medium",
+                "c1.xlarge",
+                "cc1.4xlarge",
+                "cc2.8xlarge",
+                "cg1.4xlarge"
+            ],
+            "ConstraintDescription": "must be a valid EC2 instance type."
+        },
+		"VpcSecurityGroupId" : {
+			"Type" :"String",
+			"Description" : "Security Group Id of the VPC"
+		},
+        "Subnet" : {
+            "Type" : "String",
+        	"Description" : "Subnet where gluster fs servers were put"
+        },
+        "AvailabilityZone" : {
+        		"Type" : "String",
+        		"Default" : "ap-northeast-1a",
+        		"Description" : "specify the available zone for the subnet"
+        },
+        "Vpc" : {
+        		"Type" : "String",
+        		"Description" : "ID of the vpc you want to use"
+        },
+        "AccessKey" : {
+        		"Type" : "String",
+        		"Description" : "Access key of your aws account"
+        },
+        "SecretKey" : {
+        		"Type" : "String",
+        		"Description" : "Secret key of your aws account"
+        },
+		"EbsVolumeSize" : {
+				"Type" : "String",
+				"Default" : "10",
+				"Description" : "size of ebs volume"
+		}
+    },
+    "Mappings": {
+        "AWSInstanceType2Arch": {
+            "t1.micro": {
+                "Arch": "64"
+            },
+            "m1.small": {
+                "Arch": "64"
+            },
+            "m1.medium": {
+                "Arch": "64"
+            },
+            "m1.large": {
+                "Arch": "64"
+            },
+            "m1.xlarge": {
+                "Arch": "64"
+            },
+            "m2.xlarge": {
+                "Arch": "64"
+            },
+            "m2.2xlarge": {
+                "Arch": "64"
+            },
+            "m2.4xlarge": {
+                "Arch": "64"
+            },
+            "c1.medium": {
+                "Arch": "64"
+            },
+            "c1.xlarge": {
+                "Arch": "64"
+            }
+        },
+        "AWSRegionArch2AMI": {
+            "us-east-1": {
+                "32": "ami-06ad526f",
+                "64": "ami-1aad5273"
+            },
+            "us-west-1": {
+                "32": "ami-116f3c54",
+                "64": "ami-136f3c56"
+            },
+            "us-west-2": {
+                "32": "ami-7ef9744e",
+                "64": "ami-60f97450"
+            },
+            "eu-west-1": {
+                "32": "ami-359ea941",
+                "64": "ami-379ea943"
+            },
+            "sa-east-1": {
+                "32": "ami-e23ae5ff",
+                "64": "ami-1e39e603"
+            },
+            "ap-southeast-1": {
+                "32": "ami-62582130",
+                "64": "ami-60582132"
+            },
+            "ap-northeast-1": {
+                "32": "ami-2f61fe2e",
+                "64": "ami-3561fe34"
+            }
+        }
+    },
+    "Resources": {
+		"EbsVolume1" : {
+			"Type" : "AWS::EC2::Volume",
+			"Properties" : {
+				"AvailabilityZone" : {"Ref": "AvailabilityZone"},
+				"Size" : {"Ref": "EbsVolumeSize"},
+				"VolumeType" : "standard",
+				"Tags" : [{
+					"Key" : "Name",
+					"Value" : "GlusterFsVolume1"
+				}]
+			}
+		},
+		"EbsVolume2" : {
+			"Type" : "AWS::EC2::Volume",
+			"Properties" : {
+				"AvailabilityZone" : {"Ref": "AvailabilityZone"},
+				"Size" : {"Ref": "EbsVolumeSize"},
+				"VolumeType" : "standard",
+				"Tags" : [{
+					"Key" : "Name",
+					"Value" : "GlusterFsVolume2"
+				}]
+			}
+		},
+		"MountPoint1" : {
+			"Type" : "AWS::EC2::VolumeAttachment",
+			"Properties": {
+				"InstanceId" : {"Ref": "GlusterInstance1"},
+				"VolumeId" : {"Ref" : "EbsVolume1"},
+				"Device" : "/dev/sdb"
+			}
+		},
+		"MountPoint2" : {
+			"Type" : "AWS::EC2::VolumeAttachment",
+			"Properties": {
+				"InstanceId" : {"Ref": "GlusterInstance2"},
+				"VolumeId" : {"Ref" : "EbsVolume2"},
+				"Device" : "/dev/sdb"
+			}
+		},
+		"GlusterInstance1" : {
+			"Type" : "AWS::EC2::Instance",
+			"Properties" : 
+            {
+				"InstanceType" : {
+					"Ref" : "InstanceType"
+				},
+				"KeyName" : {
+					"Ref" : "KeyName"
+				},
+				"NetworkInterfaces": [
+					{
+						"AssociatePublicIpAddress" : "true",
+						"DeviceIndex" : "0",
+						"DeleteOnTermination" : "true",
+						"SubnetId" : {
+							"Ref" : "Subnet"
+						},
+						"GroupSet" : [
+							{
+								"Ref" : "VpcSecurityGroupId"
+							}
+						]
+					}
+				
+				],
+				"ImageId": {
+					"Fn::FindInMap" : [
+						"AWSRegionArch2AMI",
+						{
+							"Ref": "AWS::Region"
+						},
+						{
+							"Fn::FindInMap" : [
+								"AWSInstanceType2Arch",
+								{
+									"Ref" : "InstanceType"
+								},
+								"Arch"
+							]
+						}
+					
+					]
+				},
+				"Tags": [
+				          {
+				            "Key": "Name",
+				            "Value": "GlusterServer1"
+				          },
+				          {
+				            "Key": "Environment",
+				            "Value": "cloudformationGlusterfs"
+				          }
+				        ],
+				"UserData" : {
+					"Fn::Base64" : {
+						"Fn::Join" : [
+							"",
+							[
+								"#!/bin/bash\n",
+								"service iptables stop\n",
+								"service ip6tables stop\n",
+								"chkconfig iptables off\n",
+								"chkconfig ip6tables off\n",
+								"export HOME=/root\n",
+								"function error_exit\n",
+								"{\n",
+								" /opt/aws/apitools/cfn-init/bin/cfn-signal -e 1 -r \"$1\" '",
+								{
+									"Ref" : "GlusterfsWaitHandle"
+								},
+								"'\n",
+								" exit 1\n",
+								"}\n",
+								"/opt/aws/apitools/cfn-init/bin/cfn-init -v --region ",
+								{
+									"Ref" : "AWS::Region"
+								},
+								"  -s",
+								{
+									"Ref" : "AWS::StackId"
+								},
+								" -r GlusterInstance1 ",
+								"  --access-key ",
+								{
+									"Ref" : "AccessKey"
+								},
+								"  --secret-key ",
+								{
+									"Ref" : "SecretKey"
+								},
+								" || error_exit 'Failed to run cfn-init'\n",
+								"/opt/aws/apitools/cfn-init/bin/cfn-signal -e $? -r 'GlusterInstance1' '",
+								{
+									"Ref" : "GlusterfsWaitHandle"
+								},
+								"'\n"
+							]
+						]
+					
+					}
+				}
+			},
+			"Metadata" : {
+				"AWS::CloudFormation::Init" : {
+					"config" : {
+						"packages" : {
+							"yum" : {
+								"git": [],
+                                "gcc": [],
+                                "gcc-c++": [],
+                                "automake" : [],
+                                "autoconf" : [],
+                                "make" : [],
+                                "dmidecode" : []
+							}
+						
+						},
+						"commands" : {
+                            "010addrepo": {
+                                "command": "wget -P /etc/yum.repos.d http://download.gluster.org/pub/gluster/glusterfs/LATEST/EPEL.repo/glusterfs-epel.repo"
+                            },
+                            "020fixamazonrepo": {
+                                "command": "sed -i 's/$releasever/6/g' /etc/yum.repos.d/glusterfs-epel.repo"
+                            },
+                            "030installglusterfsserver": {
+                                "command": "yum install -y glusterfs{-fuse,-server}"
+                            },
+                            "040mkdirforebsvolume": {
+                                "command": "mkdir -p /mnt/ebs"                              
+                            },
+                            "050formatebs" : {
+								"command" : "mkfs.ext4 /dev/xvdb"
+							},
+							"060mountebs" : {
+								"command" : "echo \"/dev/xvdb /mnt/ebs ext4 defaults 1 2\" >> /etc/fstab;mount -a"
+							},
+							"070startglusterfsd" : {
+								"command" : "service glusterd start"
+							},
+							"080mkdirforglustervolume": {
+								"command" : "mkdir -p /mnt/ebs/gluster"
+							}
+						}
+					}
+				}
+			}
+		
+		},
+		"GlusterInstance2" : {
+			"Type" : "AWS::EC2::Instance",
+			"DependsOn" : "GlusterInstance1",
+			"Properties" : 
+            {
+				"InstanceType" : {
+					"Ref" : "InstanceType"
+				},
+				"KeyName" : {
+					"Ref" : "KeyName"
+				},
+				"NetworkInterfaces": [
+					{
+						"AssociatePublicIpAddress" : "true",
+						"DeviceIndex" : "0",
+						"DeleteOnTermination" : "true",
+						"SubnetId" : {
+							"Ref" : "Subnet"
+						},
+						"GroupSet" : [
+							{
+								"Ref" : "VpcSecurityGroupId"
+							}
+						]
+					}
+				
+				],
+				"ImageId": {
+					"Fn::FindInMap" : [
+						"AWSRegionArch2AMI",
+						{
+							"Ref": "AWS::Region"
+						},
+						{
+							"Fn::FindInMap" : [
+								"AWSInstanceType2Arch",
+								{
+									"Ref" : "InstanceType"
+								},
+								"Arch"
+							]
+						}
+					
+					]
+				},
+				"Tags": [
+				          {
+				            "Key": "Name",
+				            "Value": "GlusterServer2"
+				          },
+				          {
+				            "Key": "Environment",
+				            "Value": "cloudformationGlusterfs"
+				          }
+				        ],
+				"UserData" : {
+					"Fn::Base64" : {
+						"Fn::Join" : [
+							"",
+							[
+								"#!/bin/bash\n",
+								"service iptables stop\n",
+								"service ip6tables stop\n",
+								"chkconfig iptables off\n",
+								"chkconfig ip6tables off\n",
+								"export HOME=/root\n",
+								"function error_exit\n",
+								"{\n",
+								" /opt/aws/apitools/cfn-init/bin/cfn-signal -e 1 -r \"$1\" '",
+								{
+									"Ref" : "GlusterfsWaitHandle"
+								},
+								"'\n",
+								" exit 1\n",
+								"}\n",
+								"/opt/aws/apitools/cfn-init/bin/cfn-init -v --region ",
+								{
+									"Ref" : "AWS::Region"
+								},
+								"  -s",
+								{
+									"Ref" : "AWS::StackId"
+								},
+								" -r GlusterInstance2 ",
+								"  --access-key ",
+								{
+									"Ref" : "AccessKey"
+								},
+								"  --secret-key ",
+								{
+									"Ref" : "SecretKey"
+								},
+								" || error_exit 'Failed to run cfn-init'\n",
+								"/opt/aws/apitools/cfn-init/bin/cfn-signal -e $? -r 'GlusterInstance2' '",
+								{
+									"Ref" : "GlusterfsWaitHandle"
+								},
+								"'\n"
+							]
+						]
+					
+					}
+				}
+			},
+			"Metadata" : {
+				"AWS::CloudFormation::Init" : {
+					"config" : {
+						"packages" : {
+							"yum" : {
+								"git": [],
+                                "gcc": [],
+                                "gcc-c++": [],
+                                "automake" : [],
+                                "autoconf" : [],
+                                "make" : [],
+                                "dmidecode" : []
+							}
+						
+						},
+						"commands" : {
+                            "010addrepo": {
+                                "command": "wget -P /etc/yum.repos.d http://download.gluster.org/pub/gluster/glusterfs/LATEST/EPEL.repo/glusterfs-epel.repo"
+                            },
+                            "020fixamazonrepo": {
+                                "command": "sed -i 's/$releasever/6/g' /etc/yum.repos.d/glusterfs-epel.repo"
+                            },
+                            "030installglusterfsserver": {
+                                "command": "yum install -y glusterfs{-fuse,-server}"
+                            },
+                            "040mkdirforebsvolume": {
+                                "command": "mkdir -p /mnt/ebs"                              
+                            },
+                            "050formatebs" : {
+								"command" : "mkfs.ext4 /dev/xvdb"
+							},
+							"060mountebs" : {
+								"command" : "echo \"/dev/xvdb /mnt/ebs ext4 defaults 1 2\" >> /etc/fstab;mount -a"
+							},
+							"070startglusterfsd" : {
+								"command" : "service glusterd start"
+							},
+							"080mkdirforglustervolume": {
+								"command" : "mkdir -p /mnt/ebs/gluster"
+							},
+							"090peerprobeserver": {
+								"command" : {"Fn::Join": ["",["gluster peer probe ",{"Fn::GetAtt":["GlusterInstance1","PrivateIp"]},";sleep 10"]]}
+							},
+							"100createglustervolume": {
+								"command" : {"Fn::Join" : ["",[
+												"gluster volume create glt0 replica 2 ",
+												{"Fn::GetAtt" : ["GlusterInstance1","PrivateIp"]},
+												":/mnt/ebs/gluster `hostname -i`:/mnt/ebs/gluster"
+										
+								]]}
+							},
+							"110startvolume" : {
+								"command" : "gluster volume start glt0"
+							}
+						}
+					}
+				}
+			}
+		
+		},
+		"GlusterfsWaitHandle": {
+			"Type" : "AWS::CloudFormation::WaitConditionHandle"
+		},
+		"GlusterfsWaitCondition": {
+			"Type" : "AWS::CloudFormation::WaitCondition",
+			"DependsOn" : "GlusterInstance1",
+			"Properties": {
+				"Handle" : {
+					"Ref" : "GlusterfsWaitHandle"
+				},
+				"Timeout" : "1200",
+				"Count" : "2"
+			}
+		}
+    },
+    "Outputs": {
+		"ServerPrivateIp1": {
+		      "Description": "private ip of gluster server1",
+		      "Value": {"Fn::GetAtt" : ["GlusterInstance1","PrivateIp"]}
+		  },
+		  "ServerPrivateIp2" : {
+		  		"Description" : "private ip of gluster server2",
+				"Value" : {"Fn::GetAtt" : ["GlusterInstance2","PrivateIp"]}
+		  },
+		  "GlusterVolume": {
+		  		"Description" : "mount name of gluster fs",
+				"Value" : "glt0"
+		  },
+		  "GlusterServer1EbsVolume":{
+		  		"Description" : "volume id and ec2 instance id",
+				"Value" : {
+					"Fn::Join" : ["",[
+							{"Ref" : "EbsVolume1"},
+							":",
+							{"Ref" : "GlusterInstance1"}
+					]]
+				}
+
+		  },
+		  "GlusterServer2EbsVolume" : {
+		  		"Description" : "volume id and ec2 instance id",
+				"Value" : {
+					"Fn::Join" : ["",[
+							{"Ref" : "EbsVolume2"},
+							":",
+							{"Ref" : "GlusterInstance2"}
+					]]
+				}
+		  }
+    }
+
+}

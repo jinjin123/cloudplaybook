@@ -65,6 +65,31 @@
                 ]
             }
         },
+        "VpcSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Open up SSH access and all ports to itself",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId" : {"Ref" : "VPC"}
+            }
+        },
+        "SecurityGroupRule": {
+            "Type": "AWS::EC2::SecurityGroupIngress",
+			"DependsOn" : "VpcSecurityGroup",
+            "Properties": {
+                "GroupId" : {"Ref":"VpcSecurityGroup"},
+				"IpProtocol" : "-1",
+				"SourceSecurityGroupId" : {"Ref": "VpcSecurityGroup"}
+					   
+            }
+        },
         "PublicSubnetOne": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
@@ -302,15 +327,11 @@
                 "NetworkAclId": {
                     "Ref": "PublicNetworkAcl"
                 },
-                "RuleNumber": "101",
-                "Protocol": "6",
+                "RuleNumber": "150",
+                "Protocol": "-1",
                 "RuleAction": "allow",
                 "Egress": "true",
-                "CidrBlock": "0.0.0.0/0",
-                "PortRange": {
-                    "From": "1024",
-                    "To": "65535"
-                }
+                "CidrBlock": "0.0.0.0/0"
             }
         },
         "PublicSubnetOneNetworkAclAssociation": {
@@ -343,6 +364,10 @@
                 "Ref": "VPC"
             }
         },
+		"VpcSecurityGroup":{
+			"Description": "the security group id in this VPC",
+			"Value" : {"Ref":"VpcSecurityGroup"}
+		},
         "PublicSubnetOne": {
             "Description": "the subnet one id ",
             "Value": {

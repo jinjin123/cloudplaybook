@@ -7,6 +7,10 @@
       "Default": "drucloud",
       "Description": "Note: do not input .pem suffix! Name of an existing EC2 KeyPair to enable SSH access to the web server"
     },
+	"VpcSecurityGroup":{
+		"Type" : "String",
+		"Description" : "security group in this vpc"
+	},
     "ServerTagName": {
       "Type": "String",
       "Description": "the name you want to apply to chef server"
@@ -41,22 +45,6 @@
     "S3SecKey": {
       "Type": "String",
       "Description": "secret key to access to resource s3 bucket"
-    },
-    "DrupalDatabaseUrl": {
-      "Type": "String",
-      "Description": "drupal database url"
-    },
-    "DrupalDatabaseUser": {
-      "Type": "String",
-      "Description": "drupal database user"
-    },
-    "DrupalDatabasePassword": {
-      "Type": "String",
-      "Description": "drupal database password"
-    },
-    "Drupaldbname": {
-      "Type": "String",
-      "Description": "drupal database name"
     },
     "InstanceType": {
       "Description": "WebServer EC2 instance type",
@@ -174,6 +162,16 @@
           "Ref": "ChefServer"
         }
       }
+    },
+    "SecurityGroupRule": {
+        "Type": "AWS::EC2::SecurityGroupIngress",
+        "Properties": {
+            "GroupId" : {"Ref":"VpcSecurityGroup"},
+			"IpProtocol" : "tcp",
+			"FromPort" : "22",
+			"ToPort" : "22",
+			"CidrIp" : "0.0.0.0/0"
+        }
     },
     "ChefServer": {
       "Type": "AWS::EC2::Instance",
@@ -538,7 +536,7 @@
       "Properties": {
         "SecurityGroupIds": [
           {
-            "Ref": "ChefSecurityGroup"
+            "Ref": "VpcSecurityGroup"
           }
         ],
         "ImageId": {
@@ -666,29 +664,6 @@
         }
       }
     },
-    "ChefSecurityGroup": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "Open up SSH access plus Chef Server required ports",
-        "SecurityGroupIngress": [
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "22",
-            "ToPort": "22",
-            "CidrIp": {
-              "Ref": "SSHLocation"
-            }
-          },
-          {
-            "IpProtocol": "-1",
-            "CidrIp" : "10.0.0.0/16"
-          }
-        ],
-        "VpcId": {
-          "Ref": "ChefVpc"
-        }
-      }
-    },
 
     "PrivateKeyBucket": {
       "Type": "AWS::S3::Bucket",
@@ -787,12 +762,6 @@
             ":443"
           ]
         ]
-      }
-    },
-    "ChefSecurityGroup": {
-      "Description": "Security Group with access to all ports to instances in the vpc",
-      "Value": {
-        "Ref": "ChefSecurityGroup"
       }
     },
     "ValidationKeyBucket": {

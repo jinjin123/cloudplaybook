@@ -53,12 +53,19 @@
             "Description": "The database instance type",
             "Type": "String",
             "AllowedValues": [
+			    "db.t1.micro",
                 "db.m1.small",
+				"db.m1.medium",
                 "db.m1.large",
                 "db.m1.xlarge",
                 "db.m2.xlarge",
                 "db.m2.2xlarge",
-                "db.m2.4xlarge"
+                "db.m2.4xlarge",
+				"db.m3.medium",
+				"db.m3.large",
+				"db.m3.xlarge",
+				"db.m3.2xlarge",
+				"db.cr1.8xlarge"
             ],
             "ConstraintDescription": "must select a valid database instance type."
         },
@@ -71,46 +78,6 @@
                 "false"
             ],
             "ConstraintDescription": "must be either true or false."
-        }
-    },
-    "Mappings": {
-        "InstanceTypeMap": {
-            "db.m1.small": {
-                "CPULimit": "60",
-                "FreeStorageSpaceLimit": "1024",
-                "ReadIOPSLimit": "100",
-                "WriteIOPSLimit": "100"
-            },
-            "db.m1.large": {
-                "CPULimit": "60",
-                "FreeStorageSpaceLimit": "1024",
-                "ReadIOPSLimit": "100",
-                "WriteIOPSLimit": "100"
-            },
-            "db.m1.xlarge": {
-                "CPULimit": "60",
-                "FreeStorageSpaceLimit": "1024",
-                "ReadIOPSLimit": "100",
-                "WriteIOPSLimit": "100"
-            },
-            "db.m2.xlarge": {
-                "CPULimit": "60",
-                "FreeStorageSpaceLimit": "1024",
-                "ReadIOPSLimit": "100",
-                "WriteIOPSLimit": "100"
-            },
-            "db.m2.2xlarge": {
-                "CPULimit": "60",
-                "FreeStorageSpaceLimit": "1024",
-                "ReadIOPSLimit": "100",
-                "WriteIOPSLimit": "100"
-            },
-            "db.m2.4xlarge": {
-                "CPULimit": "60",
-                "FreeStorageSpaceLimit": "1024",
-                "ReadIOPSLimit": "100",
-                "WriteIOPSLimit": "100"
-            }
         }
     },
     "Resources": 
