@@ -409,8 +409,7 @@ class StackGroup:
   
   
 if __name__ == "__main__":
-
-  region = Region("ap-northeast-1")
+  region  = Region("ap-northeast-1")
   stackGroup = StackGroup('AKIAIMX7UYHK6NZVYBLQ','SZOYFiyQQaUxBzGirfGdvyZC5oHU3yVpxjLcYVPf',region)
   stackGroup.fetchStackGeneralInfos()
   stackGroup.fetchStacksReInfos()

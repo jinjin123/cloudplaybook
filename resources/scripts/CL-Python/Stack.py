@@ -7,6 +7,10 @@ from boto.cloudformation.connection import CloudFormationConnection
 from gfunc import args
 from gfunc import check_user_credential
 
+
+from DataDefine import StackGroup
+
+
 #def check_user_credential(userid="",accessKey="",secretKey="",region=""):
 
 TEMPLATE = {
@@ -60,4 +64,19 @@ class Stack(object):
     print stack
     print type(stack)
     print dir(stack)
-    print stack.status
+    print stack.statu
+  
+  @args([
+         {"PositionPara":"-A,--accessid","NamePara":"help=aws access key id,dest=accessid,required=True"},
+         {"PositionPara":"-S,--secretid","NamePara":"help=aws secret key id,dest=secretid,required=True"},
+         {"PositionPara":"-R,--region","NamePara":"help=aws region,dest=region,required=True"}
+])
+  def listall(self,accessid="",secretid="",region=""):
+   print accessid,secretid,region
+   region_  = Region(region)
+   stackGroup = StackGroup(accessid,secretid,region_)
+   stackGroup.fetchStackGeneralInfos()
+   stackGroup.fetchStacksReInfos()
+   print stackGroup.getJsonStacks()
+
+    
