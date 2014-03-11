@@ -22,10 +22,11 @@ execute "mountfile" do
 	command "echo '#{node[:sourcecode][:glusterserverip]}:/#{node[:sourcecode][:glustervolume]} #{node[:sourcecode][:localsourcefolder]} glusterfs defaults 0 0' >>/etc/fstab;mount -a"
 	not_if "cat /proc/mounts | grep glusterfs"
 end
-
+=begin
 execute "lntoapache" do
         command "rm -rf /var/www/html;ln -sf #{node[:sourcecode][:localsourcefolder]} /var/www/html"
 end
+=end
 
 
 template "/etc/httpd/conf/httpd.conf" do
