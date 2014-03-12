@@ -8,3 +8,9 @@
 #
 #include_recipe "basicservice::rpc"
 include_recipe "basicservice::glusterfs"
+
+#create app user if not exist
+execute "createappuser" do
+        command "useradd -c 'app user' -s /bin/bash -m webapp -d /home/webapp -G apache"
+        not_if "cat /etc/passwd | grep webapp"
+end
