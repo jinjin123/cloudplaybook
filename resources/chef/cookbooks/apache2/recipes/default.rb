@@ -207,6 +207,14 @@ apache_site 'default' do
   enable node['apache']['default_site_enabled']
 end
 
+
+execute "createappuser" do
+
+        command "useradd -c 'app user' -s /bin/bash -m webapp -d /home/webapp -G apache"
+        not_if "cat /etc/passwd | grep webapp"
+end
+
+
 service 'apache2' do
   action :start
 end
