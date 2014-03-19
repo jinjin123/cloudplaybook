@@ -4,6 +4,7 @@ end
 
 execute "linkdrush" do
         command "ln -s /usr/local/share/drush/drush /usr/local/bin/drush"
+        not_if { ::File.exists?("/usr/local/bin/drush") }
 end
 
 execute "preparedrush" do

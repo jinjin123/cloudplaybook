@@ -30,4 +30,8 @@ php_pear_channel 'pecl.php.net' do
   action :update
 end
 
+php_pear "memcache" do
+  action :install
+end
+
 include_recipe "php::ini"

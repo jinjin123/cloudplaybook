@@ -9,7 +9,8 @@
   "chef_type": "role",
   "run_list": [
     "recipe[apache2]",
-    "recipe[php]"
+    "recipe[php]",
+    "recipe[php-ext-centos]"
   ],
   "env_run_lists": {
   }
