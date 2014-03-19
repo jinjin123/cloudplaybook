@@ -1,5 +1,5 @@
 execute "downloaddrush" do
-        command "wget --quiet -O - http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz | tar -zxf - -C /usr/local/share"
+        command "wget --quiet -O - http://ftp.drupal.org/files/projects/drush-8.x-6.0-rc4.tar.gz | tar -zxf - -C /usr/local/share"
 end
 
 execute "linkdrush" do
