@@ -122,6 +122,11 @@ $script = <<SCRIPT
   chkconfig iptables off
 SCRIPT
 
+$apache_preset = <<SCRIPT
+  a2ensite default
+  service httpd restart
+SCRIPT
+
 Vagrant::Config.run do |config|
   config.vm.define :dev do |dev_config|
     dev_config.vm.box = "centos_chef"
@@ -133,6 +138,7 @@ Vagrant::Config.run do |config|
     end
     dev_config.vm.network :hostonly, "10.0.1.10", :adapter => 2
     dev_config.vm.network :bridged
+    dev_config.vm.provision "shell", inline: $script
   end
 
   config.vm.define :web do |web_config|
@@ -148,6 +154,8 @@ Vagrant::Config.run do |config|
       chef.add_recipe("git")
       chef.data_bags_path = "~/chef/data_bags"
     end
+    web_config.vm.provision "shell", inline: $script
+    web_config.vm.provision "shell", inline: $apache_preset
   end
 
   config.vm.define :db do |db_config|
@@ -169,16 +177,18 @@ Vagrant::Config.run do |config|
       #chef.roles_path = "~/src/mobingi/mocloud/resources/chef/roles"
       chef.data_bags_path = "~/chef/data_bags"
     end
+    db_config.vm.provision "shell", inline: $script
   end
 
-  config.vm.define :nosql do |mongo_config|
-    mongo_config.vm.box = "centos_chef"
-    mongo_config.vm.provision :chef_solo do |chef|
+  config.vm.define :nosql do |nosql_config|
+    nosql_config.vm.box = "centos_chef"
+    nosql_config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
       chef.add_recipe("mongodb::10gen_repo")
       chef.add_recipe("mongodb")
       chef.add_recipe("memcached::default")
     end
-    mongo_config.vm.network :hostonly, "10.0.1.13", :adapter => 2
+    nosql_config.vm.network :hostonly, "10.0.1.13", :adapter => 2
+    nosql_config.vm.provision "shell", inline: $script
   end
 end
