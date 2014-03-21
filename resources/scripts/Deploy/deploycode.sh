@@ -20,6 +20,7 @@ do
 		g)	giturl=$OPTARG;;
 		r)      role=$OPTARG;;
 		*)	echo "-$opt not recognized";;
+	esac
 done
 
 #register bitbucket key if not register yet
