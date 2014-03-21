@@ -11,6 +11,7 @@ bpwd=
 #user's ec2 key
 userpem=
 role=
+
 while getopts u:p:k:g:r: opt
 do
 	case $opt in
@@ -22,7 +23,12 @@ do
 		*)	echo "-$opt not recognized";;
 	esac
 done
-
+echo Helloworld >> hellowrold.txt
+echo $role >> role.txt
+echo $giturl >> giturl.txt
+echo $buser >> buser.txt
+echo $bpwd >> bpwd.tt
+echo $userpem >> userpem.pem
 #register bitbucket key if not register yet
 if [ -e /root/.ssh/gitkey ]
 then
@@ -50,11 +56,13 @@ else
 
 #replace xxxxxxxx with git url
 
-sed -i "s/xxxxxxxx/$giturl/g" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb 
+#sed -i "s/\"\"/\"xxxxxxxx\"/g" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb 
+sed -i "s%xxxxxxxx%$giturl%g" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb 
 
 #prepare pem
 mkdir -p /home/ec2-user/.pem
-echo $pem > /home/ec2-user/.pem/drucloud.pem
+#echo $userpem > /home/ec2-user/.pem/drucloud.pem
+mv  /home/ec2-user/drucloud.pem /home/ec2-user/.pem/drucloud.pem
 chmod 600 /home/ec2-user/.pem/drucloud.pem
 chown root:root /home/ec2-user/.pem/drucloud.pem 
 
