@@ -57,8 +57,8 @@ echo $pem > /home/ec2-user/.pem/drucloud.pem
 chmod 600 /home/ec2-user/.pem/drucloud.pem
 chown root:root /home/ec2-user/.pem/drucloud.pem 
 
-echo knife[:ssh_user] = 'ec2-user' >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
-echo knife[:identity_file] = '/home/ec2-user/.pem/drucloud.pem' >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
+echo knife[:ssh_user] = \"ec2-user\" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
+echo knife[:identity_file] = \"/home/ec2-user/.pem/drucloud.pem\" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
 
 echo "configure knife ssh success"
 	
