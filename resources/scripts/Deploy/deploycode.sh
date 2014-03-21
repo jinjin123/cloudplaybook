@@ -1,6 +1,6 @@
 #!/bin/bash
 export HOME=/root
-. /opt/dep/firstry.sp
+#. /opt/dep/firstry.sp
 cd /opt/dep
 #bitbucket username
 buser= 
@@ -49,7 +49,18 @@ else
 
 #replace xxxxxxxx with git url
 
-sed -i 's/xxxxxxxx/$giturl/g' /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb 
+sed -i "s/xxxxxxxx/$giturl/g" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb 
+
+#prepare pem
+mkdir -p /home/ec2-user/.pem
+echo $pem > /home/ec2-user/.pem/drucloud.pem
+chmod 600 /home/ec2-user/.pem/drucloud.pem
+chown root:root /home/ec2-user/.pem/drucloud.pem 
+
+echo knife[:ssh_user] = 'ec2-user' >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
+echo knife[:identity_file] = '/home/ec2-user/.pem/drucloud.pem' >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
+
+echo "configure knife ssh success"
 	
 fi
 
