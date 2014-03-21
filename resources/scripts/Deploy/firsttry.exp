@@ -1,0 +1,7 @@
+#!/usr/bin/expect
+set timeout 80
+set giturl [lindex $argv 0]
+spawn git clone $giturl
+expect "(yes/no)?"
+send "yes\r"
+interact
