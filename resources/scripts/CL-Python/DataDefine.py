@@ -161,8 +161,6 @@ class ElastiCache(Resource):
   return nodeUrls
 
  def setDetailedInfo(self,info={}):
-  print info
-  sys.exit(0)
   self._cacheEngine= info.get("Engine")
   self._configureEndpoint= info.get("ConfigurationEndpoint").get("Address")
   self._cacheNodeType = info.get("CacheNodeType")
@@ -184,9 +182,8 @@ class ElastiCache(Resource):
     #sys.exit(0)
      
     #cacheInfo = cacheResults.get("DescribeCacheClustersResponse").get("DescribeCacheClustersResults").get("CacheClusters")[0]
-    cacheInfo = cacheResults.get("DescribeCacheClustersResponse").get("DescribeCacheClustersResult")
-    print cacheInfo
-    sys.exit(1)
+    caches = cacheResults.get("DescribeCacheClustersResponse").get("DescribeCacheClustersResult").get("CacheClusters")
+    cacheInfo = caches[0]
   except :
     log.error("fetch resource info failed resource id : %s"%(self._physicalResourceId))
     Resource.onFetchInfoFailed(self)
