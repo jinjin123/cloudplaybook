@@ -7,6 +7,7 @@ userpem=
 buser=
 bpwd=
 giturl=
+rolename=
 while getopts h:u:p:c:v:m:n:g: opt
 do 
 	case $opt in
@@ -17,9 +18,17 @@ do
 		m)	buser=$OPTARG;;
 		n)	bpwd=$OPTARG;;
 		g)	giturl=$OPTARG;;
+		r)	rolename=$OPTARG;;
 		*)	echo "-$opt not recognized";;
 	esac
 done
 
-echo $pem | ssh -i /dev/stdin $user@$host "sudo bash /opt/dep/deploycode.sh -u $buser -p $bpwd -k $userpem -g $giturl"
+echo $pem > temp.pem
+chmod 400 temp.pem
+
+ssh -i temp.pem -t -o 'StrictHostKeyChecking no' $user@$host "sudo bash /opt/dep/deploycode.sh -u $buser -p $bpwd -k $userpem -g $giturl -r $rolename"
+
+chmod 755 temp.pem
+rm -rf temp.pem
+
 

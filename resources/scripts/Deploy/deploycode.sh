@@ -10,14 +10,15 @@ bpwd=
 
 #user's ec2 key
 userpem=
-
-while getopts u:p:k:g: opt
+role=
+while getopts u:p:k:g:r: opt
 do
 	case $opt in
 		u)	buser=$OPTARG;;
 		p)	bpwd=$OPTARG;;
 		k)	userpem=$OPTARG;;
 		g)	giturl=$OPTARG;;
+		r)      role=$OPTARG;;
 		*)	echo "-$opt not recognized";;
 done
 
@@ -34,16 +35,20 @@ else
 #register with bitbucket
 	key=`cat /root/.ssh/gitkey.pub`
         curl --user $buser:$bpwd -d "key=$key&label=auto_genkey" https://bitbucket.org/api/1.0/users/$buser/ssh-keys
-	rm -Rf /opt/dep/temp_src
-	mkdir /opt/dep/temp_src
-	expect ./firsttry.exp $giturl /opt/dep/temp_src	
+#	rm -Rf /opt/dep/temp_src
+#	mkdir /opt/dep/temp_src
+#	expect ./firsttry.exp $giturl /opt/dep/temp_src	
 
 
 #mv key to chef workstation
 
 	cat /root/.ssh/gitkey > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.erb
 	cat /root/.ssh/gitkey.pub > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.pub.erb
-	cat /root/.ssh/known_hosts > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
+	echo "" > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
+
+#replace xxxxxxxx with git url
+
+sed -i 's/xxxxxxxx/$giturl/g' /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb 
 	
 fi
 
@@ -51,7 +56,7 @@ fi
 
 cd /home/ec2-user/chef11/chef-repo
 /opt/chef-server/embedded/bin/knife cookbook upload deploycode
-/opt/chef-server/embedded/bin/knife ssh "role:chefclient" "sudo chef-client -o 'recipe[deploycode]'"
+/opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"
 
 
 
