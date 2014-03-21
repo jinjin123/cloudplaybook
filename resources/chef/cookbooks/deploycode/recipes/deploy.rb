@@ -25,7 +25,7 @@ execute "preparesourcefolder" do
 end
 
 execute "clonecode" do
-	command "git clone  #{node[:deploycode][:giturl]} #{node[:deploycode][:localsourcefolder]}"
+	command "git clone  #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}"
 	not_if { ::File.directory?("#{node[:deploycode][:localsourcefolder]}/.git") }
 end
 
@@ -33,3 +33,15 @@ execute "updatecode" do
 	command "git pull"
 	cwd "#{node[:deploycode][:localsourcefolder]}"
 end
+
+execute "lntoapache" do
+	command "rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
+end
+
+execute "enablesite" do
+	command "a2ensite default"
+end
+execute "restarthttp" do
+	command "service httpd restart"
+end
+
