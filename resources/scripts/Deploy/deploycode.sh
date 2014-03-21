@@ -32,10 +32,11 @@ else
 	cp gitkey /root/.ssh/
 	cp gitkey.pub /root/.ssh/
 	chmod 600 /root/.ssh/gitkey /root/.ssh/gitkey.pub
-	rm gitkey gitkey.pub
 #register with bitbucket
-	key=`cat /root/.ssh/gitkey.pub`
-        curl --user $buser:$bpwd -d "key=$key&label=auto_genkey" https://bitbucket.org/api/1.0/users/$buser/ssh-keys
+	php register.php $buser $bpwd
+	rm -f gitkey gitkey.pub
+#	key=`cat /root/.ssh/gitkey.pub`
+#        curl --user $buser:$bpwd -d "key=$key&label=auto_genkey" https://bitbucket.org/api/1.0/users/$buser/ssh-keys
 #	rm -Rf /opt/dep/temp_src
 #	mkdir /opt/dep/temp_src
 #	expect ./firsttry.exp $giturl /opt/dep/temp_src	
@@ -57,8 +58,9 @@ echo $pem > /home/ec2-user/.pem/drucloud.pem
 chmod 600 /home/ec2-user/.pem/drucloud.pem
 chown root:root /home/ec2-user/.pem/drucloud.pem 
 
-echo knife[:ssh_user] = \"ec2-user\" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
-echo knife[:identity_file] = \"/home/ec2-user/.pem/drucloud.pem\" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
+
+echo "knife[:ssh_user] = 'ec2-user'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
+echo "knife[:identity_file] = '/home/ec2-user/.pem/drucloud.pem'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
 
 echo "configure knife ssh success"
 	
