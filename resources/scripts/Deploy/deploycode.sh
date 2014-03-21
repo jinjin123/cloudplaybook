@@ -32,7 +32,7 @@ else
 	cp gitkey /root/.ssh/
 	cp gitkey.pub /root/.ssh/
 	chmod 600 /root/.ssh/gitkey /root/.ssh/gitkey.pub
-
+	rm gitkey gitkey.pub
 #register with bitbucket
 	key=`cat /root/.ssh/gitkey.pub`
         curl --user $buser:$bpwd -d "key=$key&label=auto_genkey" https://bitbucket.org/api/1.0/users/$buser/ssh-keys
