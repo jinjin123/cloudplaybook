@@ -72,7 +72,7 @@ class Stack(object):
          {"PositionPara":"-R,--region","NamePara":"help=aws region,dest=region,required=True"}
 ])
   def listall(self,accessid="",secretid="",region=""):
-   print accessid,secretid,region
+#   print accessid,secretid,region
    region_  = Region(region)
    stackGroup = StackGroup(accessid,secretid,region_)
    stackGroup.fetchStackGeneralInfos()

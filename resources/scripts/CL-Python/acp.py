@@ -17,9 +17,6 @@ from Stack import Stack
 
 ### custom dict of command line name to custom Class,the key is the command line name ,the value is name of the class
 ### note: relational item should be add to this dict when new custom class is defined!
-COMMANDS_TO_CLASS = {
-        "demo" : "Demo"
-}
 
 
 

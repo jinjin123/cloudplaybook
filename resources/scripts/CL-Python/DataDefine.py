@@ -161,6 +161,8 @@ class ElastiCache(Resource):
   return nodeUrls
 
  def setDetailedInfo(self,info={}):
+  print info
+  sys.exit(0)
   self._cacheEngine= info.get("Engine")
   self._configureEndpoint= info.get("ConfigurationEndpoint").get("Address")
   self._cacheNodeType = info.get("CacheNodeType")
@@ -175,14 +177,20 @@ class ElastiCache(Resource):
   accessKey = self._owner._owner._accessKey
   secretKey = self._owner._owner._secretKey
   cacheConn = self.getConn(region.name,accessKey,secretKey)
+  cacheInfo = {}
   try:
     cacheResults = cacheConn.describe_cache_clusters(cache_cluster_id=self._physicalResourceId)
-    cacheInfo = cacheResults.get("DescribeCacheClustersResponse").get("DescribeCacheClustersResults").get("CacheClusters")[0]
-    self.setDetailedInfo(cacheInfo)
+    #print cacheResults
+    #sys.exit(0)
+     
+    #cacheInfo = cacheResults.get("DescribeCacheClustersResponse").get("DescribeCacheClustersResults").get("CacheClusters")[0]
+    cacheInfo = cacheResults.get("DescribeCacheClustersResponse").get("DescribeCacheClustersResult")
+    print cacheInfo
+    sys.exit(1)
   except :
     log.error("fetch resource info failed resource id : %s"%(self._physicalResourceId))
     Resource.onFetchInfoFailed(self)
-  
+  self.setDetailedInfo(info=cacheInfo) 
   
 class Rds(Resource):
  def __init__(self,father,cprd="",clrd="",crs="",crt="",clut="",re="",rev="",dic="",rep="",rp="",ct="",mun=""):
@@ -296,12 +304,12 @@ class Stack:
     resourceClassName = ""
     resourceInitString = ""
     needDetailedInfo = False
-     
     if resourceType not in FilterResources:
       continue
      
     if ResourceType2Class.has_key(resourceType):
         resourceClassName=ResourceType2Class.get(resourceType)
+        #print resourceClassName
         needDetailedInfo = True
         resourceInitString = "{0}(self,cprd='{1}',clrd='{2}',crs='{3}',crt='{4}',clut='{5}')"
     else:
@@ -317,8 +325,7 @@ class Stack:
                           )
                         )
     if needDetailedInfo: #fetch detailed info using specified command base on resource
-      if ref.resource_type == "AWS::EC2::Instance":
-       res.fetchDetailedInfo()
+      res.fetchDetailedInfo()
     self._resources.setdefault(res._physicalResourceId,res)
         
 
