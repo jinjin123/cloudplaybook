@@ -14,9 +14,8 @@ do
 		u)	user=$OPTARG;;
 		p)	pem=$OPTARG;;
 		c)	cmd=$OPTARG;;
-		v)	rootDir=$OPTARG;;
-		m)	druuser=$OPTARG;;
-		n)	drupwd=$OPTARG;;
+		m)	buser=$OPTARG;;
+		n)	bpwd=$OPTARG;;
 		g)	giturl=$OPTARG;;
 		*)	echo "-$opt not recognized";;
 	esac
