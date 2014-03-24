@@ -23,10 +23,9 @@ do
 	esac
 done
 
-echo $pem > temp.pem
 chmod 400 temp.pem
 #chown -R webapp:webapp temp.pem
-ssh -i temp.pem -t -o 'StrictHostKeyChecking no' $user@$host "sudo bash /opt/dep/deploycode.sh -u $buser -p $bpwd -k $userpem -g $giturl -r $rolename"
+/usr/bin/ssh -i temp.pem -t -o 'StrictHostKeyChecking no' $user@$host "sudo bash /opt/dep/deploycode.sh -u '$buser' -p '$bpwd' -k '$userpem' -g '$giturl' -r '$rolename' 2>&1"
 
 chmod 755 temp.pem
 rm -rf temp.pem
