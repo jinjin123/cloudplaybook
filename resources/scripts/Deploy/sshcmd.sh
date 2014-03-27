@@ -25,6 +25,7 @@ done
 
 chmod 400 temp.pem
 #chown -R webapp:webapp temp.pem
+/usr/bin/scp -i temp.pem temp.pem $user@$host:/home/ec2-user/drucloud.pem
 /usr/bin/ssh -i temp.pem -t -o 'StrictHostKeyChecking no' $user@$host "sudo bash /opt/dep/deploycode.sh -u '$buser' -p '$bpwd' -k '$userpem' -g '$giturl' -r '$rolename' 2>&1"
 
 chmod 755 temp.pem
