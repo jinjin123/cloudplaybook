@@ -27,14 +27,20 @@ end
 script "deploycode" do
 	interpreter "bash"
 	user "root"
-	cwd "#{node[:deploycode][:localsourcefolder]}"
 	code <<-EOH
+	cd #{node[:deploycode][:localsourcefolder]}
 	export CHECK=`cat #{node[:deploycode][:localsourcefolder]}/.git/config|grep #{node[:deploycode][:gitrepo]} | wc -l`
 	if [ $CHECK -gt 0 ];then
 	git pull;
 	else
-	rm -rf #{node[:deploycode][:localsourcefolder]}/*
-	git clone --depth 1 #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}
+	for x in `ls -a`
+	do
+		if [ $x != "." ] && [ $x != ".." ];
+		then
+		rm -rf $x
+		fi
+	done
+	git clone --depth 1 #{node[:deploycode][:gitrepo]} . 
 	fi
 	EOH
 end
