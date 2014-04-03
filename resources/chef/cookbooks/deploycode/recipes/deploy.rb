@@ -24,14 +24,19 @@ execute "preparesourcefolder" do
 	command "mkdir -p #{node[:deploycode][:localsourcefolder]}"
 end
 
-execute "clonecode" do
-	command "git clone  #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}"
-	not_if { ::File.directory?("#{node[:deploycode][:localsourcefolder]}/.git") }
-end
-
-execute "updatecode" do
-	command "git pull"
+script "deploycode" do
+	interpreter "bash"
+	user "root"
 	cwd "#{node[:deploycode][:localsourcefolder]}"
+	code <<-EOH
+	export CHECK=`cat #{node[:deploycode][:localsourcefolder]}/.git/config|grep #{node[:deploycode][:gitrepo]} | wc -l`
+	if [ $CHECK -gt 0 ];then
+	git pull;
+	else
+	rm -rf #{node[:deploycode][:localsourcefolder]}/*
+	git clone --depth 1 #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}
+	fi
+	EOH
 end
 
 execute "lntoapache" do
