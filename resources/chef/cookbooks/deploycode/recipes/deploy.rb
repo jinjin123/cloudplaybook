@@ -49,10 +49,3 @@ execute "lntoapache" do
 	command "rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
 end
 
-execute "enablesite" do
-	command "a2ensite default"
-end
-execute "restarthttp" do
-	command "service httpd restart"
-end
-
