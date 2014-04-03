@@ -23,12 +23,11 @@ do
 		*)	echo "-$opt not recognized";;
 	esac
 done
-echo Helloworld >> hellowrold.txt
-echo $role >> role.txt
-echo $giturl >> giturl.txt
-echo $buser >> buser.txt
-echo $bpwd >> bpwd.tt
-echo $userpem >> userpem.pem
+echo $role > role.txt
+echo $giturl > giturl.txt
+echo $buser > buser.txt
+echo $bpwd > bpwd.tt
+echo $userpem > userpem.pem
 #register bitbucket key if not register yet
 if [ -e /root/.ssh/gitkey ]
 then
@@ -41,12 +40,7 @@ else
 #register with bitbucket
 	php register.php $buser $bpwd
 	rm -f gitkey gitkey.pub
-#	key=`cat /root/.ssh/gitkey.pub`
-#        curl --user $buser:$bpwd -d "key=$key&label=auto_genkey" https://bitbucket.org/api/1.0/users/$buser/ssh-keys
-#	rm -Rf /opt/dep/temp_src
-#	mkdir /opt/dep/temp_src
-#	expect ./firsttry.exp $giturl /opt/dep/temp_src	
-
+fi
 
 #mv key to chef workstation
 
@@ -55,9 +49,12 @@ else
 	echo "" > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
 
 #replace xxxxxxxx with git url
-
-#sed -i "s/\"\"/\"xxxxxxxx\"/g" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb 
-sed -i "s%xxxxxxxx%$giturl%g" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb 
+#Remove the line with xxxxxxxx, and replace giturl for cater re-run of deploy
+sed -i "/gitrepo/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+export TEMP=`cat /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb|grep localsourcefolder`
+sed -i "/localsourcefolder/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+echo 'default[:deploycode][:gitrepo] = "'$giturl'"' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
 
 #prepare pem
 mkdir -p /home/ec2-user/.pem
@@ -72,28 +69,9 @@ echo "knife[:identity_file] = '/home/ec2-user/.pem/drucloud.pem'" >> /home/ec2-u
 
 echo "configure knife ssh success"
 	
-fi
-
 #update all chef-client using knife
 
 cd /home/ec2-user/chef11/chef-repo
 /opt/chef-server/embedded/bin/knife cookbook upload deploycode
 /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
