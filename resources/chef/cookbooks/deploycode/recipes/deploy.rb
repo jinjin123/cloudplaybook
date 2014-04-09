@@ -24,24 +24,28 @@ execute "preparesourcefolder" do
 	command "mkdir -p #{node[:deploycode][:localsourcefolder]}"
 end
 
-execute "clonecode" do
-	command "git clone  #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}"
-	not_if { ::File.directory?("#{node[:deploycode][:localsourcefolder]}/.git") }
-end
-
-execute "updatecode" do
-	command "git pull"
-	cwd "#{node[:deploycode][:localsourcefolder]}"
+script "deploycode" do
+	interpreter "bash"
+	user "root"
+	code <<-EOH
+	cd #{node[:deploycode][:localsourcefolder]}
+	export CHECK=`cat #{node[:deploycode][:localsourcefolder]}/.git/config|grep #{node[:deploycode][:gitrepo]} | wc -l`
+	if [ $CHECK -gt 0 ];then
+	git pull;
+	else
+	for x in `ls -a`
+	do
+		if [ $x != "." ] && [ $x != ".." ];
+		then
+		rm -rf $x
+		fi
+	done
+	git clone --depth 1 #{node[:deploycode][:gitrepo]} . 
+	fi
+	EOH
 end
 
 execute "lntoapache" do
 	command "rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
-end
-
-execute "enablesite" do
-	command "a2ensite default"
-end
-execute "restarthttp" do
-	command "service httpd restart"
 end
 

@@ -214,7 +214,10 @@ execute "createappuser" do
         not_if "cat /etc/passwd | grep webapp"
 end
 
+execute "enablesite" do
+        command "a2ensite default"
+end
 
 service 'apache2' do
-  action :start
+  	action :start
 end
