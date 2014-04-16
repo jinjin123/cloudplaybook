@@ -45,6 +45,10 @@ script "deploycode" do
 	EOH
 end
 
+execute "changeowner" do
+	command "chown -R webapp:apache #{node[:deploycode][:localsourcefolder]}"
+end
+
 execute "lntoapache" do
 	command "rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
 end
