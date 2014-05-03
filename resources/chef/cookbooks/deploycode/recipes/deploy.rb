@@ -42,7 +42,15 @@ script "deploycode" do
 	done
 	git clone --depth 1 #{node[:deploycode][:gitrepo]} . 
 	fi
+        git tag -a v_`date +"%Y%m%d%H%M%S"`
+        git push --tag
 	EOH
+end
+
+execute "changeowner" do
+
+	command "chown -R webapp:apache #{node[:deploycode][:localsourcefolder]}"
+
 end
 
 execute "lntoapache" do
