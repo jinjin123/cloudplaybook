@@ -23,23 +23,32 @@ do
 		*)	echo "-$opt not recognized";;
 	esac
 done
+
+if [ -e buser.txt ]
+then
+        $current_buser=`cat buser.txt`
+else
+        $current_buser="notset";
+fi
+
 echo $role > role.txt
 echo $giturl > giturl.txt
 echo $buser > buser.txt
 echo $bpwd > bpwd.tt
 echo $userpem > userpem.pem
+
 #register bitbucket key if not register yet
-if [ -e /root/.ssh/gitkey ]
+if [ -e /root/.ssh/gitkey ] && [ "$current_buser" == "$buser" ]
 then
-	echo "ssh key already registered ,skip register step" >> /var/log/deploy.log
+        echo "ssh key already registered ,skip register step" >> /var/log/deploy.log
 else
-	ssh-keygen -N '' -f gitkey
-	cp gitkey /root/.ssh/
-	cp gitkey.pub /root/.ssh/
-	chmod 600 /root/.ssh/gitkey /root/.ssh/gitkey.pub
+        ssh-keygen -N '' -f gitkey
+        cp gitkey /root/.ssh/
+        cp gitkey.pub /root/.ssh/
+        chmod 600 /root/.ssh/gitkey /root/.ssh/gitkey.pub
 #register with bitbucket
-	php register.php $buser $bpwd
-	rm -f gitkey gitkey.pub
+        php register.php $buser $bpwd
+        rm -f gitkey gitkey.pub
 fi
 
 #mv key to chef workstation
