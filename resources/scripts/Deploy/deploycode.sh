@@ -42,6 +42,11 @@ if [ -e /root/.ssh/gitkey ] && [ "$current_buser" == "$buser" ]
 then
         echo "ssh key already registered ,skip register step" >> /var/log/deploy.log
 else
+	#Remove old key if any
+	rm -f /root/.ssh/gitkey
+	rm -f /root/.ssh/gitkey.pub
+	
+	#Generate new key
         ssh-keygen -N '' -f gitkey
         cp gitkey /root/.ssh/
         cp gitkey.pub /root/.ssh/
