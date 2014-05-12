@@ -10,5 +10,3 @@ supports 'redhat'
 supports 'centos'
 supports 'amazon'
 supports 'fedora'
-
-depends "yum", "~> 2.0"
