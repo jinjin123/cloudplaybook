@@ -1,0 +1,7 @@
+metadata.json
+
+# IDE project settings
+.idea
+
+.sandbox
+.bundle
