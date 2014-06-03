@@ -36,4 +36,5 @@ default['php-fpm']['pools'] = [
     :name => "www"
   }
 ]
-
+default['php-fpm']['yum_url'] = "http://rpms.famillecollet.com/enterprise/7/remi/$basearch/"
+default['php-fpm']['yum_mirrorlist'] = "http://rpms.famillecollet.com/enterprise/7/remi/mirror"
