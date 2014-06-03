@@ -10,7 +10,7 @@
   "run_list": [
     "recipe[nginx]",
     "recipe[php]",
-    "recipe[nginx-php-fpm]"
+    "recipe[php-fpm]"
   ],
   "env_run_lists": {
   }
