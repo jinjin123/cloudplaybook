@@ -9,7 +9,7 @@
   "chef_type": "role",
   "run_list": [
     "recipe[php]",
-    "recipe[php-fpm]".
+    "recipe[php-fpm]",
     "recipe[nginx]"
   ],
   "env_run_lists": {
