@@ -31,8 +31,8 @@ when 'rhel', 'fedora'
   lib_dir = node['kernel']['machine'] =~ /x86_64/ ? 'lib64' : 'lib'
   default['php']['conf_dir']      = '/etc'
   default['php']['ext_conf_dir']  = '/etc/php.d'
-  default['php']['fpm_user']      = 'nobody'
-  default['php']['fpm_group']     = 'nobody'
+  default['php']['fpm_user']      = 'nginx'
+  default['php']['fpm_group']     = 'nginx'
   default['php']['ext_dir']       = "/usr/#{lib_dir}/php/modules"
   if node['platform_version'].to_f < 6
     default['php']['packages'] = %w{ php53 php53-devel php53-cli php-pear }
