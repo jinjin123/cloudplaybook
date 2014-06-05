@@ -118,6 +118,13 @@ else
 	php_fpm_service_name = node['php-fpm']['service_name']
 end
 
+template "/etc/nginx/sites-available/default" do
+        source "default.erb"
+        mode 0644
+        owner "root"
+        group "root"
+end
+
 service "php-fpm" do
   provider service_provider if service_provider
   service_name php_fpm_service_name
