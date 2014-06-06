@@ -35,7 +35,6 @@ listen = <%= @listen || "/var/run/php-fpm-#{@pool_name}.sock" %>
 ; Set listen(2) backlog.
 ; Default Value: 128 (-1 on FreeBSD and OpenBSD)
 ;listen.backlog = 128
-listen.backlog = -1
 
 ; Set permissions for unix socket, if one is used. In Linux, read/write
 ; permissions must be set in order to allow connections from a web server. Many
@@ -95,7 +94,7 @@ listen.allowed_clients = <%= @allowed_clients ? ([@allowed_clients].flatten.join
 ;             pm.process_idle_timeout   - The number of seconds after which
 ;                                         an idle process will be killed.
 ; Note: This value is mandatory.
-pm = <%= @process_manager || "dynamic" %>
+pm = <%= @process_manager || "ondemand" %>
 
 ; The number of child processes to be created when pm is set to 'static' and the
 ; maximum number of child processes when pm is set to 'dynamic' or 'ondemand'.
@@ -106,13 +105,13 @@ pm = <%= @process_manager || "dynamic" %>
 ; forget to tweak pm.* to fit your needs.
 ; Note: Used when pm is set to 'static', 'dynamic' or 'ondemand'
 ; Note: This value is mandatory.
-pm.max_children = <%= @max_children || 75 %>
+pm.max_children = <%= @max_children || 50 %>
 
 <% if @process_manager == "dynamic" %>
 ; The number of child processes created on startup.
 ; Note: Used only when pm is set to 'dynamic'
 ; Default Value: min_spare_servers + (max_spare_servers - min_spare_servers) / 2
-pm.start_servers = <%= @start_servers || 10 %>
+pm.start_servers = <%= @start_servers || 5 %>
 
 ; The desired minimum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
@@ -122,7 +121,7 @@ pm.min_spare_servers = <%= @min_spare_servers || 5 %>
 ; The desired maximum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.max_spare_servers = <%= @max_spare_servers || 20 %>
+pm.max_spare_servers = <%= @max_spare_servers || 35 %>
 <% end %>
 
 <% if @process_manager == "ondemand" %>
@@ -361,7 +360,7 @@ pm.max_requests = <%= @max_requests || 500 %>
 ; Note: on highloaded environement, this can cause some delay in the page
 ; process time (several ms).
 ; Default Value: no
-catch_workers_output = <%= @catch_workers_output || "no" %>
+catch_workers_output = <%= @catch_workers_output || "yes" %>
 
 ; Limits the extensions of the main script FPM will allow to parse. This can
 ; prevent configuration mistakes on the web server side. You should only limit
@@ -375,11 +374,11 @@ security.limit_extensions = <%=@security_limit_extensions || ".php" %>
 ; Pass environment variables like LD_LIBRARY_PATH. All $VARIABLEs are taken from
 ; the current environment.
 ; Default Value: clean env
-env[HOSTNAME] = $HOSTNAME
-env[PATH] = /sbin:/usr/sbin:/opt/aws/bin:/usr/local/bin:/usr/bin:/bin
-env[TMP] = /tmp
-env[TMPDIR] = /tmp
-env[TEMP] = /tmp
+; env[HOSTNAME] = $HOSTNAME
+; env[PATH] = /sbin:/usr/sbin:/opt/aws/bin:/usr/local/bin:/usr/bin:/bin
+; env[TMP] = /tmp
+; env[TMPDIR] = /tmp
+; env[TEMP] = /tmp
 
 ; Additional php.ini defines, specific to this pool of workers. These settings
 ; overwrite the values previously defined in the php.ini. The directives are the
@@ -401,10 +400,10 @@ env[TEMP] = /tmp
 ; Default Value: nothing is defined by default except the values in php.ini and
 ;                specified at startup with the -d argument
 ;php_admin_value[sendmail_path] = /usr/sbin/sendmail -t -i -f www@my.domain.com
-php_flag[display_errors] = off
-php_admin_value[error_log] = /var/log/fpm-php.www.log
-php_admin_flag[log_errors] = on
-php_admin_value[memory_limit] = 512M
+;php_flag[display_errors] = off
+;php_admin_value[error_log] = /var/log/fpm-php.www.log
+;php_admin_flag[log_errors] = on
+;php_admin_value[memory_limit] = 512M
 
 <% @php_options.each do |name,value| %>
 <%= "#{name} = #{value}" %>
