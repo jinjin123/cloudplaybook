@@ -31,14 +31,14 @@ execute "changeuserlogin" do
 end
 
 execute "preparesourcefolder" do
-        command "mkdir -p #{node['nginx']['localsourcefolder']}"
+        command "mkdir -p /opt/source/app"
 end
 
 execute "changeowner" do
-        command "chown -R nginx:nginx #{node['nginx']['localsourcefolder']}"
+        command "chown -R nginx:nginx /opt/source/app"
 end
 
 execute "lntoapache" do
-        command "mkdir -p /var/www/html;rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
+        command "mkdir -p /var/www/html;rm -rf /var/www/html;ln -sf /opt/source/app /var/www/html"
 end
 
