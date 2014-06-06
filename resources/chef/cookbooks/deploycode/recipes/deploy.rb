@@ -53,10 +53,17 @@ script "deploycode" do
         EOH
 end
 
-execute "changeowner" do
-
-	command "chown -R webapp:apache #{node[:deploycode][:localsourcefolder]}"
-
+script "changeowner" do
+        interpreter "bash"
+        user "root"
+        code <<-EOH
+        export CHECK=`cat /etc/passwd | grep webapp | wc -l`
+        if [ $CHECK -gt 0 ];then
+        chown -R webapp:apache #{node[:deploycode][:localsourcefolder]};
+        else 
+        chown -R nginx:nginx #{node[:deploycode][:localsourcefolder]};
+        fi
+        EOH
 end
 
 execute "lntoapache" do

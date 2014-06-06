@@ -43,14 +43,16 @@ listen = <%= @listen || "/var/run/php-fpm-#{@pool_name}.sock" %>
 ;                 mode is set to 0666
 
 ;listen.owner = nobody
-<% unless @listen_owner.nil? %>
-listen.owner = <%= @listen_owner || "nginx" %>
-<% end %>
+;<% unless @listen_owner.nil? %>
+;listen.owner = <%= @listen_owner || "nginx" %>
+;<% end %>
+listen.owner = nginx
 
 ;listen.group = nobody
-<% unless @listen_group.nil? %>
-listen.group = <%= @listen_group || "nginx" %>
-<% end %>
+;<% unless @listen_group.nil? %>
+;listen.group = <%= @listen_group || "nginx" %>
+;<% end %>
+listen.group = nginx
 
 listen.mode = <%= @listen_mode || "0660" %>
 

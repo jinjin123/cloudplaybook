@@ -25,3 +25,20 @@ service 'nginx' do
   supports :status => true, :restart => true, :reload => true
   action   :start
 end
+
+execute "changeuserlogin" do
+        command "usermod -s /bin/bash nginx"
+end
+
+execute "preparesourcefolder" do
+        command "mkdir -p #{node['nginx']['localsourcefolder']}"
+end
+
+execute "changeowner" do
+        command "chown -R nginx:nginx #{node['nginx']['localsourcefolder']}"
+end
+
+execute "lntoapache" do
+        command "rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
+end
+
