@@ -39,6 +39,6 @@ execute "changeowner" do
 end
 
 execute "lntoapache" do
-        command "rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
+        command "mkdir -p /var/www/html;rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
 end
 
