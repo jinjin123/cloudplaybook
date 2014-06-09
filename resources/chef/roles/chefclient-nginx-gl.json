@@ -9,8 +9,9 @@
   "chef_type": "role",
   "run_list": [
     "recipe[basicservice]",
-    "recipe[nginx]",
     "recipe[php]",
+    "recipe[php-fpm]",
+    "recipe[nginx]",
     "recipe[diskmount]"
   ],
   "env_run_lists": {

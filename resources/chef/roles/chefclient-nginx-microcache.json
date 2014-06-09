@@ -1,5 +1,5 @@
 {
-"name": "chefclient-nginx",
+"name": "chefclient-nginx-microcache",
   "description": "",
   "json_class": "Chef::Role",
   "default_attributes": {
