@@ -32,9 +32,9 @@ script "insert" do
         interpreter "bash"
         user "root"
         code <<-EOH
-            tail -r /root/locationphp.txt > /root/re_locationphp.txt
-            tail -r /root/server.txt > /root/re_server.txt
-            tail -r /root/header.txt > /root/re_header.txt
+            tac /root/locationphp.txt > /root/re_locationphp.txt
+            tac /root/server.txt > /root/re_server.txt
+            tac /root/header.txt > /root/re_header.txt
 
             while read line
             do
