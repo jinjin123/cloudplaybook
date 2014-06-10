@@ -38,17 +38,17 @@ script "insert" do
 
             while read line
             do
-            sed '20 i $line' /etc/nginx/sites-available/default
+            sed -i "20i\ $line" /etc/nginx/sites-available/default
             done < /root/re_locationphp.txt
 
             while read line
             do
-            sed '7 i $line' /etc/nginx/sites-available/default
+            sed -i "7i\ $line" /etc/nginx/sites-available/default
             done < /root/re_server.txt
 
             while read line
             do
-            sed '1 i $line' /etc/nginx/sites-available/default
+            sed -i "1i\ $line" /etc/nginx/sites-available/default
             done < /root/re_header.txt
 
             rm /root/*.txt           
