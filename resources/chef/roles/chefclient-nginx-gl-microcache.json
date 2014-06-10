@@ -1,0 +1,20 @@
+{
+"name": "chefclient-nginx-gl-microcache",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[basicservice]",
+    "recipe[php]",
+    "recipe[php-fpm]",
+    "recipe[nginx]",
+    "recipe[microcache]",
+    "recipe[diskmount]"
+  ],
+  "env_run_lists": {
+  }
+}
