@@ -25,7 +25,7 @@ do
 done
 
 # Get the SQL file from S3
-/usr/bin/s3cmd get "s3://gamecloud-"$region"/"$file_id ./sql
+/usr/bin/s3cmd get "s3://gamecloud-"$region"/"$file_id ./sql --force
 
 # Apply the SQL file to mySQL DB
 /usr/bin/mysql -h $db_address -u $db_name "-p"$db_passwd < "./sql/"$file_id
