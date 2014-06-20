@@ -10,10 +10,8 @@ db_address=
 db_name=
 db_user=
 db_passwd=
-aws_key_id=
-aws_key_secret=
 
-while getopts r:f:d:n:m:w:k:s: opt
+while getopts r:f:d:n:m:w: opt
 do
         case $opt in
                 r)      region=$OPTARG;;
@@ -22,17 +20,9 @@ do
                 n)      db_name=$OPTARG;;
                 m)      db_user=$OPTARG;;
                 w)      db_passwd=$OPTARG;;
-                k)      aws_key_id=$OPTARG;;
-                s)      aws_key_secret=$OPTARG;;
                 *)      echo "-$opt not recognized";;
         esac
 done
-
-# Config AWS command line
-echo "[default]" > /root/.aws/config
-echo "aws_access_key_id = "$aws_key_id >> /root/.aws/config
-echo "aws_secret_access_key = "$aws_key_secret
-echo "region  = "$region
 
 # Get the SQL file from S3
 /usr/bin/s3cmd get "s3://gamecloud-"$region"/"$file_id ./sql
