@@ -21,7 +21,7 @@ do
                 n)      db_name=$OPTARG;;
                 m)      db_user=$OPTARG;;
                 w)      db_passwd=$OPTARG;;
-                l)      way=$OPTARG
+                l)      way=$OPTARG;;
                 *)      echo "-$opt not recognized";;
         esac
 done
