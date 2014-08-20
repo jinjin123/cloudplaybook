@@ -136,5 +136,5 @@ if node['php-fpm']['pools']
 end
 
 execute "change_limit" do
-  cwd "echo 'memory_limit = 512M ;' >> /etc/php.ini"
+  command "echo 'memory_limit = 512M ;' >> /etc/php.ini"
 end
