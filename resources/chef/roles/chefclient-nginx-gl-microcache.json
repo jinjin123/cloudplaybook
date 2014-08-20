@@ -13,7 +13,8 @@
     "recipe[php-fpm]",
     "recipe[nginx]",
     "recipe[microcache]",
-    "recipe[diskmount]"
+    "recipe[diskmount]",
+    "recipe[composer]"
   ],
   "env_run_lists": {
   }

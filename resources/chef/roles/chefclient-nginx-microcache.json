@@ -11,7 +11,8 @@
     "recipe[php]",
     "recipe[php-fpm]",
     "recipe[nginx]",
-    "recipe[microcache]"
+    "recipe[microcache]",
+    "recipe[composer]"
   ],
   "env_run_lists": {
   }

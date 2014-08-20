@@ -10,7 +10,8 @@
   "run_list": [
     "recipe[php]",
     "recipe[php-fpm]",
-    "recipe[nginx]"
+    "recipe[nginx]",
+    "recipe[composer]"
   ],
   "env_run_lists": {
   }
