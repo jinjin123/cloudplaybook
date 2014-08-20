@@ -23,4 +23,7 @@ server {
   location = /50x.html {
     root   <%= node['nginx']['default_root'] %>;
   }
+  location ~ ^/system/files/styles/ {
+    try_files $uri @rewrite;
+  }
 }
