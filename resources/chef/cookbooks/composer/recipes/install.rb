@@ -4,6 +4,7 @@ script "install" do
         code <<-EOH
         cd /root
         curl -sS https://getcomposer.org/installer | php
+	mv composer.phar /usr/local/bin/composer
         composer global require drush/drush:6.*
         sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
         source $HOME/.bashrc
