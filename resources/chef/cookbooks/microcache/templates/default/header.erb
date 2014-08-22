@@ -1,4 +1,4 @@
-fastcgi_cache_path /dev/shm/microcache levels=1:2 keys_zone=microcache:5M max_size=256M inactive=2h;
+fastcgi_cache_path /dev/shm/microcache levels=1:2 keys_zone=MYAPP:5M max_size=256M inactive=2h;
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
 add_header X-Cache $upstream_cache_status;
 

@@ -4,32 +4,12 @@ server {
   access_log  <%= node['nginx']['log_dir'] %>/access.log;
   error_log  <%= node['nginx']['log_dir'] %>/error.log;
 
-#Cache everything by default
-set $no_cache 0;
-#Don't cache POST requests
-if ($request_method = POST)
-{
-set $no_cache 1;
-}
-#Don't cache if the URL contains a query string
-if ($query_string != "")
-{    set $no_cache 1;
-}
-#Don't cache the following URLs
-if ($request_uri ~* "/(administrator/|login.php)")
-{
-set $no_cache 1;
-}
-#Don't cache if there is a cookie called PHPSESSID
-if ($http_cookie = "PHPSESSID")
-{
-set $no_cache 1;
-}
 
   location = /favicon.ico {
     log_not_found off;
     access_log off;
   }
+
   location = /robots.txt {
     allow all;
     log_not_found off;
@@ -60,6 +40,7 @@ set $no_cache 1;
     # Else this rewrite block wouldn't be needed (GlobalRedirect)
     rewrite ^/(.*)$ /index.php?q=$1;
   }
+
   location ~ \.php$ {
     fastcgi_split_path_info ^(.+\.php)(/.+)$;
     #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
@@ -73,9 +54,7 @@ set $no_cache 1;
     fastcgi_no_cache $no_cache;
 
     # Set cache key to include identifying components
-    fastcgi_cache_key $cache_uid@$host$request_uri;
 
-    fastcgi_cache_valid 200 301 15s;
     fastcgi_cache_valid 302     1m;
     fastcgi_cache_valid 404     1s;
     fastcgi_cache_min_uses 1;
