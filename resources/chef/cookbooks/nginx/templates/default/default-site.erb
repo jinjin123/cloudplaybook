@@ -49,9 +49,7 @@ server {
     fastcgi_intercept_errors on;
     fastcgi_pass unix:/var/run/php-fpm-www.sock;
 
-    fastcgi_cache off;
-    fastcgi_cache_bypass $no_cache;
-    fastcgi_no_cache $no_cache;
+
 
     # Set cache key to include identifying components
 

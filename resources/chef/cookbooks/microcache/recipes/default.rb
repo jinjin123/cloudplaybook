@@ -38,7 +38,7 @@ script "insert" do
 
             while read line
             do
-            sed -i "44i\ $line" /etc/nginx/sites-available/default
+            sed -i "52i\ $line" /etc/nginx/sites-available/default
             done < /root/re_locationphp.txt
 
             while read line
