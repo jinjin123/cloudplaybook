@@ -139,6 +139,6 @@ bash "change_limit" do
   user "root"
   cwd "/root"
   code <<-EOH
-  echo "memory_limit = 512M ;" >> /etc/php.ini
+  echo "memory_limit = 768M ;" >> /etc/php.ini
   EOH
 end
