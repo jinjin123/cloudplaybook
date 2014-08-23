@@ -19,6 +19,11 @@
 # limitations under the License.
 #
 
+#Make sure port 80 is not in use
+service "httpd" do
+        action :stop 
+end
+
 include_recipe "nginx::#{node['nginx']['install_method']}"
 
 service 'nginx' do
