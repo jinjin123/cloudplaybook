@@ -30,11 +30,11 @@ end
 
 bash "install_mongo" do
   user "root"
-  cwd "~"
+  cwd "/root"
   code <<-EOH
-  mkdir ~/mongo-php-driver
-  git clone https://github.com/mongodb/mongo-php-driver.git ~/mongo-php-driver
-  cd ~/mongo-php-driver
+  mkdir /root/mongo-php-driver
+  git clone https://github.com/mongodb/mongo-php-driver.git /root/mongo-php-driver
+  cd /root/mongo-php-driver
   phpize
   ./configure
   make
