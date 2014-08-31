@@ -21,11 +21,24 @@ if platform?("amazon")
   end
 end
 
-pkgs = [ 'mysql', 'php-pecl-mongo', 'php-pecl-memcached', 'php-cli', 'php-gd', 'php-mbstring', 'php-mcrypt', 'php-pdo', 'php-xml', 'php-xmlrpc', 'php-mysql','php-pear','php-devel','zlib-devel','libevent','libevent-devel' ]
+pkgs = [ 'mysql', 'php-pecl-memcached', 'php-cli', 'php-gd', 'php-mbstring', 'php-mcrypt', 'php-pdo', 'php-xml', 'php-xmlrpc', 'php-mysql','php-pear','php-devel','zlib-devel','libevent','libevent-devel' ]
 pkgs.each do |pkg|
   package pkg do
     action :install
   end
+end
+
+bash "install_mongo" do
+  user "root"
+  cwd "~"
+  code <<-EOH
+  git clone https://github.com/mongodb/mongo-php-driver.git
+  cd mongo-php-driver
+  phpize
+  ./configure
+  make
+  make install
+  EOH
 end
 
 service "httpd" do
