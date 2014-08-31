@@ -32,8 +32,9 @@ bash "install_mongo" do
   user "root"
   cwd "~"
   code <<-EOH
-  git clone https://github.com/mongodb/mongo-php-driver.git
-  cd mongo-php-driver
+  mkdir ~/mongo-php-driver
+  git clone https://github.com/mongodb/mongo-php-driver.git ~/mongo-php-driver
+  cd ~/mongo-php-driver
   phpize
   ./configure
   make
