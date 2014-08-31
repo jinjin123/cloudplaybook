@@ -34,8 +34,8 @@ end
 #  action :install
 #end
 
-php_pear "mongo" do
-  action :install
-end
+#php_pear "mongo" do
+#  action :install
+#end
 
 include_recipe "php::ini"
