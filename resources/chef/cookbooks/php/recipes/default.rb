@@ -30,9 +30,9 @@ php_pear_channel 'pecl.php.net' do
   action :update
 end
 
-php_pear "memcache" do
-  action :install
-end
+#php_pear "memcache" do
+#  action :install
+#end
 
 php_pear "mongo" do
   action :install
