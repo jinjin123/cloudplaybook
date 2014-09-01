@@ -30,12 +30,9 @@ php_pear_channel 'pecl.php.net' do
   action :update
 end
 
-#php_pear "memcache" do
-#  action :install
-#end
-
-#php_pear "mongo" do
-#  action :install
-#end
+php_pear "apc" do
+  action :install
+  directives(:shm_size => 128, :enable_cli => 1)
+end
 
 include_recipe "php::ini"
