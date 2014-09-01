@@ -140,5 +140,6 @@ bash "change_limit" do
   cwd "/root"
   code <<-EOH
   echo "memory_limit = 768M ;" >> /etc/php.ini
+  echo "request_terminate_timeout = 40" >> /etc/php-fpm.d/www.conf
   EOH
 end
