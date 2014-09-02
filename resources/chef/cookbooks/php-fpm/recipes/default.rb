@@ -139,11 +139,12 @@ bash "change_limit" do
   user "root"
   cwd "/root"
   code <<-EOH
-  sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php.ini
+  sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php.ini
   sed -i 's/pm = .*/pm = dynamic/' /etc/php-fpm.d/www.conf
   sed -i 's/pm.max_children = .*/pm.max_children = 50/' /etc/php-fpm.d/www.conf
   sed -ie '108a\pm.max_spare_servers = 10' /etc/php-fpm.d/www.conf
   sed -ie '108a\pm.min_spare_servers = 4' /etc/php-fpm.d/www.conf
   sed -ie '108a\pm.start_servers = 4' /etc/php-fpm.d/www.conf
+  echo "request_terminate_timeout = 40" >> /etc/php-fpm.d/www.conf
   EOH
 end
