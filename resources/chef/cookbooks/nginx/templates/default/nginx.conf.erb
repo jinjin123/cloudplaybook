@@ -36,7 +36,6 @@ http {
   <% if node['nginx']['server_tokens'] -%>
   server_tokens <%= node['nginx']['server_tokens'] %>;
   <% end -%>
-
   sendfile <%= node['nginx']['sendfile'] %>;
   tcp_nopush on;
   tcp_nodelay on;

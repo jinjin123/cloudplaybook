@@ -28,3 +28,10 @@ template "#{node['php']['conf_dir']}/php.ini" do
 	end
 	variables(:directives => node['php']['directives'])
 end
+
+template "/etc/php.d/apc.ini" do
+        source "apc.ini.erb"
+        mode 0644
+        owner "root"
+        group "root"
+end
