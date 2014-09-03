@@ -19,6 +19,13 @@
 # limitations under the License.
 #
 
+template "/etc/php.d/apc.ini" do
+        source "apc.ini.erb"
+        mode "0644"
+        owner "root"
+        group "root"
+end
+
 include_recipe "php::#{node['php']['install_method']}"
 
 # update the main channels
