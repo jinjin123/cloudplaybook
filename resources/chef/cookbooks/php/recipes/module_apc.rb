@@ -28,10 +28,16 @@ when 'rhel', 'fedora'
   end
   php_pear 'APC' do
     action :install
-    directives(:shm_size => '128M', :enable_cli => 0)
   end
 when 'debian'
   package 'php-apc' do
     action :install
   end
+end
+
+template "/etc/php.d/apc.ini" do
+        source "apc.ini.erb"
+        mode 0644
+        owner "root"
+        group "root"
 end
