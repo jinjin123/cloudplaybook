@@ -1,9 +1,3 @@
-#
-# Author::  Joshua Timberman (<joshua@opscode.com>)
-# Author::  Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: php
-# Recipe:: module_apc
-#
 # Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,18 +13,9 @@
 # limitations under the License.
 #
 
-case node['platform_family']
-when 'rhel', 'fedora'
-  %w{ httpd-devel pcre pcre-devel }.each do |pkg|
-    package pkg do
-      action :install
-    end
-  end
-  php_pear 'APC' do
-    action :install
-  end
-when 'debian'
-  package 'php-apc' do
-    action :install
-  end
+template "/etc/php.d/apc.ini" do
+        source "apc.ini.erb"
+        mode 0644
+        owner "root"
+        group "root"
 end

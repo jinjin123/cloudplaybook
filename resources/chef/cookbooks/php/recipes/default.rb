@@ -32,7 +32,8 @@ end
 
 php_pear "apc" do
   action :install
-  directives(:shm_size => 128, :enable_cli => 1)
+  directives(:enable_cli => 1)
 end
 
 include_recipe "php::ini"
+include_recipe "php::apc"
