@@ -1,5 +1,5 @@
 
 #source configuration
-default[:deploycode][:gitrepo] = "xxxxxxxx"
+default[:deploycode][:gitrepo] = "git@bitbucket.org:chankongching/bootdev_welcome.git"
 default[:deploycode][:localsourcefolder] = "/opt/source/app"
 
