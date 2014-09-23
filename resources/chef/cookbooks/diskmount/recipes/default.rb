@@ -9,11 +9,11 @@
 #
 #
 execute "preparemountdir" do
-	command "mkdir -p #{node[:diskmount][:localsourcefolder]}/shares"
+	command "mkdir -p #{node[:diskmount][:localsourcefolder]}/../shares"
 end
 
 execute "mountvolume" do
-	command "echo '#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]} #{node[:diskmount][:localsourcefolder]}/shares glusterfs defaults 0 0' >>/etc/fstab;mount -a"
+	command "echo '#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]} #{node[:diskmount][:localsourcefolder]}/../shares glusterfs defaults 0 0' >>/etc/fstab;mount -a"
 	not_if "cat /proc/mounts | grep glusterfs"
 end
 
