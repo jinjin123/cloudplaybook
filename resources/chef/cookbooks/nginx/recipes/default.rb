@@ -36,7 +36,7 @@ execute "changeuserlogin" do
 end
 
 execute "preparesourcefolder" do
-        command "mkdir -p /opt/source/app"
+        command "if [ -d '/opt/source/app' ];then mkdir -p /opt/source/app;fi"
 end
 
 execute "changeowner" do
@@ -44,6 +44,6 @@ execute "changeowner" do
 end
 
 execute "lntoapache" do
-        command "mkdir -p /var/www/html;rm -rf /var/www/html;ln -sf /opt/source/app /var/www/html"
+        command "if [ -d '/var/www/html' ];then ln -sf /opt/source/app /var/www/html;fi"
 end
 
