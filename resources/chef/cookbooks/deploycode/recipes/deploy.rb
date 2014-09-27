@@ -67,6 +67,6 @@ script "changeowner" do
 end
 
 execute "lntoapache" do
-	command "rm -rf /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
+	command "unlink /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
 end
 
