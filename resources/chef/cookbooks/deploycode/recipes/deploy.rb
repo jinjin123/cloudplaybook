@@ -46,7 +46,7 @@ script "deploycode" do
                 rm -rf $x
                 fi
         done
-        git clone --depth 1 #{node[:deploycode][:gitrepo]} .
+        export CHECK2=`git clone --depth 1 #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}` 
         fi
         git tag -a v_`date +"%Y%m%d%H%M%S"` -m 'Code Deploy'
         git push --tag
