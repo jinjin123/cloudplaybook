@@ -28,7 +28,6 @@ script "deploycode" do
         interpreter "bash"
         user "root"
         code <<-EOH
-        chmod 755 /root
         cd #{node[:deploycode][:localsourcefolder]}
         export CHECK=`cat #{node[:deploycode][:localsourcefolder]}/.git/config|grep #{node[:deploycode][:gitrepo]} | wc -l`
         if [[ #{node[:deploycode][:gitrepo]} == rollback* ]] ;
@@ -39,6 +38,8 @@ script "deploycode" do
         fi
         if [ $CHECK -gt 0 ];then
         git pull;
+        git tag -a v_`date +"%Y%m%d%H%M%S"` -m 'Code Deploy'
+        git push --tag
         else
         for x in `ls -a`
         do
@@ -47,10 +48,8 @@ script "deploycode" do
                 rm -rf $x
                 fi
         done
-        export CHECK2=`git clone --depth 1 #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}` 
+        git clone --depth 1 #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}
         fi
-        git tag -a v_`date +"%Y%m%d%H%M%S"` -m 'Code Deploy'
-        git push --tag
         EOH
 end
 
