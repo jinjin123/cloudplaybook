@@ -28,6 +28,7 @@ script "deploycode" do
         interpreter "bash"
         user "root"
         code <<-EOH
+        chmod 755 /root
         cd #{node[:deploycode][:localsourcefolder]}
         export CHECK=`cat #{node[:deploycode][:localsourcefolder]}/.git/config|grep #{node[:deploycode][:gitrepo]} | wc -l`
         if [[ #{node[:deploycode][:gitrepo]} == rollback* ]] ;
