@@ -65,8 +65,3 @@ script "changeowner" do
         fi
         EOH
 end
-
-execute "lntoapache" do
-	command "unlink /var/www/html;ln -sf #{node[:deploycode][:localsourcefolder]} /var/www/html"
-end
-

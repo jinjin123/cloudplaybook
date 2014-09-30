@@ -29,7 +29,7 @@ default['nginx']['dir']          = '/etc/nginx'
 default['nginx']['script_dir']   = '/usr/sbin'
 default['nginx']['log_dir']      = '/var/log/nginx'
 default['nginx']['binary']       = '/usr/sbin/nginx'
-default['nginx']['default_root'] = '/opt/source/app'
+default['nginx']['default_root'] = '/var/www/html'
 
 case node['platform_family']
 when 'debian'
@@ -100,4 +100,4 @@ default['nginx']['types_hash_bucket_size'] = 64
 default['nginx']['proxy_read_timeout']      = nil
 default['nginx']['client_body_buffer_size'] = nil
 default['nginx']['client_max_body_size']    = '64M' 
-default['nginx']['localsourcefolder'] = '/opt/source/app'
+default['nginx']['localsourcefolder'] = '/var/www/html'

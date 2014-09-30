@@ -36,14 +36,14 @@ execute "changeuserlogin" do
 end
 
 execute "preparesourcefolder" do
-        command "if [ -d '/opt/source/app' ];then mkdir -p /opt/source/app;fi"
+        command "if [ ! -d '/var/www/html' ];then mkdir -p /var/www/html;fi"
 end
 
 execute "changeowner" do
-        command "chown -R nginx:nginx /opt/source/app"
+        command "chown -R nginx:nginx /var/www/html"
 end
 
-execute "lntoapache" do
-        command "if [ -d '/var/www/html' ];then ln -sf /opt/source/app /var/www/html;fi"
-end
+#execute "lntoapache" do
+#        command "if [ ! -d '/var/www/html' ];then ln -sf /opt/source/app /var/www/html;fi"
+#end
 
