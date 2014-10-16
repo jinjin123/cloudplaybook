@@ -14,7 +14,8 @@
     "recipe[php-fpm]",
     "recipe[nginx]",
     "recipe[diskmount]",
-    "recipe[composer]"
+    "recipe[composer]",
+    "recipe[deploycode]"
   ],
   "env_run_lists": {
   }
