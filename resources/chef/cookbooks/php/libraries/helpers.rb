@@ -1,10 +1,9 @@
 #
 # Author::  Joshua Timberman (<joshua@opscode.com>)
-# Author::  Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: php
-# Recipe:: default
+# Libraries:: helpers
 #
-# Copyright 2009-2011, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,21 +18,6 @@
 # limitations under the License.
 #
 
-include_recipe "php::#{node['php']['install_method']}"
-
-# update the main channels
-php_pear_channel 'pear.php.net' do
-  action :update
+def el5_range
+  (0..99).to_a.map { |i| "5.#{i}" }
 end
-
-php_pear_channel 'pecl.php.net' do
-  action :update
-end
-
-php_pear "apc" do
-  action :install
-  directives(:enable_cli => 1)
-end
-
-include_recipe "php::ini"
-include_recipe "php::apc"

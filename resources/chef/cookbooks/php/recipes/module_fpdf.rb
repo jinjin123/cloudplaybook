@@ -2,7 +2,7 @@
 # Author::  Joshua Timberman (<joshua@opscode.com>)
 # Author::  Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: php
-# Recipe:: default
+# Recipe:: module_fpdf
 #
 # Copyright 2009-2011, Opscode, Inc.
 #
@@ -19,21 +19,17 @@
 # limitations under the License.
 #
 
-include_recipe "php::#{node['php']['install_method']}"
-
-# update the main channels
-php_pear_channel 'pear.php.net' do
-  action :update
+case node['platform_family']
+when 'rhel', 'fedora'
+  pearhub_chan = php_pear_channel 'pearhub.org' do
+    action :discover
+  end
+  php_pear 'FPDF' do
+    channel pearhub_chan.channel_name
+    action :install
+  end
+when 'debian'
+  package 'php-fpdf' do
+    action :install
+  end
 end
-
-php_pear_channel 'pecl.php.net' do
-  action :update
-end
-
-php_pear "apc" do
-  action :install
-  directives(:enable_cli => 1)
-end
-
-include_recipe "php::ini"
-include_recipe "php::apc"
