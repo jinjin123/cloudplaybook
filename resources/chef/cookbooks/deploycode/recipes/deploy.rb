@@ -63,5 +63,7 @@ script "changeowner" do
         else 
         chown -R nginx:nginx #{node[:deploycode][:localsourcefolder]};
         fi
+        service php-fpm restart|| true
+        service nginx restart|| true
         EOH
 end
