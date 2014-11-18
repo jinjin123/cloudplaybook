@@ -1,16 +1,18 @@
-name             'activelamp_drupal'
-maintainer       'Bez Hermoso, ActiveLAMP'
-maintainer_email 'bez@activelamp.com'
-license          'Apache v2.0'
-description      'Cookbook for deploying Drupal websites and for installing Drush'
-long_description 'Provides the `drupal_make` resource for Drupal deploys, and the `drupal_make::drush` recipe.'
-version          '0.0.4'
+name             'drush'
+maintainer       "Mark Sonnabaum"
+maintainer_email "mark.sonnabaum@acquia.com"
+license          "Apache 2.0"
+description      "Installs drush, the Drupal Shell."
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
+version          "0.10.0"
+depends          "php", ">= 0.99.0"
+recommends       "git"
 
-provides 'activelamp_drupal::drush'
-provides 'drupal_make[/path/to/deploy]'
+recipe           "drush",       "Installs Drush and dependencies."
+recipe           "drush::pear", "Installs Drush via PEAR."
+recipe           "drush::git",  "Installs Drush via Git (drupal.org repository)"
+recipe           "drush::make", "Installs Drush Make via Drush. NOT required for Drush 5."
 
-recommends 'activelamp_composer'
-
-supports 'ubuntu'
-supports 'debian'
-supports 'redhat'
+%w{ debian ubuntu centos redhat }.each do |os|
+  supports os
+end
