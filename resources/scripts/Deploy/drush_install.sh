@@ -27,8 +27,12 @@ do
 	esac
 done
 
+sudo su;mv /home/ec2-user/bitbucket /root/.ssh/bitbucket 
 cd ~
 mkdir -p drucloudaws
 git clone --depth 1 $giturl drucloudaws >> $LOG
-drush site-install drucloud --db-url=mysql://$db_username:$db_password@$db_address/$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG
-echo "$conf['file_default_scheme'] = 'public';" >> sites/drucloudaws/settings.php 
+/root/.composer/vendor/bin/drush site-install drucloud --db-url=mysql://$db_username:$db_password@$db_address/$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG
+if [ -f $FILE ];
+then
+echo "$conf['file_default_scheme'] = 'public';" >> sites/drucloudaws/settings.php
+fi 
