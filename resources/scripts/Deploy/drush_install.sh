@@ -1,5 +1,6 @@
 #!/bin/bash
-LOG=run.log
+echo date >> /root/runtime.txt
+LOG=/root/run.log
 export HOME=/root
 cd /opt/dep
 #bitbucket username
@@ -27,14 +28,14 @@ do
 done
 
 sudo su;mv /home/ec2-user/bitbucket /root/.ssh/bitbucket 
-cd ~
-mkdir -p drucloudaws
-git clone --depth 1 $giturl drucloudaws >> $LOG
-cd ~/drucloudaws/
+cd /root
+mkdir -p /root/drucloudaws
+git clone --depth 1 $giturl /root/drucloudaws >> $LOG
+cd /root/drucloudaws/
 /root/.composer/vendor/bin/drush site-install drucloud --db-url=mysql://$db_username:$db_password@$db_address/$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG
 if [ -f sites/default/settings.php ];
 then
-echo "$conf['file_default_scheme'] = 'public';" >> sites/default/settings.php
+echo '$'"conf['file_default_scheme'] = 'public';" >> sites/default/settings.php
 fi
 cd ~/drucloudaws/sites/default
-/root/.composer/vendor/bin/drush cc all  
+/root/.composer/vendor/bin/drush cc all
