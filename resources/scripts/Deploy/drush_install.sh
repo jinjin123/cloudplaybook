@@ -12,12 +12,11 @@ bpwd=
 userpem=
 role=
 
-while getopts u:p:k:g:d:l:a:b: opt
+while getopts u:p:g:d:l:a:b: opt
 do
 	case $opt in
 		u)	buser=$OPTARG;;
 		p)	bpwd=$OPTARG;;
-		k)	userpem=$OPTARG;;
 		g)	giturl=$OPTARG;;
 		d)      db_address=$OPTARG;;
 		l)      db_name=$OPTARG;;
@@ -31,8 +30,9 @@ sudo su;mv /home/ec2-user/bitbucket /root/.ssh/bitbucket
 cd ~
 mkdir -p drucloudaws
 git clone --depth 1 $giturl drucloudaws >> $LOG
+cd ~/drucloudaws/
 /root/.composer/vendor/bin/drush site-install drucloud --db-url=mysql://$db_username:$db_password@$db_address/$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG
-if [ -f $FILE ];
+if [ -f sites/default/settings.php ];
 then
-echo "$conf['file_default_scheme'] = 'public';" >> sites/drucloudaws/settings.php
+echo "$conf['file_default_scheme'] = 'public';" >> sites/default/settings.php
 fi 
