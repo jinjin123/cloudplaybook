@@ -35,4 +35,6 @@ cd ~/drucloudaws/
 if [ -f sites/default/settings.php ];
 then
 echo "$conf['file_default_scheme'] = 'public';" >> sites/default/settings.php
-fi 
+fi
+cd ~/drucloudaws/sites/default
+/root/.composer/vendor/bin/drush cc all  
