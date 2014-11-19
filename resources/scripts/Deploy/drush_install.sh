@@ -1,5 +1,5 @@
 #!/bin/bash
-echo date >> /root/runtime.txt
+echo `date` >> /root/runtime.txt
 LOG=/root/run.log
 export HOME=/root
 cd /opt/dep
