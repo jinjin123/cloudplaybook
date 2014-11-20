@@ -88,4 +88,4 @@ echo "configure knife ssh success"
 cd /home/ec2-user/chef11/chef-repo
 /opt/chef-server/embedded/bin/knife cookbook upload deploycode
 /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"
-
+/opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[drupalsetting]'"
