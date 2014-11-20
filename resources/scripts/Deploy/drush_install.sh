@@ -40,3 +40,4 @@ echo '$'"conf['file_default_scheme'] = 'public';" >> sites/default/settings.php
 fi
 cd ~/drucloudaws/sites/default
 /root/.composer/vendor/bin/drush cc all
+cp /root/drucloudaws/sites/default/settings.php /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php.rb
