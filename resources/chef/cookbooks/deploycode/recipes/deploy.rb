@@ -48,7 +48,7 @@ script "deploycode" do
                 rm -rf $x
                 fi
         done
-        git clone --depth 1 #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}
+        n=0;until [ $n -ge 5 ];do git clone --depth 1 #{node[:deploycode][:gitrepo]} #{node[:deploycode][:localsourcefolder]}; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;
         fi
         EOH
 end
