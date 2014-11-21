@@ -40,7 +40,7 @@ echo '$'"conf['file_default_scheme'] = 'public';" >> sites/default/settings.php
 fi
 cd ~/drucloudaws/sites/default
 /root/.composer/vendor/bin/drush cc all
-cp /root/drucloudaws/sites/default/settings.php /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php.rb
+cp /root/drucloudaws/sites/default/settings.php /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 cd /home/ec2-user/chef11/chef-repo/cookbooks
