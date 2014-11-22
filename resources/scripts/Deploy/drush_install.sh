@@ -37,7 +37,7 @@ cd /root/drucloudaws/
 /root/.composer/vendor/bin/drush site-install drucloud "--db-url=mysql://"$db_username":"$db_password"@"$db_address"/"$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG
 if [ -f sites/default/settings.php ];
 then
-echo '$'"conf['file_default_scheme'] = 'public';" >> sites/default/settings.php
+if [ `grep -R "file_default_scheme" sites/default/settings.php | wc -l` -ne 0 ];then echo '$'"conf['file_default_scheme'] = 'public';" >> sites/default/settings.php;fi
 fi
 cd ~/drucloudaws/sites/default
 /root/.composer/vendor/bin/drush cc all
