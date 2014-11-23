@@ -35,9 +35,9 @@ when 'rhel', 'fedora'
   default['php']['fpm_group']     = 'nobody'
   default['php']['ext_dir']       = "/usr/#{lib_dir}/php/modules"
   if node['platform_version'].to_f < 6
-    default['php']['packages'] = %w{ php55 php55-pdo php55-snmp php55-soap php55-mysqlnd php55-devel }
+    default['php']['packages'] = %w{ php53 php53-devel php53-cli php-pear }
   else
-    default['php']['packages'] = %w{ php55 php55-pdo php55-snmp php55-soap php55-mysqlnd php55-devel }
+    default['php']['packages'] = %w{ php php-devel php-cli php-pear }
   end
 when 'debian'
   default['php']['conf_dir']      = '/etc/php5/cli'
