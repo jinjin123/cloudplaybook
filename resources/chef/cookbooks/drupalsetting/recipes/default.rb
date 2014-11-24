@@ -14,4 +14,9 @@ template "/var/www/html/sites/default/settings.php" do
         action :create_if_missing
 end
 
-
+directory "/var/www/html/sites/default/files" do
+        owner 'nginx'
+        group 'nginx'
+        mode '0777'
+        action :create
+end
