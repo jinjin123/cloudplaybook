@@ -28,8 +28,9 @@ do
 	esac
 done
 
-sudo su;mv /home/ec2-user/bitbucket /root/.ssh/bitbucket 
+sudo su;if [ -f /home/ec2-user/bitbucket ];then cp /home/ec2-user/bitbucket /root/.ssh/bitbucket;fi 
 cd /root
+chmod 400 /root/.ssh/bitbucket
 ssh -i /root/.ssh/bitbucket -o StrictHostKeyChecking=no git@bitbucket.org||true
 mkdir -p /root/drucloudaws
 git clone --depth 1 $giturl /root/drucloudaws >> $LOG
