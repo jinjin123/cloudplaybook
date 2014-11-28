@@ -42,8 +42,8 @@ if [ `grep -R "file_default_scheme" sites/default/settings.php | wc -l` -ne 0 ];
 fi
 cd ~/drucloudaws/sites/default
 /root/.composer/vendor/bin/drush cc all
-cp /root/drucloudaws/sites/default/settings.php /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-cd /home/ec2-user/chef11/chef-repo/cookbooks
-/opt/chef-server/embedded/bin/knife cookbook upload --all
+#cp /root/drucloudaws/sites/default/settings.php /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php
+#export LC_ALL=en_US.UTF-8
+#export LANG=en_US.UTF-8
+#cd /home/ec2-user/chef11/chef-repo/cookbooks
+#/opt/chef-server/embedded/bin/knife cookbook upload --all
