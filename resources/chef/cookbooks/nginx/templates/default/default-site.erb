@@ -78,8 +78,8 @@ server {
     try_files $uri @rewrite;
   }
 
-  # Catch image styles for D7.
-  location ~ ^/sites/all/themes/ {
+  # Catch image styles for AmazonS3 D7.
+  location ~ ^/system/files/styles/ {
     try_files $uri @rewrite;
   }
 
@@ -92,4 +92,32 @@ server {
     add_header Access-Control-Allow-Origin *;
     try_files $uri @rewrite;
   }
+###
+### CDN Far Future expiration support.
+###
+location ^~ /cdn/farfuture/ {
+  tcp_nodelay   off;
+  access_log    off;
+  log_not_found off;
+  etag          off;
+  gzip_http_version 1.0;
+  if_modified_since exact;
+  location ~* ^/cdn/farfuture/.+\.(?:css|js|jpe?g|gif|png|ico|bmp|svg|swf|pdf|docx?|xlsx?|pptx?|tiff?|txt|rtf|class|otf|ttf|woff|eot|less)$ {
+    expires max;
+    add_header X-Header "CDN Far Future Generator 1.0";
+    add_header Cache-Control "no-transform, public";
+    add_header Last-Modified "Wed, 20 Jan 1988 04:20:42 GMT";
+    rewrite ^/cdn/farfuture/[^/]+/[^/]+/(.+)$ /$1 break;
+    try_files $uri @nobots;
+  }
+  location ~* ^/cdn/farfuture/ {
+    expires epoch;
+    add_header X-Header "CDN Far Future Generator 1.1";
+    add_header Cache-Control "private, must-revalidate, proxy-revalidate";
+    rewrite ^/cdn/farfuture/[^/]+/[^/]+/(.+)$ /$1 break;
+    try_files $uri @nobots;
+  }
+  try_files $uri @nobots;
+}
+
 }
