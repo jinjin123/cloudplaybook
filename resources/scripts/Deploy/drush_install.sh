@@ -11,9 +11,8 @@ bpwd=
 
 #user's ec2 key
 userpem=
-role=
 
-while getopts u:p:g:d:l:a:b:r: opt
+while getopts u:p:g:d:l:a:b: opt
 do
 	case $opt in
 		u)	buser=$OPTARG;;
@@ -23,7 +22,6 @@ do
 		l)      db_name=$OPTARG;;
 		a)      db_username=$OPTARG;;
 		b)      db_password=$OPTARG;;
-                r)      role=$OPTARG;;
 		*)	echo "-$opt not recognized";;
 	esac
 done
