@@ -13,8 +13,8 @@
     "recipe[apache2::mod_rewrite]",
     "recipe[php]",
     "recipe[php-ext-centos]",
-    "recipe[diskmount]",
-    "recipe[deploycode]"
+    "recipe[deploycode]",
+    "recipe[diskmount]"
   ],
   "env_run_lists": {
   }

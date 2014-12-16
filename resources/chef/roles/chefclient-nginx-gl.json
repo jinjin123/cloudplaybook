@@ -13,9 +13,9 @@
     "recipe[php-ext-centos]",
     "recipe[php-fpm]",
     "recipe[nginx]",
-    "recipe[diskmount]",
     "recipe[composer]",
-    "recipe[deploycode]"
+    "recipe[deploycode]",
+    "recipe[diskmount]"
   ],
   "env_run_lists": {
   }
