@@ -13,7 +13,7 @@ execute "preparemountdir" do
 end
 
 execute "mountvolume" do
-	command "echo '#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]} #{node[:diskmount][:localsourcefolder]} glusterfs defaults 0 0' >>/etc/fstab;"
+	command "echo '#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]} #{node[:diskmount][:localsourcefolder]} glusterfs defaults 0 0' >>/etc/fstab;mount -a"
 	not_if "cat /proc/mounts | grep glusterfs"
 end
 
