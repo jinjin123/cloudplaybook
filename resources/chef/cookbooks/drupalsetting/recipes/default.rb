@@ -20,3 +20,21 @@ directory "/var/www/html/sites/default/files" do
         mode '0777'
         action :create
 end
+
+bash "mount_if_gluster" do
+  user "root"
+  cwd "/tmp"
+  code <<-EOH
+if [ `cat /etc/fstab|grep glusterfs| wc -l` -eq 1 ]
+then
+mkdir -p `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+    if [ `cat /etc/passwd|grep nginx| wc -l` -nq 0 ]
+    then
+    chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+    else
+    chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+    fi
+fi
+EOH
+end
