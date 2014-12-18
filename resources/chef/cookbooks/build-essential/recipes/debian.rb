@@ -30,11 +30,27 @@ execute "apt-get-update-build-essentials" do
 end.run_action(:run) if node['build_essential']['compiletime']
 
 %w{
-  autoconf
-  binutils-doc
-  bison
-  build-essential
-  flex
+    automake 
+    autoconf
+    bison
+    flex
+    git 
+    gcc 
+    gcc-c++ 
+    kernel-devel
+    make 
+    dmidecode 
+    m4
+    mysql 
+    pcre-devel 
+    ruby19 
+    ruby19-devel 
+    ruby19-irb 
+    ruby19-libs 
+    zlib 
+    zlib-devel
+    binutils-doc
+    build-essential
 }.each do |pkg|
 
   r = package pkg do

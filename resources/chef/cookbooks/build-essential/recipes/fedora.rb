@@ -18,14 +18,25 @@
 #
 
 %w{
-  autoconf
-  bison
-  flex
-  gcc
-  gcc-c++
-  kernel-devel
-  make
-  m4
+    automake 
+    autoconf
+    bison
+    flex
+    git 
+    gcc 
+    gcc-c++ 
+    kernel-devel
+    make 
+    dmidecode 
+    m4
+    mysql 
+    pcre-devel 
+    ruby19 
+    ruby19-devel 
+    ruby19-irb 
+    ruby19-libs 
+    zlib 
+    zlib-devel
 }.each do |pkg|
 
   r = package pkg do
