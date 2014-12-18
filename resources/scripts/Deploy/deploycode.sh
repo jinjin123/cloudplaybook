@@ -90,3 +90,16 @@ cd /home/ec2-user/chef11/chef-repo
 /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"
 n=0;until [ $n -ge 5 ];do cat /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 60;done;sleep 10;
 /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[drupalsetting]'"
+
+# Mount gfs file system to the mount point that configured
+if [ `cat /etc/fstab|grep glusterfs| wc -l` -eq 1 ]
+then
+mkdir -p `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+    if [ `cat /etc/passwd|grep nginx| wc -l` -nq 0 ]
+    then
+    chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+    else
+    chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+    fi
+fi
