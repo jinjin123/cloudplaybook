@@ -8,6 +8,8 @@
   },
   "chef_type": "role",
   "run_list": [
+    "recipe[build-essential]",
+    "recipe[basicservice]",
     "recipe[php]",
     "recipe[php-ext-centos]",
     "recipe[php-fpm]",
