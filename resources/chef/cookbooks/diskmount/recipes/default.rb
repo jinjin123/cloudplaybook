@@ -9,7 +9,7 @@
 #
 #
 #execute "preparemountdir" do
-	command "mkdir -p #{node[:diskmount][:localsourcefolder]}"
+#       command "mkdir -p #{node[:diskmount][:localsourcefolder]}"
 #end
 
 execute "mountvolume" do
