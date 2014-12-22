@@ -21,6 +21,7 @@ execute "install_drush_nginx" do
         sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
         source ~/.bashrc
         EOH
+        only_if "grep nginx /etc/passwd"
 end
 
 execute "install_drush_ec2user" do
