@@ -43,7 +43,7 @@ if node['drupalsetting']['solr_url'] != "variable"
    execute "put_solr_setting" do
         user node['drupalsetting']['system_user']
         group node['drupalsetting']['system_user']
-        environment ({'HOME' => "/home/ec2-user", 'USER' => "/home/ec2-user"})
+        environment ({'HOME' => "/home/ec2-user", 'USER' => "ec2-user"})
         command <<-EOH
         source /home/ec2-user/.bashrc
         cd /var/www/html/sites/default
