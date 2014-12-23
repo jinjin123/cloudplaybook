@@ -6,3 +6,4 @@
 #
 
 default['drupalsetting']['solr_url']  = 'variable'
+default['drupalsetting']['system_user'] = 'ec2-user'

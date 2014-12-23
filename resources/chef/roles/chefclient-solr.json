@@ -12,7 +12,6 @@
     "recipe[basicservice]",
     "recipe[php]",
     "recipe[php-ext-centos]",
-    "recipe[composer]",
     "recipe[chef-solr]"
   ],
   "env_run_lists": {

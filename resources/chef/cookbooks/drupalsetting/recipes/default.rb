@@ -38,3 +38,16 @@ mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
 fi
 EOH
 end
+
+if node['drupalsetting']['solr_url'] != "variable"
+   execute "put_solr_setting" do
+        user node['drupalsetting']['system_user'],
+        group node['drupalsetting']['system_user'],
+        environment ({'HOME' => "/home/" + node['drupalsetting']['system_user'], 'USER' => node['drupalsetting']['system_user']})
+        command <<-EOH
+        source /home/#{node['drupalsetting']['system_user']}/.bashrc
+        cd /var/www/html/sites/default
+        drush solr-set-env-url #{node['drupalsetting']['solr_url']}
+        EOH
+   end    
+end
