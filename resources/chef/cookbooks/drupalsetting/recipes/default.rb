@@ -41,11 +41,11 @@ end
 
 if node['drupalsetting']['solr_url'] != "variable"
    execute "put_solr_setting" do
-        user node['drupalsetting']['system_user'],
-        group node['drupalsetting']['system_user'],
-        environment ({'HOME' => "/home/" + node['drupalsetting']['system_user'], 'USER' => node['drupalsetting']['system_user']})
+        user node['drupalsetting']['system_user']
+        group node['drupalsetting']['system_user']
+        environment ({'HOME' => "/home/ec2-user", 'USER' => "/home/ec2-user"})
         command <<-EOH
-        source /home/#{node['drupalsetting']['system_user']}/.bashrc
+        source /home/ec2-user/.bashrc
         cd /var/www/html/sites/default
         drush solr-set-env-url #{node['drupalsetting']['solr_url']}
         EOH
