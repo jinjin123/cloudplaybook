@@ -29,7 +29,7 @@ if [ `cat /etc/fstab|grep glusterfs| wc -l` -eq 1 ]
 then
 mkdir -p `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
 mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
-    if [ `cat /etc/passwd|grep nginx| wc -l` -nq 0 ]
+    if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]
     then
     chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
     else
