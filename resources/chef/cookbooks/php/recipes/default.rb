@@ -36,4 +36,4 @@ php_pear "apc" do
 end
 
 include_recipe "php::ini"
-# include_recipe "php::apc"
+include_recipe "php::apc"

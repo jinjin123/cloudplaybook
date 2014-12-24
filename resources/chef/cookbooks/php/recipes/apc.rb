@@ -14,7 +14,8 @@
 #
 
 template "/etc/php.d/apc.ini" do
-        source "apc.ini.erb"
+        source "apc.ini"
+        path "/etc/php.d/apc.ini"
         mode 0644
         owner "root"
         group "root"
