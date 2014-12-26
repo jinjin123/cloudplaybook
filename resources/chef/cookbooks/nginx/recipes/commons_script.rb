@@ -25,5 +25,6 @@
     mode   '0755'
     owner  'root'
     group  'root'
+    retries 5
   end
 end
