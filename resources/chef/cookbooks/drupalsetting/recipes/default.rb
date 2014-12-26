@@ -11,14 +11,28 @@ template "/var/www/html/sites/default/settings.php" do
         mode 0600
         owner "nginx"
         group "nginx"
-        action :create_if_missing
-end
-
-directory "/var/www/html/sites/default/files" do
-        owner 'nginx'
-        group 'nginx'
-        mode '0777'
         action :create
+        ignore_failure true
+end rescue NoMethodError
+
+#directory "/var/www/html/sites/default/files" do
+#        owner 'nginx'
+#        group 'nginx'
+#        mode '0777'
+#        action :create
+#        ignore_failure true
+#end
+
+# Directory syntax of chef does not take ignore_failure
+bash "create_files_directory" do
+  user "nginx"
+  cwd "/tmp"
+  code <<-EOH
+  if [ -d "/var/www/html/sites/default" ]; then
+  mkdir /var/www/html/sites/default/files
+  chmod 777 /var/www/html/sites/default/files
+  fi
+EOH
 end
 
 bash "mount_if_gluster" do
