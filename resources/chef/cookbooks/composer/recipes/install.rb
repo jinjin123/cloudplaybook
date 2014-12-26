@@ -17,7 +17,7 @@ execute "install_drush_nginx" do
         environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
         command <<-EOH
         source /var/lib/nginx/.bashrc
-        /usr/local/bin/composer global require drush/drush:dev-master
+        nohup /usr/local/bin/composer global require drush/drush:dev-master &
         sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
         source ~/.bashrc
         EOH
@@ -30,7 +30,7 @@ execute "install_drush_ec2user" do
         environment ({'HOME' => '/home/ec2-user', 'USER' => 'ec2-user'})
         command <<-EOH
         source /home/ec2-user/.bashrc
-        /usr/local/bin/composer global require drush/drush:dev-master
+        nohup /usr/local/bin/composer global require drush/drush:dev-master &
         sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
         source ~/.bashrc
         EOH
@@ -41,7 +41,7 @@ script "install_drush_root" do
         user "root"
         code <<-EOH
         cd
-        /usr/local/bin/composer global require drush/drush:dev-master
+        nohup /usr/local/bin/composer global require drush/drush:dev-master &
         sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
         source $HOME/.bashrc
         EOH
