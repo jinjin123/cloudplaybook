@@ -58,6 +58,7 @@ if node['drupalsetting']['solr_url'] != "variable"
         user node['drupalsetting']['system_user']
         group node['drupalsetting']['system_user']
         environment ({'HOME' => "/home/ec2-user", 'USER' => "ec2-user"})
+        ignore_failure true
         command <<-EOH
         source /home/ec2-user/.bashrc
         cd /var/www/html/sites/default
