@@ -30,9 +30,10 @@ php_pear_channel 'pecl.php.net' do
   action :update
 end
 
-php_pear "apc" do
-  action :install
-  directives(:enable_cli => 1)
+execute "apc" do
+   command "pecl install apc"
+   action :run
+   ignore_failure true
 end
 
 include_recipe "php::ini"
