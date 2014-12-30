@@ -3,7 +3,8 @@ template "/root/.ssh/config" do
 	mode 0600
 	owner "root"
 	group "root"
-        retries 5
+        retries 3
+        retry_delay 30
 end
 
 template "/root/.ssh/gitkey" do
@@ -11,7 +12,8 @@ template "/root/.ssh/gitkey" do
 	mode 0600
 	owner "root"
 	group "root"
-        retries 5
+        retries 3
+        retry_delay 30
 end
 
 template "/root/.ssh/gitkey.pub" do
@@ -19,7 +21,8 @@ template "/root/.ssh/gitkey.pub" do
 	mode 0600
 	owner "root"
 	group "root"
-        retries 5
+        retries 3
+        retry_delay 30
 end
 
 
@@ -31,7 +34,8 @@ script "deploycode" do
         interpreter "bash"
         user "root"
         code <<-EOH
-        retries 5
+        retries 3
+        retry_delay 30
         cd #{node[:deploycode][:localsourcefolder]}
         export CHECK=`cat #{node[:deploycode][:localsourcefolder]}/.git/config|grep #{node[:deploycode][:gitrepo]} | wc -l`
         if [[ #{node[:deploycode][:gitrepo]} == rollback* ]] ;

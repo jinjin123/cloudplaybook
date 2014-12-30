@@ -25,6 +25,7 @@
     mode   '0755'
     owner  'root'
     group  'root'
-    retries 5
+    retries 3
+    retry_delay 30
   end
 end
