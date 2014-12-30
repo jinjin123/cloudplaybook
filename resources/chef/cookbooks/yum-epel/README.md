@@ -1,4 +1,4 @@
-yum-epel Cookbook
+yum-centos Cookbook
 ============
 
 The yum-epel cookbook takes over management of the default
@@ -16,18 +16,13 @@ Attributes
 The following attributes are set by default
 
 ``` ruby
-default['yum-epel']['repositories'] = %w{epel epel-debuginfo epel-source epel-testing epel-testing-debuginfo epel-testing-source}
-```
-
-``` ruby
 default['yum']['epel']['repositoryid'] = 'epel'
 default['yum']['epel']['description'] = 'Extra Packages for Enterprise Linux 6 - $basearch'
 default['yum']['epel']['mirrorlist'] = 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch'
 default['yum']['epel']['gpgkey'] = 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6'
 default['yum']['epel']['failovermethod'] = 'priority'
-default['yum']['epel']['gpgcheck'] = true
 default['yum']['epel']['enabled'] = true
-default['yum']['epel']['managed'] = true
+default['yum']['epel']['gpgcheck'] = true
 ```
 
 ``` ruby
@@ -36,9 +31,8 @@ default['yum']['epel-debuginfo']['description'] = 'Extra Packages for Enterprise
 default['yum']['epel-debuginfo']['mirrorlist'] = 'https://mirrors.fedoraproject.org/metalink?repo=epel-debug-6&arch=$basearch'
 default['yum']['epel-debuginfo']['gpgkey'] = 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6'
 default['yum']['epel-debuginfo']['failovermethod'] = 'priority'
-default['yum']['epel-debuginfo']['gpgcheck'] = true
 default['yum']['epel-debuginfo']['enabled'] = false
-default['yum']['epel-debuginfo']['managed'] = false
+default['yum']['epel-debuginfo']['gpgcheck'] = true
 ```
 
 ``` ruby
@@ -47,9 +41,8 @@ default['yum']['epel-source']['description'] = 'Extra Packages for Enterprise Li
 default['yum']['epel-source']['mirrorlist'] = 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-source-6&arch=$basearch'
 default['yum']['epel-source']['gpgkey'] = 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6'
 default['yum']['epel-source']['failovermethod'] = 'priority'
-default['yum']['epel-source']['gpgcheck'] = true
 default['yum']['epel-source']['enabled'] = false
-default['yum']['epel-source']['managed'] = false
+default['yum']['epel-source']['gpgcheck'] = true
 ```
 
 ``` ruby
@@ -58,9 +51,8 @@ default['yum']['epel-testing']['description'] = 'Extra Packages for Enterprise L
 default['yum']['epel-testing']['mirrorlist'] = 'https://mirrors.fedoraproject.org/metalink?repo=testing-epel6&arch=$basearch'
 default['yum']['epel-testing']['gpgkey'] = 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6r'
 default['yum']['epel-testing']['failovermethod'] = 'priority'
-default['yum']['epel-testing']['gpgcheck'] = true
 default['yum']['epel-testing']['enabled'] = false
-default['yum']['epel-testing']['managed'] = false
+default['yum']['epel-testing']['gpgcheck'] = true
 ```
 
 ``` ruby
@@ -69,9 +61,8 @@ default['yum']['epel-testing-debuginfo']['description'] = 'Extra Packages for En
 default['yum']['epel-testing-debuginfo']['mirrorlist'] = 'https://mirrors.fedoraproject.org/metalink?repo=testing-debug-epel6&arch=$basearch'
 default['yum']['epel-testing-debuginfo']['gpgkey'] = 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6'
 default['yum']['epel-testing-debuginfo']['failovermethod'] = 'priority'
-default['yum']['epel-testing-debuginfo']['gpgcheck'] = true
 default['yum']['epel-testing-debuginfo']['enabled'] = false
-default['yum']['epel-testing-debuginfo']['managed'] = false
+default['yum']['epel-testing-debuginfo']['gpgcheck'] = true
 ```
 
 ``` ruby
@@ -80,9 +71,8 @@ default['yum']['epel-testing-source']['description'] = 'Extra Packages for Enter
 default['yum']['epel-testing-source']['mirrorlist'] = 'https://mirrors.fedoraproject.org/metalink?repo=testing-source-epel6&arch=$basearch'
 default['yum']['epel-testing-source']['gpgkey'] = 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6'
 default['yum']['epel-testing-source']['failovermethod'] = 'priority'
-default['yum']['epel-testing-source']['gpgcheck'] = true
 default['yum']['epel-testing-source']['enabled'] = false
-default['yum']['epel-testing-source']['managed'] = false
+default['yum']['epel-testing-source']['gpgcheck'] = true
 ```
 
 Recipes
@@ -117,14 +107,11 @@ default_attributes(
  )
 ```
 
-Uncommonly used repositoryids are not managed by default. This is
-speeds up integration testing pipelines by avoiding yum-cache builds
-that nobody cares about. To enable the epel-testing repository with a
-wrapper cookbook, place the following in a recipe:
+To enable the epel-testing repository with a wrapper cookbook, place
+the following in a recipe:
 
 ```
 node.default['yum']['epel-testing']['enabled'] = true
-node.default['yum']['epel-testing']['managed'] = true
 include_recipe 'yum-epel'
 ```
 
