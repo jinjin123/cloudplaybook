@@ -63,9 +63,9 @@ if node['drupalsetting']['solr_url'] != "variable"
         command <<-EOH
         source /home/ec2-user/.bashrc
         if [ -d "/var/www/html/sites/default" ]; then
-            cd /var/www/html/sites/default
-            drush en apachesolr apachesolr_search -y
-            drush solr-set-env-url #{node['drupalsetting']['solr_url']}
+            cd /var/www/html/sites/default 
+            drush en apachesolr apachesolr_search -y -r /var/www/html/sites/default
+            drush solr-set-env-url #{node['drupalsetting']['solr_url']} -r /var/www/html/sites/default
         fi
         EOH
    end    
