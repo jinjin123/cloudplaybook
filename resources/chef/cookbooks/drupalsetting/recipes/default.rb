@@ -26,6 +26,7 @@ end rescue NoMethodError
 # Directory syntax of chef does not take ignore_failure
 bash "create_files_directory" do
   user "nginx"
+  group "nginx"
   cwd "/tmp"
   code <<-EOH
   if [ -d "/var/www/html/sites/default" ]; then
