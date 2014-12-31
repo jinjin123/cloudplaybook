@@ -33,11 +33,15 @@ end
 script "deploycode" do
         interpreter "bash"
         user "root"
+        environment ({'HOME' => '/root', 'USER' => 'root'})
         code <<-EOH
         retries 3
         retry_delay 30
         cd #{node[:deploycode][:localsourcefolder]}
-        export CHECK=`cat #{node[:deploycode][:localsourcefolder]}/.git/config|grep #{node[:deploycode][:gitrepo]} | wc -l`
+        CHECK=0 
+        if [ -d #{node[:deploycode][:localsourcefolder]}/.git ]; then
+            export CHECK=`cat #{node[:deploycode][:localsourcefolder]}/.git/config|grep #{node[:deploycode][:gitrepo]} | wc -l`
+        fi
         if [[ #{node[:deploycode][:gitrepo]} == rollback* ]] ;
         then
                 tag=`echo #{node[:deploycode][:gitrepo]} | cut -d':' -f 2`
