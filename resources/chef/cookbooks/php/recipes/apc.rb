@@ -13,6 +13,12 @@
 # limitations under the License.
 #
 
+execute "apc" do
+   command "printf "\n" | pecl install apc"
+   action :run
+   ignore_failure true
+end
+
 template "/etc/php.d/apc.ini" do
         source "apc.ini"
         path "/etc/php.d/apc.ini"

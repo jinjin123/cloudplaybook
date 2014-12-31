@@ -30,11 +30,5 @@ php_pear_channel 'pecl.php.net' do
   action :update
 end
 
-execute "apc" do
-   command "pecl install apc"
-   action :run
-   ignore_failure true
-end
-
 include_recipe "php::ini"
 include_recipe "php::apc"
