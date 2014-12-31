@@ -14,7 +14,7 @@
 #
 
 execute "apc" do
-   command "printf "\n" | pecl install apc"
+   command "printf '\n' | pecl install apc"
    action :run
    ignore_failure true
 end
