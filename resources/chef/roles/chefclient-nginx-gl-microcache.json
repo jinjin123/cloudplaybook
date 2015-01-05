@@ -16,9 +16,9 @@
     "recipe[php-fpm]",
     "recipe[nginx]",
     "recipe[microcache]",
-    "recipe[diskmount]",
     "recipe[composer]",
     "recipe[deploycode]",
+    "recipe[diskmount]",
     "recipe[drupalsetting]"
   ],
   "env_run_lists": {
