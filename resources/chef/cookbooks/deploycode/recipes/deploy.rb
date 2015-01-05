@@ -70,7 +70,7 @@ end
 #end
 
 execute "git_tag" do
-        command "git tag -a v_`date +"%Y%m%d%H%M%S"` -m 'Code Deploy';git push --tag"
+        command 'git tag -a v_`date +"%Y%m%d%H%M%S"` -m "Code Deploy";git push --tag'
         cwd node[:deploycode][:localsourcefolder]
         user node[:deploycode][:code_owner]
         group node[:deploycode][:code_group]
@@ -94,7 +94,7 @@ else
                 end        
         else 
                 execute "clear_directory" do
-                        command "for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done"
+                        command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
                         cwd node[:deploycode][:localsourcefolder]
                         notifies :run, "recipe[deploycode::clone_repo]" , :delayed
                 end
