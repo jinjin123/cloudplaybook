@@ -96,7 +96,7 @@ else
                 execute "clear_directory" do
                         command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
                         cwd node[:deploycode][:localsourcefolder]
-                        notifies :run, "recipe[deploycode::clone_repo]" , :delayed
+                        notifies :sync, "git[clone_repo]", :delayed
                 end
         end
 end

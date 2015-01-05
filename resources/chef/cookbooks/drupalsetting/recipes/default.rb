@@ -24,17 +24,17 @@ end rescue NoMethodError
 #end
 
 # Directory syntax of chef does not take ignore_failure
-bash "create_files_directory" do
-  user "nginx"
-  group "nginx"
-  cwd "/tmp"
-  code <<-EOH
-  if [ -d "/var/www/html/sites/default" ]; then
-  mkdir /var/www/html/sites/default/files
-  chmod 777 /var/www/html/sites/default/files
-  fi
-EOH
-end
+#bash "create_files_directory" do
+#  user "nginx"
+#  group "nginx"
+#  cwd "/tmp"
+#  code <<-EOH
+#  if [ -d "/var/www/html/sites/default" ]; then
+#  mkdir /var/www/html/sites/default/files
+#  chmod 777 /var/www/html/sites/default/files
+#  fi
+#EOH
+#end
 
 bash "mount_if_gluster" do
   user "root"
@@ -42,15 +42,22 @@ bash "mount_if_gluster" do
   code <<-EOH
 if [ `cat /etc/fstab|grep glusterfs| wc -l` -eq 1 ]
 then
-mkdir -p `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
 mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+  if [ -d "/var/www/html/sites/default" ]; then
+    ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` /var/www/html/sites/default/files
+  fi
+else
+  if [ -d "/var/www/html/sites/default" ]; then
+  mkdir /var/www/html/sites/default/files
+  chmod 777 /var/www/html/sites/default/files
+  fi
+fi
     if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]
     then
     chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
     else
     chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
     fi
-fi
 EOH
 end
 
