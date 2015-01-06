@@ -6,15 +6,6 @@
 # www.BootDev.com
 # All rights reserved - Do Not Redistribute
 #
-template "/var/www/html/sites/default/settings.php" do
-        source "settings.php"
-        mode 0600
-        owner "nginx"
-        group "nginx"
-        action :create
-        ignore_failure true
-end rescue NoMethodError
-
 #directory "/var/www/html/sites/default/files" do
 #        owner 'nginx'
 #        group 'nginx'
@@ -40,9 +31,9 @@ bash "mount_if_gluster" do
   user "root"
   cwd "/tmp"
   code <<-EOH
-if [ `cat /etc/fstab|grep glusterfs| wc -l` -eq 1 ]
+if [ `cat /etc/fstab|grep glusterfs| wc -l` -gt 0 ]
 then
-mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+  mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
   if [ -d "/var/www/html/sites/default" ]; then
     ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` /var/www/html/sites/default/files
   fi
@@ -77,3 +68,11 @@ end
 #        EOH
 #   end    
 #end
+template "/var/www/html/sites/default/settings.php" do
+        source "settings.php"
+        mode 0600
+        owner "nginx"
+        group "nginx"
+        action :create
+        ignore_failure true
+end rescue NoMethodError

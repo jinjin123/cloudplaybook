@@ -25,6 +25,47 @@ template "/root/.ssh/gitkey.pub" do
         retry_delay 30
 end
 
+#ruby_block "find-last-line" do
+#  block do
+code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
+#  end
+#  action :create
+#end
+
+template "#{code_owner_home}/.ssh/config" do
+        source "config.erb"
+        mode 0600
+        owner node[:deploycode][:code_owner] 
+        group node[:deploycode][:code_group]
+        retries 3
+        retry_delay 30
+end
+
+template "#{code_owner_home}/.ssh/gitkey" do
+        source "gitkey.erb"
+        mode 0600
+        owner node[:deploycode][:code_owner]
+        group node[:deploycode][:code_group]
+        retries 3
+        retry_delay 30
+end
+
+template "#{code_owner_home}/.ssh/gitkey.pub" do
+        source "gitkey.pub.erb"
+        mode 0600
+        owner node[:deploycode][:code_owner]
+        group node[:deploycode][:code_group]
+        retries 3
+        retry_delay 30
+end
+
+ruby_block "Change key config file" do
+  block do
+    fe = Chef::Util::FileEdit.new("#{code_owner_home}/.ssh/config")
+    fe.search_file_replace("/root/","#{code_owner_home}/")
+    fe.write_file
+  end
+end
 
 directory node[:deploycode][:localsourcefolder] do
         recursive true
@@ -69,6 +110,8 @@ end
 #        EOH
 #end
 
+include_recipe 'deploycode::clone_repo'
+
 execute "git_tag" do
         command 'git tag -a v_`date +"%Y%m%d%H%M%S"` -m "Code Deploy";git push --tag'
         cwd node[:deploycode][:localsourcefolder]
@@ -78,7 +121,17 @@ execute "git_tag" do
 end
 
 if ! Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
-        include_recipe "deploycode::clone_repo"
+                execute "clear_directory" do
+                        command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
+                        cwd node[:deploycode][:localsourcefolder]
+                        notifies :sync, "git[clone_repo]", :delayed
+                end
+#         ruby_block "notify_template" do
+#            block do
+#              true
+#            end
+#            notifies :sync, "git[clone_repo]", :delayed 
+#        end
 else
         if File.readlines("#{node[:deploycode][:localsourcefolder]}/.git/config").grep("/#{node[:deploycode][:gitrepo]}/").size > 0
                 git "pull_repo" do
