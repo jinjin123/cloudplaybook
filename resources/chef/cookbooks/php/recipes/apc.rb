@@ -13,8 +13,19 @@
 # limitations under the License.
 #
 
+#execute "apc" do
+#   command "printf '\n' | pecl install apc"
+#   action :run
+#   ignore_failure true
+#end
+
+package "php-pecl-apc" do
+  action :install
+end
+
 template "/etc/php.d/apc.ini" do
-        source "apc.ini.erb"
+        source "apc.ini"
+        path "/etc/php.d/apc.ini"
         mode 0644
         owner "root"
         group "root"

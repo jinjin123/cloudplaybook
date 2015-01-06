@@ -8,6 +8,7 @@
   },
   "chef_type": "role",
   "run_list": [
+    "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
     "recipe[php]",
@@ -15,7 +16,8 @@
     "recipe[php-fpm]",
     "recipe[nginx]",
     "recipe[composer]",
-    "recipe[deploycode]"
+    "recipe[deploycode]",
+    "recipe[drupalsetting]"
   ],
   "env_run_lists": {
   }

@@ -8,6 +8,7 @@
   },
   "chef_type": "role",
   "run_list": [
+    "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
     "recipe[php]",
@@ -16,8 +17,8 @@
     "recipe[nginx]",
     "recipe[microcache]",
     "recipe[composer]",
-    "recipe[deploycode]",
-    "recipe[diskmount]"
+    "recipe[diskmount]",
+    "recipe[deploycode]"
   ],
   "env_run_lists": {
   }

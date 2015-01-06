@@ -28,20 +28,20 @@ pkgs.each do |pkg|
   end
 end
 
-bash "install_mongo" do
-  user "root"
-  cwd "/root"
-  code <<-EOH
-  mkdir /root/mongo-php-driver
-  git clone https://github.com/mongodb/mongo-php-driver.git /root/mongo-php-driver
-  cd /root/mongo-php-driver
-  phpize
-  ./configure
-  make
-  make install
-  EOH
-end
+#bash "install_mongo" do
+#  user "root"
+#  cwd "/root"
+#  code <<-EOH
+#  mkdir /root/mongo-php-driver
+#  git clone https://github.com/mongodb/mongo-php-driver.git /root/mongo-php-driver
+#  cd /root/mongo-php-driver
+#  phpize
+#  ./configure
+#  make
+#  make install
+#  EOH
+#end
 
-service "httpd" do
-	action [:enable,:start]
-end
+#service "httpd" do
+#	action [:enable,:start]
+#end
