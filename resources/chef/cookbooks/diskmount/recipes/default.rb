@@ -16,7 +16,16 @@ execute "preparemountdir" do
        command "mkdir -p #{node[:diskmount][:localsourcefolder]}"
 end
 
-execute "mountvolume" do
-	command "echo '#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]} #{node[:diskmount][:localsourcefolder]} glusterfs defaults 0 0' >>/etc/fstab;"
-	not_if "cat /proc/mounts | grep glusterfs"
+#execute "create_mount_pt" do
+#	command "echo '#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]} #{node[:diskmount][:localsourcefolder]} glusterfs defaults 0 0' >>/etc/fstab;"
+#	not_if "cat /proc/mounts | grep glusterfs"
+#end
+
+mount node[:diskmount][:localsourcefolder] do
+  device "#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]}"
+  dump 0
+  pass 0
+  fstype "glusterfs"
+  options "defaults"
+  action :enable
 end

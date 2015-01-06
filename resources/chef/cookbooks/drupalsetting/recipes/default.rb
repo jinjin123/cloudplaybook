@@ -37,18 +37,24 @@ then
   if [ -d "/var/www/html/sites/default" ]; then
     ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` /var/www/html/sites/default/files
   fi
+  if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]
+  then
+    chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+  else
+    chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+  fi
 else
   if [ -d "/var/www/html/sites/default" ]; then
   mkdir /var/www/html/sites/default/files
   chmod 777 /var/www/html/sites/default/files
   fi
-fi
     if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]
     then
-    chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+    chown nginx:nginx /var/www/html/sites/default/files
     else
-    chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+    chown apache:apache /var/www/html/sites/default/files
     fi
+fi
 EOH
 end
 

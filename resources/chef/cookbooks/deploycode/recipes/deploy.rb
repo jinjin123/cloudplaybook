@@ -25,12 +25,17 @@ template "/root/.ssh/gitkey.pub" do
         retry_delay 30
 end
 
-#ruby_block "find-last-line" do
-#  block do
 code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
-#  end
-#  action :create
-#end
+if code_owner_home.to_s.strip.length == 0
+code_owner_home="/var/lib/nginx"
+end
+
+directory "#{code_owner_home}/.ssh" do
+  owner node[:deploycode][:code_owner]
+  group node[:deploycode][:code_group]
+  mode '0700'
+  action :create
+end
 
 template "#{code_owner_home}/.ssh/config" do
         source "config.erb"
