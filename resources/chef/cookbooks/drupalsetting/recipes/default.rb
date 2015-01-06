@@ -77,6 +77,8 @@ end
 template "/var/www/html/sites/default/settings.php" do
         source "settings.php"
         mode 0600
+        retries 3
+        retry_delay 30
         owner "nginx"
         group "nginx"
         action :create
