@@ -18,6 +18,7 @@
     "recipe[microcache]",
     "recipe[composer]",
     "recipe[deploycode]",
+    "recipe[drupalsetting]",
     "recipe[diskmount]"
   ],
   "env_run_lists": {
