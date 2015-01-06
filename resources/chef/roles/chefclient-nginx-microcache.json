@@ -17,8 +17,7 @@
     "recipe[nginx]",
     "recipe[microcache]",
     "recipe[composer]",
-    "recipe[deploycode]",
-    "recipe[drupalsetting]"
+    "recipe[deploycode]"
   ],
   "env_run_lists": {
   }

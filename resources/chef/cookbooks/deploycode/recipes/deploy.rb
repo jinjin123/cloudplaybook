@@ -168,3 +168,5 @@ end
 #        fi
 #        EOH
 #end
+
+include_recipe 'drupalsetting'

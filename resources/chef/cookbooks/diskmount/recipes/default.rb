@@ -8,9 +8,9 @@
 #
 #
 #
-execute "wait_until_drupal" do
-        command "n=0;until [ $n -ge 5 ];do ls -lrt /var/www/html/sites/default; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
-end
+#execute "wait_until_drupal" do
+#        command "n=0;until [ $n -ge 5 ];do ls -lrt /var/www/html/sites/default; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
+#end
 
 execute "preparemountdir" do
        command "mkdir -p #{node[:diskmount][:localsourcefolder]}"
