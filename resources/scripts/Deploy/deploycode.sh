@@ -90,3 +90,5 @@ cd /home/ec2-user/chef11/chef-repo
 /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"
 n=0;until [ $n -ge 5 ];do cat /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 60;done;
 /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[drupalsetting]'"
+/opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo service nginx restart || true"
+/opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo service php-fpm restart || true"
