@@ -175,3 +175,13 @@ end
 #end
 
 include_recipe 'drupalsetting'
+
+service "nginx" do
+  action :restart
+  ignore_failure true
+end
+
+service "php-fpm" do
+  action :restart
+  ignore_failure true
+end
