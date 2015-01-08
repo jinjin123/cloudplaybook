@@ -51,44 +51,41 @@ else
         cp gitkey /root/.ssh/
         cp gitkey.pub /root/.ssh/
         chmod 600 /root/.ssh/gitkey /root/.ssh/gitkey.pub
-#register with bitbucket
+# Register key to Bitbucket
         php register.php $buser $bpwd
         rm -f gitkey gitkey.pub
 fi
 
-#mv key to chef workstation
+# Move key to chef workstation
+cat /root/.ssh/gitkey > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.erb
+cat /root/.ssh/gitkey.pub > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.pub.erb
+echo "" > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
 
-	cat /root/.ssh/gitkey > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.erb
-	cat /root/.ssh/gitkey.pub > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.pub.erb
-	echo "" > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
-
-#replace xxxxxxxx with git url
-#Remove the line with xxxxxxxx, and replace giturl for cater re-run of deploy
+# Replace the git repo entry in deploycode's Attribute
 sed -i "/gitrepo/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
 export TEMP=`cat /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb|grep localsourcefolder`
 sed -i "/localsourcefolder/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
 echo 'default[:deploycode][:gitrepo] = "'$giturl'"' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
 echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
 
-#prepare pem
+# Prepare pem
 mkdir -p /home/ec2-user/.pem
 #echo $userpem > /home/ec2-user/.pem/drucloud.pem
 mv  /home/ec2-user/drucloud.pem /home/ec2-user/.pem/drucloud.pem
 chmod 600 /home/ec2-user/.pem/drucloud.pem
 chown root:root /home/ec2-user/.pem/drucloud.pem 
 
-
+# Configure knife to access client machine
 echo "knife[:ssh_user] = 'ec2-user'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
 echo "knife[:identity_file] = '/home/ec2-user/.pem/drucloud.pem'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
-
 echo "configure knife ssh success"
 	
 #update all chef-client using knife
 
 cd /home/ec2-user/chef11/chef-repo
+sleep 1 
 /opt/chef-server/embedded/bin/knife cookbook upload deploycode
+sleep 5
 /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"
 n=0;until [ $n -ge 5 ];do cat /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 60;done;
 /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[drupalsetting]'"
-/opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo service nginx restart || true"
-/opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo service php-fpm restart || true"
