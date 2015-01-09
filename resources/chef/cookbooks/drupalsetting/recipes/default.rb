@@ -84,3 +84,13 @@ template "/var/www/html/sites/default/settings.php" do
         action :create
         ignore_failure true
 end rescue NoMethodError
+
+service "nginx" do
+  action :restart
+  ignore_failure true
+end
+
+service "php-fpm" do
+  action :restart
+  ignore_failure true
+end
