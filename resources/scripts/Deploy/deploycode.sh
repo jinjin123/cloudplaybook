@@ -86,6 +86,6 @@ cd /home/ec2-user/chef11/chef-repo
 sleep 1 
 /opt/chef-server/embedded/bin/knife cookbook upload deploycode
 sleep 10 
-/opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"
+n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
 n=0;until [ $n -ge 5 ];do cat /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 60;done;
-/opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[drupalsetting]'"
+n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[drupalsetting]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
