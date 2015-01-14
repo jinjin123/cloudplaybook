@@ -565,29 +565,34 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
  * Remove the leading hash signs to disable.
  */
 # $conf['allow_authorize_operations'] = FALSE;
-# Additional site configuration settings. Allows to override global settings.
-  if (file_exists('aws.settings.php')) {
-    include_once('aws.settings.php');
-  }
-  if (file_exists('basic.settings.php')) {
-    include_once('basic.settings.php');
-  }
-  if (file_exists('xmlsitemap.settings.php')) {
-    include_once('xmlsitemap.settings.php');
-  }
-  if (file_exists('cookie.settings.php')) {
-    include_once('cookie.settings.php');
-  }
-  if (file_exists('s3.settings.php')) {
-    include_once('s3.settings.php');
-  }
-  if (file_exists('memcache.settings.php')) {
-    include_once('memcache.settings.php');
-  }
-  if (file_exists('cdn.settings.php')) {
-    include_once('cdn.settings.php');
-  }
-  if (file_exists('s3cdn.setttings.php')) {
-    include_once('s3cdn.setttings.php');
-  }
 
+# Additional site configuration settings. Allows to override global settings.
+/**************************************************
+ * Environment Separation
+ *************************************************/
+$env_settings = dirname(__FILE__);
+
+if (file_exists($env_settings . "/aws.settings.php")) {
+    include $env_settings . "/aws.settings.php";
+}
+if (file_exists($env_settings . "/basic.settings.php")) {
+    include $env_settings . "/basic.settings.php";
+}
+if (file_exists($env_settings . "/xmlsitemap.settings.php")) {
+    include $env_settings . "/xmlsitemap.settings.php";
+}
+if (file_exists($env_settings . "/cookie.settings.php")) {
+    include $env_settings . "/cookie.settings.php";
+}
+if (file_exists($env_settings . "/s3.settings.php")) {
+    include $env_settings . "/s3.settings.php";
+}
+if (file_exists($env_settings . "/memcache.settings.php")) {
+    include $env_settings . "/memcache.settings.php";
+}
+if (file_exists($env_settings . "/cdn.settings.php")) {
+    include $env_settings . "/cdn.settings.php";
+}
+if (file_exists($env_settings . "/aws.settings.php")) {
+    include $env_settings . "/s3cdn.settings.php";
+}
