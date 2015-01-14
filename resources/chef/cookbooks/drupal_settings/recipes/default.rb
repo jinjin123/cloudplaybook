@@ -134,7 +134,7 @@ if Chef::DataBag.list.key?('drupal')
   if !Chef::DataBagItem.validate_id!('S3CDN')
     S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
     template "/var/www/html/sites/default/s3cdn.setttings.php" do
-      source "s3cdn.setttings.php.php"
+      source "s3cdn.setttings.php"
       variables(
         :S3CDN => S3CDN_Setting['S3CDN']
       )
@@ -180,7 +180,7 @@ if Chef::DataBag.list.key?('drupal')
     end rescue NoMethodError
     
     template "/var/www/html/sites/default/xmlsitemap.settings.php " do
-      source "xmlsitemap.settings.php "
+      source "xmlsitemap.settings.php"
       variables(
         :LoadBalancerDNS => Host_n_storage_Setting['LoadBalancerDNS'],
         :S3bucket => Host_n_storage_Setting['S3bucket']
