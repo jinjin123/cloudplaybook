@@ -54,8 +54,9 @@ end rescue NoMethodError
 
 # Check if databag exists before applying templates
 if Chef::DataBag.list.key?('drupal')
+  print 
   # Check if DataBag item exist before applying templates
-  if Chef::DataBagItem.validate_id!('Database')
+  if !Chef::DataBagItem.validate_id!('Database')
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)
     template "/var/www/html/sites/default/settings.php" do
       source "settings.php"
@@ -75,7 +76,7 @@ if Chef::DataBag.list.key?('drupal')
     end rescue NoMethodError
   end
 
-  if Chef::DataBagItem.validate_id!('AWS')
+  if !Chef::DataBagItem.validate_id!('AWS')
     AWS_Setting = Chef::EncryptedDataBagItem.load("drupal", "AWS", drupal_secret)
     template "/var/www/html/sites/default/aws.settings.php" do
       source "aws.settings.php"
@@ -93,7 +94,7 @@ if Chef::DataBag.list.key?('drupal')
     end rescue NoMethodError
   end
   
-  if Chef::DataBagItem.validate_id!('Memcache')
+  if !Chef::DataBagItem.validate_id!('Memcache')
     Memcache_Setting = Chef::EncryptedDataBagItem.load("drupal", "Memcache", drupal_secret)
     template "/var/www/html/sites/default/memcache.settings.php" do
       source "memcache.settings.php"
@@ -113,7 +114,7 @@ if Chef::DataBag.list.key?('drupal')
     end rescue NoMethodError
   end
 
-  if Chef::DataBagItem.validate_id!('CDN')
+  if !Chef::DataBagItem.validate_id!('CDN')
     CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "CDN", drupal_secret)
     template "/var/www/html/sites/default/cdn.settings.php" do
       source "cdn.settings.php"
@@ -130,7 +131,7 @@ if Chef::DataBag.list.key?('drupal')
     end rescue NoMethodError
   end
   
-  if Chef::DataBagItem.validate_id!('S3CDN')
+  if !Chef::DataBagItem.validate_id!('S3CDN')
     S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
     template "/var/www/html/sites/default/s3cdn.setttings.php" do
       source "s3cdn.setttings.php.php"
@@ -148,7 +149,7 @@ if Chef::DataBag.list.key?('drupal')
   end
 
   # Calling three templates by one data_bag
-  if Chef::DataBagItem.validate_id!('Host_n_storage')
+  if !Chef::DataBagItem.validate_id!('Host_n_storage')
     Host_n_storage_Setting = Chef::EncryptedDataBagItem.load("drupal", "Host_n_storage", drupal_secret)
     template "/var/www/html/sites/default/cookie.settings.php" do
       source "cookie.settings.php"
