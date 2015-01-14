@@ -57,12 +57,12 @@ if Chef::DataBag.list.key?('drupal')
     Memcache_Setting = Chef::EncryptedDataBagItem.load("Memcache", "drupal", drupal_secret)
     template "/var/www/html/sites/default/memcache.settings.php" do
       source "memcache.settings.php"
-      variables({
+      variables(
         :Memcache_server1 => Memcache_Setting['Memcache_server1'] 
         :Memcache_port1 => Memcache_Setting['Memcache_port1']
         :Memcache_server2 => Memcache_Setting['Memcache_server2']
         :Memcache_port2 => Memcache_Setting['Memcache_port2']
-      })
+      )
     end 
   end
 end
