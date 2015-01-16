@@ -71,9 +71,9 @@ echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/def
 # Prepare pem
 mkdir -p /home/ec2-user/.pem
 #echo $userpem > /home/ec2-user/.pem/drucloud.pem
-#mv  /home/ec2-user/drucloud.pem /home/ec2-user/.pem/drucloud.pem
-#chmod 600 /home/ec2-user/.pem/drucloud.pem
-#chown root:root /home/ec2-user/.pem/drucloud.pem 
+mv  /home/ec2-user/drucloud.pem /home/ec2-user/.pem/drucloud.pem
+chmod 600 /home/ec2-user/.pem/drucloud.pem
+chown root:root /home/ec2-user/.pem/drucloud.pem 
 
 # Configure knife to access client machine
 echo "knife[:ssh_user] = 'ec2-user'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb

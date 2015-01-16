@@ -9,11 +9,11 @@
 #
 #
 directory "/home/ec2-user/.pem" do
-        owner 'root'
-        group 'root'
-        mode '0744'
-        action :create
-        ignore_failure true
+  owner 'root'
+  group 'root'
+  mode '0744'
+  action :create
+  ignore_failure true
 end
 
 template "/home/ec2-user/.pem/drucloud.pem" do
@@ -26,3 +26,14 @@ template "/home/ec2-user/.pem/drucloud.pem" do
   action :create
   ignore_failure true
 end rescue NoMethodError
+
+script "install_drush_root" do
+  interpreter "bash"
+  user "root"
+  code <<-EOH
+  cd
+  nohup /usr/local/bin/composer global require drush/drush:dev-master &
+  sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
+  source $HOME/.bashrc
+  EOH
+end
