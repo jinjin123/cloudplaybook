@@ -118,7 +118,7 @@ end
 include_recipe 'deploycode::clone_repo'
 
 execute "git_tag" do
-        command 'git tag -a v_`date +"%Y%m%d%H%M%S"` -m "Code Deploy";git push --tag'
+        command 'git tag -a v_`date +"%Y%m%d%H%M%S"` -m "Code Deploy";git push --tags'
         cwd node[:deploycode][:localsourcefolder]
         user node[:deploycode][:code_owner]
         group node[:deploycode][:code_group]
