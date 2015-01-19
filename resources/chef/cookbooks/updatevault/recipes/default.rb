@@ -16,8 +16,8 @@ directory "/home/ec2-user/.pem" do
   ignore_failure true
 end
 
-template "/home/ec2-user/.pem/drucloud.pem" do
-  source "drucloud.pem"
+template "/home/ec2-user/.pem/bootdev.pem" do
+  source "bootdev.pem"
   mode 0400
   retries 3
   retry_delay 30
@@ -27,13 +27,10 @@ template "/home/ec2-user/.pem/drucloud.pem" do
   ignore_failure true
 end rescue NoMethodError
 
-script "install_drush_root" do
+script "call_chefserver_updatevault" do
   interpreter "bash"
   user "root"
+  ssh -i /home/ec2-user/.pem/bootdev.pem 
   code <<-EOH
-  cd
-  nohup /usr/local/bin/composer global require drush/drush:dev-master &
-  sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
-  source $HOME/.bashrc
   EOH
 end
