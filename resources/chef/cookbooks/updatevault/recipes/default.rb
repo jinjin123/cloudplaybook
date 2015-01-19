@@ -30,7 +30,7 @@ end rescue NoMethodError
 script "call_chefserver_updatevault" do
   interpreter "bash"
   user "root"
-  ssh -i /home/ec2-user/.pem/bootdev.pem 
   code <<-EOH
+  ssh -i /home/ec2-user/.pem/bootdev.pem
   EOH
 end
