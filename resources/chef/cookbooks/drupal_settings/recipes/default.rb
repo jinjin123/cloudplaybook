@@ -39,7 +39,9 @@ fi
 EOH
 end
 
+if File.exist?(node['drupal_settings']['secretpath'])
 drupal_secret = Chef::EncryptedDataBagItem.load_secret("#{node['drupal_settings']['secretpath']}")
+end
 
 template "/var/www/html/sites/default/basic.settings.php" do
   source "basic.settings.php"
