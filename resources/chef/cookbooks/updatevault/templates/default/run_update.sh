@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -i /home/ec2-user/.pem/bootdev.pem -o 'StrictHostKeyChecking no' -t ec2-user@<%= @ChefServerIP %> "cd /home/ec2-user/chef11/chef-repo;sudo knife vault show secrets secret_key 'secret_key' --mode client --format json > .chef/secret_key.json;sudo knife vault update secrets secret_key --json .chef/secret_key.json --search 'role:<%= @RoleName %>' --mode client;sudo rm .chef/secret_key.json"
