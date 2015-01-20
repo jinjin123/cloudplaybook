@@ -31,11 +31,11 @@ else
         $current_buser="notset";
 fi
 
-echo $role > role.txt
-echo $giturl > giturl.txt
-echo $buser > buser.txt
-echo $bpwd > bpwd.tt
-echo $userpem > userpem.pem
+#echo $role > role.txt
+#echo $giturl > giturl.txt
+#echo $buser > buser.txt
+#echo $bpwd > bpwd.tt
+#echo $userpem > userpem.pem
 
 #register bitbucket key if not register yet
 if [ -e /root/.ssh/gitkey ] && [ "$current_buser" == "$buser" ]
@@ -69,16 +69,16 @@ echo 'default[:deploycode][:gitrepo] = "'$giturl'"' >> /home/ec2-user/chef11/che
 echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
 
 # Prepare pem
-mkdir -p /home/ec2-user/.pem
+#mkdir -p /home/ec2-user/.pem
 #echo $userpem > /home/ec2-user/.pem/drucloud.pem
-mv  /home/ec2-user/drucloud.pem /home/ec2-user/.pem/drucloud.pem
-chmod 600 /home/ec2-user/.pem/drucloud.pem
-chown root:root /home/ec2-user/.pem/drucloud.pem 
+#mv  /home/ec2-user/drucloud.pem /home/ec2-user/.pem/drucloud.pem
+#chmod 600 /home/ec2-user/.pem/drucloud.pem
+#chown root:root /home/ec2-user/.pem/drucloud.pem 
 
 # Configure knife to access client machine
-echo "knife[:ssh_user] = 'ec2-user'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
-echo "knife[:identity_file] = '/home/ec2-user/.pem/drucloud.pem'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
-echo "configure knife ssh success"
+#echo "knife[:ssh_user] = 'ec2-user'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
+#echo "knife[:identity_file] = '/home/ec2-user/.pem/drucloud.pem'" >> /home/ec2-user/chef11/chef-repo/.chef/knife.rb
+#echo "configure knife ssh success"
 	
 #update all chef-client using knife
 
@@ -87,5 +87,5 @@ sleep 1
 /opt/chef-server/embedded/bin/knife cookbook upload deploycode
 sleep 10 
 n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[deploycode]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
-n=0;until [ $n -ge 5 ];do cat /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 60;done;
+#n=0;until [ $n -ge 5 ];do cat /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 60;done;
 n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:$role" "sudo chef-client -o 'recipe[drupalsetting]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;

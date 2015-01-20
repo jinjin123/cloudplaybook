@@ -56,7 +56,6 @@ end rescue NoMethodError
 if Chef::DataBag.list.key?('drupal')
   print 
   # Check if DataBag item exist before applying templates
-  if !Chef::DataBagItem.validate_id!('Database')
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)
     template "/var/www/html/sites/default/settings.php" do
       source "settings.php"
@@ -74,9 +73,7 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-  end
 
-  if !Chef::DataBagItem.validate_id!('AWS')
     AWS_Setting = Chef::EncryptedDataBagItem.load("drupal", "AWS", drupal_secret)
     template "/var/www/html/sites/default/aws.settings.php" do
       source "aws.settings.php"
@@ -92,10 +89,10 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-  end
   
-  if !Chef::DataBagItem.validate_id!('Memcache')
+  begin
     Memcache_Setting = Chef::EncryptedDataBagItem.load("drupal", "Memcache", drupal_secret)
+  rescue Exception => e  
     template "/var/www/html/sites/default/memcache.settings.php" do
       source "memcache.settings.php"
       variables(
@@ -114,8 +111,9 @@ if Chef::DataBag.list.key?('drupal')
     end rescue NoMethodError
   end
 
-  if !Chef::DataBagItem.validate_id!('CDN')
-    CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "CDN", drupal_secret)
+  begin    
+      CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "CDN", drupal_secret)
+  rescue Exception => e
     template "/var/www/html/sites/default/cdn.settings.php" do
       source "cdn.settings.php"
       variables(
@@ -131,26 +129,28 @@ if Chef::DataBag.list.key?('drupal')
     end rescue NoMethodError
   end
   
-  if !Chef::DataBagItem.validate_id!('S3CDN')
-    S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
-    template "/var/www/html/sites/default/s3cdn.setttings.php" do
-      source "s3cdn.setttings.php"
-      variables(
-        :S3CDN => S3CDN_Setting['S3CDN']
-      )
-      mode 0600
-      retries 3
-      retry_delay 30
-      owner "nginx"
-      group "nginx"
-      action :create
-      ignore_failure true
-    end rescue NoMethodError
-  end
+    begin
+      S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
+    rescue Exception => e
+      template "/var/www/html/sites/default/s3cdn.setttings.php" do
+        source "s3cdn.setttings.php"
+        variables(
+          :S3CDN => S3CDN_Setting['S3CDN']
+        )
+        mode 0600
+        retries 3
+        retry_delay 30
+        owner "nginx"
+        group "nginx"
+        action :create
+        ignore_failure true
+      end rescue NoMethodError
+    end
 
   # Calling three templates by one data_bag
-  if !Chef::DataBagItem.validate_id!('Host_n_storage')
+  begin
     Host_n_storage_Setting = Chef::EncryptedDataBagItem.load("drupal", "Host_n_storage", drupal_secret)
+  rescue Exception => e
     template "/var/www/html/sites/default/cookie.settings.php" do
       source "cookie.settings.php"
       variables(
@@ -164,7 +164,7 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-    
+
     template "/var/www/html/sites/default/s3.settings.php" do
       source "s3.settings.php"
       variables(
@@ -193,7 +193,7 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-    
+      
   end
 end
 

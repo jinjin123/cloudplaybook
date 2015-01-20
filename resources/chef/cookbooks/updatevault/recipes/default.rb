@@ -27,10 +27,22 @@ template "/home/ec2-user/.pem/bootdev.pem" do
   ignore_failure true
 end rescue NoMethodError
 
-script "call_chefserver_updatevault" do
-  interpreter "bash"
-  user "root"
-  code <<-EOH
-  ssh -i /home/ec2-user/.pem/bootdev.pem
-  EOH
+chef_gem "chef-vault"
+require "chef-vault"
+
+vault = ChefVault::Item.load("secrets", "secret_key")
+
+file "/etc/chef/secret_key" do
+  content vault['secret_key']
+  owner "root"
+  group "root"
+  mode 00600
+end
+
+file_names = ['/etc/chef/secret_key']
+file_names.each do |file_name|
+  text = File.read(file_name)
+  new_contents = text.gsub(/ /, "\n")
+  # To write changes to the file, use:
+  File.open(file_name, "w") {|file| file.puts new_contents }
 end
