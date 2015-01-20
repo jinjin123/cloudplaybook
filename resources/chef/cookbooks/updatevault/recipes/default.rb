@@ -24,8 +24,7 @@ template "/home/ec2-user/.pem/bootdev.pem" do
   owner "root"
   group "root"
   action :create
-  ignore_failure true
-end rescue NoMethodError
+end
 
 execute 'call_chefserver' do
   command "/etc/chef/run_update.sh"
