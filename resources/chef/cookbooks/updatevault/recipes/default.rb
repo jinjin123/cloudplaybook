@@ -27,22 +27,38 @@ template "/home/ec2-user/.pem/bootdev.pem" do
   ignore_failure true
 end rescue NoMethodError
 
+Role = File.read("/etc/chef/role.txt").tr("\n","")
+ChefServerIP = `cat /etc/chef/client.rb|grep chef_server_url|cut -d/ -f3|cut -d. -f1`
+ChefServerIP = ChefServerIP.tr("\n","")
+
+template "/etc/chef/run_update.sh" do
+  source "run_update.sh"
+    variables(
+      :ChefServerIP => "#{ChefServerIP}",
+      :RoleName => "#{Role}",
+    )
+      mode 0700
+      retries 3
+      retry_delay 30
+      owner "root"
+      group "root"
+      action :create
+      ignore_failure true
+    end rescue NoMethodError
+
+execute 'call_chefserver' do
+  command "/etc/chef/run_update.sh"
+end
+
 chef_gem "chef-vault"
 require "chef-vault"
 
 vault = ChefVault::Item.load("secrets", "secret_key")
+vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
 
 file "/etc/chef/secret_key" do
   content vault['secret_key']
   owner "root"
   group "root"
   mode 00600
-end
-
-file_names = ['/etc/chef/secret_key']
-file_names.each do |file_name|
-  text = File.read(file_name)
-  new_contents = text.gsub(/ /, "\n")
-  # To write changes to the file, use:
-  File.open(file_name, "w") {|file| file.puts new_contents }
 end

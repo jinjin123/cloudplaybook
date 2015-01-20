@@ -174,7 +174,7 @@ end
 #        EOH
 #end
 
-include_recipe 'drupalsetting'
+include_recipe 'drupal_settings'
 
 service "nginx" do
   action :restart

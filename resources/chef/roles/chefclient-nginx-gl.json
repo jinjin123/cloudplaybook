@@ -11,14 +11,14 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
+    "recipe[updatevault]",
     "recipe[php]",
     "recipe[php-ext-centos]",
     "recipe[php-fpm]",
     "recipe[nginx]",
     "recipe[composer]",
-    "recipe[deploycode]",
     "recipe[diskmount]",
-    "recipe[drupalsetting]"
+    "recipe[deploycode]"
   ],
   "env_run_lists": {
   }
