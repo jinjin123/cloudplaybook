@@ -53,10 +53,12 @@ template "/etc/chef/run_update.sh" do
   notifies :run,"execute[call_chefserver]", :immediately
 end rescue NoMethodError
 
-chef_gem "chef-vault"
-require "chef-vault"
-vault = ChefVault::Item.load("secrets", "secret_key")
-vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
-# To write changes to the file, use:
-out_file = File.open("/etc/chef/secret_key", "w")
-out_file.puts vault['secret_key']
+if File.exist?("/etc/chef/run_update.sh")
+  chef_gem "chef-vault"
+  require "chef-vault"
+  vault = ChefVault::Item.load("secrets", "secret_key")
+  vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
+  # To write changes to the file, use:
+  out_file = File.open("/etc/chef/secret_key", "w")
+  out_file.puts vault['secret_key']
+end

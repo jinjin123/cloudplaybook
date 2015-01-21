@@ -8,15 +8,8 @@
 #
 require 'chef/data_bag'
 
-chef_gem "chef-vault"
-require "chef-vault"
-begin
-  vault = ChefVault::Item.load("secrets", "secret_key")
-  vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
-  # To write changes to the file, use:
-  File.open(node['drupal_settings']['secretpath'], "w") {|file| file.puts vault['secret_key'] }
-rescue Exception => e 
-end
+if File.exist?("/etc/chef/secret_key")
+
 
 bash "mount_if_gluster" do
   user "root"
@@ -56,16 +49,16 @@ end
 # Check if databag exists before applying templates
 if Chef::DataBag.list.key?('drupal')
 
-template "/var/www/html/sites/default/basic.settings.php" do
-  source "basic.settings.php"
-  mode 0600
-  retries 3
-  retry_delay 30
-  owner "nginx"
-  group "nginx"
-  action :create
-  ignore_failure true
-end rescue NoMethodError
+  template "/var/www/html/sites/default/basic.settings.php" do
+    source "basic.settings.php"
+    mode 0600
+    retries 3
+    retry_delay 30
+    owner "nginx"
+    group "nginx"
+    action :create
+    ignore_failure true
+  end rescue NoMethodError
 
   begin
   # Check if DataBag item exist before applying templates
@@ -110,7 +103,6 @@ end rescue NoMethodError
   
   begin
     Memcache_Setting = Chef::EncryptedDataBagItem.load("drupal", "Memcache", drupal_secret)
-  rescue Exception => e  
     template "/var/www/html/sites/default/memcache.settings.php" do
       source "memcache.settings.php"
       variables(
@@ -127,11 +119,11 @@ end rescue NoMethodError
       action :create
       ignore_failure true
     end rescue NoMethodError
+  rescue Exception => e  
   end
 
   begin    
-      CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "CDN", drupal_secret)
-  rescue Exception => e
+    CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "CDN", drupal_secret)
     template "/var/www/html/sites/default/cdn.settings.php" do
       source "cdn.settings.php"
       variables(
@@ -145,30 +137,30 @@ end rescue NoMethodError
       action :create
       ignore_failure true
     end rescue NoMethodError
+  rescue Exception => e  
   end
   
-    begin
-      S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
-    rescue Exception => e
-      template "/var/www/html/sites/default/s3cdn.setttings.php" do
-        source "s3cdn.setttings.php"
-        variables(
-          :S3CDN => S3CDN_Setting['S3CDN']
-        )
-        mode 0600
-        retries 3
-        retry_delay 30
-        owner "nginx"
-        group "nginx"
-        action :create
-        ignore_failure true
-      end rescue NoMethodError
-    end
+  begin
+    S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
+    template "/var/www/html/sites/default/s3cdn.setttings.php" do
+      source "s3cdn.setttings.php"
+      variables(
+        :S3CDN => S3CDN_Setting['S3CDN']
+      )
+      mode 0600
+      retries 3
+      retry_delay 30
+      owner "nginx"
+      group "nginx"
+      action :create
+      ignore_failure true
+    end rescue NoMethodError
+  rescue Exception => e
+  end
 
   # Calling three templates by one data_bag
   begin
     Host_n_storage_Setting = Chef::EncryptedDataBagItem.load("drupal", "Host_n_storage", drupal_secret)
-  rescue Exception => e
     template "/var/www/html/sites/default/cookie.settings.php" do
       source "cookie.settings.php"
       variables(
@@ -211,7 +203,7 @@ end rescue NoMethodError
       action :create
       ignore_failure true
     end rescue NoMethodError
-      
+   rescue Exception => e    
   end
 end
 
@@ -223,4 +215,7 @@ end
 service "php-fpm" do
   action :restart
   ignore_failure true
+end
+
+
 end
