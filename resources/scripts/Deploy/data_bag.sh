@@ -7,3 +7,4 @@ for x in `ls data_bags/*.json`
 do
 /opt/chef-server/embedded/bin/knife data bag from file drupal $x --secret-file .chef/secret_key
 done
+rm .chef/secret_key
