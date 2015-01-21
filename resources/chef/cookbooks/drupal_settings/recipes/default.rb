@@ -16,11 +16,12 @@ if File.exist?("/etc/chef/run_update.sh")
   # To write changes to the file, use:
   out_file = File.open("/etc/chef/secret_key", "w")
   out_file.puts vault['secret_key']
+ # adding a space into the end of the file to avoid being strip away all text
+  out_file = File.open("/etc/chef/secret_key", "a")
+  out_file.puts " "
 end
 
-if File.exist?("/etc/chef/secret_key")
-
-
+if File.exist?(node['drupal_settings']['secretpath'])
 bash "mount_if_gluster" do
   user "root"
   cwd "/tmp"
@@ -52,9 +53,8 @@ fi
 EOH
 end
 
-if File.exist?(node['drupal_settings']['secretpath'])
+
 drupal_secret = Chef::EncryptedDataBagItem.load_secret(node['drupal_settings']['secretpath'])
-end
 
 # Check if databag exists before applying templates
 if Chef::DataBag.list.key?('drupal')

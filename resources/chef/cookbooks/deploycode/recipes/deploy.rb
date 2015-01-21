@@ -178,7 +178,7 @@ end
 #end
 if ! Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
   if File.exist?("#{node[:deploycode][:localsourcefolder]}/.git/config")
-    if File.readlines("#{node[:deploycode][:localsourcefolder]}/.git/config").grep("/drucloud/").size > 0
+    if File.readlines("#{node[:deploycode][:localsourcefolder]}/.git/config").grep(/drucloud/).size > 0
       include_recipe 'drupal_settings'
     end
   end

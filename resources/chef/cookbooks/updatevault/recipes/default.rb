@@ -26,12 +26,6 @@ template "/home/ec2-user/.pem/bootdev.pem" do
   action :create
 end
 
-execute 'call_chefserver' do
-  command "/etc/chef/run_update.sh"
-  retries 3
-  retry_delay 30
-  action :nothing
-end
 
 Role = File.read("/etc/chef/role.txt").tr("\n","")
 ChefServerIP = `cat /etc/chef/client.rb|grep chef_server_url|cut -d/ -f3|cut -d. -f1`
@@ -50,5 +44,11 @@ template "/etc/chef/run_update.sh" do
   group "root"
   action :create
   ignore_failure true
-  notifies :run,"execute[call_chefserver]", :immediately
 end rescue NoMethodError
+
+execute 'call_chefserver' do
+  command "/etc/chef/run_update.sh"
+  retries 3
+  retry_delay 30
+end
+
