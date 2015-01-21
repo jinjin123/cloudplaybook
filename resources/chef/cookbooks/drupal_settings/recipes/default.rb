@@ -10,10 +10,13 @@ require 'chef/data_bag'
 
 chef_gem "chef-vault"
 require "chef-vault"
-vault = ChefVault::Item.load("secrets", "secret_key")
-vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
-# To write changes to the file, use:
-File.open(node['drupal_settings']['secretpath'], "w") {|file| file.puts vault['secret_key'] }
+begin
+  vault = ChefVault::Item.load("secrets", "secret_key")
+  vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
+  # To write changes to the file, use:
+  File.open(node['drupal_settings']['secretpath'], "w") {|file| file.puts vault['secret_key'] }
+rescue Exception => e 
+end
 
 bash "mount_if_gluster" do
   user "root"
@@ -64,7 +67,7 @@ template "/var/www/html/sites/default/basic.settings.php" do
   ignore_failure true
 end rescue NoMethodError
 
-
+  begin
   # Check if DataBag item exist before applying templates
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)
     template "/var/www/html/sites/default/settings.php" do
@@ -83,6 +86,8 @@ end rescue NoMethodError
       action :create
       ignore_failure true
     end rescue NoMethodError
+  rescue Exception => e  
+  end
 
     AWS_Setting = Chef::EncryptedDataBagItem.load("drupal", "AWS", drupal_secret)
     template "/var/www/html/sites/default/aws.settings.php" do
