@@ -177,7 +177,9 @@ end
 #        EOH
 #end
 
+if File.readlines("#{node[:deploycode][:localsourcefolder]}/.git/config").grep("/drucloud/").size > 0
 include_recipe 'drupal_settings'
+end
 
 service "nginx" do
   action :restart
