@@ -89,6 +89,7 @@ end rescue NoMethodError
   rescue Exception => e  
   end
 
+  begin
     AWS_Setting = Chef::EncryptedDataBagItem.load("drupal", "AWS", drupal_secret)
     template "/var/www/html/sites/default/aws.settings.php" do
       source "aws.settings.php"
@@ -104,6 +105,8 @@ end rescue NoMethodError
       action :create
       ignore_failure true
     end rescue NoMethodError
+    rescue Exception => e  
+  end
   
   begin
     Memcache_Setting = Chef::EncryptedDataBagItem.load("drupal", "Memcache", drupal_secret)
