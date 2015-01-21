@@ -51,15 +51,15 @@ template "/etc/chef/run_update.sh" do
   notifies :run,"execute[call_chefserver]", :immediately
 end rescue NoMethodError
 
-chef_gem "chef-vault"
-require "chef-vault"
-if File.exist?("/etc/chef/run_update.sh")
-  vault = ChefVault::Item.load("secrets", "secret_key")
-  vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
-  file "/etc/chef/secret_key" do
-    content vault['secret_key']
-    owner "root"
-    group "root"
-    mode 00600
-  end
-end
+#chef_gem "chef-vault"
+#require "chef-vault"
+#if File.exist?("/etc/chef/run_update.sh")
+#  vault = ChefVault::Item.load("secrets", "secret_key")
+#  vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
+#  file "/etc/chef/secret_key" do
+#    content vault['secret_key']
+#    owner "root"
+#    group "root"
+#    mode 00600
+#  end
+#end
