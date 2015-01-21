@@ -129,7 +129,8 @@ if ! Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
                 execute "clear_directory" do
                         command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
                         cwd node[:deploycode][:localsourcefolder]
-                        notifies :sync, "git[clone_repo]", :delayed
+                        notifies :sync, "git[clone_repo]", :immediately
+#:delayed
                 end
 #         ruby_block "notify_template" do
 #            block do
@@ -148,13 +149,15 @@ else
                         reference "master"
                         action :sync
                         destination node[:deploycode][:localsourcefolder]
-                        notifies :run, "execute[git_tag]", :delayed
+                        notifies :run, "execute[git_tag]", :immediately
+#:delayed
                 end        
         else 
                 execute "clear_directory" do
                         command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
                         cwd node[:deploycode][:localsourcefolder]
-                        notifies :sync, "git[clone_repo]", :delayed
+                        notifies :sync, "git[clone_repo]", :immediately
+#:delayed
                 end
         end
 end
