@@ -43,6 +43,9 @@ if File.exist?(node['drupal_settings']['secretpath'])
 drupal_secret = Chef::EncryptedDataBagItem.load_secret("#{node['drupal_settings']['secretpath']}")
 end
 
+# Check if databag exists before applying templates
+if Chef::DataBag.list.key?('drupal')
+
 template "/var/www/html/sites/default/basic.settings.php" do
   source "basic.settings.php"
   mode 0600
@@ -54,9 +57,7 @@ template "/var/www/html/sites/default/basic.settings.php" do
   ignore_failure true
 end rescue NoMethodError
 
-# Check if databag exists before applying templates
-if Chef::DataBag.list.key?('drupal')
-  print 
+
   # Check if DataBag item exist before applying templates
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)
     template "/var/www/html/sites/default/settings.php" do
