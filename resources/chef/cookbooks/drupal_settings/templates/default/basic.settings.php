@@ -1,7 +1,5 @@
 <?php
 
-$update_free_access = FALSE;
-
 /**
 * Some distributions of Linux (most notably Debian) ship their PHP
 * installations with garbage collection (gc) disabled. Since Drupal depends on
@@ -61,3 +59,4 @@ $conf['social_stats_options'] = '1';
 
 $conf['preprocess_css'] = '1';
 $conf['preprocess_js'] = '1';
+$conf['page_compression'] = '1';

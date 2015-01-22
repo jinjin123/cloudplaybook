@@ -129,7 +129,8 @@ if ! Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
                 execute "clear_directory" do
                         command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
                         cwd node[:deploycode][:localsourcefolder]
-                        notifies :sync, "git[clone_repo]", :delayed
+                        notifies :sync, "git[clone_repo]", :immediately
+#:delayed
                 end
 #         ruby_block "notify_template" do
 #            block do
@@ -138,7 +139,8 @@ if ! Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
 #            notifies :sync, "git[clone_repo]", :delayed 
 #        end
 else
-        if File.readlines("#{node[:deploycode][:localsourcefolder]}/.git/config").grep("/#{node[:deploycode][:gitrepo]}/").size > 0
+        contents = File.read("#{node[:deploycode][:localsourcefolder]}/.git/config")
+        if contents.include?(node[:deploycode][:gitrepo])
                 git "pull_repo" do
                         user node[:deploycode][:code_owner]
                         group node[:deploycode][:code_group]
@@ -148,33 +150,29 @@ else
                         reference "master"
                         action :sync
                         destination node[:deploycode][:localsourcefolder]
-                        notifies :run, "execute[git_tag]", :delayed
+                        notifies :run, "execute[git_tag]", :immediately
+#:delayed
                 end        
         else 
                 execute "clear_directory" do
                         command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
                         cwd node[:deploycode][:localsourcefolder]
-                        notifies :sync, "git[clone_repo]", :delayed
+                        notifies :sync, "git[clone_repo]", :immediately
+#:delayed
                 end
         end
 end
 
-#script "changeowner" do
-#        interpreter "bash"
-#        user "root"
-#        code <<-EOH
-#        export CHECK=`cat /etc/passwd | grep webapp | wc -l`
-#        if [ $CHECK -gt 0 ];then
-#        chown -R webapp:apache #{node[:deploycode][:localsourcefolder]};
-#        else 
-#        chown -R nginx:nginx #{node[:deploycode][:localsourcefolder]};
-#        service php-fpm restart|| true
-#        service nginx restart|| true
-#        fi
-#        EOH
-#end
+# if git repository is drupal, then run drupal_settings
 
-include_recipe 'drupalsetting'
+if Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
+  if File.exist?("#{node[:deploycode][:localsourcefolder]}/.git/config")
+    contents = File.read("#{node[:deploycode][:localsourcefolder]}/.git/config")
+    if contents.include?('drucloud')
+      include_recipe 'drupal_settings'
+    end
+  end
+end
 
 service "nginx" do
   action :restart

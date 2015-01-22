@@ -16,24 +16,55 @@ directory "/home/ec2-user/.pem" do
   ignore_failure true
 end
 
-template "/home/ec2-user/.pem/drucloud.pem" do
-  source "drucloud.pem"
+template "/home/ec2-user/.pem/bootdev.pem" do
+  source "bootdev.pem"
   mode 0400
   retries 3
   retry_delay 30
   owner "root"
   group "root"
   action :create
-  ignore_failure true
-end rescue NoMethodError
+end
 
-script "install_drush_root" do
-  interpreter "bash"
-  user "root"
-  code <<-EOH
-  cd
-  nohup /usr/local/bin/composer global require drush/drush:dev-master &
-  sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
-  source $HOME/.bashrc
-  EOH
+
+Role = File.read("/etc/chef/role.txt").tr("\n","")
+ChefServerIP = `cat /etc/chef/client.rb|grep chef_server_url|cut -d/ -f3|cut -d. -f1`
+ChefServerIP = ChefServerIP.tr("\n","")
+
+template "/etc/chef/run_update.sh" do
+  source "run_update.sh"
+  variables(
+    :ChefServerIP => "#{ChefServerIP}",
+    :RoleName => "#{Role}",
+  )
+  mode 0700
+  retries 3
+  retry_delay 30
+  owner "root"
+  group "root"
+  action :create
+end
+
+execute 'call_chefserver' do
+  command "bash /etc/chef/run_update.sh"
+  retries 3
+  retry_delay 30
+end
+
+
+chef_gem "chef-vault"
+require "chef-vault"
+if !File.exist?("/etc/chef/secret_key")
+  ruby_block "Chef_Vault" do
+    block do
+      vault = ChefVault::Item.load("secrets", "secret_key")
+      vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
+    # To write changes to the file, use:
+      out_file = File.open("/etc/chef/secret_key", "w")
+      concat_string = vault['secret_key']
+    # adding a space into the end of the file to avoid being strip away all text
+      out_file.puts concat_string
+    end
+    action :run
+  end
 end

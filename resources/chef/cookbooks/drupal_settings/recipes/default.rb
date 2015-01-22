@@ -6,57 +6,65 @@
 # www.BootDev.com
 # All rights reserved - Do Not Redistribute
 #
+#execute 'call_chefserver' do
+#  command "bash /etc/chef/run_update.sh"
+#  retries 3
+#  retry_delay 30
+#  action :run
+#end
+
+#include_recipe 'drupal_settings::write_secret'
+
 require 'chef/data_bag'
 
-bash "mount_if_gluster" do
-  user "root"
-  cwd "/tmp"
-  code <<-EOH
-if [ `cat /etc/fstab|grep glusterfs| wc -l` -gt 0 ]
-then
-  mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
-  if [ -d "/var/www/html/sites/default" ]; then
-    ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` /var/www/html/sites/default/files
-    if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]
-    then
-      chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
-    else
-      chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
-    fi
-  fi
-else
-  if [ -d "/var/www/html/sites/default" ]; then
-  mkdir /var/www/html/sites/default/files
-  chmod 777 /var/www/html/sites/default/files
-    if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]
-    then
-    chown nginx:nginx /var/www/html/sites/default/files
-    else
-    chown apache:apache /var/www/html/sites/default/files
-    fi
-  fi
-fi
-EOH
-end
+if File.exist?(node['drupal_settings']['secretpath'])
+  bash "mount_if_gluster" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOH
+      if [ `cat /etc/fstab|grep glusterfs| wc -l` -gt 0 ]; then
+        mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+        if [ -d "/var/www/html/sites/default" ]; then
+          ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` /var/www/html/sites/default/files
+          if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]; then
+              chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+          else
+            chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+          fi
+        fi
+      else
+        if [ -d "/var/www/html/sites/default" ]; then
+          mkdir /var/www/html/sites/default/files
+          chmod 777 /var/www/html/sites/default/files
+          if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]; then
+            chown nginx:nginx /var/www/html/sites/default/files
+          else
+            chown apache:apache /var/www/html/sites/default/files
+          fi
+        fi
+      fi
+    EOH
+  end
 
-drupal_secret = Chef::EncryptedDataBagItem.load_secret("#{node['drupal_settings']['secretpath']}")
 
-template "/var/www/html/sites/default/basic.settings.php" do
-  source "basic.settings.php"
-  mode 0600
-  retries 3
-  retry_delay 30
-  owner "nginx"
-  group "nginx"
-  action :create
-  ignore_failure true
-end rescue NoMethodError
+  drupal_secret = IO.read(node['drupal_settings']['secretpath']).strip
+  #Chef::EncryptedDataBagItem.load_secret(node['drupal_settings']['secretpath'])
 
-# Check if databag exists before applying templates
-if Chef::DataBag.list.key?('drupal')
-  print 
-  # Check if DataBag item exist before applying templates
-  if !Chef::DataBagItem.validate_id!('Database')
+  # Check if databag exists before applying templates
+  if Chef::DataBag.list.key?('drupal')
+
+    template "/var/www/html/sites/default/basic.settings.php" do
+      source "basic.settings.php"
+      mode 0600
+      retries 3
+      retry_delay 30
+      owner "nginx"
+      group "nginx"
+      action :create
+      ignore_failure true
+    end rescue NoMethodError
+
+    # Check if DataBag item exist before applying templates
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)
     template "/var/www/html/sites/default/settings.php" do
       source "settings.php"
@@ -73,10 +81,8 @@ if Chef::DataBag.list.key?('drupal')
       group "nginx"
       action :create
       ignore_failure true
-    end rescue NoMethodError
-  end
+    end
 
-  if !Chef::DataBagItem.validate_id!('AWS')
     AWS_Setting = Chef::EncryptedDataBagItem.load("drupal", "AWS", drupal_secret)
     template "/var/www/html/sites/default/aws.settings.php" do
       source "aws.settings.php"
@@ -91,11 +97,12 @@ if Chef::DataBag.list.key?('drupal')
       group "nginx"
       action :create
       ignore_failure true
-    end rescue NoMethodError
-  end
+    end
   
-  if !Chef::DataBagItem.validate_id!('Memcache')
-    Memcache_Setting = Chef::EncryptedDataBagItem.load("drupal", "Memcache", drupal_secret)
+    begin
+      Memcache_Setting = Chef::EncryptedDataBagItem.load("drupal", "Memcache", drupal_secret)
+    rescue Exception => e  
+    end
     template "/var/www/html/sites/default/memcache.settings.php" do
       source "memcache.settings.php"
       variables(
@@ -112,10 +119,12 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-  end
 
-  if !Chef::DataBagItem.validate_id!('CDN')
-    CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "CDN", drupal_secret)
+
+    begin    
+      CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "CDN", drupal_secret)
+    rescue Exception => e  
+    end
     template "/var/www/html/sites/default/cdn.settings.php" do
       source "cdn.settings.php"
       variables(
@@ -129,10 +138,12 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-  end
+
   
-  if !Chef::DataBagItem.validate_id!('S3CDN')
-    S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
+    begin
+      S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
+    rescue Exception => e
+    end
     template "/var/www/html/sites/default/s3cdn.setttings.php" do
       source "s3cdn.setttings.php"
       variables(
@@ -146,11 +157,13 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-  end
 
-  # Calling three templates by one data_bag
-  if !Chef::DataBagItem.validate_id!('Host_n_storage')
-    Host_n_storage_Setting = Chef::EncryptedDataBagItem.load("drupal", "Host_n_storage", drupal_secret)
+
+    # Calling three templates by one data_bag
+    begin
+      Host_n_storage_Setting = Chef::EncryptedDataBagItem.load("drupal", "Host_n_storage", drupal_secret)
+    rescue Exception => e    
+    end
     template "/var/www/html/sites/default/cookie.settings.php" do
       source "cookie.settings.php"
       variables(
@@ -164,7 +177,7 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-    
+
     template "/var/www/html/sites/default/s3.settings.php" do
       source "s3.settings.php"
       variables(
@@ -179,7 +192,7 @@ if Chef::DataBag.list.key?('drupal')
       ignore_failure true
     end rescue NoMethodError
     
-    template "/var/www/html/sites/default/xmlsitemap.settings.php " do
+    template "/var/www/html/sites/default/xmlsitemap.settings.php" do
       source "xmlsitemap.settings.php"
       variables(
         :LoadBalancerDNS => Host_n_storage_Setting['LoadBalancerDNS'],
@@ -193,7 +206,6 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-    
   end
 end
 
@@ -206,3 +218,4 @@ service "php-fpm" do
   action :restart
   ignore_failure true
 end
+
