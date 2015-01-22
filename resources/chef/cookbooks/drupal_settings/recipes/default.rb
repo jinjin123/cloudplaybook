@@ -6,6 +6,8 @@
 # www.BootDev.com
 # All rights reserved - Do Not Redistribute
 #
+include_recipe 'drupal_settins::write_secret'
+
 execute 'call_chefserver' do
   command "/etc/chef/run_update.sh"
   retries 3
@@ -13,18 +15,6 @@ execute 'call_chefserver' do
 end
 
 require 'chef/data_bag'
-
-if File.exist?("/etc/chef/run_update.sh")
-  chef_gem "chef-vault"
-  require "chef-vault"
-  vault = ChefVault::Item.load("secrets", "secret_key")
- # vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
-  # To write changes to the file, use:
-  out_file = File.open("/etc/chef/secret_key", "w")
-  concat_string = "\n" + vault['secret_key'] + "\n"
- # adding a space into the end of the file to avoid being strip away all text
-  out_file.puts concat_string
-end
 
 if File.exist?(node['drupal_settings']['secretpath'])
 bash "mount_if_gluster" do
@@ -59,7 +49,8 @@ EOH
 end
 
 
-drupal_secret = Chef::EncryptedDataBagItem.load_secret(node['drupal_settings']['secretpath'])
+drupal_secret = IO.read(node['drupal_settings']['secretpath']).strip
+#Chef::EncryptedDataBagItem.load_secret(node['drupal_settings']['secretpath'])
 
 # Check if databag exists before applying templates
 if Chef::DataBag.list.key?('drupal')
@@ -113,7 +104,7 @@ if Chef::DataBag.list.key?('drupal')
       action :create
       ignore_failure true
     end rescue NoMethodError
-    rescue Exception => e  
+  rescue Exception => e  
   end
   
   begin
@@ -219,6 +210,7 @@ if Chef::DataBag.list.key?('drupal')
       ignore_failure true
     end rescue NoMethodError
    rescue Exception => e    
+   end
   end
 end
 
@@ -232,5 +224,3 @@ service "php-fpm" do
   ignore_failure true
 end
 
-
-end
