@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 execute 'call_chefserver' do
-  command "/etc/chef/run_update.sh"
+  command "bash /etc/chef/run_update.sh"
   retries 3
   retry_delay 30
   action :run

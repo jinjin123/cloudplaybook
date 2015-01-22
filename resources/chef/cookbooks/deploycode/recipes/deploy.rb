@@ -162,23 +162,9 @@ else
         end
 end
 
-#script "changeowner" do
-#        interpreter "bash"
-#        user "root"
-#        code <<-EOH
-#        export CHECK=`cat /etc/passwd | grep webapp | wc -l`
-#        if [ $CHECK -gt 0 ];then
-#        chown -R webapp:apache #{node[:deploycode][:localsourcefolder]};
-#        else 
-#        chown -R nginx:nginx #{node[:deploycode][:localsourcefolder]};
-#        service php-fpm restart|| true
-#        service nginx restart|| true
-#        fi
-#        EOH
-#end
 if File.exist?("/etc/chef/run_update.sh")
   execute 'call_chefserver' do
-    command "/etc/chef/run_update.sh"
+    command "bash /etc/chef/run_update.sh"
     retries 3
     retry_delay 30
     action :run
