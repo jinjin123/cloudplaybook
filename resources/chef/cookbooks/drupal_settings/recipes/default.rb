@@ -6,14 +6,14 @@
 # www.BootDev.com
 # All rights reserved - Do Not Redistribute
 #
-execute 'call_chefserver' do
-  command "bash /etc/chef/run_update.sh"
-  retries 3
-  retry_delay 30
-  action :run
-end
+#execute 'call_chefserver' do
+#  command "bash /etc/chef/run_update.sh"
+#  retries 3
+#  retry_delay 30
+#  action :run
+#end
 
-include_recipe 'drupal_settings::write_secret'
+#include_recipe 'drupal_settings::write_secret'
 
 require 'chef/data_bag'
 
@@ -192,7 +192,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
       ignore_failure true
     end rescue NoMethodError
     
-    template "/var/www/html/sites/default/xmlsitemap.settings.php " do
+    template "/var/www/html/sites/default/xmlsitemap.settings.php" do
       source "xmlsitemap.settings.php"
       variables(
         :LoadBalancerDNS => Host_n_storage_Setting['LoadBalancerDNS'],

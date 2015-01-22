@@ -139,7 +139,8 @@ if ! Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
 #            notifies :sync, "git[clone_repo]", :delayed 
 #        end
 else
-        if File.readlines("#{node[:deploycode][:localsourcefolder]}/.git/config").grep("/#{node[:deploycode][:gitrepo]}/").size > 0
+        contents = File.read("#{node[:deploycode][:localsourcefolder]}/.git/config")
+        if contents.include?(node[:deploycode][:gitrepo])
                 git "pull_repo" do
                         user node[:deploycode][:code_owner]
                         group node[:deploycode][:code_group]
@@ -162,14 +163,7 @@ else
         end
 end
 
-if File.exist?("/etc/chef/run_update.sh")
-  execute 'call_chefserver' do
-    command "bash /etc/chef/run_update.sh"
-    retries 3
-    retry_delay 30
-    action :run
-  end
-end
+# if git repository is drupal, then run drupal_settings
 
 if Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
   if File.exist?("#{node[:deploycode][:localsourcefolder]}/.git/config")

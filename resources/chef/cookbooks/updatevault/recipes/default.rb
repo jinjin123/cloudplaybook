@@ -43,12 +43,22 @@ template "/etc/chef/run_update.sh" do
   owner "root"
   group "root"
   action :create
-  ignore_failure true
-end rescue NoMethodError
+end
 
 execute 'call_chefserver' do
-  command "/etc/chef/run_update.sh"
+  command "bash /etc/chef/run_update.sh"
   retries 3
   retry_delay 30
 end
 
+if !File.exist?("/etc/chef/secret_key")
+  chef_gem "chef-vault"
+  require "chef-vault"
+  vault = ChefVault::Item.load("secrets", "secret_key")
+  vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
+  # To write changes to the file, use:
+  out_file = File.open("/etc/chef/secret_key", "w")
+  concat_string = vault['secret_key']
+ # adding a space into the end of the file to avoid being strip away all text
+  out_file.puts concat_string
+end
