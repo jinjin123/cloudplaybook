@@ -6,6 +6,12 @@
 # www.BootDev.com
 # All rights reserved - Do Not Redistribute
 #
+execute 'call_chefserver' do
+  command "/etc/chef/run_update.sh"
+  retries 3
+  retry_delay 30
+end
+
 require 'chef/data_bag'
 
 if File.exist?("/etc/chef/run_update.sh")
@@ -15,10 +21,9 @@ if File.exist?("/etc/chef/run_update.sh")
  # vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
   # To write changes to the file, use:
   out_file = File.open("/etc/chef/secret_key", "w")
-  out_file.puts vault['secret_key']
+  concat_string = "\n" + vault['secret_key'] + "\n"
  # adding a space into the end of the file to avoid being strip away all text
-  out_file = File.open("/etc/chef/secret_key", "a")
-  out_file.puts " "
+  out_file.puts concat_string
 end
 
 if File.exist?(node['drupal_settings']['secretpath'])
