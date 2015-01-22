@@ -176,6 +176,15 @@ end
 #        fi
 #        EOH
 #end
+if File.exist?("/etc/chef/run_update.sh")
+  execute 'call_chefserver' do
+    command "/etc/chef/run_update.sh"
+    retries 3
+    retry_delay 30
+    action :run
+  end
+end
+
 if Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
   if File.exist?("#{node[:deploycode][:localsourcefolder]}/.git/config")
     contents = File.read("#{node[:deploycode][:localsourcefolder]}/.git/config")
