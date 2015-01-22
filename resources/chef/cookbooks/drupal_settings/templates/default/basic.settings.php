@@ -59,3 +59,4 @@ $conf['social_stats_options'] = '1';
 
 $conf['preprocess_css'] = '1';
 $conf['preprocess_js'] = '1';
+$conf['page_compression'] = '1';
