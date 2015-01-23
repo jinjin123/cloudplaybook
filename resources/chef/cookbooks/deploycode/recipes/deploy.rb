@@ -126,11 +126,16 @@ else
 end
 
 # if git repository is drupal, then run drupal_settings
-unless ::File.exists?("#{node[:deploycode][:localsourcefolder]}/.git/config")
-  if File.exists?("#{node[:deploycode][:localsourcefolder]}/.git/config")
-    if File.read("#{node[:deploycode][:localsourcefolder]}/.git/config").include?('drucloud')
-      include_recipe 'drupal_settings'
+ruby_block "CheckDrupal" do
+  block do
+    Existance = 0
+    CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
+    Existance = CheckDrucloud.to_i
+    run = ""
+    if Existance > 0
+      exec("chef-client -o 'recipe[drupal_settings]'")
     end
+    print run
   end
 end
 
