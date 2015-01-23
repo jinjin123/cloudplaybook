@@ -14,21 +14,21 @@ role=
 
 while getopts u:p:k:g:r: opt
 do
-	case $opt in
-		u)	buser=$OPTARG;;
-		p)	bpwd=$OPTARG;;
-		k)	userpem=$OPTARG;;
-		g)	giturl=$OPTARG;;
-		r)      role=$OPTARG;;
-		*)	echo "-$opt not recognized";;
-	esac
+  case $opt in
+    u)  buser=$OPTARG;;
+    p)  bpwd=$OPTARG;;
+    k)  userpem=$OPTARG;;
+    g)  giturl=$OPTARG;;
+    r)  role=$OPTARG;;
+    *)  echo "-$opt not recognized";;
+  esac
 done
 
 if [ -e buser.txt ]
 then
-        $current_buser=`cat buser.txt`
+  $current_buser=`cat buser.txt`
 else
-        $current_buser="notset";
+  $current_buser="notset";
 fi
 
 #echo $role > role.txt
@@ -40,20 +40,20 @@ fi
 #register bitbucket key if not register yet
 if [ -e /root/.ssh/gitkey ] && [ "$current_buser" == "$buser" ]
 then
-        echo "ssh key already registered ,skip register step" >> /var/log/deploy.log
+  echo "ssh key already registered ,skip register step" >> /var/log/deploy.log
 else
-	#Remove old key if any
-	rm -f /root/.ssh/gitkey
-	rm -f /root/.ssh/gitkey.pub
+  #Remove old key if any
+  rm -f /root/.ssh/gitkey
+  rm -f /root/.ssh/gitkey.pub
 	
-	#Generate new key
-        ssh-keygen -N '' -f gitkey
-        cp gitkey /root/.ssh/
-        cp gitkey.pub /root/.ssh/
-        chmod 600 /root/.ssh/gitkey /root/.ssh/gitkey.pub
-# Register key to Bitbucket
-        php register.php $buser $bpwd
-        rm -f gitkey gitkey.pub
+  #Generate new key
+  ssh-keygen -N '' -f gitkey
+  cp gitkey /root/.ssh/
+  cp gitkey.pub /root/.ssh/
+  chmod 600 /root/.ssh/gitkey /root/.ssh/gitkey.pub
+  # Register key to Bitbucket
+  php register.php $buser $bpwd
+  rm -f gitkey gitkey.pub
 fi
 
 # Move key to chef workstation
@@ -88,4 +88,4 @@ sleep 1
 sleep 10 
 n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
 #n=0;until [ $n -ge 5 ];do cat /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 60;done;
-n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[drupal_settings]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
+#n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[drupal_settings]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
