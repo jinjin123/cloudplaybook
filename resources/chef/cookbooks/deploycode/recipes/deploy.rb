@@ -164,13 +164,10 @@ else
 end
 
 # if git repository is drupal, then run drupal_settings
-
-if Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
-  if File.exist?("#{node[:deploycode][:localsourcefolder]}/.git/config")
-    contents = File.read("#{node[:deploycode][:localsourcefolder]}/.git/config")
-    if contents.include?('drucloud')
-      include_recipe 'drupal_settings'
-    end
+unless ::File.exists?("#{node[:deploycode][:localsourcefolder]}/.git/config")
+  contents = File.read("#{node[:deploycode][:localsourcefolder]}/.git/config")
+  if contents.include?('drucloud')
+    include_recipe 'drupal_settings'
   end
 end
 
