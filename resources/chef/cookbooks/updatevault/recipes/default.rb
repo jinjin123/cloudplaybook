@@ -57,6 +57,7 @@ require "chef-vault"
 if !File.exist?("/etc/chef/secret_key")
   ruby_block "Chef_Vault" do
     block do
+      clear = `bash > /etc/chef/secret_key`
       vault = ChefVault::Item.load("secrets", "secret_key")
       vault['secret_key'] = vault['secret_key'].tr(" ", "\n")
     # To write changes to the file, use:
