@@ -128,6 +128,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
     template "/var/www/html/sites/default/cdn.settings.php" do
       source "cdn.settings.php"
       variables(
+        :CDN => CDN_Setting['CDN']
         :LoadBalancerDNS => CDN_Setting['LoadBalancerDNS']
       )
       mode 0600
