@@ -77,8 +77,20 @@ end
 template "/var/www/html/sites/default/settings.php" do
         source "settings.php"
         mode 0600
+        retries 3
+        retry_delay 30
         owner "nginx"
         group "nginx"
         action :create
         ignore_failure true
 end rescue NoMethodError
+
+service "nginx" do
+  action :restart
+  ignore_failure true
+end
+
+service "php-fpm" do
+  action :restart
+  ignore_failure true
+end

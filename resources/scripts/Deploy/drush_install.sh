@@ -36,10 +36,6 @@ cd /root/drucloudaws/
 /root/.composer/vendor/bin/drush site-install drucloud "--db-url=mysql://"$db_username":"$db_password"@"$db_address"/"$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes --debug>> $LOG 
 #/root/.composer/vendor/bin/drush site-install standard "--db-url=mysql://"$db_username":"$db_password"@"$db_address"/"$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes --debug>> $LOG
 n=0;until [ $n -ge 5 ];do ls sites/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;
-if [ -f sites/default/settings.php ];
-then
-if [ `grep -R "file_default_scheme" sites/default/settings.php | wc -l` -ne 0 ];then echo '$'"conf['file_default_scheme'] = 'public';" >> sites/default/settings.php;fi
-fi
 cd ~/drucloudaws/sites/default
 /root/.composer/vendor/bin/drush cc all
 /root/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'
