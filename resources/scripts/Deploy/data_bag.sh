@@ -11,6 +11,6 @@ do
 done
 #rm .chef/secret_key
 
-mv /home/ec2-user/chef11/chef-repo/data_bag/ /home/ec2-user/chef11/chef-repo/data_bags/drupal_encrpyt
+mv /home/ec2-user/chef11/chef-repo/data_bag/*.json /home/ec2-user/chef11/chef-repo/data_bags/drupal_encrpyt
 /usr/bin/chef-solo -o 'recipe[nginx]'
 /usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws"}, "run_list": "recipe[drupal_settings]"}')
