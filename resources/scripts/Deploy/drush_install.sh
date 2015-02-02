@@ -34,15 +34,15 @@ mkdir -p /root/drucloudaws
 git clone --depth 1 $giturl /root/drucloudaws >> $LOG
 cd /root/drucloudaws/
 /root/.composer/vendor/bin/drush site-install drucloud "--db-url=mysql://"$db_username":"$db_password"@"$db_address"/"$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG 
-RESULT=$?
-if [ $RESULT -eq 0 ]; then
-  echo Installation has been successful. >> $LOG
-else
-  echo Installation has been Failed. >> $LOG
-  echo Running retry... >> $LOG
-  sleep 5
-  n=0;until [ $n -ge 5 ];do /root/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done; 
-fi
+#RESULT=$?
+#if [ $RESULT -eq 0 ]; then
+#  echo Installation has been successful. >> $LOG
+#else
+#  echo Installation has been Failed. >> $LOG
+#  echo Running retry... >> $LOG
+#  sleep 5
+#  n=0;until [ $n -ge 5 ];do /root/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done; 
+#fi
 
 n=0;until [ $n -ge 5 ];do ls sites/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;
 cd ~/drucloudaws/sites/default
