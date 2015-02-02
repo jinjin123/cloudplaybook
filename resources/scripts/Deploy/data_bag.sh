@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p /home/ec2-user/chef11/chef-repo/data_bags/drupal
-tar -xvf /home/ec2-user/drupal_data.tar -C /home/ec2-user/chef11/chef-repo/data_bags
+tar -xvf /home/ec2-user/drupal_data.tar -C /home/ec2-user/chef11/chef-repo/data_bags/drupal
 cd /home/ec2-user/chef11/chef-repo
 /opt/chef-server/embedded/bin/knife data bag create drupal
 for x in `ls data_bags/drupal/*.json`
