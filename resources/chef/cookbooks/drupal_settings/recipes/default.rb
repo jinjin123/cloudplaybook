@@ -68,7 +68,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
     if ! node['drupal_settings']['web_root'] =~ /drucloudaws/
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)
     else
-    Database_Setting = Chef::DataBagItem.load("drupal", "Database")
+    Database_Setting = Chef::DataBagItem.load("drupal_encrpyt", "Database")
     end
 
     template "#{node['drupal_settings']['web_root']}/sites/default/settings.php" do
@@ -91,7 +91,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
     if ! node['drupal_settings']['web_root'] =~ /drucloudaws/
       AWS_Setting = Chef::EncryptedDataBagItem.load("drupal", "AWS", drupal_secret)
     else
-      AWS_Setting = Chef::DataBagItem.load("drupal", "AWS")
+      AWS_Setting = Chef::DataBagItem.load("drupal_encrpyt", "AWS")
     end
 
     template "#{node['drupal_settings']['web_root']}/sites/default/aws.settings.php" do
@@ -113,7 +113,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
       if ! node['drupal_settings']['web_root'] =~ /drucloudaws/
         Memcache_Setting = Chef::EncryptedDataBagItem.load("drupal", "Memcache", drupal_secret)
       else
-        Memcache_Setting = Chef::DataBagItem.load("drupal", "Memcache")
+        Memcache_Setting = Chef::DataBagItem.load("drupal_encrpyt", "Memcache")
       end
     rescue Exception => e  
     end
@@ -139,7 +139,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
       if ! node['drupal_settings']['web_root'] =~ /drucloudaws/    
         CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "CDN", drupal_secret)
       else
-        CDN_Setting = Chef::DataBagItem.load("drupal", "CDN")
+        CDN_Setting = Chef::DataBagItem.load("drupal_encrpyt", "CDN")
       end
     rescue Exception => e  
     end
@@ -163,7 +163,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
       if ! node['drupal_settings']['web_root'] =~ /drucloudaws/
         S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
       else
-        S3CDN_Setting = Chef::DataBagItem.load("drupal", "S3CDN")
+        S3CDN_Setting = Chef::DataBagItem.load("drupal_encrpyt", "S3CDN")
       end
     rescue Exception => e
     end
@@ -187,7 +187,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
       if ! node['drupal_settings']['web_root'] =~ /drucloudaws/
         Host_n_storage_Setting = Chef::EncryptedDataBagItem.load("drupal", "Host_n_storage", drupal_secret)
       else
-        Host_n_storage_Setting = Chef::DataBagItem.load("drupal", "Host_n_storage")
+        Host_n_storage_Setting = Chef::DataBagItem.load("drupal_encrpyt", "Host_n_storage")
       end
     rescue Exception => e    
     end
