@@ -3,7 +3,7 @@ git "clone_repo" do
      user node[:deploycode][:code_owner]
            group node[:deploycode][:code_group]
            repository node[:deploycode][:gitrepo]
-           depth 1
+           depth 10
            retries 3
            retry_delay 30
            action :nothing
