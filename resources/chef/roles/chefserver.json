@@ -1,0 +1,18 @@
+{
+"name": "chefserver",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[basicservice]",
+    "recipe[php]",
+    "recipe[php-ext-centos]",
+    "recipe[composer]"
+  ],
+  "env_run_lists": {
+  }
+}
