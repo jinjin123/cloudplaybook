@@ -17,11 +17,6 @@
 
 require 'chef/data_bag'
 
-unless ! node['drupal_settings']['web_root'] =~ /drucloudaws/
-  node.default['drupal_settings']['web_user'] = "root"
-  node.default['drupal_settings']['web_group'] = "root"
-end
-
 if File.exist?(node['drupal_settings']['secretpath'])
   bash "mount_if_gluster" do
     user "root"
