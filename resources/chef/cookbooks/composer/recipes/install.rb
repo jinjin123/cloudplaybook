@@ -6,27 +6,30 @@ script "download_composer" do
   curl -sS https://getcomposer.org/installer | php
   mv composer.phar /usr/local/bin/composer
   ln -s /usr/local/bin/composer /usr/bin/composer
-  cp /home/ec2-user/.b* /var/lib/nginx
-  chown nginx:nginx /var/lib/nginx/.b*
+  if [ -d /var/lib/nginx ]; 
+  then
+    cp /home/ec2-user/.b* /var/lib/nginx
+    chown nginx:nginx /var/lib/nginx/.b*
+  fi
   EOH
 end
 
-execute "install_drush_nginx" do
-  user "nginx"
-  group "nginx"
-  command <<-EOH
-  if [ -d "/var/lib/nginx" ];then
-    source /var/lib/nginx/.bashrc
-    nohup /usr/local/bin/composer global require drush/drush:dev-master &
-    sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
-    source ~/.bashrc
-  fi
-  EOH
-  only_if "grep nginx /etc/passwd",:environment => {
-    "HOME" => "/var/lib/nginx",
-    "USER" => "nginx"
-  }
-  ignore_failure true
+if Dir.exists?("/var/lib/nginx") 
+  execute "install_drush_nginx" do
+    user "nginx"
+    group "nginx"
+    command <<-EOH
+      source /var/lib/nginx/.bashrc
+      nohup /usr/local/bin/composer global require drush/drush:dev-master &
+      sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
+      source ~/.bashrc
+    EOH
+    only_if "grep nginx /etc/passwd",:environment => {
+      "HOME" => "/var/lib/nginx",
+      "USER" => "nginx"
+    }
+    ignore_failure true
+  end
 end
 
 execute "install_drush_ec2user" do
