@@ -12,10 +12,10 @@
     "recipe[build-essential]",
     "recipe[basicservice]",
     "recipe[updatevault]",
+    "recipe[nginx]",
     "recipe[php]",
     "recipe[php-ext-centos]",
     "recipe[php-fpm]",
-    "recipe[nginx]",
     "recipe[composer]",
     "recipe[diskmount]",
     "recipe[deploycode]"
