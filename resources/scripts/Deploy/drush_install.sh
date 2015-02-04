@@ -49,5 +49,4 @@ cd ~/drucloudaws/sites/default
 /root/.composer/vendor/bin/drush cc all
 /root/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'
 
-/usr/bin/chef-solo -o 'recipe[nginx]'
-/usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws"}, "run_list": "recipe[drupal_settings]"}')
+/usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws","web_user":"nginx","web_group":"nginx"}, "run_list": "recipe[drupal_settings]"}')

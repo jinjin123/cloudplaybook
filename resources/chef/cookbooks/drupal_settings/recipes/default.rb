@@ -26,8 +26,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
         mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
         if [ -d "#{node['drupal_settings']['web_root']}/sites/default" ]; then
           ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` #{node['drupal_settings']['web_root']}/sites/default/files
-          if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]; then
-              chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+          if [ `cat /etc/passwd|grep #{node['drupal_settings']['web_user']}| wc -l` -eq 1 ]; then
+              chown #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
           else
             chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
           fi
@@ -58,8 +58,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user'] 
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end rescue NoMethodError
@@ -77,8 +77,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end
@@ -93,8 +93,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end
@@ -114,8 +114,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end rescue NoMethodError
@@ -134,8 +134,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end rescue NoMethodError
@@ -153,8 +153,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end rescue NoMethodError
@@ -173,8 +173,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end rescue NoMethodError
@@ -187,8 +187,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end rescue NoMethodError
@@ -202,8 +202,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       mode 0600
       retries 3
       retry_delay 30
-      owner "nginx"
-      group "nginx"
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
       action :create
       ignore_failure true
     end rescue NoMethodError
