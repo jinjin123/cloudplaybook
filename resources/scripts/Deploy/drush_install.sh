@@ -45,8 +45,8 @@ cd /root/drucloudaws/
 #fi
 
 n=0;until [ $n -ge 5 ];do ls sites/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;
+/usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws","web_user":"nginx","web_group":"nginx"}, "run_list": "recipe[drupal_settings]"}')
+
 cd ~/drucloudaws/sites/default
 /root/.composer/vendor/bin/drush cc all
 /root/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'
-
-/usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws","web_user":"nginx","web_group":"nginx"}, "run_list": "recipe[drupal_settings]"}')
