@@ -96,12 +96,6 @@ if ! Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
   cwd node[:deploycode][:localsourcefolder]
   notifies :sync, "git[clone_repo]", :immediately
   end
-#         ruby_block "notify_template" do
-#            block do
-#              true
-#            end
-#            notifies :sync, "git[clone_repo]", :delayed 
-#        end
 else
   contents = File.read("#{node[:deploycode][:localsourcefolder]}/.git/config")
   if contents.include?(node[:deploycode][:gitrepo])
@@ -111,7 +105,7 @@ else
       retries 3
       retry_delay 30
       repository node[:deploycode][:gitrepo]
-      reference "master"
+#      reference "master"
       action :sync
       destination node[:deploycode][:localsourcefolder]
       notifies :run, "execute[git_tag]", :immediately
