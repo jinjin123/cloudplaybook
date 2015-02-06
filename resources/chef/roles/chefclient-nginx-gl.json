@@ -13,8 +13,9 @@
     "recipe[basicservice]",
     "recipe[updatevault]",
     "recipe[nginx]",
-    "recipe[php55]",
-    "recipe[php55-fpm]",
+    "recipe[php]",
+    "recipe[php-ext-centos]",
+    "recipe[php-fpm]",
     "recipe[composer]",
     "recipe[diskmount]",
     "recipe[deploycode]"
