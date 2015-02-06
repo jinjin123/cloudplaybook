@@ -12,8 +12,7 @@
     "recipe[basicservice]",
     "recipe[apache2]",
     "recipe[apache2::mod_rewrite]",
-    "recipe[php]",
-    "recipe[php-ext-centos]",
+    "recipe[php55]",
     "recipe[deploycode]"
   ],
   "env_run_lists": {
