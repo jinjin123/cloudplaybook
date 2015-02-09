@@ -72,4 +72,4 @@ $conf['search_active_modules'] = array (
  'apachesolr_search' => 'apachesolr_search',
  'node' => 0,
  'user' => 0,
-)
+);

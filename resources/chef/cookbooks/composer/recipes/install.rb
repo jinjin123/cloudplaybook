@@ -14,19 +14,17 @@ script "download_composer" do
   EOH
 end
 
-if Dir.exists?("/var/lib/nginx") 
-  execute "install_drush_nginx" do
-    user "nginx"
-    group "nginx"
-    environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
-    command <<-EOH
-      source /var/lib/nginx/.bashrc
-      nohup /usr/local/bin/composer global require drush/drush:dev-master &
-      sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
-      source ~/.bashrc
-    EOH
-    ignore_failure true
-  end
+execute "install_drush_nginx" do
+  user "nginx"
+  group "nginx"
+  environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
+  command <<-EOH
+    source /var/lib/nginx/.bashrc
+    nohup /usr/local/bin/composer global require drush/drush:dev-master &
+    sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
+    source ~/.bashrc
+  EOH
+  ignore_failure true
 end
 
 execute "install_drush_ec2user" do
