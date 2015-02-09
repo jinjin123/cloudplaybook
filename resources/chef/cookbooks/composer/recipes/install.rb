@@ -18,16 +18,13 @@ if Dir.exists?("/var/lib/nginx")
   execute "install_drush_nginx" do
     user "nginx"
     group "nginx"
+    environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
     command <<-EOH
       source /var/lib/nginx/.bashrc
       nohup /usr/local/bin/composer global require drush/drush:dev-master &
       sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
       source ~/.bashrc
     EOH
-    only_if "grep nginx /etc/passwd",:environment => {
-      "HOME" => "/var/lib/nginx",
-      "USER" => "nginx"
-    }
     ignore_failure true
   end
 end
