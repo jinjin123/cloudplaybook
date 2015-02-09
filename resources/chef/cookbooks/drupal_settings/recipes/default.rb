@@ -145,8 +145,8 @@ if File.exist?(node['drupal_settings']['secretpath'])
       S3CDN_Setting = Chef::EncryptedDataBagItem.load("drupal", "S3CDN", drupal_secret)
     rescue Exception => e
     end
-    template "#{node['drupal_settings']['web_root']}/sites/default/s3cdn.setttings.php" do
-      source "s3cdn.setttings.php"
+    template "#{node['drupal_settings']['web_root']}/sites/default/s3cdn.settings.php" do
+      source "s3cdn.settings.php"
       variables(
         :S3CDN => S3CDN_Setting['S3CDN']
       )
