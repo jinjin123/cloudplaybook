@@ -37,6 +37,8 @@ pkgs = %w{
     ruby19-libs 
     zlib 
     zlib-devel
+    libevent
+    libevent-devel
 }
 
 # ensure GCC 4 is available on older pre-6 EL

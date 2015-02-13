@@ -60,3 +60,16 @@ $conf['social_stats_options'] = '1';
 $conf['preprocess_css'] = '1';
 $conf['preprocess_js'] = '1';
 $conf['page_compression'] = '1';
+
+// Spambot key for spam blocking, this is a key that owned by BootDev
+$conf['spambot_sfs_api_key'] = 'guma7t8c2yvwf1';
+
+// Configuration of Search settings
+$conf['search_cron_limit'] = '100';
+$conf['search_default_module'] = 'apachesolr_search';
+$conf['transliteration_search'] = 1;
+$conf['search_active_modules'] = array (
+ 'apachesolr_search' => 'apachesolr_search',
+ 'node' => 0,
+ 'user' => 0,
+);
