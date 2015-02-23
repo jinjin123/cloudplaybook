@@ -6,11 +6,6 @@ script "download_composer" do
   curl -sS https://getcomposer.org/installer | php
   mv composer.phar /usr/local/bin/composer
   ln -s /usr/local/bin/composer /usr/bin/composer
-  if [ -d /var/lib/nginx ]; 
-  then
-    cp /home/ec2-user/.b* /var/lib/nginx
-    chown nginx:nginx /var/lib/nginx/.b*
-  fi
   EOH
 end
 
@@ -47,6 +42,11 @@ script "install_drush_root" do
     nohup /usr/local/bin/composer global require drush/drush:dev-master &
     sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
     source $HOME/.bashrc
+    if [ -d /var/lib/nginx ];
+    then
+      cp /home/ec2-user/.b* /var/lib/nginx
+      chown nginx:nginx /var/lib/nginx/.b*
+    fi
   EOH
 end
 
