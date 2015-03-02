@@ -210,6 +210,14 @@ if File.exist?(node['drupal_settings']['secretpath'])
   end
 end
 
+file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
+  content '<html></html>'
+  mode 0600
+  owner node[:deploycode][:code_owner]
+  group node[:deploycode][:code_group]
+  action :create
+end
+
 unless node['drupal_settings']['web_root'] =~ /drucloudaws/
   service "nginx" do
     action :restart
