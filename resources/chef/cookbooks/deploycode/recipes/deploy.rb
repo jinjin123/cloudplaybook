@@ -133,6 +133,14 @@ ruby_block "CheckDrupal" do
   end
 end
 
+file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
+  content '<html></html>'
+  mode 0600
+  owner node[:deploycode][:code_owner]
+  group node[:deploycode][:code_group]
+  action :create
+end
+
 service "nginx" do
   action :restart
   ignore_failure true
