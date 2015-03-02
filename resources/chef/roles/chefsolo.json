@@ -9,14 +9,7 @@
   "chef_type": "role",
   "run_list": [
     "recipe[build-essential]",
-    "recipe[basicservice]",
-    "recipe[nginx]",
-    "recipe[php]",
-    "recipe[php-ext-centos]",
-    "recipe[php-fpm]",
-    "recipe[microcache]",
-    "recipe[composer]",
-    "recipe[deploycode]"
+    "recipe[basicservice]"
   ],
   "env_run_lists": {
   }
