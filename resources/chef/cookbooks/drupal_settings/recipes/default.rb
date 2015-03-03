@@ -210,11 +210,11 @@ if File.exist?(node['drupal_settings']['secretpath'])
   end
 end
 
-file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
+file "#{node['drupal_settings']['web_root']}/ping.html" do
   content '<html></html>'
   mode 0600
-  owner node[:deploycode][:code_owner]
-  group node[:deploycode][:code_group]
+  owner node['drupal_settings']['web_user']
+  group node['drupal_settings']['web_group']
   action :create
 end
 
