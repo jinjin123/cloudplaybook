@@ -11,8 +11,8 @@ bpwd=
 #user's ec2 key
 userpem=
 role=
-
-while getopts u:p:k:g:r: opt
+package=
+while getopts u:p:k:g:r:k: opt
 do
   case $opt in
     u)  buser=$OPTARG;;
@@ -20,6 +20,7 @@ do
     k)  userpem=$OPTARG;;
     g)  giturl=$OPTARG;;
     r)  role=$OPTARG;;
+    k)  package=$OPTARG;;
     *)  echo "-$opt not recognized";;
   esac
 done
@@ -30,12 +31,6 @@ then
 else
   $current_buser="notset";
 fi
-
-#echo $role > role.txt
-#echo $giturl > giturl.txt
-#echo $buser > buser.txt
-#echo $bpwd > bpwd.tt
-#echo $userpem > userpem.pem
 
 #register bitbucket key if not register yet
 if [ -e /root/.ssh/gitkey ] && [ "$current_buser" == "$buser" ]
@@ -83,9 +78,11 @@ echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/def
 #update all chef-client using knife
 
 cd /home/ec2-user/chef11/chef-repo
-sleep 1 
-/opt/chef-server/embedded/bin/knife cookbook upload deploycode
-sleep 10 
-n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
-#n=0;until [ $n -ge 5 ];do cat /home/ec2-user/chef11/chef-repo/cookbooks/drupalsetting/templates/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 60;done;
-#n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[drupal_settings]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
+if [ "$package" = "free" ]
+then
+  sudo /usr/bin/chef-solo -o 'recipe[deploycode]'
+else
+  /opt/chef-server/embedded/bin/knife cookbook upload deploycode
+  sleep 10 
+  n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
+fi
