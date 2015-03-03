@@ -1,10 +1,10 @@
-# CHANGELOG for basicservice
+# CHANGELOG for glusterfs
 
-This file is used to list changes made in each version of basicservice.
+This file is used to list changes made in each version of glusterfs.
 
 ## 0.1.0:
 
-* Initial release of basicservice
+* Initial release of glusterfs
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
