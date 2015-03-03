@@ -11,6 +11,7 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
+    "recipe[glusterfs]",
     "recipe[updatevault]",
     "recipe[nginx]",
     "recipe[php]",
