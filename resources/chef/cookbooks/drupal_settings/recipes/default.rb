@@ -63,6 +63,17 @@ if File.exist?(node['drupal_settings']['secretpath'])
       action :create
       ignore_failure true
     end rescue NoMethodError
+    
+    template "#{node['drupal_settings']['web_root']}/sites/default/advagg.settings.php" do
+      source "advagg.settings.php"
+      mode 0600
+      retries 3
+      retry_delay 30
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
+      action :create
+      ignore_failure true
+    end rescue NoMethodError
 
     # Check if DataBag item exist before applying templates
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)
