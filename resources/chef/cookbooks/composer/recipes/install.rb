@@ -14,8 +14,9 @@ execute "install_drush_nginx" do
   group "nginx"
   environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
   command <<-EOH
+    n=0;until [ $n -ge 5 ];do ls /usr/bin/composer; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
     source /var/lib/nginx/.bashrc
-    nohup /usr/local/bin/composer global require drush/drush:dev-master &
+    /usr/local/bin/composer global require drush/drush:dev-master
     sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
     source ~/.bashrc
   EOH
@@ -27,10 +28,11 @@ execute "install_drush_ec2user" do
   group "ec2-user"
   environment ({'HOME' => '/home/ec2-user', 'USER' => 'ec2-user'})
   command <<-EOH
-  source /home/ec2-user/.bashrc
-  nohup /usr/local/bin/composer global require drush/drush:dev-master &
-  sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
-  source ~/.bashrc
+    n=0;until [ $n -ge 5 ];do ls /usr/bin/composer; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
+    source /home/ec2-user/.bashrc
+    /usr/local/bin/composer global require drush/drush:dev-master
+    sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
+    source ~/.bashrc
   EOH
 end
 
@@ -39,6 +41,7 @@ script "install_drush_root" do
   user "root"
   code <<-EOH
     cd
+    n=0;until [ $n -ge 5 ];do ls /usr/bin/composer; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
     nohup /usr/local/bin/composer global require drush/drush:dev-master &
     sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
     source $HOME/.bashrc
