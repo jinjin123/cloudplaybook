@@ -78,6 +78,7 @@ echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/def
 #update all chef-client using knife
 
 cd /home/ec2-user/chef11/chef-repo
+echo $package >> /home/ec2-user/package.txt
 if [ "$package" = "free" ]
 then
   echo "chef-solo will be ran" >> /home/ec2-user/chef.log
