@@ -80,8 +80,10 @@ echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/def
 cd /home/ec2-user/chef11/chef-repo
 if [ "$package" = "free" ]
 then
+  echo "chef-solo will be ran" >> /home/ec2-user/chef.log
   sudo /usr/bin/chef-solo -o 'recipe[deploycode]'
 else
+  echo "chef-client will be ran" >> /home/ec2-user/chef.log
   /opt/chef-server/embedded/bin/knife cookbook upload deploycode
   sleep 10 
   n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
