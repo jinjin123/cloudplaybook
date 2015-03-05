@@ -9,21 +9,6 @@ script "download_composer" do
   EOH
 end
 
-execute "install_drush_nginx" do
-  user "nginx"
-  group "nginx"
-  environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
-  command <<-EOH
-    if [ -d /var/lib/nginx ] && [ `grep nginx /etc/passwd| wc -l` -ne 0 ];then
-      source /var/lib/nginx/.bashrc
-      /usr/local/bin/composer global require drush/drush:dev-master
-      sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
-      source ~/.bashrc
-    fi
-  EOH
-  ignore_failure true
-end
-
 execute "install_drush_ec2user" do
   user "ec2-user"
   group "ec2-user"
@@ -50,6 +35,21 @@ script "install_drush_root" do
       chown nginx:nginx /var/lib/nginx/.b*
     fi
   EOH
+end
+
+execute "install_drush_nginx" do
+  user "nginx"
+  group "nginx"
+  environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
+  command <<-EOH
+    if [ -d /var/lib/nginx ] && [ `grep nginx /etc/passwd| wc -l` -ne 0 ];then
+      source /var/lib/nginx/.bashrc
+      /usr/local/bin/composer global require drush/drush:dev-master
+      sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
+      source ~/.bashrc
+    fi
+  EOH
+  ignore_failure true
 end
 
 execute "set_php_apc" do
