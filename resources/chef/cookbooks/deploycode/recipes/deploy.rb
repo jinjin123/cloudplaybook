@@ -129,7 +129,7 @@ ruby_block "CheckDrupal" do
 # if /etc/chef/validation.pem, it is a typical chef-client, otherwise, it is a chef-solo
     if Existance > 0
       if !File.file?('/etc/chef/validation.pem')
-         exec("chef-solo -o 'recipe[drupal_settings]';cd #{node[:deploycode][:localsourcefolder]}/sites/default;drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes")
+         exec("chef-solo -o 'recipe[drupal_settings]';su -c \"cd #{node[:deploycode][:localsourcefolder]}/sites/default;drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes\" -m \"#{node[:deploycode][:code_owner]}\" ")
       else
          exec("chef-client -o 'recipe[drupal_settings]'")
       end
