@@ -14,7 +14,7 @@ execute "install_drush_nginx" do
   group "nginx"
   environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
   command <<-EOH
-    if [ -d /var/lib/nginx ] && [ grep -q nginx /etc/passwd ];then
+    if [ -d /var/lib/nginx ] && [ `grep nginx /etc/passwd| wc -l` -ne 0 ];then
       source /var/lib/nginx/.bashrc
       /usr/local/bin/composer global require drush/drush:dev-master
       sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
