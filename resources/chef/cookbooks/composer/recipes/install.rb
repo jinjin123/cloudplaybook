@@ -21,6 +21,7 @@ execute "install_drush_nginx" do
       source ~/.bashrc
     fi
   EOH
+  ignore_failure true
 end
 
 execute "install_drush_ec2user" do
