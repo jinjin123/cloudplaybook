@@ -14,13 +14,14 @@ execute "install_drush_nginx" do
   group "nginx"
   environment ({'HOME' => '/var/lib/nginx', 'USER' => 'nginx'})
   command <<-EOH
-    n=0;until [ $n -ge 5 ];do ls /usr/bin/composer; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
-    source /var/lib/nginx/.bashrc
-    /usr/local/bin/composer global require drush/drush:dev-master
-    sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
-    source ~/.bashrc
+    if [ -d "/var/lib/nginx" ];then
+      n=0;until [ $n -ge 5 ];do ls /usr/bin/composer; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
+      source /var/lib/nginx/.bashrc
+      /usr/local/bin/composer global require drush/drush:dev-master
+      sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' ~/.bashrc
+      source ~/.bashrc
+    fi
   EOH
-  ignore_failure true
 end
 
 execute "install_drush_ec2user" do
