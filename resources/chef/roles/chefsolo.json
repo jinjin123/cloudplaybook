@@ -1,5 +1,5 @@
 {
-"name": "chefclient-nginx-gl",
+"name": "chefsolo",
   "description": "",
   "json_class": "Chef::Role",
   "default_attributes": {
@@ -8,17 +8,14 @@
   },
   "chef_type": "role",
   "run_list": [
-    "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
-    "recipe[glusterfs]",
-    "recipe[updatevault]",
     "recipe[nginx]",
     "recipe[php]",
     "recipe[php-ext-centos]",
     "recipe[php-fpm]",
+    "recipe[microcache]",
     "recipe[composer]",
-    "recipe[diskmount]",
     "recipe[deploycode]"
   ],
   "env_run_lists": {

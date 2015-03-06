@@ -49,6 +49,8 @@ action :create  do
   execute "yum-makecache-#{new_resource.repositoryid}" do
     command "yum -q makecache --disablerepo=* --enablerepo=#{new_resource.repositoryid}"
     action :nothing
+    retries 3
+    retry_delay 30
   end
 
   # reload internal Chef yum cache
