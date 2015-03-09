@@ -123,9 +123,11 @@ end
 ruby_block "CheckDrupal" do
   block do
     Existance = 0
-    CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
-    Existance = CheckDrucloud.to_i
-    run = ""
+    if(File.file?('/var/www/html/.git/config'))
+      CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
+      Existance = CheckDrucloud.to_i
+    end  
+  run = ""
 # if /etc/chef/validation.pem, it is a typical chef-client, otherwise, it is a chef-solo
     if Existance > 0
       if !File.file?('/etc/chef/validation.pem')
