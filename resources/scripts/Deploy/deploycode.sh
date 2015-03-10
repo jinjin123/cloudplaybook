@@ -75,11 +75,12 @@ fi
 # Put different value into drupal_settings's attribute depends on package
 
 if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb ]; then
-  if [ "$package" = "free" ] || [ "$package" = "basic" ]
+  if [ "$package" = "free" ] || [ "$package" = "basic" ];
   then
     $search_default_module_value = "node"
     $search_node_value = "node"
   elif [ "$package" = "recommend" ]
+  then
     $search_default_module_value = "apachesolr_search"
     $search_node_value = "0"
   fi
