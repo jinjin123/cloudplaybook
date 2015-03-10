@@ -6,11 +6,11 @@
 # www.BootDev.com
 # All rights reserved - Do Not Redistribute
 #
-module_list = [ 'apachesolr', 'advagg_css_cdn', 'advagg_js_cdn', 'memcache' ]
+module_list = [ 'apachesolr', 'advagg_css_cdn', 'advagg_js_cdn', 'memcache', 'cdn', 'apachesolr_search' ]
 
 unless node['drucloud_config']['drucloud_package'] =~ /recommend/
   module_list.each do |modules|
-    bash "disable_modules" do
+    execute "disable_modules" do
       cwd "#{node['drucloud_config']['drupal_root']}/sites/default"
       user node['drucloud_config']['drupal_user']
       group node['drucloud_config']['drupal_group']
@@ -19,7 +19,7 @@ unless node['drucloud_config']['drucloud_package'] =~ /recommend/
     end
   end
   
-  bash "drush_clear_cache" do
+  execute "drush_clear_cache" do
     cwd "#{node['drucloud_config']['drupal_root']}/sites/default"
     user node['drucloud_config']['drupal_user']
     group node['drucloud_config']['drupal_group']
