@@ -68,9 +68,8 @@ if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.
 fi
 
 # Replace the package value into cookbook attributes
-if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/templates/default/default.rb ]; then
-  sed -i "s/package/$package/" /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/templates/default/default.rb
-
+if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/attributes/default.rb ]; then
+  sed -i "s/Package/$package/" /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/attributes/default.rb
 fi
 
 # Prepare pem
