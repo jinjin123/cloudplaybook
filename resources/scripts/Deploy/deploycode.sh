@@ -52,16 +52,26 @@ else
 fi
 
 # Move key to chef workstation
-cat /root/.ssh/gitkey > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.erb
-cat /root/.ssh/gitkey.pub > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.pub.erb
-echo "" > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
+if [ -d /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default ]; then
+  cat /root/.ssh/gitkey > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.erb
+  cat /root/.ssh/gitkey.pub > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.pub.erb
+  echo "" > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
+fi
 
 # Replace the git repo entry in deploycode's Attribute
-sed -i "/gitrepo/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
-export TEMP=`cat /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb|grep localsourcefolder`
-sed -i "/localsourcefolder/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
-echo 'default[:deploycode][:gitrepo] = "'$giturl'"' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
-echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb ]; then
+  sed -i "/gitrepo/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  export TEMP=`cat /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb|grep localsourcefolder`
+  sed -i "/localsourcefolder/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  echo 'default[:deploycode][:gitrepo] = "'$giturl'"' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+fi
+
+# Replace the package value into cookbook attributes
+if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/templates/default/default.rb ]; then
+  sed -i "s/package/$package/" /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/templates/default/default.rb
+
+fi
 
 # Prepare pem
 #mkdir -p /home/ec2-user/.pem
@@ -83,12 +93,16 @@ if [ "$package" = "free" ]
 then
   echo "chef-solo will be ran" >> /home/ec2-user/chef.log
   sudo /usr/bin/chef-solo -o 'recipe[deploycode]'
+  sudo /usr/bin/chef-solo -o 'recipe[drucloud_config]'
 else
   if [ "$package" = "basic" ] || [ "$package" = "recommend" ]
   then
     echo "chef-client will be ran" >> /home/ec2-user/chef.log
-    /opt/chef-server/embedded/bin/knife cookbook upload deploycode
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    /opt/chef-server/embedded/bin/knife cookbook upload -a
     sleep 10 
     /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'"
+    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[drucloud_config]'"
   fi
 fi
