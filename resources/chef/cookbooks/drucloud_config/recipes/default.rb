@@ -6,7 +6,7 @@
 # www.BootDev.com
 # All rights reserved - Do Not Redistribute
 #
-module_list = [ 'apachesolr', 'advagg_css_cdn', 'memcache' ]
+module_list = [ 'apachesolr', 'advagg_css_cdn', 'advagg_js_cdn', 'memcache' ]
 
 unless node['drucloud_config']['drucloud_package'] =~ /recommend/
   module_list.each do |modules|
