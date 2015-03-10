@@ -44,6 +44,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
         fi
       fi
     EOH
+    ignore_failure true
   end
 
 
