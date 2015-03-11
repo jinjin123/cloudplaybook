@@ -8,4 +8,5 @@ git "clone_repo" do
            retry_delay 30
            action :nothing
            destination node[:deploycode][:localsourcefolder]
+           checkout_branch nil
      end

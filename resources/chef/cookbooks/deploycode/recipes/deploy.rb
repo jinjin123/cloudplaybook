@@ -108,6 +108,7 @@ else
 #      reference "master"
       action :sync
       destination node[:deploycode][:localsourcefolder]
+      checkout_branch nil
       notifies :run, "execute[git_tag]", :immediately
     end        
   else 
