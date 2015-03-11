@@ -39,5 +39,6 @@ n=0;until [ $n -ge 5 ];do ls /root/drucloudaws/sites/default/settings.php; [ $? 
 /usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws","web_user":"root","web_group":"root"}, "run_list": "recipe[drupal_settings]"}') || true
 
 cd /root/drucloudaws/sites/default
-/root/.composer/vendor/bin/drush cc all -r /root/drucloudaws/sites/default
-/root/.composer/vendor/bin/drush php-eval 'node_access_rebuild();' -r /root/drucloudaws/sites/default
+source /root/.bashrc
+/root/.composer/vendor/bin/drush cc all 
+/root/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'
