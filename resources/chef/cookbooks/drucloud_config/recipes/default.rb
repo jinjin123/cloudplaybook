@@ -10,7 +10,7 @@ module_list = [ 'apachesolr', 'advagg_css_cdn', 'advagg_js_cdn', 'memcache', 'cd
 
 unless node['drucloud_config']['drucloud_package'] =~ /recommend/
   module_list.each do |modules|
-    execute "disable_modules" do
+    execute "disable_modules_#{modules}" do
       cwd "#{node['drucloud_config']['drupal_root']}/sites/default"
       user node['drucloud_config']['drupal_user']
       group node['drucloud_config']['drupal_group']
