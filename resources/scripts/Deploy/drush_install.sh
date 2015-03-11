@@ -31,7 +31,7 @@ cd /root
 chmod 400 /root/.ssh/bitbucket
 ssh -i /root/.ssh/bitbucket -o StrictHostKeyChecking=no git@bitbucket.org||true
 mkdir -p /root/drucloudaws
-git clone --depth 1 $giturl /root/drucloudaws >> $LOG
+git clone --depth 10 $giturl /root/drucloudaws >> $LOG
 cd /root/drucloudaws/
 
 #RESULT=$?
