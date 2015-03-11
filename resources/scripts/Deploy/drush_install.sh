@@ -34,7 +34,7 @@ mkdir -p /root/drucloudaws
 git clone --depth 10 $giturl /root/drucloudaws >> $LOG
 cd /root/drucloudaws/
 
-/usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws","web_user":"root","web_group":"root"}, "run_list": "recipe[drupal_settings]"}')
+/usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws","web_user":"root","web_group":"root"}, "run_list": "recipe[drupal_settings]"}') || true
 cd /root/drucloudaws/sites/default
 /root/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes || true >> $LOG 
 /root/.composer/vendor/bin/drush cc all
