@@ -109,8 +109,8 @@ echo $package >> /home/ec2-user/package.txt
 if [ "$package" = "free" ]
 then
   echo "chef-solo will be ran" >> /home/ec2-user/chef.log
-  sudo /usr/bin/chef-solo -o 'recipe[deploycode]'
-  sudo /usr/bin/chef-solo -o 'recipe[drucloud_config]'
+  sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
+  sudo /opt/dep/disable_modules.sh -h /var/lib/nginx -r /var/www/html -u nginx
 else
   if [ "$package" = "basic" ] || [ "$package" = "recommend" ]
   then
@@ -119,7 +119,7 @@ else
     export LANG=en_US.UTF-8
     /opt/chef-server/embedded/bin/knife cookbook upload -a
     sleep 10 
-    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'"
-    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[drucloud_config]'"
+    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
+    sudo /opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root
   fi
 fi
