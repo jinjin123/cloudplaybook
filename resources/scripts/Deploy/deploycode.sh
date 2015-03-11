@@ -25,11 +25,12 @@ do
   esac
 done
 
+current_buser=""
 if [ -e buser.txt ]
 then
-  $current_buser=`cat buser.txt`
+  current_buser=`cat buser.txt`
 else
-  $current_buser="notset";
+  current_buser="notset";
 fi
 
 #register bitbucket key if not register yet
@@ -73,16 +74,17 @@ if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/attributes/def
 fi
 
 # Put different value into drupal_settings's attribute depends on package
-
+search_default_module_value=""
+search_node_value=""
 if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb ]; then
   if [ "$package" = "free" ] || [ "$package" = "basic" ];
   then
-    $search_default_module_value = "node"
-    $search_node_value = "node"
+    search_default_module_value = "node"
+    search_node_value = "node"
   elif [ "$package" = "recommend" ]
   then
-    $search_default_module_value = "apachesolr_search"
-    $search_node_value = "0"
+    search_default_module_value = "apachesolr_search"
+    search_node_value = "0"
   fi
   sed -i "s/search_default_module_value/node/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
   sed -i "s/search_node_value/node/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
