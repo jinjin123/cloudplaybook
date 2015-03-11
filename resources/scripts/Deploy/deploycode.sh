@@ -120,6 +120,5 @@ else
     /opt/chef-server/embedded/bin/knife cookbook upload -a
     sleep 10 
     /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
-    sudo /opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root
   fi
 fi
