@@ -108,7 +108,7 @@ else
 #      reference "master"
       action :sync
       destination node[:deploycode][:localsourcefolder]
-      enable_checkout false
+#      enable_checkout false
       notifies :run, "execute[git_tag]", :immediately
     end        
   else 
