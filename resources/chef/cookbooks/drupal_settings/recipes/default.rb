@@ -44,6 +44,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
         fi
       fi
     EOH
+    ignore_failure true
   end
 
 
@@ -74,6 +75,22 @@ if File.exist?(node['drupal_settings']['secretpath'])
       action :create
       ignore_failure true
     end rescue NoMethodError
+    
+    template "#{node['drupal_settings']['web_root']}/sites/default/search.settings.php" do
+      source "search.settings.php"
+      variables(
+        :search_default_module => node['drupal_settings']['search_default_module'],
+        :search_node => node['drupal_settings']['search_node']
+      )
+      mode 0600
+      retries 3
+      retry_delay 30
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
+      action :create
+      ignore_failure true
+     end rescue NoMethodError
+
 
     # Check if DataBag item exist before applying templates
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)

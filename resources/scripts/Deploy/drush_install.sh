@@ -1,6 +1,5 @@
 #!/bin/bash
 LOG=/root/run.log
-echo `date` >> $LOG
 export HOME=/root
 cd /opt/dep
 #bitbucket username
@@ -31,14 +30,14 @@ cd /root
 chmod 400 /root/.ssh/bitbucket
 ssh -i /root/.ssh/bitbucket -o StrictHostKeyChecking=no git@bitbucket.org||true
 mkdir -p /root/drucloudaws
-git clone --depth 1 $giturl /root/drucloudaws >> $LOG
+git clone --depth 1 $giturl /root/drucloudaws
 cd /root/drucloudaws/
-/root/.composer/vendor/bin/drush site-install drucloud "--db-url=mysql://"$db_username":"$db_password"@"$db_address"/"$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG 
+/root/.composer/vendor/bin/drush site-install drucloud "--db-url=mysql://"$db_username":"$db_password"@"$db_address"/"$db_name --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes --debug
 #RESULT=$?
 #if [ $RESULT -eq 0 ]; then
-#  echo Installation has been successful. >> $LOG
+#  echo Installation has been successful.
 #else
-#  echo Installation has been Failed. >> $LOG
+#  echo Installation has been Failed.
 #  echo Running retry... >> $LOG
 #  sleep 5
 #  n=0;until [ $n -ge 5 ];do /root/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name="drucloudaws" --yes >> $LOG; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done; 
@@ -47,6 +46,8 @@ cd /root/drucloudaws/
 n=0;until [ $n -ge 5 ];do ls sites/default/settings.php; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;
 /usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws","web_user":"root","web_group":"root"}, "run_list": "recipe[drupal_settings]"}')
 
-cd ~/drucloudaws/sites/default
-/root/.composer/vendor/bin/drush cc all
+cd /root/drucloudaws/sites/default
+source /root/.bashrc
+/root/.composer/vendor/bin/drush cc all 
 /root/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'
+/opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root

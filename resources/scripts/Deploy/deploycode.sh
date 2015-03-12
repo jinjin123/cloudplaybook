@@ -25,11 +25,12 @@ do
   esac
 done
 
+current_buser=""
 if [ -e buser.txt ]
 then
-  $current_buser=`cat buser.txt`
+  current_buser=`cat buser.txt`
 else
-  $current_buser="notset";
+  current_buser="notset";
 fi
 
 #register bitbucket key if not register yet
@@ -52,16 +53,42 @@ else
 fi
 
 # Move key to chef workstation
-cat /root/.ssh/gitkey > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.erb
-cat /root/.ssh/gitkey.pub > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.pub.erb
-echo "" > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
+if [ -d /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default ]; then
+  cat /root/.ssh/gitkey > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.erb
+  cat /root/.ssh/gitkey.pub > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/gitkey.pub.erb
+  echo "" > /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/templates/default/known_hosts.erb
+fi
 
 # Replace the git repo entry in deploycode's Attribute
-sed -i "/gitrepo/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
-export TEMP=`cat /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb|grep localsourcefolder`
-sed -i "/localsourcefolder/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
-echo 'default[:deploycode][:gitrepo] = "'$giturl'"' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
-echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb ]; then
+  sed -i "/gitrepo/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  export TEMP=`cat /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb|grep localsourcefolder`
+  sed -i "/localsourcefolder/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  echo 'default[:deploycode][:gitrepo] = "'$giturl'"' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+fi
+
+# Replace the package value into cookbook attributes
+if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/attributes/default.rb ]; then
+  sed -i "s/Package/$package/" /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/attributes/default.rb
+fi
+
+# Put different value into drupal_settings's attribute depends on package
+search_default_module_value=""
+search_node_value=""
+if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb ]; then
+  if [ "$package" = "free" ] || [ "$package" = "basic" ];
+  then
+    search_default_module_value = "node"
+    search_node_value = "node"
+  elif [ "$package" = "recommend" ]
+  then
+    search_default_module_value = "apachesolr_search"
+    search_node_value = "0"
+  fi
+  sed -i "s/search_default_module_value/node/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
+  sed -i "s/search_node_value/node/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
+fi
 
 # Prepare pem
 #mkdir -p /home/ec2-user/.pem
@@ -82,10 +109,16 @@ echo $package >> /home/ec2-user/package.txt
 if [ "$package" = "free" ]
 then
   echo "chef-solo will be ran" >> /home/ec2-user/chef.log
-  sudo /usr/bin/chef-solo -o 'recipe[deploycode]'
+  sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
+  sudo /opt/dep/disable_modules.sh -h /var/lib/nginx -r /var/www/html -u nginx
 else
-  echo "chef-client will be ran" >> /home/ec2-user/chef.log
-  /opt/chef-server/embedded/bin/knife cookbook upload deploycode
-  sleep 10 
-  n=0;until [ $n -ge 5 ];do /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 10;done;
+  if [ "$package" = "basic" ] || [ "$package" = "recommend" ]
+  then
+    echo "chef-client will be ran" >> /home/ec2-user/chef.log
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    /opt/chef-server/embedded/bin/knife cookbook upload -a
+    sleep 10 
+    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
+  fi
 fi
