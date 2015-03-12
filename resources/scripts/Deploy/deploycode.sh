@@ -111,6 +111,8 @@ then
   echo "chef-solo will be ran" >> /home/ec2-user/chef.log
   sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
   sudo /opt/dep/disable_modules.sh -h /var/lib/nginx -r /var/www/html -u nginx
+# Disable apc for free Plan
+  sudo /bin/sed -i 's/apc.enabled.*/apc.enabled = 0/' /etc/php.d/apc.ini
 else
   if [ "$package" = "basic" ] || [ "$package" = "recommend" ]
   then
@@ -120,5 +122,9 @@ else
     /opt/chef-server/embedded/bin/knife cookbook upload -a
     sleep 10 
     /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
+  fi
+  if [ "$package" = "basic" ]
+  then
+    sudo /opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root
   fi
 fi

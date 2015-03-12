@@ -50,4 +50,3 @@ cd /root/drucloudaws/sites/default
 source /root/.bashrc
 /root/.composer/vendor/bin/drush cc all 
 /root/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'
-/opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root
