@@ -89,6 +89,9 @@ if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/def
   sed -i "s/search_default_module_value/$search_default_module_value/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
   sed -i "s/search_node_value/$search_node_value/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
 fi
+echo $package >> /home/ec2-user/package.txt
+echo $search_default_module_value >> /home/ec2-user/search_default_module_value.txt
+echo $search_node_value >> /home/ec2-user/search_node_value.txt
 
 # Prepare pem
 #mkdir -p /home/ec2-user/.pem
