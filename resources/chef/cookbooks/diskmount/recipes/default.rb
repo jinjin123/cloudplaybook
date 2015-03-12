@@ -8,10 +8,6 @@
 #
 #
 #
-#execute "wait_until_drupal" do
-#        command "n=0;until [ $n -ge 5 ];do ls -lrt /var/www/html/sites/default; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
-#end
-
 execute "preparemountdir" do
        command "mkdir -p #{node[:diskmount][:localsourcefolder]}"
 end
@@ -20,7 +16,8 @@ end
 #	command "echo '#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]} #{node[:diskmount][:localsourcefolder]} glusterfs defaults 0 0' >>/etc/fstab;"
 #	not_if "cat /proc/mounts | grep glusterfs"
 #end
-if node[:diskmount][:glusterserverip].to_s != 0
+
+if ! node[:diskmount][:glusterserverip].empty?
   mount node[:diskmount][:localsourcefolder] do
     device "#{node[:diskmount][:glusterserverip]}:/#{node[:diskmount][:glustervolume]}"
     dump 0
