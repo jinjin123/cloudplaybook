@@ -11,23 +11,23 @@ module_list = [ 'apachesolr', 'advagg_css_cdn', 'advagg_js_cdn', 'memcache', 'cd
 unless node['drucloud_config']['drucloud_package'] =~ /recommend/
   module_list.each do |modules|
     execute "disable_modules_#{modules}" do
+      command "source #{node['drucloud_config']['drupal_user_home']}/.bashrc;#{node['drucloud_config']['drush_path']}/drush dis #{modules} -y"
       cwd "#{node['drucloud_config']['drupal_root']}/sites/default"
       user node['drucloud_config']['drupal_user']
       group node['drucloud_config']['drupal_group']
-      environment ({'HOME' => '/var/lib/nginx'})
-      command "#{node['drucloud_config']['drush_path']}/drush dis #{modules} -y"
+      environment ({'HOME' => node['drucloud_config']['drupal_user_home']})
+      ignore_failure true
     end
   end
   
   execute "drush_clear_cache" do
-    cwd "#{node['drucloud_config']['drupal_root']}/sites/default"
+    cwd "source #{node['drucloud_config']['drupal_user_home']}/.bashrc;#{node['drucloud_config']['drupal_root']}/sites/default"
     user node['drucloud_config']['drupal_user']
     group node['drucloud_config']['drupal_group']
-    environment ({'HOME' => '/var/lib/nginx'})
+    environment ({'HOME' => node['drucloud_config']['drupal_user_home']})
     command "#{node['drucloud_config']['drush_path']}/drush cc all"
   end
   
-
 # Disable APC when package
   if node['drucloud_config']['drucloud_package'] =~ /free/
     

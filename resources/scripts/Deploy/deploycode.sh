@@ -25,11 +25,12 @@ do
   esac
 done
 
+current_buser=""
 if [ -e buser.txt ]
 then
-  $current_buser=`cat buser.txt`
+  current_buser=`cat buser.txt`
 else
-  $current_buser="notset";
+  current_buser="notset";
 fi
 
 #register bitbucket key if not register yet
@@ -73,20 +74,24 @@ if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drucloud_config/attributes/def
 fi
 
 # Put different value into drupal_settings's attribute depends on package
-
+search_default_module_value=""
+search_node_value=""
 if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb ]; then
   if [ "$package" = "free" ] || [ "$package" = "basic" ];
   then
-    $search_default_module_value = "node"
-    $search_node_value = "node"
+    search_default_module_value = "node"
+    search_node_value = "node"
   elif [ "$package" = "recommend" ]
   then
-    $search_default_module_value = "apachesolr_search"
-    $search_node_value = "0"
+    search_default_module_value = "apachesolr_search"
+    search_node_value = "0"
   fi
-  sed -i "s/search_default_module_value/node/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
-  sed -i "s/search_node_value/node/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
+  sed -i "s/search_default_module_value/$search_default_module_value/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
+  sed -i "s/search_node_value/$search_node_value/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
 fi
+echo $package >> /home/ec2-user/package.txt
+echo $search_default_module_value >> /home/ec2-user/search_default_module_value.txt
+echo $search_node_value >> /home/ec2-user/search_node_value.txt
 
 # Prepare pem
 #mkdir -p /home/ec2-user/.pem
@@ -107,8 +112,10 @@ echo $package >> /home/ec2-user/package.txt
 if [ "$package" = "free" ]
 then
   echo "chef-solo will be ran" >> /home/ec2-user/chef.log
-  sudo /usr/bin/chef-solo -o 'recipe[deploycode]'
-  sudo /usr/bin/chef-solo -o 'recipe[drucloud_config]'
+  sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
+  sudo /opt/dep/disable_modules.sh -h /var/lib/nginx -r /var/www/html -u nginx
+# Disable apc for free Plan
+  sudo /bin/sed -i 's/apc.enabled.*/apc.enabled = 0/' /etc/php.d/apc.ini
 else
   if [ "$package" = "basic" ] || [ "$package" = "recommend" ]
   then
@@ -117,7 +124,10 @@ else
     export LANG=en_US.UTF-8
     /opt/chef-server/embedded/bin/knife cookbook upload -a
     sleep 10 
-    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'"
-    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[drucloud_config]'"
+    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
+  fi
+  if [ "$package" = "basic" ]
+  then
+    sudo /opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root
   fi
 fi

@@ -11,7 +11,8 @@
     "recipe[basicservice]",
     "recipe[php]",
     "recipe[php-ext-centos]",
-    "recipe[composer]"
+    "recipe[composer]",
+    "recipe[diskmount]"
   ],
   "env_run_lists": {
   }
