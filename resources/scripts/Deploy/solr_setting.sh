@@ -9,4 +9,5 @@ then
 /root/.composer/vendor/bin/drush solr-set-env-url $SOLR_URL -r /root/drucloudaws/
 #/root/.composer/vendor/bin/drush sql-query 'INSERT INTO apachesolr_index_bundles (env_id, entity_type, bundle) values ("solr","node","article");' -r /root/drucloudaws/
 /root/.composer/vendor/bin/drush cc all -v -r /root/drucloudaws/
+/usr/bin/chef-solo -j <(echo '{"drupal_settings":{"web_root":"/root/drucloudaws","web_user":"root","web_group":"root"}, "run_list": "recipe[drupal_settings]"}')
 fi

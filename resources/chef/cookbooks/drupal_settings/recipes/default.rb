@@ -22,6 +22,11 @@ if File.exist?(node['drupal_settings']['secretpath'])
     user "root"
     cwd "/tmp"
     code <<-EOH
+      if [ `cat /etc/fstab|grep glusterfs| wc -l` -gt 0 ]; then
+        if [ -d "#{node['drupal_settings']['web_root']}/sites/default/files" ];then
+          rm -rf #{node['drupal_settings']['web_root']}/sites/default/files
+        fi
+      fi
       if [ ! -d "#{node['drupal_settings']['web_root']}/sites/default/files" ] && [ ! -h "#{node['drupal_settings']['web_root']}/sites/default/files" ]; then
         if [ `cat /etc/fstab|grep glusterfs| wc -l` -gt 0 ]; then
           mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
