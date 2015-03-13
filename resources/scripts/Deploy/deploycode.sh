@@ -79,12 +79,12 @@ search_node_value=""
 if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb ]; then
   if [ "$package" = "free" ] || [ "$package" = "basic" ];
   then
-    search_default_module_value = "node"
-    search_node_value = "node"
+    search_default_module_value="node"
+    search_node_value="node"
   elif [ "$package" = "recommend" ]
   then
-    search_default_module_value = "apachesolr_search"
-    search_node_value = "0"
+    search_default_module_value="apachesolr_search"
+    search_node_value="0"
   fi
   sed -i "s/search_default_module_value/$search_default_module_value/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
   sed -i "s/search_node_value/$search_node_value/" /home/ec2-user/chef11/chef-repo/cookbooks/drupal_settings/attributes/default.rb
