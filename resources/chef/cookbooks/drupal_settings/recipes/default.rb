@@ -23,27 +23,28 @@ if File.exist?(node['drupal_settings']['secretpath'])
     cwd "/tmp"
     code <<-EOH
       if [ `cat /etc/fstab|grep glusterfs| wc -l` -gt 0 ]; then
-        mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
-        if [ -d "#{node['drupal_settings']['web_root']}/sites/default" ]; then
-          ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` #{node['drupal_settings']['web_root']}/sites/default/files
-          if [ `cat /etc/passwd|grep #{node['drupal_settings']['web_user']}| wc -l` -eq 1 ]; then
-              chown #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
-          else
-            chown apache:apache `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
-          fi
+        if [ -d "#{node['drupal_settings']['web_root']}/sites/default/files" ];then
+          rm -rf #{node['drupal_settings']['web_root']}/sites/default/files
         fi
-      else
-        if [ -d "#{node['drupal_settings']['web_root']}/sites/default" ]; then
-          mkdir #{node['drupal_settings']['web_root']}/sites/default/files
-          chmod 777 #{node['drupal_settings']['web_root']}/sites/default/files
-          if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]; then
-            chown nginx:nginx #{node['drupal_settings']['web_root']}/sites/default/files
-          else
-            chown apache:apache #{node['drupal_settings']['web_root']}/sites/default/files
+      fi
+      if [ ! -d "#{node['drupal_settings']['web_root']}/sites/default/files" ] && [ ! -h "#{node['drupal_settings']['web_root']}/sites/default/files" ]; then
+        if [ `cat /etc/fstab|grep glusterfs| wc -l` -gt 0 ]; then
+          mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+          if [ -d "#{node['drupal_settings']['web_root']}/sites/default" ]; then
+            ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` #{node['drupal_settings']['web_root']}/sites/default/files
+            chmod -R 777 `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+            chown -R #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
+          fi
+        else
+          if [ -d "#{node['drupal_settings']['web_root']}/sites/default" ]; then
+            mkdir #{node['drupal_settings']['web_root']}/sites/default/files
+            chmod -R 777 #{node['drupal_settings']['web_root']}/sites/default/files
+            chown -R #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} #{node['drupal_settings']['web_root']}/sites/default/files
           fi
         fi
       fi
     EOH
+    ignore_failure true
   end
 
 
@@ -63,6 +64,33 @@ if File.exist?(node['drupal_settings']['secretpath'])
       action :create
       ignore_failure true
     end rescue NoMethodError
+    
+    template "#{node['drupal_settings']['web_root']}/sites/default/advagg.settings.php" do
+      source "advagg.settings.php"
+      mode 0600
+      retries 3
+      retry_delay 30
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
+      action :create
+      ignore_failure true
+    end rescue NoMethodError
+    
+    template "#{node['drupal_settings']['web_root']}/sites/default/search.settings.php" do
+      source "search.settings.php"
+      variables(
+        :search_default_module => node['drupal_settings']['search_default_module'],
+        :search_node => node['drupal_settings']['search_node']
+      )
+      mode 0600
+      retries 3
+      retry_delay 30
+      owner node['drupal_settings']['web_user']
+      group node['drupal_settings']['web_group']
+      action :create
+      ignore_failure true
+     end rescue NoMethodError
+
 
     # Check if DataBag item exist before applying templates
     Database_Setting = Chef::EncryptedDataBagItem.load("drupal", "Database", drupal_secret)
@@ -208,6 +236,14 @@ if File.exist?(node['drupal_settings']['secretpath'])
       ignore_failure true
     end rescue NoMethodError
   end
+end
+
+file "#{node['drupal_settings']['web_root']}/ping.html" do
+  content '<html></html>'
+  mode 0600
+  owner node['drupal_settings']['web_user']
+  group node['drupal_settings']['web_group']
+  action :create
 end
 
 unless node['drupal_settings']['web_root'] =~ /drucloudaws/

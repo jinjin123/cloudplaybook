@@ -8,7 +8,9 @@ buser=
 bpwd=
 giturl=
 rolename=
-while getopts h:u:p:c:v:m:n:g:r: opt
+package=
+
+while getopts h:u:p:c:v:m:n:g:r:k: opt
 do 
 	case $opt in
 		h)	host=$OPTARG;;
@@ -19,6 +21,7 @@ do
 		n)	bpwd=$OPTARG;;
 		g)	giturl=$OPTARG;;
 		r)	rolename=$OPTARG;;
+		k)  package=$OPTARG;;
 		*)	echo "-$opt not recognized";;
 	esac
 done
