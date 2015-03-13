@@ -32,6 +32,7 @@ if File.exist?(node['drupal_settings']['secretpath'])
           mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
           if [ -d "#{node['drupal_settings']['web_root']}/sites/default" ]; then
             ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` #{node['drupal_settings']['web_root']}/sites/default/files
+            chmod 777 `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
             chown #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
           fi
         else
