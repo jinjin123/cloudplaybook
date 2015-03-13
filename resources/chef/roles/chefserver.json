@@ -9,6 +9,7 @@
   "chef_type": "role",
   "run_list": [
     "recipe[basicservice]",
+    "recipe[glusterfs]",
     "recipe[php]",
     "recipe[php-ext-centos]",
     "recipe[composer]",
