@@ -132,7 +132,8 @@ ruby_block "CheckDrupal" do
 # if /etc/chef/validation.pem, it is a typical chef-client, otherwise, it is a chef-solo
     if Existance > 0
       if !File.file?('/etc/chef/validation.pem')
-         exec("chef-server-ctl stop;su -c \"source /var/lib/nginx/.bashrc;cd #{node[:deploycode][:localsourcefolder]}/sites/default;/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\" > /var/log/drush_install.log 2>&1 &;sleep 20;chef-solo -o \'recipe[drupal_settings]\';")
+         exec("chef-server-ctl stop;chef-solo -o \'recipe[drupal_settings]\';")
+         exec("su -c \"source /var/lib/nginx/.bashrc;cd #{node[:deploycode][:localsourcefolder]}/sites/default;/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\";")
       else
          exec("chef-client -o 'recipe[drupal_settings]'")
       end
