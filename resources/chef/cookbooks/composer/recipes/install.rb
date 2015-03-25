@@ -26,7 +26,11 @@ script "install_drush_root" do
   user "root"
   code <<-EOH
     cd
-    /usr/local/bin/composer global require drush/drush:dev-master 
+    if [ `grep nginx /etc/passwd| wc -l` -eq 0 ];then
+      /usr/local/bin/composer global require drush/drush:6.5.0
+    else
+      /usr/local/bin/composer global require drush/drush:dev-master
+    fi
     sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
     source $HOME/.bashrc
     if [ -d /var/lib/nginx ];
