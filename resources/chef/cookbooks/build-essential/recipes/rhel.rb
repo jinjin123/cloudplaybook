@@ -18,6 +18,7 @@
 #
 
 pkgs = %w{
+    centos-release-SCL
     automake 
     autoconf
     bison
@@ -31,10 +32,10 @@ pkgs = %w{
     m4
     mysql 
     pcre-devel 
-    ruby19 
-    ruby19-devel 
-    ruby19-irb 
-    ruby19-libs 
+    ruby193 
+    ruby193-ruby-devel 
+    ruby193-ruby-irb 
+    ruby193-ruby-libs 
     zlib 
     zlib-devel
 }
