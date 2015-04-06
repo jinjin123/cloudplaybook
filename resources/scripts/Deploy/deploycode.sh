@@ -124,7 +124,7 @@ else
     export LANG=en_US.UTF-8
     /opt/chef-server/embedded/bin/knife cookbook upload -a
     sleep 10 
-    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
+    /opt/chef-server/embedded/bin/knife ssh "name:*" "sudo chef-client -o 'recipe[deploycode]'" || true
   fi
   if [ "$package" = "basic" ]
   then
