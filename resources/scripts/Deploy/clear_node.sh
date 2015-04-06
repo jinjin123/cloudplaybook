@@ -8,10 +8,10 @@ NODE_LIST=`/usr/bin/knife node list`
 for x in $NODE_LIST
 do
 echo $x
-/opt/chef-server/embedded/bin/knife ssh "name:$x" "echo \"exists!\"" > /tmp/check_chef.txt
+/usr/bin/knife ssh "name:$x" "echo \"exists!\"" > /tmp/check_chef.txt
 if [ ! `cat /tmp/check_chef.txt|grep exists|wc -l` -eq 1 ];
 then
-/opt/chef-server/embedded/bin/knife node delete $x -y
+/usr/bin/knife node delete $x -y
 fi
 done
 
