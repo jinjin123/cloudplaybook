@@ -128,6 +128,6 @@ else
   fi
   if [ "$package" = "basic" ]
   then
-    sudo /opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root
+    sudo /opt/dep/disable_modules.sh -h /root -r /var/www/html -u root
   fi
 fi
