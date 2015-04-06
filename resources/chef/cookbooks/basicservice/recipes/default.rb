@@ -6,8 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-#include_recipe "basicservice::rpc"
-include_recipe "basicservice::glusterfs"
 
 #create app user if not exist
 =begin

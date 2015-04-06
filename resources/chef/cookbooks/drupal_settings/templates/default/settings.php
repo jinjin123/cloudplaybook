@@ -596,3 +596,6 @@ if (file_exists($env_settings . "/cdn.settings.php")) {
 if (file_exists($env_settings . "/s3cdn.settings.php")) {
     include $env_settings . "/s3cdn.settings.php";
 }
+if (file_exists($env_settings . "/search.settings.php")) {
+    include $env_settings . "/search.settings.php";
+}

@@ -11,10 +11,11 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
+    "recipe[updatevault]",
+    "recipe[nginx]",
     "recipe[php]",
     "recipe[php-ext-centos]",
     "recipe[php-fpm]",
-    "recipe[nginx]",
     "recipe[microcache]",
     "recipe[composer]",
     "recipe[deploycode]"

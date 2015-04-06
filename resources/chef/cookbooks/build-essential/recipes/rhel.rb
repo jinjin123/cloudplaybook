@@ -38,6 +38,8 @@ pkgs = %w{
     ruby193-ruby-libs 
     zlib 
     zlib-devel
+    libevent
+    libevent-devel
 }
 
 # ensure GCC 4 is available on older pre-6 EL
