@@ -122,9 +122,9 @@ else
     echo "chef-client will be ran" >> /home/ec2-user/chef.log
     export LC_ALL=en_US.UTF-8
     export LANG=en_US.UTF-8
-    /opt/chef-server/embedded/bin/knife cookbook upload -a
+    /usr/bin/knife cookbook upload -a
     sleep 10 
-    /opt/chef-server/embedded/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
+    /usr/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
   fi
   if [ "$package" = "basic" ]
   then
