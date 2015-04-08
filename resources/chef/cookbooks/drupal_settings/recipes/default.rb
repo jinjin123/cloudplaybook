@@ -36,11 +36,9 @@ if File.exist?(node['drupal_settings']['secretpath'])
             chown -R #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
           fi
         else
-          if [ -d "#{node['drupal_settings']['web_root']}/sites/default" ]; then
-            mkdir #{node['drupal_settings']['web_root']}/sites/default/files
-            chmod -R 777 #{node['drupal_settings']['web_root']}/sites/default/files
-            chown -R #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} #{node['drupal_settings']['web_root']}/sites/default/files
-          fi
+          mkdir -p #{node['drupal_settings']['web_root']}/sites/default/files
+          chmod -R 777 #{node['drupal_settings']['web_root']}/sites/default/files
+          chown -R #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} #{node['drupal_settings']['web_root']}/sites/default/files
         fi
       fi
     EOH
