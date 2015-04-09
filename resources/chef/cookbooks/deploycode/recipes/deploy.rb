@@ -85,7 +85,6 @@ ruby_block "stop_chef_server" do
   block do
     if ( File.file?('/etc/chef/validation.pem') && File.file?('/usr/bin/chef-server-ctl') )
         exec("chef-server-ctl stop")
-      end
     end
   end
 end
@@ -131,14 +130,13 @@ else
 end
 
 # if git repository is drupal, then run drupal_settings
-ruby_block "CheckDrupal_1" do
+ruby_block "CheckDrupal" do
   block do
     Existance = 0
-    if(File.file?('/var/www/html/.git/config'))
+    if File.file?('/var/www/html/.git/config')
       CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
       Existance = CheckDrucloud.to_i
     end  
-    run = ""
     if Existance > 0
       if File.file?('/usr/bin/chef-server-ctl') 
          exec("chef-solo -o 'recipe[drupal_settings]')
@@ -150,7 +148,6 @@ ruby_block "CheckDrupal_1" do
          exec("chef-client -o 'recipe[drupal_settings]'")
       end
     end
-    print run
   end
 end
 
