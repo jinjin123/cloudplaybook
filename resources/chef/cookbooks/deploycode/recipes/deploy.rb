@@ -80,15 +80,6 @@ directory node[:deploycode][:localsourcefolder] do
   action :create
 end
 
-# Shutdown chef server before git clone to free resources
-ruby_block "stop_chef_server" do
-  block do
-    if ( File.file?('/etc/chef/validation.pem') && File.file?('/usr/bin/chef-server-ctl') )
-        exec("chef-server-ctl stop")
-    end
-  end
-end
-
 include_recipe 'deploycode::clone_repo'
 
 execute "git_tag" do

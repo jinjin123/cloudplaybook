@@ -269,15 +269,20 @@ file "#{node['drupal_settings']['web_root']}/ping.html" do
   action :create
 end
 
-
-unless node['drupal_settings']['web_root'] =~ /drucloudaws/
-  service "nginx" do
-    action :restart
-    ignore_failure true
+ruby_block "stop_chef_server" do
+  block do
+    if ( File.file?('/etc/chef/validation.pem') && File.file?('/usr/bin/chef-server-ctl') )
+        exec("chef-server-ctl stop")
+    end
   end
+end
 
-  service "php-fpm" do
-    action :restart
-    ignore_failure true
-  end
+service "nginx" do
+  action :restart
+  ignore_failure true
+end
+
+service "php-fpm" do
+  action :restart
+  ignore_failure true
 end
