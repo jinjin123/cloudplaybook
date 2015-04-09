@@ -80,6 +80,23 @@ directory node[:deploycode][:localsourcefolder] do
   action :create
 end
 
+# Shutdown chef server before git clone to free resources
+ruby_block "CheckDrupal_0" do
+  block do
+    Existance = 0
+    if(File.file?('/var/www/html/.git/config'))
+      CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
+      Existance = CheckDrucloud.to_i
+    end
+    # if /etc/chef/validation.pem, it is a typical chef-client, otherwise, it is a chef-solo
+    if Existance > 0
+      if !File.file?('/etc/chef/validation.pem')
+         exec("chef-server-ctl stop")
+      end
+    end
+  end
+end
+
 include_recipe 'deploycode::clone_repo'
 
 execute "git_tag" do
@@ -121,7 +138,7 @@ else
 end
 
 # if git repository is drupal, then run drupal_settings
-ruby_block "CheckDrupal" do
+ruby_block "CheckDrupal_1" do
   block do
     Existance = 0
     if(File.file?('/var/www/html/.git/config'))
@@ -132,7 +149,7 @@ ruby_block "CheckDrupal" do
 # if /etc/chef/validation.pem, it is a typical chef-client, otherwise, it is a chef-solo
     if Existance > 0
       if !File.file?('/etc/chef/validation.pem')
-         exec("chef-server-ctl stop;chef-solo -o \'recipe[drupal_settings]\';su -c \"source /var/lib/nginx/.bashrc;cd #{node[:deploycode][:localsourcefolder]}/sites/default;/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\";swapoff /var/swap.1;rm -f /var/swap.1")
+         exec("chef-solo -o \'recipe[drupal_settings]\';su -c \"source /var/lib/nginx/.bashrc;cd #{node[:deploycode][:localsourcefolder]}/sites/default;/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\";swapoff /var/swap.1;rm -f /var/swap.1")
       else
          exec("chef-client -o 'recipe[drupal_settings]'")
       end
