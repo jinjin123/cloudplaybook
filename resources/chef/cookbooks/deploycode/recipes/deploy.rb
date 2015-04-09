@@ -140,16 +140,6 @@ ruby_block "CheckDrupal" do
     if Existance > 0
       if File.file?('/usr/bin/chef-server-ctl') 
          exec("chef-solo -o 'recipe[drupal_settings]'")
-         # if ping.html not exists, it is a fresh run, installation is needed
-         if !File.file?("#{node[:deploycode][:localsourcefolder]}/ping.html")
-           command = ""
-           command = command + "su -c \"source /var/lib/nginx/.bashrc;"
-           command = command + "cd #{node[:deploycode][:localsourcefolder]}/sites/default;"
-           command = command + "/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;"
-           command = command + "/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\";"
-           command = command + "swapoff /var/swap.1;rm -f /var/swap.1"
-           exec(command)
-         end
       else
          exec("chef-client -o 'recipe[drupal_settings]'")
       end

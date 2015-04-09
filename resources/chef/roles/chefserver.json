@@ -12,6 +12,7 @@
     "recipe[glusterfs]",
     "recipe[php]",
     "recipe[php-ext-centos]",
+    "recipe[nginx]",
     "recipe[composer]",
     "recipe[diskmount]"
   ],

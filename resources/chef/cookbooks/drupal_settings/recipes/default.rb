@@ -236,6 +236,31 @@ if File.exist?(node['drupal_settings']['secretpath'])
   end
 end
 
+# if git repository is drupal, then run drupal_settings
+ruby_block "CheckDrupal" do
+  block do
+    Existance = 0
+    if File.file?("#{node['drupal_settings']['web_root']}/.git/config")
+      CheckDrucloud = `cat #{node['drupal_settings']['web_root']}/.git/config|grep drucloud|wc -l`
+      Existance = CheckDrucloud.to_i
+    end
+    if Existance > 0
+      if File.file?('/usr/bin/chef-server-ctl')
+        if !File.file?("#{node['drupal_settings']['web_root']}/ping.html")
+          command = ""
+          command = command + "su -c \"source /var/lib/nginx/.bashrc;"
+          command = command + "cd #{node['drupal_settings']['web_root']}/sites/default;"
+          command = command + "/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;"
+          command = command + "/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node['drupal_settings']['web_user']}\";"
+          command = command + "swapoff /var/swap.1;rm -f /var/swap.1"
+          exec(command)
+        end
+      end
+    end
+  end
+end
+
+
 file "#{node['drupal_settings']['web_root']}/ping.html" do
   content '<html></html>'
   mode 0600
@@ -243,6 +268,7 @@ file "#{node['drupal_settings']['web_root']}/ping.html" do
   group node['drupal_settings']['web_group']
   action :create
 end
+
 
 unless node['drupal_settings']['web_root'] =~ /drucloudaws/
   service "nginx" do

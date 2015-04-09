@@ -5,7 +5,9 @@ script "download_composer" do
   cd /root
   curl -sS https://getcomposer.org/installer | php
   mv composer.phar /usr/local/bin/composer
-  ln -s /usr/local/bin/composer /usr/bin/composer
+  if [ ! -h /usr/bin/composer ];then
+    ln -s /usr/local/bin/composer /usr/bin/composer
+  fi
   EOH
 end
 
