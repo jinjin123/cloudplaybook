@@ -138,11 +138,14 @@ ruby_block "CheckDrupal_1" do
       CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
       Existance = CheckDrucloud.to_i
     end  
-  run = ""
-# if /etc/chef/validation.pem, it is a typical chef-client, otherwise, it is a chef-solo
+    run = ""
     if Existance > 0
-      if ( File.file?('/etc/chef/validation.pem') &&  File.file?('/usr/bin/chef-server-ctl')) 
-         exec("chef-solo -o \'recipe[drupal_settings]\';su -c \"source /var/lib/nginx/.bashrc;cd #{node[:deploycode][:localsourcefolder]}/sites/default;/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\";swapoff /var/swap.1;rm -f /var/swap.1")
+      if File.file?('/usr/bin/chef-server-ctl') 
+         exec("chef-solo -o 'recipe[drupal_settings]')
+         # if ping.html not exists, it is a fresh run, installation is needed
+         if !File.file?("#{node[:deploycode][:localsourcefolder]}/ping.html")
+           exec("su -c \"source /var/lib/nginx/.bashrc;cd #{node[:deploycode][:localsourcefolder]}/sites/default;/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\";swapoff /var/swap.1;rm -f /var/swap.1")
+         end
       else
          exec("chef-client -o 'recipe[drupal_settings]'")
       end

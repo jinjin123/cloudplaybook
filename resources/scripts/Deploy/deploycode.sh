@@ -124,10 +124,11 @@ else
     export LANG=en_US.UTF-8
     /usr/bin/knife cookbook upload -a
     sleep 10 
+    sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
     /usr/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
   fi
   if [ "$package" = "basic" ]
   then
-    sudo /opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root
+    sudo /opt/dep/disable_modules.sh -h /root -r /var/www/html -u root
   fi
 fi
