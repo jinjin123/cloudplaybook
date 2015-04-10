@@ -9,5 +9,5 @@ git "clone_repo" do
   action :nothing
   destination node[:deploycode][:localsourcefolder]
 #  checkout_branch 'master'
-#  enable_checkout false
+  enable_checkout false
 end
