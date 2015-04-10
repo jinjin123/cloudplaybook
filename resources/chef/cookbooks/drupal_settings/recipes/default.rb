@@ -248,13 +248,14 @@ ruby_block "CheckDrupal" do
       if File.file?('/usr/bin/chef-server-ctl')
         if !File.file?("#{node['drupal_settings']['web_root']}/ping.html")
           command = ""
+          command = command + "if [ -f /etc/chef/validation.pem ] && [ -f /usr/bin/chef-server-ctl ];then chef-server-ctl stop;fi;"
           command = command + "su -c \"source /var/lib/nginx/.bashrc;"
           command = command + "cd #{node['drupal_settings']['web_root']}/sites/default;"
           command = command + "n=0;until [ \${n} -ge 3 ];do /var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes;[ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
           command = command + "/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node['drupal_settings']['web_user']}\";"
           command = command + "if [ -f /var/swap.1 ];then swapoff /var/swap.1;rm -f /var/swap.1;fi;"
           command = command + "echo \"<html></html>\" > #{node['drupal_settings']['web_root']}/ping.html;"
-          command = command + "if [ -f /etc/chef/validation.pem ] && [ -f /usr/bin/chef-server-ctl ];then chef-server-ctl stop;fi" 
+#          command = command + "if [ -f /etc/chef/validation.pem ] && [ -f /usr/bin/chef-server-ctl ];then chef-server-ctl stop;fi" 
           print command
           exec(command)
         end
