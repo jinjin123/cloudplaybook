@@ -112,6 +112,8 @@ echo $package >> /home/ec2-user/package.txt
 if [ "$package" = "free" ]
 then
   echo "chef-solo will be ran" >> /home/ec2-user/chef.log
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
   sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
   sudo /opt/dep/disable_modules.sh -h /var/lib/nginx -r /var/www/html -u nginx
 # Disable apc for free Plan
