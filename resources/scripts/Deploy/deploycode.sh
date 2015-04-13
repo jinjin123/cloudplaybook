@@ -118,6 +118,7 @@ then
   sudo /opt/dep/disable_modules.sh -h /var/lib/nginx -r /var/www/html -u nginx
 # Disable apc for free Plan
   sudo /bin/sed -i 's/apc.enabled.*/apc.enabled = 0/' /etc/php.d/apc.ini
+  exit 0
 else
   if [ "$package" = "basic" ] || [ "$package" = "recommend" ]
   then
