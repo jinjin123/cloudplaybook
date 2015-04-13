@@ -132,6 +132,6 @@ else
   fi
   if [ "$package" = "basic" ]
   then
-    sudo /opt/dep/disable_modules.sh -h /root -r /var/www/html -u root
+    sudo /opt/dep/disable_modules.sh -h /root -r /var/www/html -u nginx
   fi
 fi
