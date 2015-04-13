@@ -112,10 +112,13 @@ echo $package >> /home/ec2-user/package.txt
 if [ "$package" = "free" ]
 then
   echo "chef-solo will be ran" >> /home/ec2-user/chef.log
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
   sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
   sudo /opt/dep/disable_modules.sh -h /var/lib/nginx -r /var/www/html -u nginx
 # Disable apc for free Plan
   sudo /bin/sed -i 's/apc.enabled.*/apc.enabled = 0/' /etc/php.d/apc.ini
+  exit 0
 else
   if [ "$package" = "basic" ] || [ "$package" = "recommend" ]
   then
@@ -124,10 +127,11 @@ else
     export LANG=en_US.UTF-8
     /usr/bin/knife cookbook upload -a
     sleep 10 
+    sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
     /usr/bin/knife ssh "role:chefclient-base" "sudo chef-client -o 'recipe[deploycode]'" || true
   fi
   if [ "$package" = "basic" ]
   then
-    sudo /opt/dep/disable_modules.sh -h /root -r /root/drucloudaws -u root
+    sudo /opt/dep/disable_modules.sh -h /root -r /var/www/html -u nginx
   fi
 fi

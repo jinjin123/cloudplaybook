@@ -105,7 +105,7 @@ else
       retries 3
       retry_delay 30
       repository node[:deploycode][:gitrepo]
-#      reference "master"
+      checkout_branch
       action :sync
       destination node[:deploycode][:localsourcefolder]
 #      enable_checkout false
@@ -124,20 +124,17 @@ end
 ruby_block "CheckDrupal" do
   block do
     Existance = 0
-    if(File.file?('/var/www/html/.git/config'))
+    if File.file?('/var/www/html/.git/config')
       CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
       Existance = CheckDrucloud.to_i
     end  
-  run = ""
-# if /etc/chef/validation.pem, it is a typical chef-client, otherwise, it is a chef-solo
     if Existance > 0
-      if !File.file?('/etc/chef/validation.pem')
-         exec("chef-server-ctl stop;chef-solo -o \'recipe[drupal_settings]\';su -c \"source /var/lib/nginx/.bashrc;cd #{node[:deploycode][:localsourcefolder]}/sites/default;/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\";")
+      if File.file?('/usr/bin/chef-server-ctl') 
+         exec("chef-solo -o 'recipe[drupal_settings]'")
       else
          exec("chef-client -o 'recipe[drupal_settings]'")
       end
     end
-    print run
   end
 end
 
