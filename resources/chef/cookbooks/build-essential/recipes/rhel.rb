@@ -31,10 +31,10 @@ pkgs = %w{
     m4
     mysql 
     pcre-devel 
-    ruby193 
-    ruby193-ruby-devel 
-    ruby193-ruby-irb 
-    ruby193-ruby-libs 
+    ruby19 
+    ruby19-devel 
+    ruby19-irb 
+    ruby19-libs 
     zlib 
     zlib-devel
     libevent
