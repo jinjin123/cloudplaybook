@@ -131,14 +131,12 @@ Vagrant::Config.run do |config|
   config.vm.define :dev do |dev_config|
     dev_config.vm.box = "centos_chef"
     dev_config.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = "~/src/mobingi/mocloud/resources/chef/cookbooks"
-      chef.roles_path = "~/src/mobingi/mocloud/resources/chef/roles"
-      chef.add_role("chefclient-apache")
-      chef.add_recipe("drush-centos")
-      chef.add_recipe("git")
+      chef.cookbooks_path = "~/src/bootdev/bootcloud/resources/chef/cookbooks"
+      chef.roles_path = "~/src/bootdev/bootcloud/resources/chef/roles"
+      chef.add_role("chefclient-nginx-microcache")
     end
     dev_config.vm.network :hostonly, "10.0.1.10", :adapter => 2
-    dev_config.vm.network :bridged
+    dev_config.vm.network :public_network
     dev_config.vm.provision "shell", inline: $script
   end
 

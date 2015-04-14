@@ -115,7 +115,7 @@ then
   export LC_ALL=en_US.UTF-8
   export LANG=en_US.UTF-8
   sudo /usr/bin/chef-solo -o 'recipe[deploycode]' || true
-  sudo /opt/dep/disable_modules.sh -h /var/lib/nginx -r /var/www/html -u nginx
+  sudo /opt/dep/disable_modules.sh -h /home/ec2-user -r /var/www/html -u ec2-user 
 # Disable apc for free Plan
   sudo /bin/sed -i 's/apc.enabled.*/apc.enabled = 0/' /etc/php.d/apc.ini
   exit 0
@@ -132,6 +132,6 @@ else
   fi
   if [ "$package" = "basic" ]
   then
-    sudo /opt/dep/disable_modules.sh -h /root -r /var/www/html -u nginx
+    sudo /opt/dep/disable_modules.sh -h /ec2-user -r /var/www/html -u ec2-user
   fi
 fi

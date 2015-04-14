@@ -27,7 +27,7 @@ end
 
 code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
 if code_owner_home.to_s.strip.length == 0
-  code_owner_home="/var/lib/nginx"
+  code_owner_home="/home/ec2-user"
 end
 
 directory "#{code_owner_home}/.ssh" do
@@ -79,6 +79,14 @@ directory node[:deploycode][:localsourcefolder] do
   mode '0755'
   action :create
 end
+
+# Change nginx installation directory to be accessible by ec2-user
+directory "/var/lib/nginx" do
+  mode '0777'
+  action :create
+end
+
+
 
 include_recipe 'deploycode::clone_repo'
 

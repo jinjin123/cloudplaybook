@@ -1,6 +1,6 @@
 if node.platform_family == "rhel"
-  user = "nginx"
-  group = "nginx"
+  user = "ec2-user"
+  group = "ec2-user"
   conf_dir = "/etc/php.d"
   pool_conf_dir = "/etc/php-fpm.d"
   conf_file = "/etc/php-fpm.conf"
