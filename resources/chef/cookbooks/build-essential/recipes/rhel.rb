@@ -18,7 +18,6 @@
 #
 
 pkgs = %w{
-    centos-release-SCL
     automake 
     autoconf
     bison
