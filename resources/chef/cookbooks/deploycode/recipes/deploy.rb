@@ -82,6 +82,7 @@ end
 
 # Change nginx installation directory to be accessible by ec2-user
 directory "/var/lib/nginx" do
+  recursive true
   mode '0777'
   action :create
 end
