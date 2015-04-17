@@ -18,6 +18,7 @@ if platform?("amazon")
   rpm_package "externalsrc" do
     source "#{Chef::Config[:file_cache_path]}/externalsrc.rpm"
     action :upgrade
+    ignore_failure true
   end
 end
 

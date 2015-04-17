@@ -36,11 +36,9 @@ if File.exist?(node['drupal_settings']['secretpath'])
             chown -R #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
           fi
         else
-          if [ -d "#{node['drupal_settings']['web_root']}/sites/default" ]; then
-            mkdir #{node['drupal_settings']['web_root']}/sites/default/files
-            chmod -R 777 #{node['drupal_settings']['web_root']}/sites/default/files
-            chown -R #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} #{node['drupal_settings']['web_root']}/sites/default/files
-          fi
+          mkdir -p #{node['drupal_settings']['web_root']}/sites/default/files
+          chmod -R 777 #{node['drupal_settings']['web_root']}/sites/default/files
+          chown -R #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} #{node['drupal_settings']['web_root']}/sites/default/files
         fi
       fi
     EOH
@@ -238,6 +236,35 @@ if File.exist?(node['drupal_settings']['secretpath'])
   end
 end
 
+# if git repository is drupal, then run drupal_settings
+ruby_block "CheckDrupal" do
+  block do
+    Existance = 0
+    if File.file?("#{node['drupal_settings']['web_root']}/.git/config")
+      CheckDrucloud = `cat #{node['drupal_settings']['web_root']}/.git/config|grep drucloud|wc -l`
+      Existance = CheckDrucloud.to_i
+    end
+    if Existance > 0
+      if File.file?('/usr/bin/chef-server-ctl')
+        if !File.file?("#{node['drupal_settings']['web_root']}/ping.html")
+          command = ""
+          command = command + "if [ -f /etc/chef/validation.pem ] && [ -f /usr/bin/chef-server-ctl ];then chef-server-ctl stop;fi;"
+          command = command + "su -c \"source #{node['drupal_settings']['web_user_home']}/.bashrc;"
+          command = command + "cd #{node['drupal_settings']['web_root']}/sites/default;"
+          command = command + "n=0;until [ \${n} -ge 3 ];do #{node['drupal_settings']['web_user_home']}/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes;[ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
+          command = command + "#{node['drupal_settings']['web_user_home']}/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node['drupal_settings']['web_user']}\";"
+          command = command + "if [ -f /var/swap.1 ];then swapoff /var/swap.1;rm -f /var/swap.1;fi;"
+          command = command + "echo \"<html></html>\" > #{node['drupal_settings']['web_root']}/ping.html;/bin/chown #{node['drupal_settings']['web_user']}:#{node['drupal_settings']['web_group']} #{node['drupal_settings']['web_root']}/ping.html;"
+#          command = command + "if [ -f /etc/chef/validation.pem ] && [ -f /usr/bin/chef-server-ctl ];then chef-server-ctl stop;fi" 
+          print command
+          exec(command)
+        end
+      end
+    end
+  end
+end
+
+
 file "#{node['drupal_settings']['web_root']}/ping.html" do
   content '<html></html>'
   mode 0600
@@ -246,14 +273,12 @@ file "#{node['drupal_settings']['web_root']}/ping.html" do
   action :create
 end
 
-unless node['drupal_settings']['web_root'] =~ /drucloudaws/
-  service "nginx" do
-    action :restart
-    ignore_failure true
-  end
+service "nginx" do
+  action :restart
+  ignore_failure true
+end
 
-  service "php-fpm" do
-    action :restart
-    ignore_failure true
-  end
+service "php-fpm" do
+  action :restart
+  ignore_failure true
 end

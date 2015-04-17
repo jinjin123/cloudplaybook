@@ -27,7 +27,7 @@ end
 
 code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
 if code_owner_home.to_s.strip.length == 0
-  code_owner_home="/var/lib/nginx"
+  code_owner_home="/home/ec2-user"
 end
 
 directory "#{code_owner_home}/.ssh" do
@@ -80,6 +80,15 @@ directory node[:deploycode][:localsourcefolder] do
   action :create
 end
 
+# Change nginx installation directory to be accessible by ec2-user
+execute "change_nginx_permission" do
+  command 'chmod -R 777 /var/lib/nginx'
+  cwd "/var/lib/nginx"
+  user "root"
+  group "root"
+end
+
+
 include_recipe 'deploycode::clone_repo'
 
 execute "git_tag" do
@@ -105,7 +114,7 @@ else
       retries 3
       retry_delay 30
       repository node[:deploycode][:gitrepo]
-#      reference "master"
+      checkout_branch
       action :sync
       destination node[:deploycode][:localsourcefolder]
 #      enable_checkout false
@@ -124,20 +133,17 @@ end
 ruby_block "CheckDrupal" do
   block do
     Existance = 0
-    if(File.file?('/var/www/html/.git/config'))
+    if File.file?('/var/www/html/.git/config')
       CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
       Existance = CheckDrucloud.to_i
     end  
-  run = ""
-# if /etc/chef/validation.pem, it is a typical chef-client, otherwise, it is a chef-solo
     if Existance > 0
-      if !File.file?('/etc/chef/validation.pem')
-         exec("chef-server-ctl stop;chef-solo -o \'recipe[drupal_settings]\';su -c \"source /var/lib/nginx/.bashrc;cd #{node[:deploycode][:localsourcefolder]}/sites/default;/var/lib/nginx/.composer/vendor/bin/drush site-install drucloud --account-name=admin --account-pass=admin --site-name=drucloudaws --yes  || true;/var/lib/nginx/.composer/vendor/bin/drush php-eval 'node_access_rebuild();'\" -m \"#{node[:deploycode][:code_owner]}\";")
+      if File.file?('/usr/bin/chef-server-ctl') 
+         exec("chef-solo -o 'recipe[drupal_settings]'")
       else
          exec("chef-client -o 'recipe[drupal_settings]'")
       end
     end
-    print run
   end
 end
 
