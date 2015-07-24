@@ -13,7 +13,7 @@ else
     default['yum']['epel-testing']['gpgkey'] = 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL'
   when 6
     default['yum']['epel-testing']['description'] = 'Extra Packages for Enterprise Linux 6 - Testing - $basearch'
-    default['yum']['epel-testing']['mirrorlist'] = 'https://mirrors.fedoraproject.org/metalink?repo=testing-epel6&arch=$basearch'
+    default['yum']['epel-testing']['mirrorlist'] = 'http://mirrors.fedoraproject.org/metalink?repo=testing-epel6&arch=$basearch'
     default['yum']['epel-testing']['gpgkey'] = 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6r'
   end
 end
