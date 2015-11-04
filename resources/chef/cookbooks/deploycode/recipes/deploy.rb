@@ -130,22 +130,22 @@ else
 end
 
 # if git repository is drupal, then run drupal_settings
-ruby_block "CheckDrupal" do
-  block do
-    Existance = 0
-    if File.file?('/var/www/html/.git/config')
-      CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
-      Existance = CheckDrucloud.to_i
-    end  
-    if Existance > 0
-      if File.file?('/usr/bin/chef-server-ctl') 
-         exec("chef-solo -o 'recipe[drupal_settings]'")
-      else
-         exec("chef-client -o 'recipe[drupal_settings]'")
-      end
-    end
-  end
-end
+#ruby_block "CheckDrupal" do
+#  block do
+#    Existance = 0
+#    if File.file?('/var/www/html/.git/config')
+#      CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
+#      Existance = CheckDrucloud.to_i
+#    end  
+#    if Existance > 0
+#      if File.file?('/usr/bin/chef-server-ctl') 
+#         exec("chef-solo -o 'recipe[drupal_settings]'")
+#      else
+#         exec("chef-client -o 'recipe[drupal_settings]'")
+#      end
+#    end
+#  end
+#end
 
 file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
   content '<html></html>'
