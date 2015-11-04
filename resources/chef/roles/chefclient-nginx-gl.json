@@ -12,7 +12,6 @@
     "recipe[build-essential]",
     "recipe[basicservice]",
     "recipe[glusterfs]",
-    "recipe[updatevault]",
     "recipe[nginx]",
     "recipe[php]",
     "recipe[php-ext-centos]",
