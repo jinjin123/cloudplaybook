@@ -10,8 +10,7 @@
   "run_list": [
     "recipe[basicservice]",
     "recipe[glusterfs]",
-    "recipe[php]",
-    "recipe[php-ext-centos]",
+    "recipe[php56]",
     "recipe[nginx]",
     "recipe[composer]",
     "recipe[diskmount]"
