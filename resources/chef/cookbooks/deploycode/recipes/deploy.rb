@@ -128,12 +128,12 @@ file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
   action :create
 end
 
-service "nginx" do
-  action :restart
-  ignore_failure true
-end
+#service "nginx" do
+#  action :restart
+#  ignore_failure true
+#end
 
-service "php-fpm" do
-  action :restart
-  ignore_failure true
-end
+#service "php-fpm" do
+#  action :restart
+#  ignore_failure true
+#end
