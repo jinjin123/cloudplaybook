@@ -5,8 +5,6 @@
 # Copyright 2013, David Radcliffe
 #
 
-include_recipe 'apt::default'
-
 include_recipe 'java' if node['solr']['install_java']
 
 src_filename = ::File.basename(node['solr']['url'])
