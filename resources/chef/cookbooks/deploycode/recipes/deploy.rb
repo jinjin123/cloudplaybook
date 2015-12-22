@@ -80,15 +80,6 @@ directory node[:deploycode][:localsourcefolder] do
   action :create
 end
 
-# Change nginx installation directory to be accessible by ec2-user
-execute "change_nginx_permission" do
-  command 'chmod -R 777 /var/lib/nginx'
-  cwd "/var/lib/nginx"
-  user "root"
-  group "root"
-end
-
-
 include_recipe 'deploycode::clone_repo'
 
 execute "git_tag" do
