@@ -13,7 +13,8 @@
     "recipe[basicservice]",
     "recipe[glusterfs]",
     "recipe[diskmount]",
-    "recipe[deploycode]"
+    "recipe[deploycode]",
+    "recipe[docker]"   
   ],
   "env_run_lists": {
   }

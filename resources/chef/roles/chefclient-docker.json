@@ -11,7 +11,8 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
-    "recipe[deploycode]"
+    "recipe[deploycode]",
+    "recipe[docker]"
   ],
   "env_run_lists": {
   }
