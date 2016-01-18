@@ -13,9 +13,8 @@
     "recipe[basicservice]",
     "recipe[updatevault]",
     "recipe[nginx]",
-    "recipe[php]",
-    "recipe[php-ext-centos]",
-    "recipe[php-fpm]",
+    "recipe[php56]",
+    "recipe[php56-fpm]",
     "recipe[microcache]",
     "recipe[composer]",
     "recipe[deploycode]"
