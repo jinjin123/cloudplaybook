@@ -63,7 +63,7 @@ end
 #end
 
 execute 'change_limit' do
-  command "sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php.ini;sed -i 's/max_execution_time = .*/max_execution_time = 300/"
+  command "sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php.ini;sed -i 's/max_execution_time = .*/max_execution_time = 300/' /etc/php.ini"
 end
 
 template 'opcache.ini' do
