@@ -155,6 +155,15 @@ file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
   action :create
 end
 
+unless node[:deploycode][:checkout].nil? || node[:deploycode][:checkout].empty?
+  execute "git_tag" do
+    command "git checkout #{node[:deploycode][:checkout]}"
+    cwd node[:deploycode][:localsourcefolder]
+    user node[:deploycode][:code_owner]
+    group node[:deploycode][:code_group]
+  end  
+end
+
 service "nginx" do
   action :restart
   ignore_failure true

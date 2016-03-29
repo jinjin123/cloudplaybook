@@ -12,7 +12,8 @@ bpwd=
 userpem=
 role=
 package=
-while getopts u:p:k:g:r:m: opt
+commit_id=
+while getopts u:p:k:g:r:m:i: opt
 do
   case $opt in
     u)  buser=$OPTARG;;
@@ -21,6 +22,7 @@ do
     g)  giturl=$OPTARG;;
     r)  role=$OPTARG;;
     m)  package=$OPTARG;;
+    i)  commit_id=$OPTARG;;
     *)  echo "-$opt not recognized";;
   esac
 done
@@ -66,6 +68,13 @@ if [ -f /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.
   sed -i "/localsourcefolder/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
   echo 'default[:deploycode][:gitrepo] = "'$giturl'"' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
   echo $TEMP >>/home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  if [[ -z "$commit_id" ]]; then
+    sed -i "/checkout/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+    echo 'default[:deploycode][:checkout] = ""' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  else
+    sed -i "/checkout/d" /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+    echo 'default[:deploycode][:checkout] = "'$commit_id'"' >> /home/ec2-user/chef11/chef-repo/cookbooks/deploycode/attributes/default.rb
+  fi
 fi
 
 # Replace the package value into cookbook attributes
