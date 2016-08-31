@@ -99,6 +99,7 @@ pkgs_lib.flatten.each do |pkg|
         command "scp -r -i /root/keys/kylin.pem -o StrictHostKeyChecking=no ec2-user@#{node[:hadoop_files][:chef_serverip]}:/mnt/#{pkg} /usr/lib/"
         user 'root'
         group 'root'
+        ignore_failure true
     end 
 end
 
@@ -119,6 +120,7 @@ pkgs_etc.flatten.each do |pkg|
         command "scp -r -i /root/keys/kylin.pem -o StrictHostKeyChecking=no ec2-user@#{node[:hadoop_files][:chef_serverip]}:/mnt/#{pkg} /etc/"
         user 'root'
         group 'root'
+        ignore_failure true
     end
 end
 
@@ -133,6 +135,7 @@ pkgs_bin.flatten.each do |pkg|
         command "scp -r -i /root/keys/kylin.pem -o StrictHostKeyChecking=no ec2-user@#{node[:hadoop_files][:chef_serverip]}:/mnt/#{pkg} /usr/bin/"
         user 'root'
         group 'root'
+        ignore_failure true
     end
 end
 
@@ -145,6 +148,7 @@ pkgs_single.flatten.each do |pkg|
         command "scp -r -i /root/keys/kylin.pem -o StrictHostKeyChecking=no ec2-user@#{node[:hadoop_files][:chef_serverip]}:/mnt/#{pkg} /#{pkg}"
         user 'root'
         group 'root'
+        ignore_failure true
     end
 end
 
