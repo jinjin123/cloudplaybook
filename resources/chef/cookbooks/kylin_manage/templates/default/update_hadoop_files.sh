@@ -6,7 +6,8 @@ echo "Cloning /usr/lib directory"
 if [ ! -d "$COOKBOOK_PATH/usr/lib" ]; then
 /bin/mkdir -p $COOKBOOK_PATH/usr/lib
 fi
-for x in jvm phoenix hadoop* bigtop* hive* hbase tez
+#jvm
+for x in phoenix hadoop* bigtop* hive* hbase tez
 do
 /usr/bin/scp -r -i /root/.ssh/kylin.pem -oStrictHostKeyChecking=no ec2-user@$EMR_MASTER:/usr/lib/$x $COOKBOOK_PATH/usr/lib
 done
