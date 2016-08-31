@@ -43,5 +43,22 @@ echo "{  \"EMR_MASTER\": \"$MASTER_IP\"}" > /etc/chef/parameter_hadoop.json
 # update hadoop file script parameter
 /usr/bin/chef-solo -o 'recipe[kylin_manage::hadoop_files]' -j /etc/chef/parameter_hadoop.json
 
+# Update security group ingress
+# Get source security group ID
+SecurityGroupName=`/home/ec2-user/tools/ec2-metadata --security-groups|cut -d':' -f2|sed 's/ //g'`
+SourceSecurityGroupID=`/usr/bin/aws ec2 describe-security-groups --filters Name=group-name,Values=$SecurityGroupName|grep GroupId|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1`
+
+# Get master security group ID
+MASTER_instance_ID=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types MASTER|grep Ec2InstanceId|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1`
+MASTER_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $MASTER_instance_ID| grep GroupId|head -1|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1`
+
+# Get slave security group ID
+SLAVE_instance_ID=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types CORE|grep Ec2InstanceId|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1`
+SLAVE_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $SLAVE_instance_ID| grep GroupId|head -1|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1` 
+
+# open port
+/usr/bin/aws ec2 authorize-security-group-ingress --group-id $MASTER_SG_ID --source-group $SourceSecurityGroupID --protocol all --port 0-65535
+/usr/bin/aws ec2 authorize-security-group-ingress --group-id $SLAVE_SG_ID --source-group $SourceSecurityGroupID --protocol all --port 0-65535
+
 # update 
 /root/update_hadoop_files.sh 
