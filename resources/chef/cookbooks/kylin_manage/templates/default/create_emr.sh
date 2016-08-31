@@ -36,7 +36,7 @@ done
 
 # Print success message
 echo "Creation of EMR completed, you can run update hadoop file"
-echo "{\n  \"EMR_MASTER\": \"$CLUSTER_ID \"\n}" > /etc/chef/parameter_hadoop.json 
+echo "{  \"EMR_MASTER\": \"$CLUSTER_ID\"}" > /etc/chef/parameter_hadoop.json 
 # update hadoop file script parameter
 /usr/bin/chef-solo -o 'recipe[kylin_manage::hadoop_files]' -j /etc/chef/parameter_hadoop.json
 
