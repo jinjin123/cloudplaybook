@@ -37,3 +37,6 @@ for x in aws
 do
 /usr/bin/scp -r -i /root/.ssh/kylin.pem ec2-user@$EMR_MASTER:/usr/share/$x $COOKBOOK_PATH/usr/share/
 done
+
+# Generation of chef client creation script
+/usr/bin/chef-solo -o 'recipe[kylin_manage::client]' -j /etc/chef/parameter_emr.json
