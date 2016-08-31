@@ -38,7 +38,7 @@ done
 echo "Creation of EMR completed, you can run update hadoop file"
 
 # Put cluster master IP into file
-MASTER_IP=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types MASTER|grep PublicDnsName|cut -d':' -f2| sed 's/\"\|,\| //g'`
+MASTER_IP=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types MASTER|grep PrivateIpAddress|cut -d':' -f2| sed 's/\"\|,\| //g'`
 echo "{  \"EMR_MASTER\": \"$MASTER_IP\"}" > /etc/chef/parameter_hadoop.json 
 # update hadoop file script parameter
 /usr/bin/chef-solo -o 'recipe[kylin_manage::hadoop_files]' -j /etc/chef/parameter_hadoop.json
