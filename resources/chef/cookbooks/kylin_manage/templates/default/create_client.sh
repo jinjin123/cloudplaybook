@@ -13,7 +13,7 @@ SecurityGroupName=`/home/ec2-user/tools/ec2-metadata --security-groups|cut -d':'
 SecurityGroupID=`/usr/bin/aws ec2 describe-security-groups --filters Name=group-name,Values=$SecurityGroupName|grep GroupId|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1`
 
 # chef client template path
-TEMPLATE=/etc/chef/chefClient.template
+TEMPLATE=/etc/chef/chefClients.template
 ####################
 # Value to be input
 AttachEBSsize=8
