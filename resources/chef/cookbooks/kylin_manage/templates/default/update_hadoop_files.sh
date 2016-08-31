@@ -8,7 +8,7 @@ if [ ! -d "$COOKBOOK_PATH/usr/lib" ]; then
 fi
 for x in jvm phoenix hadoop* bigtop* hive* hbase tez
 do
-/usr/bin/scp -r -i /root/keys/kylin.pem ec2-user@$EMR_MASTER:/usr/lib/$x $COOKBOOK_PATH/usr/lib
+/usr/bin/scp -r -i /root/.ssh/kylin.pem ec2-user@$EMR_MASTER:/usr/lib/$x $COOKBOOK_PATH/usr/lib
 done
 
 echo "Cloning /etc directory"
@@ -17,7 +17,7 @@ if [ ! -d "$COOKBOOK_PATH/etc" ]; then
 fi
 for x in hadoop* hive* phoenix hbase tez
 do
-/usr/bin/scp -r -i /root/keys/kylin.pem ec2-user@$EMR_MASTER:/etc/$x $COOKBOOK_PATH/etc
+/usr/bin/scp -r -i /root/.ssh/kylin.pem ec2-user@$EMR_MASTER:/etc/$x $COOKBOOK_PATH/etc
 done
 
 echo "Cloning /usr/bin directory"
@@ -26,7 +26,7 @@ if [ ! -d "$COOKBOOK_PATH/usr/bin" ]; then
 fi
 for x in hadoop hbase hive
 do
-/usr/bin/scp -r -i /root/keys/kylin.pem ec2-user@$EMR_MASTER:/usr/bin/$x $COOKBOOK_PATH/usr/bin/
+/usr/bin/scp -r -i /root/.ssh/kylin.pem ec2-user@$EMR_MASTER:/usr/bin/$x $COOKBOOK_PATH/usr/bin/
 done
 
 echo "Cloning /usr/share directory"
@@ -35,5 +35,5 @@ if [ ! -d "$COOKBOOK_PATH/usr/share" ]; then
 fi
 for x in aws
 do
-/usr/bin/scp -r -i /root/keys/kylin.pem ec2-user@$EMR_MASTER:/usr/share/$x $COOKBOOK_PATH/usr/share/
+/usr/bin/scp -r -i /root/.ssh/kylin.pem ec2-user@$EMR_MASTER:/usr/share/$x $COOKBOOK_PATH/usr/share/
 done
