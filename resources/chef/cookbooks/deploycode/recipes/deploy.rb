@@ -127,13 +127,3 @@ file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
   group node[:deploycode][:code_group]
   action :create
 end
-
-#service "nginx" do
-#  action :restart
-#  ignore_failure true
-#end
-
-#service "php-fpm" do
-#  action :restart
-#  ignore_failure true
-#end
