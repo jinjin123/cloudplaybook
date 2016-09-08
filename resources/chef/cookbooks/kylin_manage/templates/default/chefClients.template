@@ -25,7 +25,10 @@
                 "m3.medium",
                 "m3.large",
                 "m3.xlarge",
+                "m4.large",
+                "m4.xlarge",
                 "m3.2xlarge",
+                "m4.2xlarge",
                 "c3.large",
                 "c3.xlarge",
                 "c3.2xlarge",
@@ -180,6 +183,12 @@
                 "Arch": "PVinstancestore"
             },
             "m3.xlarge": {
+                "Arch": "PVinstancestore"
+            },
+            "m4.large": {
+                "Arch": "PVinstancestore"
+            },
+            "m4.xlarge": {
                 "Arch": "PVinstancestore"
             },
             "m3.2xlarge": {
