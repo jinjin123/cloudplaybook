@@ -186,10 +186,10 @@
                 "Arch": "PVinstancestore"
             },
             "m4.large": {
-                "Arch": "PVinstancestore"
+                "Arch": "HVMebs"
             },
             "m4.xlarge": {
-                "Arch": "PVinstancestore"
+                "Arch": "HVMebs"
             },
             "m3.2xlarge": {
                 "Arch": "PVinstancestore"
