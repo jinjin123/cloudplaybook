@@ -754,11 +754,10 @@
                         "Fn::Join": [
                             "",
                             [
-                                "HTTP:",
+                                "TCP:",
                                 {
                                     "Ref": "InstancePort"
-                                },
-                                "/ping.html"
+                                }
                             ]
                         ]
                     },
