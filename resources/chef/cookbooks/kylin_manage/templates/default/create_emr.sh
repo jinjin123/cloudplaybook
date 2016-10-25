@@ -10,6 +10,7 @@ KEYPAIR=`/home/ec2-user/tools/ec2-metadata -u|grep keyname|cut -d ':' -f2`
 
 CLUSTER_ID=`/usr/bin/aws emr create-cluster \
 --applications Name=Hadoop Name=Hive Name=Pig Name=Hue Name=HBase Name=ZooKeeper Name=Phoenix Name=HCatalog \
+--emrfs Consistent=true,RetryCount=5,RetryPeriod=30 \
 --tags 'name=kyligence-emr' \
 --ec2-attributes KeyName=$KEYPAIR,InstanceProfile=EMR_EC2_DefaultRole,SubnetId=$EMRSubet \
 --service-role EMR_DefaultRole \
@@ -18,8 +19,7 @@ CLUSTER_ID=`/usr/bin/aws emr create-cluster \
 --log-uri "s3n://aws-logs-810803377174-$REGION/elasticmapreduce/" \
 --name 'Kyligence_Enterprise_demo_architecture' \
 --instance-groups '[{"InstanceCount":2,"InstanceGroupType":"CORE","InstanceType":"m4.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"m4.xlarge","Name":"Master instance group - 1"}]' \
---region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g' \
---emrfs Consistent=true,RetryCount=5,RetryPeriod=30`
+--region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
 
 # Check status and return until success or failed
 STATUS=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types MASTER|grep \"State\"|cut -d':' -f2| sed 's/\"\|,\| //g'`
