@@ -261,6 +261,11 @@
                 "PVebs": "ami-9c2fb89c",
                 "HVMebs": "ami-9a2fb89a"
             },
+            "ap-northeast-2": {
+                "PVinstancestore": "ami-d14388bf",
+                "PVebs": "ami-2b408b45",
+                "HVMebs": "ami-2b408b45"                
+            },
             "ap-southeast-2": {
                 "PVinstancestore": "ami-851856bf",
                 "PVebs": "ami-c71856fd",
