@@ -18,8 +18,8 @@ CLUSTER_ID=`/usr/bin/aws emr create-cluster \
 --log-uri "s3n://aws-logs-810803377174-$REGION/elasticmapreduce/" \
 --name 'Kyligence_Enterprise_demo_architecture' \
 --instance-groups '[{"InstanceCount":2,"InstanceGroupType":"CORE","InstanceType":"m4.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"m4.xlarge","Name":"Master instance group - 1"}]' \
---region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'` \
---emrfs Consistent=true,RetryCount=5,RetryPeriod=30
+--region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g' \
+--emrfs Consistent=true,RetryCount=5,RetryPeriod=30`
 
 # Check status and return until success or failed
 STATUS=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types MASTER|grep \"State\"|cut -d':' -f2| sed 's/\"\|,\| //g'`
