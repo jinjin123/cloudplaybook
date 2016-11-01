@@ -620,6 +620,7 @@
                         ]
                     }
                 ],
+                "IamInstanceProfile" : "EMR_EC2_DefaultRole",
                 "ImageId": {
                     "Fn::FindInMap": [
                         "AWSRegionArch2AMI",
