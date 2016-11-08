@@ -25,7 +25,7 @@ echo "Cloning /usr/bin directory"
 if [ ! -d "$COOKBOOK_PATH/usr/bin" ]; then
 /bin/mkdir -p $COOKBOOK_PATH/usr/bin
 fi
-for x in hadoop hbase hive emrfs
+for x in hadoop hbase hive emrfs yarn
 do
 /usr/bin/scp -r -i /root/.ssh/kylin.pem -oStrictHostKeyChecking=no ec2-user@$EMR_MASTER:/usr/bin/$x $COOKBOOK_PATH/usr/bin/
 done
