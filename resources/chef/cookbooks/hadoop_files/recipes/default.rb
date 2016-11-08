@@ -128,6 +128,8 @@ pkgs_bin = %w{
     usr/bin/hadoop
     usr/bin/hbase
     usr/bin/hive
+    usr/bin/yarn
+    usr/bin/emrfs
 }
 
 pkgs_bin.flatten.each do |pkg|
