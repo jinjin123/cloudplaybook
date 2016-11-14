@@ -41,7 +41,6 @@ template "/etc/init.d/kylin" do
   mode  '0744'
 end
 
-
 remote_file "#{Chef::Config[:file_cache_path]}/epel-release-6-8.noarch.rpm" do
     source "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
     action :create
@@ -59,17 +58,12 @@ execute "yum_update" do
     ignore_failure true
 end
 
-execute "downloadjava" do
-    command "curl -LO 'http://download.oracle.com/otn-pub/java/jdk/7u71-b14/jdk-7u71-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie' -o #{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm"
-    cwd Chef::Config[:file_cache_path]
+remote_file "#{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm" do
+    source "https://s3.cn-north-1.amazonaws.com.cn/bootdevcn/jdk-7u71-linux-x64.rpm"
+    action :create
     ignore_failure true
 end
-#  curl -LO 'http://download.oracle.com/otn-pub/java/jdk/7u71-b14/jdk-7u71-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie' -o #{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm"
-# remote_file "#{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm" do
-#     source "http://download.oracle.com/otn-pub/java/jdk/7u71-b14/jdk-7u71-linux-x64.rpm"
-#     action :create
-# end
-#
+
 rpm_package "jdk-7u71" do
     source "#{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm"
     action :install
