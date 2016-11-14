@@ -18,7 +18,7 @@ CLUSTER_ID=`/usr/bin/aws emr create-cluster \
 --release-label emr-5.0.0 \
 --log-uri "s3n://aws-logs-810803377174-$REGION/elasticmapreduce/" \
 --name 'Kyligence_Enterprise_demo_architecture' \
---instance-groups '[{"InstanceCount":2,"InstanceGroupType":"CORE","InstanceType":"d2.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
+--instance-groups '[{"InstanceCount":2,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
 --region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
 
 # Check status and return until success or failed
