@@ -525,7 +525,7 @@
                                 "cwd": "/home/ec2-user"
                             },
                             "09installchefclient": {
-                                "command": "aws s3 cp s3://bootdevcn/chef-12.5.1-1.el6.x86_64.rpm ./chef-12.5.1-1.el6.x86_64.rpm --region ap-northeast-1;rpm -ivh /home/ec2-user/tools/chef-12.5.1-1.el6.x86_64.rpm",
+                                "command": "aws s3 cp s3://bootdevcn/chef-12.5.1-1.el6.x86_64.rpm ./chef-12.5.1-1.el6.x86_64.rpm;rpm -ivh /home/ec2-user/tools/chef-12.5.1-1.el6.x86_64.rpm",
                                 "cwd": "/home/ec2-user/tools"
                             },
                             "10installec2metadata": {
@@ -551,7 +551,7 @@
                                 }
                             },
                             "20geminstallvault": {
-                                "command": "aws s3 cp s3://bootdevcn/chef-vault-2.6.1.gem ~/chef-vault-2.6.1.gem --region ap-northeast-1;/usr/bin/gem install --local ~/chef-vault-2.6.1.gem"
+                                "command": "aws s3 cp s3://bootdevcn/chef-vault-2.6.1.gem ~/chef-vault-2.6.1.gem;/usr/bin/gem install --local ~/chef-vault-2.6.1.gem"
                             },
                             "30configchefclient": {
                                 "command": "echo \"ssl_verify_mode :verify_none\" >> /etc/chef/client.rb;echo \"validation_client_name  'ec2-user'\" >> /etc/chef/client.rb;echo \"validation_key '/etc/chef/ec2-user.pem'\" >> /etc/chef/client.rb"
