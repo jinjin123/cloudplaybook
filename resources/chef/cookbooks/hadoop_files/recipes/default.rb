@@ -41,19 +41,6 @@ template "/etc/init.d/kylin" do
   mode  '0744'
 end
 
-#Not require in aws china
-#remote_file "#{Chef::Config[:file_cache_path]}/epel-release-6-8.noarch.rpm" do
-#    source "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
-#    action :create
-#    ignore_failure true
-#end
-
-rpm_package "epel-6.8" do
-    source "#{Chef::Config[:file_cache_path]}/epel-release-6-8.noarch.rpm"
-    action :install
-    ignore_failure true
-end
-
 execute "yum_update" do
     command 'yum update -y'
     ignore_failure true
