@@ -21,7 +21,7 @@ end
 
 execute "installkylin" do
     cwd "#{Chef::Config[:file_cache_path]}"
-    command "export DIRECTORY=`echo #{node[:kylin][:kylin_tarball]}|cut -f6 -d'/'`;if [ ! -d '/usr/local/kylin' ]; then tar -xvf ./kylin.tar.gz;mv ./$DIRECTORY-hbase1.x-bin /usr/local/kylin; fi"
+    command "export DIRECTORY=`echo #{node[:kylin][:kylin_tarball]}|cut -f5 -d'/'`;if [ ! -d '/usr/local/kylin' ]; then tar -xvf ./kylin.tar.gz;mv ./$DIRECTORY-hbase1.x-bin /usr/local/kylin; fi"
 #    user 'hdfs'
 #    group 'root'
 end
