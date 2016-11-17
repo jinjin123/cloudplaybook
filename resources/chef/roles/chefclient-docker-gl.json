@@ -1,0 +1,21 @@
+{
+"name": "chefclient-docker-gl",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[glusterfs]",
+    "recipe[diskmount]",
+    "recipe[deploycode]",
+    "recipe[docker]"   
+  ],
+  "env_run_lists": {
+  }
+}

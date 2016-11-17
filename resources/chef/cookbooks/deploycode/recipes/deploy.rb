@@ -80,15 +80,6 @@ directory node[:deploycode][:localsourcefolder] do
   action :create
 end
 
-# Change nginx installation directory to be accessible by ec2-user
-execute "change_nginx_permission" do
-  command 'chmod -R 777 /var/lib/nginx'
-  cwd "/var/lib/nginx"
-  user "root"
-  group "root"
-end
-
-
 include_recipe 'deploycode::clone_repo'
 
 execute "git_tag" do
@@ -129,47 +120,10 @@ else
   end
 end
 
-# if git repository is drupal, then run drupal_settings
-ruby_block "CheckDrupal" do
-  block do
-    Existance = 0
-    if File.file?('/var/www/html/.git/config')
-      CheckDrucloud = `cat /var/www/html/.git/config|grep drucloud|wc -l`
-      Existance = CheckDrucloud.to_i
-    end  
-    if Existance > 0
-      if File.file?('/usr/bin/chef-server-ctl') 
-         exec("chef-solo -o 'recipe[drupal_settings]'")
-      else
-         exec("chef-client -o 'recipe[drupal_settings]'")
-      end
-    end
-  end
-end
-
 file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
   content '<html></html>'
   mode 0600
   owner node[:deploycode][:code_owner]
   group node[:deploycode][:code_group]
   action :create
-end
-
-unless node[:deploycode][:checkout].nil? || node[:deploycode][:checkout].empty?
-  execute "git_tag" do
-    command "git checkout #{node[:deploycode][:checkout]}"
-    cwd node[:deploycode][:localsourcefolder]
-    user node[:deploycode][:code_owner]
-    group node[:deploycode][:code_group]
-  end  
-end
-
-service "nginx" do
-  action :restart
-  ignore_failure true
-end
-
-service "php-fpm" do
-  action :restart
-  ignore_failure true
 end
