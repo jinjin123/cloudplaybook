@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'docker_test::registry' do
-  cached(:chef_run) { ChefSpec::SoloRunner.converge('docker_test::registry') }
+  cached(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   before do
     stub_command('/usr/bin/test -f /tmp/registry/tls/ca.pem').and_return(false)
@@ -14,7 +14,7 @@ describe 'docker_test::registry' do
     stub_command('/usr/bin/test -f /tmp/registry/tls/server.csr').and_return(false)
     stub_command("[ ! -z `docker ps -qaf 'name=registry_service$'` ]").and_return(false)
     stub_command("[ ! -z `docker ps -qaf 'name=registry_proxy$'` ]").and_return(false)
-    stub_command("netstat -plnt | grep \":5000\" && netstat -plnt | grep \":5043\"").and_return(false)
+    stub_command('netstat -plnt | grep ":5000" && netstat -plnt | grep ":5043"').and_return(false)
   end
 
   context 'when compiling the recipe' do

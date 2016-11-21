@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'docker_test::container' do
-  cached(:chef_run) { ChefSpec::SoloRunner.converge('rspec_helper', 'docker_test::container') }
+  cached(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   before do
     stub_command("[ ! -z `docker ps -qaf 'name=busybox_ls$'` ]").and_return(false)
@@ -14,6 +14,7 @@ describe 'docker_test::container' do
     stub_command("[ ! -z `docker ps -qaf 'name=restarter$'` ]").and_return(false)
     stub_command("[ ! -z `docker ps -qaf 'name=uber_options$'` ]").and_return(false)
     stub_command("[ ! -z `docker ps -qaf 'name=kill_after$'` ]").and_return(false)
+    stub_command("[ ! -z `docker ps -qaf 'name=change_network_mode$'` ]").and_return(false)
   end
 
   context 'testing create action' do
@@ -32,13 +33,13 @@ describe 'docker_test::container' do
         domain_name: '',
         log_driver: 'json-file',
         memory: 0,
-        memory_swap: -1,
+        memory_swap: 0,
         network_disabled: false,
         outfile: nil,
         restart_maximum_retry_count: 0,
         restart_policy: 'no',
-        security_opts: [''],
-        signal: 'SIGKILL',
+        security_opts: nil,
+        signal: 'SIGTERM',
         user: ''
       )
     end
@@ -111,7 +112,7 @@ describe 'docker_test::container' do
   context 'testing action :kill' do
     it 'run execute[bill]' do
       expect(chef_run).to run_execute('bill').with(
-        command: 'docker run --name bill -d busybox nc -ll -p 187 -e /bin/cat'
+        command: 'docker run --name bill -d busybox sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
       )
     end
 
@@ -141,7 +142,7 @@ describe 'docker_test::container' do
 
     it 'run execute[red_light]' do
       expect(chef_run).to run_execute('red_light').with(
-        command:  'docker run --name red_light -d busybox nc -ll -p 42 -e /bin/cat'
+        command:  'docker run --name red_light -d busybox sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
       )
     end
 
@@ -175,7 +176,7 @@ describe 'docker_test::container' do
 
     it 'run execute[restarter]' do
       expect(chef_run).to run_execute('restarter').with(
-        command: 'docker run --name restarter -d busybox nc -ll -p 69 -e /bin/cat'
+        command: 'docker run --name restarter -d busybox sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
       )
     end
 
@@ -228,7 +229,7 @@ describe 'docker_test::container' do
     end
   end
 
-  context 'testing bind_mounts' do
+  context 'testing bind_mounter' do
     it 'creates directory[/hostbits]' do
       expect(chef_run).to create_directory('/hostbits').with(
         owner: 'root',
@@ -267,7 +268,19 @@ describe 'docker_test::container' do
       expect(chef_run).to run_if_missing_docker_container('bind_mounter').with(
         repo: 'busybox',
         command: 'ls -la /bits /more-bits',
-        binds: ['/hostbits:/bits', '/more-hostbits:/more-bits']
+        volumes_binds: ['/hostbits:/bits', '/more-hostbits:/more-bits', '/winter:/spring:ro'],
+        volumes: { '/snow' => {}, '/summer' => {} }
+      )
+    end
+  end
+
+  context 'testing binds_alias' do
+    it 'run_if_missing docker_container[binds_alias]' do
+      expect(chef_run).to run_if_missing_docker_container('binds_alias').with(
+        repo: 'busybox',
+        command: 'ls -la /bits /more-bits',
+        volumes_binds: ['/fall:/sun', '/winter:/spring:ro'],
+        volumes: { '/snow' => {}, '/summer' => {} }
       )
     end
   end
@@ -412,12 +425,12 @@ describe 'docker_test::container' do
     end
   end
 
-  context 'testing host_name and domain_name' do
+  context 'testing hostname and domain_name' do
     it 'run_if_missing docker_container[fqdn]' do
       expect(chef_run).to run_if_missing_docker_container('fqdn').with(
         repo: 'debian',
         command: 'hostname -f',
-        host_name: 'computers',
+        hostname: 'computers',
         domain_name: 'biz'
       )
     end
@@ -428,7 +441,7 @@ describe 'docker_test::container' do
       expect(chef_run).to run_if_missing_docker_container('dns').with(
         repo: 'debian',
         command: 'cat /etc/resolv.conf',
-        host_name: 'computers',
+        hostname: 'computers',
         dns: ['4.3.2.1', '1.2.3.4'],
         dns_search: ['computers.biz', 'chef.io']
       )
@@ -582,10 +595,6 @@ describe 'docker_test::container' do
         links: ['another_link_source:derp']
       )
     end
-
-    it 'creates file[/marker_container_remover]' do
-      expect(chef_run).to create_file('/marker_container_remover')
-    end
   end
 
   context 'testing volume removal' do
@@ -656,11 +665,19 @@ describe 'docker_test::container' do
       expect(chef_run).to run_docker_container('network_mode').with(
         repo: 'alpine',
         tag: '3.1',
-        command: 'nc -ll -p 777 -e /bin/cat',
-        port: '777:777',
+        command: 'nc -ll -p 776 -e /bin/cat',
+        port: '776:776',
         network_mode: 'host'
       )
     end
+  end
+
+  it 'runs execute[change_network_mode]' do
+    expect(chef_run).to run_execute('change_network_mode')
+  end
+
+  it 'runs docker_container[change_network_mode]' do
+    expect(chef_run).to run_docker_container('change_network_mode')
   end
 
   context 'testing ulimits' do
@@ -668,7 +685,7 @@ describe 'docker_test::container' do
       expect(chef_run).to run_docker_container('ulimits').with(
         repo: 'alpine',
         tag: '3.1',
-        command: 'nc -ll -p 778 -e /bin/cat',
+        command: 'sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"',
         port: '778:778',
         cap_add: ['SYS_RESOURCE'],
         ulimits: [
@@ -709,9 +726,9 @@ describe 'docker_test::container' do
         mac_address: '00:00:DE:AD:BE:EF',
         network_disabled: false,
         tty: true,
+        volumes_binds: ['/hostbits:/bits', '/more-hostbits:/more-bits'],
         volumes: { '/root' => {} },
         working_dir: '/',
-        binds: ['/hostbits:/bits', '/more-hostbits:/more-bits'],
         cap_add: %w(NET_ADMIN SYS_RESOURCE),
         cap_drop: ['MKNOD'],
         cpu_shares: 512,
@@ -827,6 +844,32 @@ describe 'docker_test::container' do
 
     it 'stop docker_container[kill_after]' do
       expect(chef_run).to stop_docker_container('kill_after')
+    end
+
+    it 'run_if_missing docker_container[pid_mode]' do
+      expect(chef_run).to run_if_missing_docker_container('pid_mode').with(
+        pid_mode: 'host'
+      )
+    end
+
+    it 'run_if_missing docker_container[ipc_mode]' do
+      expect(chef_run).to run_if_missing_docker_container('ipc_mode').with(
+        ipc_mode: 'host'
+      )
+    end
+
+    it 'run_if_missing docker_container[uts_mode]' do
+      expect(chef_run).to run_if_missing_docker_container('uts_mode').with(
+        uts_mode: 'host'
+      )
+    end
+  end
+
+  context 'testing ro_rootfs' do
+    it 'creates read-only rootfs' do
+      expect(chef_run).to run_if_missing_docker_container('ro_rootfs').with(
+        ro_rootfs: true
+      )
     end
   end
 end

@@ -12,7 +12,7 @@
     "recipe[build-essential]",
     "recipe[basicservice]",
     "recipe[deploycode]",
-    "recipe[docker]"
+    "recipe[webserver]"
   ],
   "env_run_lists": {
   }

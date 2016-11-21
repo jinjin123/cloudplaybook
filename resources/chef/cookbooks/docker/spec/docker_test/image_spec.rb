@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'docker_test::image' do
-  cached(:chef_run) { ChefSpec::SoloRunner.converge('docker_test::image') }
+  cached(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   before do
     stub_command('/usr/bin/test -f /tmp/registry/tls/ca-key.pem').and_return(true)
@@ -13,7 +13,7 @@ describe 'docker_test::image' do
     stub_command('/usr/bin/test -f /tmp/registry/tls/cert.pem').and_return(true)
     stub_command("[ ! -z `docker ps -qaf 'name=registry_service$'` ]").and_return(true)
     stub_command("[ ! -z `docker ps -qaf 'name=registry_proxy$'` ]").and_return(true)
-    stub_command("netstat -plnt | grep \":5000\" && netstat -plnt | grep \":5043\"").and_return(false)
+    stub_command('netstat -plnt | grep ":5000" && netstat -plnt | grep ":5043"').and_return(false)
   end
 
   context 'testing default action, default properties' do
@@ -93,6 +93,34 @@ describe 'docker_test::image' do
         repo: 'hello-world',
         destination: '/hello-world.tar'
       )
+    end
+  end
+
+  context 'testing :load action' do
+    it 'pulls docker_image[cirros]' do
+      expect(chef_run).to pull_docker_image('cirros')
+    end
+
+    it 'saves docker_image[save cirros]' do
+      expect(chef_run).to save_docker_image('save cirros').with(
+        destination: '/cirros.tar'
+      )
+    end
+
+    it 'removes docker_image[remove cirros]' do
+      expect(chef_run).to remove_docker_image('remove cirros').with(
+        repo: 'cirros'
+      )
+    end
+
+    it 'loads docker_image[load cirros]' do
+      expect(chef_run).to load_docker_image('load cirros').with(
+        source: '/cirros.tar'
+      )
+    end
+
+    it 'creates file[/marker_image_image-1]' do
+      expect(chef_run).to create_file('/marker_load_cirros-1')
     end
   end
 
@@ -186,7 +214,7 @@ describe 'docker_test::image' do
   end
 
   context 'testing pushing to a private registry' do
-    it 'tags docker_tag[private repo tag for name-w-dashes:v1.0.1]'do
+    it 'tags docker_tag[private repo tag for name-w-dashes:v1.0.1]' do
       expect(chef_run).to tag_docker_tag('private repo tag for name-w-dashes:v1.0.1').with(
         target_repo: 'hello-again',
         target_tag: 'v0.1.0',
@@ -195,7 +223,7 @@ describe 'docker_test::image' do
       )
     end
 
-    it 'tags docker_tag[private repo tag for name.w.dots]'do
+    it 'tags docker_tag[private repo tag for name.w.dots]' do
       expect(chef_run).to tag_docker_tag('private repo tag for name.w.dots').with(
         target_repo: 'busybox',
         target_tag: 'latest',

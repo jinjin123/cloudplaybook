@@ -90,7 +90,7 @@ end
 
 # start a container to be killed
 execute 'bill' do
-  command 'docker run --name bill -d busybox nc -ll -p 187 -e /bin/cat'
+  command 'docker run --name bill -d busybox sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
   not_if "[ ! -z `docker ps -qaf 'name=bill$'` ]"
   action :run
 end
@@ -127,7 +127,7 @@ end
 
 # start a container to be paused
 execute 'red_light' do
-  command 'docker run --name red_light -d busybox nc -ll -p 42 -e /bin/cat'
+  command 'docker run --name red_light -d busybox sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
   not_if "[ ! -z `docker ps -qaf 'name=red_light$'` ]"
   action :run
 end
@@ -143,7 +143,7 @@ end
 # start and pause a container to be unpaused
 bash 'green_light' do
   code <<-EOF
-  docker run --name green_light -d busybox nc -ll -p 42 -e /bin/cat
+  docker run --name green_light -d busybox sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"
   docker pause green_light
   EOF
   not_if "[ ! -z `docker ps -qaf 'name=green_light$'` ]"
@@ -161,7 +161,7 @@ end
 # create and stop a container to be restarted
 bash 'quitter' do
   code <<-EOF
-  docker run --name quitter -d busybox nc -ll -p 69 -e /bin/cat
+  docker run --name quitter -d busybox sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"
   docker kill quitter
   EOF
   not_if "[ ! -z `docker ps -qaf 'name=quitter$'` ]"
@@ -169,7 +169,7 @@ bash 'quitter' do
 end
 
 docker_container 'quitter' do
-  not_if { ::File.exist? '/marker_container_quitter_restarter' }
+  not_if { ::File.exist?('/marker_container_quitter_restarter') }
   action :restart
 end
 
@@ -179,13 +179,13 @@ end
 
 # start a container to be restarted
 execute 'restarter' do
-  command 'docker run --name restarter -d busybox nc -ll -p 69 -e /bin/cat'
+  command 'docker run --name restarter -d busybox sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
   not_if "[ ! -z `docker ps -qaf 'name=restarter$'` ]"
   action :run
 end
 
 docker_container 'restarter' do
-  not_if { ::File.exist? '/marker_container_restarter' }
+  not_if { ::File.exist?('/marker_container_restarter') }
   action :restart
 end
 
@@ -278,7 +278,14 @@ end
 docker_container 'bind_mounter' do
   repo 'busybox'
   command 'ls -la /bits /more-bits'
-  binds ['/hostbits:/bits', '/more-hostbits:/more-bits']
+  volumes ['/hostbits:/bits', '/more-hostbits:/more-bits', '/snow', '/winter:/spring:ro', '/summer']
+  action :run_if_missing
+end
+
+docker_container 'binds_alias' do
+  repo 'busybox'
+  command 'ls -la /bits /more-bits'
+  binds ['/fall:/sun', '/snow', '/winter:/spring:ro', '/summer']
   action :run_if_missing
 end
 
@@ -395,7 +402,7 @@ docker_container 'sean_was_here' do
   repo 'debian'
   volumes_from 'chef_container'
   autoremove true
-  not_if { ::File.exist? '/marker_container_sean_was_here' }
+  not_if { ::File.exist?('/marker_container_sean_was_here') }
   action :run
 end
 
@@ -441,14 +448,14 @@ docker_container 'cap_drop_mknod_error' do
 end
 
 ###########################
-# host_name and domain_name
+# hostname and domain_name
 ###########################
 
 # Inspect container logs with test-kitchen bussers
 docker_container 'fqdn' do
   repo 'debian'
   command 'hostname -f'
-  host_name 'computers'
+  hostname 'computers'
   domain_name 'biz'
   action :run_if_missing
 end
@@ -461,7 +468,7 @@ end
 docker_container 'dns' do
   repo 'debian'
   command 'cat /etc/resolv.conf'
-  host_name 'computers'
+  hostname 'computers'
   dns ['4.3.2.1', '1.2.3.4']
   dns_search ['computers.biz', 'chef.io']
   action :run_if_missing
@@ -644,11 +651,6 @@ docker_container 'another_link_target' do
   action :run_if_missing
 end
 
-file '/marker_container_remover' do
-  notifies :remove_link, 'docker_container[another_link_target]', :immediately
-  action :create
-end
-
 ################
 # volume removal
 ################
@@ -728,8 +730,26 @@ end
 docker_container 'network_mode' do
   repo 'alpine'
   tag '3.1'
-  command 'nc -ll -p 777 -e /bin/cat'
-  port '777:777'
+  command 'nc -ll -p 776 -e /bin/cat'
+  port '776:776'
+  network_mode 'host'
+  action :run
+end
+
+#####################
+# change_network_mode
+#####################
+
+execute 'change_network_mode' do
+  command 'docker run --name change_network_mode -d alpine:3.1 sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
+  not_if "[ ! -z `docker ps -qaf 'name=change_network_mode$'` ]"
+  action :run
+end
+
+docker_container 'change_network_mode' do
+  repo 'alpine'
+  tag '3.1'
+  command 'sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
   network_mode 'host'
   action :run
 end
@@ -741,7 +761,7 @@ end
 docker_container 'ulimits' do
   repo 'alpine'
   tag '3.1'
-  command 'nc -ll -p 778 -e /bin/cat'
+  command 'sh -c "trap exit 0 SIGTERM; while :; do sleep 1; done"'
   port '778:778'
   cap_add 'SYS_RESOURCE'
   ulimits [
@@ -785,9 +805,8 @@ docker_container 'uber_options' do
   mac_address '00:00:DE:AD:BE:EF'
   network_disabled false
   tty true
-  volumes ['/root']
+  volumes ['/root', '/hostbits:/bits', '/more-hostbits:/more-bits']
   working_dir '/'
-  binds ['/hostbits:/bits', '/more-hostbits:/more-bits']
   cap_add %w(NET_ADMIN SYS_RESOURCE)
   cap_drop 'MKNOD'
   cpu_shares 512
@@ -942,4 +961,52 @@ docker_container 'kill_after' do
   repo 'kill_after'
   kill_after 1
   action :stop
+end
+
+##########
+# pid_mode
+##########
+
+docker_container 'pid_mode' do
+  repo 'alpine'
+  tag '3.1'
+  command 'ps -ef'
+  pid_mode 'host'
+  action :run_if_missing
+end
+
+##########
+# ipc_mode
+##########
+
+docker_container 'ipc_mode' do
+  repo 'alpine'
+  tag '3.1'
+  command 'ps -ef'
+  ipc_mode 'host'
+  action :run_if_missing
+end
+
+##########
+# uts_mode
+##########
+
+docker_container 'uts_mode' do
+  repo 'alpine'
+  tag '3.1'
+  command 'ps -ef'
+  uts_mode 'host'
+  action :run_if_missing
+end
+
+##################
+# read-only rootfs
+##################
+
+docker_container 'ro_rootfs' do
+  repo 'alpine'
+  tag '3.1'
+  command 'ps -ef'
+  ro_rootfs true
+  action :run_if_missing
 end
