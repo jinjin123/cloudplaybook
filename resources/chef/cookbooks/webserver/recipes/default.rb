@@ -13,15 +13,19 @@ directory '/var/www/html' do
   owner 'ec2-user'
   group 'ec2-user'
   mode '0755'
+  recursive true
   action :create
 end
 
 # Install Docker
-docker_installation_script 'default' do
-  repo 'main'
-  script_url 'https://get.docker.com'
-#  script_url 'https://my.computers.biz/dist/scripts/docker.sh'
-  action :create
+#docker_installation_script 'default' do
+#  repo 'main'
+#  script_url 'https://get.docker.com'
+##  script_url 'https://my.computers.biz/dist/scripts/docker.sh'
+#  action :create
+#end
+
+yum_package 'docker' do
 end
 
 # Assign docker access right to ec2-user
@@ -45,19 +49,19 @@ docker_service 'bootdev:2376' do
   action [:create, :start]
 end
 
-#docker_registry 'daocloud.io' do
-#  username 'bootdev'
-#  password 'B00tDev!'
-docker_registry 'docker-registry.bootdev.com:5000' do
-  username 'keithyau'
-  password 'thomas123'
-  email 'chankongching@gmail.com'
+docker_registry 'daocloud.io' do
+  username 'bootdev'
+  password 'B00tDev!'
+#docker_registry 'docker-registry.bootdev.com:5000' do
+#  username 'keithyau'
+#  password 'thomas123'
+#  email 'chankongching@gmail.com'
 end
 
 # Pull latest image
 #docker_image 'daocloud.io/bootdev/webservice' do
-#docker_image 'daocloud.io/library/tomcat' do
-docker_image 'docker-registry.bootdev.com:5000/tomcat' do
+docker_image 'daocloud.io/tomcat' do
+#docker_image 'docker-registry.bootdev.com:5000/tomcat' do
   tag '9'
   action :pull
 #  notifies :redeploy, 'docker_container[webservice]'
