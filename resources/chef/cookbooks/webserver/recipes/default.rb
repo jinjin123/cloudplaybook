@@ -79,10 +79,10 @@ end
 #  action :kill
 #end
 
-#docker_container 'webservice' do
-#  repo 'daocloud.io/bootdev/webservice'
-#  tag 'latest'
-#  action :run
-#  port '80:80'
-#  binds [ '/var/www/html:/usr/local/nginx' ]
-#end
+docker_container 'tomcatkybot' do
+  repo 'daocloud.io/tomcat'
+  tag 'latest'
+  action :run
+  port '80:8080'
+  binds [ '/home/ec2-user/tools/tomcat_dir:/usr/local/tomcat/webapps/' ]
+end
