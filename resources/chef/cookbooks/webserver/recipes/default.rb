@@ -73,6 +73,22 @@ end
 #  notifies :redeploy, 'docker_container[webservice]'
 #end
 
+#Directory for kybot webapp folder
+directory '/home/ec2-user/tools/tomcat_dir' do
+  owner 'ec2-user'
+  group 'ec2-user'
+  mode '0755'
+  recursive true
+  action :create
+end
+
+#Download webapps from github, #temp solution, need to change key later and consider GFW problem
+git '/home/ec2-user/tools/tomcat_dir' do
+  repository 'https://keithyau:thomas123@github.com/Kyligence/kybot-deployment.git'
+  revision 'nowar'
+  action :sync
+end
+
 ## Run container
 # First killing old one
 #docker_container 'webservice' do
