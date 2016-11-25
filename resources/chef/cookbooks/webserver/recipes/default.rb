@@ -62,7 +62,7 @@ end
 #docker_image 'daocloud.io/bootdev/webservice' do
 docker_image 'daocloud.io/tomcat' do
 #docker_image 'docker-registry.bootdev.com:5000/tomcat' do
-  tag 'latest'
+  tag '9'
   action :pull
 #  notifies :redeploy, 'docker_container[webservice]'
 end
@@ -105,7 +105,7 @@ end
 
 docker_container 'tomcatkybot' do
   repo 'daocloud.io/tomcat'
-  tag 'latest'
+  tag '9'
   action :run
   port '80:8080'
   binds [ '/home/ec2-user/tools/tomcat_dir:/usr/local/tomcat/webapps/' ]
