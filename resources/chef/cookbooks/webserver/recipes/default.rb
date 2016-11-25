@@ -82,10 +82,18 @@ directory '/home/ec2-user/tools/tomcat_dir' do
   action :create
 end
 
+ruby_block "setenv-http_proxy" do
+  block do
+    Chef::Config.http_proxy = "http://keithyau:thomas123@baremetal-1.bootdev.com:3128"
+    Chef::Config.no_proxy = 'localhost,127.0.0.1'
+  end
+end
+
+
 #Download webapps from github, #temp solution, need to change key later and consider GFW problem
 git '/home/ec2-user/tools/tomcat_dir' do
-  repository 'https://keithyau:thomas123@github.com/Kyligence/kybot-deployment.git'
-  revision 'nowar'
+  repository 'http://keithyau:thomas123@ec2-54-223-79-51.cn-north-1.compute.amazonaws.com.cn/root/kybot-deployment.git'
+  revision 'master'
   action :sync
 end
 
