@@ -62,7 +62,7 @@ end
 #docker_image 'daocloud.io/bootdev/webservice' do
 docker_image 'daocloud.io/tomcat' do
 #docker_image 'docker-registry.bootdev.com:5000/tomcat' do
-  tag '9'
+  tag 'latest'
   action :pull
 #  notifies :redeploy, 'docker_container[webservice]'
 end
