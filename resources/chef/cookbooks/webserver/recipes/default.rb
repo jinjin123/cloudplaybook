@@ -39,9 +39,9 @@ service "cgconfig" do
 end
 
 ## Start docker
-#docker_service_manager 'default' do
-#  action :start
-#end
+docker_service_manager 'default' do
+  action :start
+end
 
 # Start Docker service
 docker_service 'kyligence:2376' do
