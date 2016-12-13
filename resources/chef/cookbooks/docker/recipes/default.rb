@@ -37,18 +37,18 @@ docker_service 'bootdev:2376' do
   action [:create, :start]
 end
 
-docker_registry 'daocloud.io' do
-  username 'bootdev'
-  password 'B00tDev!'
-  email 'chankongching@gmail.com'
-end
+#docker_registry 'daocloud.io' do
+#  username 'bootdev'
+#  password 'B00tDev!'
+#  email 'chankongching@gmail.com'
+#end
 
 # Pull latest image
-docker_image 'daocloud.io/bootdev/webservice' do
-  tag 'latest'
-  action :pull
-  notifies :redeploy, 'docker_container[webservice]'
-end
+#docker_image 'daocloud.io/bootdev/webservice' do
+#  tag 'latest'
+#  action :pull
+#  notifies :redeploy, 'docker_container[webservice]'
+#end
 
 #docker_image 'bootdev/webservice' do
 #  tag 'latest'
@@ -58,14 +58,14 @@ end
 
 ## Run container
 # First killing old one
-docker_container 'webservice' do
-  action :kill
-end
+#docker_container 'webservice' do
+#  action :kill
+#end
 
-docker_container 'webservice' do
-  repo 'daocloud.io/bootdev/webservice'
-  tag 'latest'
-  action :run
-  port '80:80'
-  binds [ '/var/www/html:/usr/local/nginx' ]
-end
+#docker_container 'webservice' do
+#  repo 'daocloud.io/bootdev/webservice'
+#  tag 'latest'
+#  action :run
+#  port '80:80'
+#  binds [ '/var/www/html:/usr/local/nginx' ]
+#end
