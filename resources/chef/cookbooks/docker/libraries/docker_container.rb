@@ -76,6 +76,7 @@ module DockerCookbook
     property :security_opts, [String, ArrayType]
     property :signal, String, default: 'SIGTERM'
     property :stdin_once, Boolean, default: false, desired_state: false
+    property :sysctls, Hash, default: {}
     property :timeout, [Fixnum, nil], desired_state: false
     property :tty, Boolean, default: false
     property :ulimits, [Array, nil], coerce: proc { |v| coerce_ulimits(v) }
@@ -212,12 +213,9 @@ module DockerCookbook
       if network_mode == 'host' &&
          (
           !(hostname.nil? || hostname.empty?) ||
-          !(dns.nil? || dns.empty?) ||
-          !(dns_search.nil? || dns_search.empty?) ||
-          !(mac_address.nil? || mac_address.empty?) ||
-          !(extra_hosts.nil? || extra_hosts.empty?)
+          !(mac_address.nil? || mac_address.empty?)
          )
-        raise Chef::Exceptions::ValidationFailed, 'Cannot specify hostname, dns, dns_search, mac_address, or extra_hosts when network_mode is host.'
+        raise Chef::Exceptions::ValidationFailed, 'Cannot specify hostname or mac_address when network_mode is host.'
       end
 
       if network_mode == 'container' &&
@@ -295,6 +293,7 @@ module DockerCookbook
                 'MaximumRetryCount' => restart_maximum_retry_count
               },
               'ReadonlyRootfs'  => ro_rootfs,
+              'Sysctls'         => sysctls,
               'Ulimits'         => ulimits_to_hash,
               'UsernsMode'      => userns_mode,
               'UTSMode'         => uts_mode,

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'docker_test::container' do
-  cached(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe) }
 
   before do
     stub_command("[ ! -z `docker ps -qaf 'name=busybox_ls$'` ]").and_return(false)
@@ -807,7 +807,7 @@ describe 'docker_test::container' do
         repo: 'alpine',
         tag: '3.1',
         log_driver: 'syslog',
-        log_opts: { 'syslog-tag' => 'container-syslogger' }
+        log_opts: { 'tag' => 'container-syslogger' }
       )
     end
   end

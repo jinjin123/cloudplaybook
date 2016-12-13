@@ -1,3 +1,4 @@
+# coding: utf-8
 # pull alpine image
 docker_image 'alpine' do
   tag '3.1'
@@ -183,4 +184,43 @@ docker_container 'echo-station-network_g' do
   port '31337'
   network_mode 'network_g'
   action :run
+end
+
+###########
+# network_h
+###########
+
+# connect same container to multiple networks
+docker_network 'network_h1' do
+  action :create
+end
+
+docker_network 'network_h2' do
+  action :create
+end
+
+docker_container 'container1-network_h' do
+  repo 'alpine'
+  tag '3.1'
+  network_mode 'network_h1'
+  command 'nc -ll -p 1337 -e /bin/cat'
+  not_if { ::File.exist?('/marker_network_h') }
+  action :run
+end
+
+file '/marker_network_h' do
+  action :create
+end
+
+docker_network 'network_h2 connector' do
+  container 'container1-network_h'
+  network_name 'network_h2'
+  action :connect
+end
+
+# disconnet from a network
+docker_network 'network_h1 disconnector' do
+  container 'container1-network_h'
+  network_name 'network_h1'
+  action :disconnect
 end

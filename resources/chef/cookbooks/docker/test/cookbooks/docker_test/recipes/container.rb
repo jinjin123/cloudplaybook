@@ -907,7 +907,7 @@ docker_container 'syslogger' do
   repo 'alpine'
   tag '3.1'
   log_driver 'syslog'
-  log_opts 'syslog-tag=container-syslogger'
+  log_opts 'tag=container-syslogger'
   action :run_if_missing
 end
 
@@ -1008,5 +1008,18 @@ docker_container 'ro_rootfs' do
   tag '3.1'
   command 'ps -ef'
   ro_rootfs true
+  action :run_if_missing
+end
+
+##################
+# sysctl settings
+##################
+
+docker_container 'sysctls' do
+  repo 'alpine'
+  tag '3.1'
+  command '/sbin/sysctl -a'
+  sysctls 'net.core.somaxconn' => '65535',
+          'net.core.xfrm_acq_expires' => '42'
   action :run_if_missing
 end

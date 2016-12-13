@@ -2,6 +2,25 @@
 
 This file is used to list changes made in each version of the docker cookbook.
 
+## 2.13.0 (2016-11-25)
+- Adding sysctl property to docker_container resource
+
+## 2.12.0 (2016-11-25)
+- Updating compat_resource dep to 12.16.2
+- Updating docker-api gem dep 1.32.1
+
+## 2.11.1 (2016-11-24)
+- Fix for #701 - Revert commit that caused restart loops in systemd provider
+
+## 2.11.0 (2016-11-23)
+- make systemd MountFlags configurable
+- make running wait time configurable
+
+## 2.10.0 (2016-11-23)
+- Implement network connect/disconnect
+- Fixed dns options mutual exclusion
+- Misc test harness cleanup
+
 ## 2.9.10 (2016-11-14)
 -renaming systemd_conf to systemd_args due to a conflict with systemd cookbook
 
