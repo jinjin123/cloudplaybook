@@ -44,7 +44,7 @@ end
 #end
 
 # Start Docker service
-docker_service 'bootdev:2376' do
+docker_service 'kyligence:2376' do
   host [ "tcp://#{node['ipaddress']}:2376", 'unix:///var/run/docker.sock' ]
   action [:create, :start]
 end
@@ -82,12 +82,12 @@ directory '/home/ec2-user/tools/tomcat_dir' do
   action :create
 end
 
-ruby_block "setenv-http_proxy" do
-  block do
-    Chef::Config.http_proxy = "http://keithyau:thomas123@baremetal-1.bootdev.com:3128"
-    Chef::Config.no_proxy = 'localhost,127.0.0.1'
-  end
-end
+#ruby_block "setenv-http_proxy" do
+#  block do
+#    Chef::Config.http_proxy = "http://keithyau:thomas123@baremetal-1.bootdev.com:3128"
+#    Chef::Config.no_proxy = 'localhost,127.0.0.1'
+#  end
+#end
 
 
 #Download webapps from github, #temp solution, need to change key later and consider GFW problem
