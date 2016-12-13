@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.org'
 
 group :docker do
   gem 'docker-api', '= 1.31.0'
