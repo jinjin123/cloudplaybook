@@ -108,5 +108,5 @@ docker_container 'tomcatkybot' do
   tag '9'
   action :run
   port '80:8080'
-  binds [ '/home/ec2-user/tools/tomcat_dir:/usr/local/tomcat/webapps/' ]
+  binds [ '/home/ec2-user/tools/tomcat_dir:/usr/local/tomcat/webapps/', "/data","/data" ]
 end
