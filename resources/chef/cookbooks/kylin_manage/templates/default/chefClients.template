@@ -524,6 +524,10 @@
                                 "command": "chmod 644 /etc/chef/validation.pem",
                                 "cwd": "/home/ec2-user"
                             },
+                            "06updategemtochina": {
+                                "command": "/usr/bin/gem sources --add https://gems.ruby-china.org --remove https://rubygems.org",
+                                "cwd": "/home/ec2-user"
+                            },
                             "09installchefclient": {
                                 "command": "aws s3 cp s3://bootdevcn/chef-12.5.1-1.el6.x86_64.rpm ./chef-12.5.1-1.el6.x86_64.rpm;rpm -ivh /home/ec2-user/tools/chef-12.5.1-1.el6.x86_64.rpm",
                                 "cwd": "/home/ec2-user/tools"
