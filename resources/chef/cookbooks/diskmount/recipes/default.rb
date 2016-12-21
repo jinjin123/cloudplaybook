@@ -24,6 +24,6 @@ if ! node[:diskmount][:glusterserverip].empty?
     pass 0
     fstype "glusterfs"
     options "defaults"
-    action :enable
+    action [:mount, :enable]
   end
 end

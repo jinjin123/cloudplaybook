@@ -39,9 +39,9 @@ service "cgconfig" do
 end
 
 ## Start docker
-docker_service_manager 'default' do
-  action :start
-end
+#docker_service_manager 'default' do
+#  action :start
+#end
 
 # Start Docker service
 docker_service 'kyligence:2376' do
@@ -49,17 +49,16 @@ docker_service 'kyligence:2376' do
   action [:create, :start]
 end
 
-docker_registry 'daocloud.io' do
-  username 'bootdev'
-  password 'B00tDev!'
+#docker_registry 'daocloud.io' do
+#  username 'bootdev'
+#  password 'B00tDev!'
 #docker_registry 'docker-registry.bootdev.com:5000' do
 #  username 'keithyau'
 #  password 'thomas123'
 #  email 'chankongching@gmail.com'
-end
+#end
 
 # Pull latest image
-#docker_image 'daocloud.io/bootdev/webservice' do
 docker_image 'daocloud.io/tomcat' do
 #docker_image 'docker-registry.bootdev.com:5000/tomcat' do
   tag '9'
@@ -108,5 +107,5 @@ docker_container 'tomcatkybot' do
   tag '9'
   action :run
   port '80:8080'
-  binds [ '/home/ec2-user/tools/tomcat_dir:/usr/local/tomcat/webapps/' ]
+  binds [ '/home/ec2-user/tools/tomcat_dir:/usr/local/tomcat/webapps/', '/data:/data' ]
 end

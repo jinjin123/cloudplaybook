@@ -4,7 +4,7 @@ git "clone_repo" do
   group node[:deploycode][:code_group]
   repository node[:deploycode][:gitrepo]
   depth 10
-  retries 3
+  retries 1
   retry_delay 30
   action :nothing
   destination node[:deploycode][:localsourcefolder]

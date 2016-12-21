@@ -127,3 +127,8 @@ file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
   group node[:deploycode][:code_group]
   action :create
 end
+
+#update changes to docker
+docker_container 'tomcatkybot' do
+  action :restart
+end
