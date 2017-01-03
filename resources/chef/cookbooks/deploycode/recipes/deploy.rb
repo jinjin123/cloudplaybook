@@ -105,7 +105,7 @@ else
       retries 3
       retry_delay 30
       repository node[:deploycode][:gitrepo]
-      checkout_branch
+      checkout_branch node[:deploycode][:branch]
       action :sync
       destination node[:deploycode][:localsourcefolder]
 #      enable_checkout false
