@@ -25,10 +25,10 @@ template "/root/.ssh/gitkey.pub" do
   retry_delay 30
 end
 
-code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
-if code_owner_home.to_s.strip.length == 0
+#code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
+#if code_owner_home.to_s.strip.length == 0
   code_owner_home="/home/ec2-user"
-end
+#end
 
 directory "#{code_owner_home}/.ssh" do
   owner node[:deploycode][:code_owner]
@@ -72,7 +72,7 @@ ruby_block "Change key config file" do
   end
 end
 
-directory node[:deploycode][:localsourcefolder] do
+directory node[:deploycode][:localfolder_de] do
   recursive true
   owner node[:deploycode][:code_owner]
   group node[:deploycode][:code_group]
@@ -84,43 +84,43 @@ include_recipe 'deploycode::clone_repo'
 
 execute "git_tag" do
   command 'git tag -a v_`date +"%Y%m%d%H%M%S"` -m "Code Deploy";git push --tags'
-  cwd node[:deploycode][:localsourcefolder]
+  cwd node[:deploycode][:localfolder_de]
   user node[:deploycode][:code_owner]
   group node[:deploycode][:code_group]
   action :nothing
 end
 
-if ! Dir.exist? "#{node[:deploycode][:localsourcefolder]}/.git"
+if ! Dir.exist? "#{node[:deploycode][:localfolder_de]}/.git"
   execute "clear_directory" do
   command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
-  cwd node[:deploycode][:localsourcefolder]
+  cwd node[:deploycode][:localfolder_de]
   notifies :sync, "git[clone_repo]", :immediately
   end
 else
-  contents = File.read("#{node[:deploycode][:localsourcefolder]}/.git/config")
-  if contents.include?(node[:deploycode][:gitrepo])
+  contents = File.read("#{node[:deploycode][:localfolder_de]}/.git/config")
+  if contents.include?(node[:deploycode][:gitrepo_de])
     git "pull_repo" do
       user node[:deploycode][:code_owner]
       group node[:deploycode][:code_group]
       retries 3
       retry_delay 30
-      repository node[:deploycode][:gitrepo]
+      repository node[:deploycode][:gitrepo_de]
       revision node[:deploycode][:branch]
       action :sync
-      destination node[:deploycode][:localsourcefolder]
+      destination node[:deploycode][:localfolder_de]
 #      enable_checkout false
       notifies :run, "execute[git_tag]", :immediately
     end        
   else 
     execute "clear_directory" do
       command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
-      cwd node[:deploycode][:localsourcefolder]
+      cwd node[:deploycode][:localfolder_de]
       notifies :sync, "git[clone_repo]", :immediately
     end
   end
 end
 
-file "#{node[:deploycode][:localsourcefolder]}/ping.html" do
+file "#{node[:deploycode][:localfolder_de]}/ping.html" do
   content '<html></html>'
   mode 0600
   owner node[:deploycode][:code_owner]
