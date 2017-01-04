@@ -1,0 +1,17 @@
+---
+driver:
+  name: docker
+  use_sudo: false
+
+platforms:
+  # - name: debian-7
+
+<% %w(12.04 14.04).each do |ubver| %>
+  - name: ubuntu-<%= ubver %>
+    driver:
+      platform: ubuntu
+      # Testing starting/stopping services inside a container needs an init
+      image: ubuntu-upstart:<%= ubver %>
+      disable_upstart: false
+      run_command: /sbin/init
+<% end %>

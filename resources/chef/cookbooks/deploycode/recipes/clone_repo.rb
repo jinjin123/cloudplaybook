@@ -2,12 +2,12 @@
 git "clone_repo" do
   user node[:deploycode][:code_owner]
   group node[:deploycode][:code_group]
-  repository node[:deploycode][:gitrepo]
+  repository node[:deploycode][:de_gitrepo]
   depth 10
   retries 1
   retry_delay 30
   action :nothing
-  destination node[:deploycode][:localsourcefolder]
+  destination node[:deploycode][:localfolder_de]
 #  checkout_branch 'master'
   enable_checkout false
 end
