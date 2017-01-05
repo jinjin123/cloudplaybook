@@ -1,0 +1,11 @@
+{
+  "deploycode": {
+     "localfolder": {
+       "de":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-de.git",
+       "erp":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-erp.git",
+       "crm":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-crm.git",
+       "pmt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-pmt.git",
+       "mkt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-mkt.git"
+    }
+  }
+}
