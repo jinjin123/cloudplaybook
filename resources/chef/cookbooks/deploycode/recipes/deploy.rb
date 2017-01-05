@@ -72,63 +72,101 @@ ruby_block "Change key config file" do
   end
 end
 
-directory node[:deploycode][:localfolder_de] do
-  recursive true
-  owner node[:deploycode][:code_owner]
-  group node[:deploycode][:code_group]
-  mode '0755'
-  action :create
-end
+basedir = node[:deploycode][:basedir]
 
-include_recipe 'deploycode::clone_repo'
-
-execute "git_tag" do
-  command 'git tag -a v_`date +"%Y%m%d%H%M%S"` -m "Code Deploy";git push --tags'
-  cwd node[:deploycode][:localfolder_de]
-  user node[:deploycode][:code_owner]
-  group node[:deploycode][:code_group]
-  action :nothing
-end
-
-if ! Dir.exist? "#{node[:deploycode][:localfolder_de]}/.git"
-  execute "clear_directory" do
-  command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
-  cwd node[:deploycode][:localfolder_de]
-  notifies :sync, "git[clone_repo]", :immediately
+node[:deploycode][:localfolder].each do |localfolder,giturl|
+  directory basedir + localfolder do
+    recursive true
+    owner node[:deploycode][:code_owner]
+    group node[:deploycode][:code_group]
+    mode '0755'
+    action :create
   end
-else
-  contents = File.read("#{node[:deploycode][:localfolder_de]}/.git/config")
-  if contents.include?(node[:deploycode][:gitrepo_de])
-    git "pull_repo" do
-      user node[:deploycode][:code_owner]
-      group node[:deploycode][:code_group]
-      retries 3
-      retry_delay 30
-      repository node[:deploycode][:gitrepo_de]
-      revision node[:deploycode][:branch]
-      action :sync
-      destination node[:deploycode][:localfolder_de]
-#      enable_checkout false
-      notifies :run, "execute[git_tag]", :immediately
-    end        
-  else 
+end
+
+#include_recipe 'deploycode::clone_repo'
+
+node[:deploycode][:localfolder].each do |localfolder,giturl|
+  execute "git_tag" do
+    command 'git tag -a v_`date +"%Y%m%d%H%M%S"` -m "Code Deploy";git push --tags'
+    cwd basedir + localfolder
+    user node[:deploycode][:code_owner]
+    group node[:deploycode][:code_group]
+    action :nothing
+  end
+end
+
+node[:deploycode][:localfolder].each do |localfolder,giturl|
+  dir = basedir + localfolder
+  log 'message' do
+    message 'Working dir:' + dir + " " + giturl
+    level :info
+  end
+  if ! Dir.exist? dir + "/.git"
     execute "clear_directory" do
       command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
-      cwd node[:deploycode][:localfolder_de]
-      notifies :sync, "git[clone_repo]", :immediately
+      cwd dir
+      #notifies :sync, "git[clone_repo_local]", :immediately
+    end
+    git "clone_repo_local" do
+      user node[:deploycode][:code_owner]
+      group node[:deploycode][:code_group]
+      repository giturl
+      depth 10
+      retries 1
+      retry_delay 30
+      action :sync
+      destination dir
+      checkout_branch 'master'
+      enable_checkout false
+    end
+  else
+    contents = File.read( dir + "/.git/config")
+    if contents.include?(giturl)
+      git "pull_repo" do
+        user node[:deploycode][:code_owner]
+        group node[:deploycode][:code_group]
+        retries 3
+        retry_delay 30
+        repository giturl
+        revision 'master'
+        action :sync
+        destination dir
+#       enable_checkout false
+        notifies :run, "execute[git_tag]", :immediately
+      end        
+    else 
+      execute "clear_directory" do
+        command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
+        cwd dir
+        #notifies :sync, "git[clone_repo_local]", :immediately
+      end
+      git "clone_repo_local" do
+        user node[:deploycode][:code_owner]
+        group node[:deploycode][:code_group]
+        repository giturl
+        depth 10
+        retries 1
+        retry_delay 30
+        action :sync
+        destination dir
+        checkout_branch 'master'
+        enable_checkout false
+      end
     end
   end
-end
 
-file "#{node[:deploycode][:localfolder_de]}/ping.html" do
-  content '<html></html>'
-  mode 0600
-  owner node[:deploycode][:code_owner]
-  group node[:deploycode][:code_group]
-  action :create
-end
+  file dir + "/ping.html" do
+    content '<html></html>'
+    mode 0600
+    owner node[:deploycode][:code_owner]
+    group node[:deploycode][:code_group]
+    action :create
+  end
 
-#update changes to docker
-docker_container 'tomcatkybot' do
-  action :restart
+  #update changes to docker
+  docker_container 'sparkpadgp_' + localfolder do
+    action :restart
+    ignore_failure true
+  end
 end
