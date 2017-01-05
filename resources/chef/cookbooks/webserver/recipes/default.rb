@@ -53,6 +53,8 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
     tag '7'
     action :run
     port "808#{count}:80"
-    binds [ dir + ':/var/www/html', '/data:' + dir + '/sites/default/files' ]
+    #Map /data/sitename to sitefolder/sites/default/files
+    #binds [ dir + ':/var/www/html', '/data/' + localfolder:' + dir + '/sites/default/files' ]
+    binds [ dir + ':/var/www/html' ]
   end
 end
