@@ -72,7 +72,7 @@ ruby_block "Change key config file" do
   end
 end
 
-basedir = node[:deploycode][:basedir]
+basedir = node[:deploycode][:basedirectory]
 
 node[:deploycode][:localfolder].each do |localfolder,giturl|
   directory basedir + localfolder do
