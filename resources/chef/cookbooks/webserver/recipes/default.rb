@@ -28,15 +28,24 @@ docker_service 'sparkpadgp:2376' do
   action [:create, :start]
 end
 
-# Pull latest image
-docker_image 'daocloud.io/drupal' do
-  tag '7'
-  action :pull
-#  notifies :redeploy, 'docker_container[webservice]'
+docker_registry 'dockerpriv.kybot.io:5001' do
+  username 'keithyau'
+  password 'thomas123'
+  email 'keithyau@sparkpad.com'
 end
 
-count = 0
-node[:deploycode][:localfolder].each do |localfolder,giturl|
+#todo make the array be unique elements
+node[:deploycode][:runtime].each do |localfolder,docker|
+  # Pull latest image
+  docker_image docker[:image] do
+    tag docker[:tag]
+    action :pull
+#   notifies :redeploy, 'docker_container[webservice]'
+  end
+end
+
+count = 81
+node[:deploycode][:runtime].each do |localfolder,docker|
   #Directory for drupal folders
   dir = node[:deploycode][:basedirectory] + localfolder 
   directory dir do
@@ -46,15 +55,44 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
     recursive true
     action :create
   end
-  count = count + 1
   #prepare docker
-  docker_container 'sparkpadgp_' + localfolder do
-    repo 'daocloud.io/drupal'
-    tag '7'
-    action :run
-    port "808#{count}:80"
-    #Map /data/sitename to sitefolder/sites/default/files
-    #binds [ dir + ':/var/www/html', '/data/' + localfolder:' + dir + '/sites/default/files' ]
-    binds [ dir + ':/var/www/html' ]
+  if docker[:image].include?("drupal")  
+    docker_container 'sparkpadgp_' + localfolder do
+      repo docker[:image]
+      tag docker[:tag]
+      action :run
+      port "80#{count}:80"
+      #Map /data/sitename to sitefolder/sites/default/files
+      #binds [ dir + ':/var/www/html', '/data/' + localfolder:' + dir + '/sites/default/files' ]
+      binds [ dir + ':/var/www/html' ]
+    end
+    count = count + 1
+  #prepare docker
+  elsif docker[:image].include?("rmq")
+    docker_container 'sparkpadgp_' + localfolder do
+      repo docker[:image]
+      tag docker[:tag]
+      action :run
+      port ['5671:5671','5672:5672','15672:15672','15674:15674','25672:25672']
+      binds [ dir + ':/var/lib/rabbitmq' ]
+    end
+  elsif docker[:image].include?("cdb")
+    docker_container 'sparkpadgp_' + localfolder do
+      repo docker[:image]
+      tag docker[:tag]
+      action :run
+      port "#{docker[:port]}:#{docker[:port]}"
+      binds [ dir + ':/usr/local/var/lib/couchdb' ]
+    end
+  elsif docker[:image].include?("oc")
+     docker_container 'sparkpadgp_' + localfolder do
+      repo docker[:image]
+      tag docker[:tag]
+      action :run
+      port "80#{count}:80"
+      binds [ dir + ':/usr/local/tomcat/webapps' ]
+    end
+    count = count + 1
+  #prepare docker
   end
 end
