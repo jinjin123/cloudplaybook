@@ -3,6 +3,59 @@
   "description": "",
   "json_class": "Chef::Role",
   "default_attributes": {
+{
+  "deploycode": {
+     "basedirectory" : "/home/ec2-user/tools/drupal_dir/",
+     "localfolder": {
+       "de":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-de.git",
+       "erp":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-erp.git",
+       "crm":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-crm.git",
+       "pmt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-pmt.git",
+       "mkt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-mkt.git",
+       "oc":"nodownload",
+       "rmq":"nodownload",
+       "cdb":"nodownload"
+    },
+    "runtime": {
+       "de":{
+           "tag":"7",
+           "image":"daocloud.io/drupal"
+       },
+       "erp":{
+           "tag":"7",
+           "image":"daocloud.io/drupal"
+       },
+       "crm":{
+           "tag":"7",
+           "image":"daocloud.io/drupal"
+       },
+       "pmt":{
+           "tag":"7",
+           "image":"daocloud.io/drupal"
+       },
+       "mkt":{
+           "tag":"7",
+           "image":"daocloud.io/drupal"
+       },
+       "oc":{
+           "tag":"latest",
+           "image":"dockerpriv.kybot.io:5001/keithyau/tomcatglusternewrelic"
+       },
+       "rmq":{
+           "tag":"latest",
+           "image":"dockerpriv.kybot.io:5001/keithyau/rmq",
+           "port":{
+               "5671","5672","15672","15674","25672"
+           }
+       },
+       "cdb":{
+           "tag":"latest",
+           "image":"dockerpriv.kybot.io:5001/keithyau/cdb",
+           "port":"5984"
+       }
+    }
+  }
+}
   },
   "override_attributes": {
   },
@@ -13,7 +66,9 @@
     "recipe[basicservice]",
     "recipe[glusterfs]",
     "recipe[diskmount]",
-    "recipe[webserver]"
+    "recipe[webserver]",
+    "recipe[deploycode]",
+    "recipe[drupalsetting]"
   ],
   "env_run_lists": {
   }
