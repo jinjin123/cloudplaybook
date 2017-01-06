@@ -8,6 +8,8 @@
 #
 
 node[:deploycode][:localfolder].each do |localfolder,giturl|
+  # Break if it is not Drupal
+  break if !giturl.include?("drupal")
   dir = node[:deploycode][:basedirectory] + localfolder
   bash "mount_if_gluster" do
     user "root"
@@ -17,7 +19,7 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
     then
       mount `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
         if [ -d "#{dir}/sites/default" ]; then
-          ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'` #{dir}/sites/default/files
+          #ln -s `cat /etc/fstab|grep glusterfs| awk '{print $2}'`/#{dir} #{dir}/sites/default/files
           if [ `cat /etc/passwd|grep nginx| wc -l` -eq 1 ]
             then
               chown nginx:nginx `cat /etc/fstab|grep glusterfs| awk '{print $2}'`
@@ -37,8 +39,10 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
       fi
     fi
   fi
-    #Set file permission anyway, fix docker issue
+    #temp fix before having glusterfs
+    mkdir #{dir}/sites/default/files
     chmod 777 #{dir}/sites/default/files
+    #Set file permission anyway, fix docker issue
     mkdir #{dir}/sites/default/private
     chmod 777 #{dir}/sites/default/private
     EOH

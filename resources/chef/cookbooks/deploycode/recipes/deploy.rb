@@ -98,10 +98,8 @@ end
 
 node[:deploycode][:localfolder].each do |localfolder,giturl|
   dir = basedir + localfolder
-  log 'message' do
-    message 'Working dir:' + dir + " " + giturl
-    level :info
-  end
+    #Dont git pull if it is not a git project
+    break if giturl.include?("nodownload")
   if ! Dir.exist? dir + "/.git"
     execute "clear_directory" do
       command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
