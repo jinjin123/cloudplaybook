@@ -46,8 +46,20 @@ end
 
 count = 81
 node[:deploycode][:runtime].each do |localfolder,docker|
+    if docker[:mountlocal].eql?("zkfmq/src/")
+      #Override dir to custom url
+      dir = docker[:mountlocal]
+    else
+      dir = node[:deploycode][:basedirectory] + localfolder
+    end
+    #Override port if it is not shared port
+    if docker[:port].eql?("80") 
+      map_port = "90#{count}"
+      count = count + 1
+    else 
+      map_port = docker[:port]
+    end 
   #Directory for drupal folders
-  dir = node[:deploycode][:basedirectory] + localfolder 
   directory dir do
     owner 'ec2-user'
     group 'ec2-user'
@@ -56,19 +68,8 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     action :create
   end
   #prepare docker
-  if docker[:image].include?("drupal")  
-    docker_container 'sparkpadgp_' + localfolder do
-      repo docker[:image]
-      tag docker[:tag]
-      action :run
-      port "80#{count}:80"
-      #Map /data/sitename to sitefolder/sites/default/files
-      #binds [ dir + ':/var/www/html', '/data/' + localfolder:' + dir + '/sites/default/files' ]
-      binds [ dir + ':/var/www/html' ]
-    end
-    count = count + 1
-  #prepare docker
-  elsif docker[:image].include?("rmq")
+  #custom port number add here
+  if docker[:image].include?("rmq") 
     docker_container 'sparkpadgp_' + localfolder do
       repo docker[:image]
       tag docker[:tag]
@@ -76,23 +77,15 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       port ['5671:5671','5672:5672','15672:15672','15674:15674','25672:25672']
       binds [ dir + ':/var/lib/rabbitmq' ]
     end
-  elsif docker[:image].include?("cdb")
+  else #app_mq #cdb #Drupal
     docker_container 'sparkpadgp_' + localfolder do
       repo docker[:image]
       tag docker[:tag]
+      kill_after 10
       action :run
-      port "#{docker[:port]}:#{docker[:port]}"
-      binds [ dir + ':/usr/local/var/lib/couchdb' ]
+      port "#{map_port}:#{docker[:port]}"
+      #binds [ dir + ':/var/www/html', '/data/' + localfolder:' + dir + '/sites/default/files' ]
+      binds [ dir + ":#{docker[:mountdocker]}" ]
     end
-  elsif docker[:image].include?("oc")
-     docker_container 'sparkpadgp_' + localfolder do
-      repo docker[:image]
-      tag docker[:tag]
-      action :run
-      port "80#{count}:80"
-      binds [ dir + ':/usr/local/tomcat/webapps' ]
-    end
-    count = count + 1
-  #prepare docker
   end
 end

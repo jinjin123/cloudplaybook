@@ -87,16 +87,6 @@ end
 #include_recipe 'deploycode::clone_repo'
 
 node[:deploycode][:localfolder].each do |localfolder,giturl|
-  execute "git_tag" do
-    command 'git tag -a v_`date +"%Y%m%d%H%M%S"` -m "Code Deploy";git push --tags'
-    cwd basedir + localfolder
-    user node[:deploycode][:code_owner]
-    group node[:deploycode][:code_group]
-    action :nothing
-  end
-end
-
-node[:deploycode][:localfolder].each do |localfolder,giturl|
   dir = basedir + localfolder
     #Dont git pull if it is not a git project
     break if giturl.include?("nodownload")
@@ -131,7 +121,7 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
         action :sync
         destination dir
 #       enable_checkout false
-        notifies :run, "execute[git_tag]", :immediately
+#        notifies :run, "execute[git_tag]", :immediately
       end        
     else 
       execute "clear_directory" do

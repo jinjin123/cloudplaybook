@@ -7,10 +7,32 @@
 # All rights reserved - Do Not Redistribute
 #
 
+basedir = node[:deploycode][:basedirectory]
+  # Customization for MQ Cnf
+  # Create cfg directory inside mq localfolder
+  directory basedir + '/mq/zkfmq/src/' do
+    recursive true
+    owner 'root'
+    group 'root'
+    mode '0755'
+    action :create
+  end
+
+  template "#{basedir}/mq/zkfmq/src/zkf.cfg" do
+        source "#{localfolder}.zkf.cfg"
+        mode 0644
+        retries 3
+        retry_delay 30
+        owner "root"
+        group "root"
+        action :create
+        ignore_failure true
+  end rescue NoMethodError
+
 node[:deploycode][:localfolder].each do |localfolder,giturl|
+  dir = basedir + localfolder
   # Break if it is not Drupal
-  break if !giturl.include?("drupal")
-  dir = node[:deploycode][:basedirectory] + localfolder
+  if giturl.include?("drupal")
   bash "mount_if_gluster" do
     user "root"
     cwd "/tmp"
@@ -61,5 +83,6 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
 
   docker_container 'sparkpadgp_' + localfolder do
     action :restart
+  end
   end
 end
