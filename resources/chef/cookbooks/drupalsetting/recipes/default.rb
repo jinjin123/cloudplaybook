@@ -83,6 +83,7 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
 
   docker_container 'sparkpadgp_' + localfolder do
     action :restart
+    ignore_failure true
   end
   end
 end

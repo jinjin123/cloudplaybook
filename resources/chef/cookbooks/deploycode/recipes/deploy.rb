@@ -89,7 +89,7 @@ end
 node[:deploycode][:localfolder].each do |localfolder,giturl|
   dir = basedir + localfolder
     #Dont git pull if it is not a git project
-    break if giturl.include?("nodownload")
+    next if giturl.include?("nodownload")
   if ! Dir.exist? dir + "/.git"
     execute "clear_directory" do
       command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
@@ -155,6 +155,7 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
   #update changes to docker
   docker_container 'sparkpadgp_' + localfolder do
     action :restart
+    kill_after 5
     ignore_failure true
   end
 end

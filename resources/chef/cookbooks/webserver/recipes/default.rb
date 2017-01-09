@@ -48,12 +48,15 @@ count = 81
 node[:deploycode][:runtime].each do |localfolder,docker|
     if docker[:mountlocal].eql?("zkfmq/src/")
       #Override dir to custom url
-      dir = docker[:mountlocal]
+      dir = node[:deploycode][:basedirectory] + localfolder + "/" + docker[:mountlocal]
     else
       dir = node[:deploycode][:basedirectory] + localfolder
     end
-    #Override port if it is not shared port
-    if docker[:port].eql?("80") 
+    #Override port if it is not shared port (mostly common port are 80 and 8080)
+    if docker[:port].eql?("80")
+      map_port = "90#{count}"
+      count = count + 1
+    elsif docker[:port].eql?("8080") 
       map_port = "90#{count}"
       count = count + 1
     else 
