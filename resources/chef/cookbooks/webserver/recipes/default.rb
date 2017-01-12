@@ -46,11 +46,12 @@ end
 
 count = 81
 node[:deploycode][:runtime].each do |localfolder,docker|
-    if docker[:mountlocal].eql?("zkfmq/src/")
+    #if tagged localdir, give the localfolder as mount poinT 
+    if docker[:mountlocal].include?("localdir")
       #Override dir to custom url
-      dir = node[:deploycode][:basedirectory] + localfolder + "/" + docker[:mountlocal]
-    else
       dir = node[:deploycode][:basedirectory] + localfolder
+    else
+      dir = "#{node[:deploycode][:basedirectory]}#{localfolder}/#{docker[:mountlocal]}"
     end
     #Override port if it is not shared port (mostly common port are 80 and 8080)
     if docker[:port].eql?("80")
@@ -86,6 +87,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       tag docker[:tag]
       kill_after 10
       action :run
+      ignore_failure true
       port "#{map_port}:#{docker[:port]}"
       #binds [ dir + ':/var/www/html', '/data/' + localfolder:' + dir + '/sites/default/files' ]
       binds [ dir + ":#{docker[:mountdocker]}" ]

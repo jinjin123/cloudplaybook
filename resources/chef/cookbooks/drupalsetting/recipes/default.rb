@@ -10,7 +10,8 @@
 basedir = node[:deploycode][:basedirectory]
   # Customization for MQ Cnf
   # Create cfg directory inside mq localfolder
-  directory basedir + '/mq/zkfmq/src/' do
+  #Todo in sitesinfo.json, make a configuration specification
+  directory basedir + 'mq/zkfmq/src/' do
     recursive true
     owner 'root'
     group 'root'
@@ -18,8 +19,16 @@ basedir = node[:deploycode][:basedirectory]
     action :create
   end
 
+  directory basedir + 'reportingsys/storage' do
+    recursive true
+    owner 'root'
+    group 'root'
+    mode '0777'
+    action :create
+  end
+
   template "#{basedir}/mq/zkfmq/src/zkf.cfg" do
-        source "#{localfolder}.zkf.cfg"
+        source "mq.zkf.cfg"
         mode 0644
         retries 3
         retry_delay 30
@@ -27,7 +36,29 @@ basedir = node[:deploycode][:basedirectory]
         group "root"
         action :create
         ignore_failure true
-  end rescue NoMethodError
+  end
+
+  template "#{basedir}/reportingsys/.env" do
+        source "reportingsys.env"
+        mode 0644
+        retries 3
+        retry_delay 30
+        owner "root"
+        group "root"
+        action :create
+        ignore_failure true
+  end
+
+  template "#{basedir}/reportingsys/config/externa_connection_db.php" do
+        source "reportingsys.externa_connection_db.php"
+        mode 0644
+        retries 3
+        retry_delay 30
+        owner "root"
+        group "root"
+        action :create
+        ignore_failure true
+  end
 
 node[:deploycode][:localfolder].each do |localfolder,giturl|
   dir = basedir + localfolder
