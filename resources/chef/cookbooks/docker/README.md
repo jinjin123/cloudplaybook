@@ -375,7 +375,7 @@ docker_service_manager_systemd 'default' do
   tls_server_key "/path/to/server-key.pem"
   tls_client_cert "/path/to/cert.pem"
   tls_client_key "/path/to/key.pem"
-  systemd_ops ["TasksMax=infinity","MountFlags=private"]
+  systemd_opts ["TasksMax=infinity","MountFlags=private"]
   action :start
 end
 ```
@@ -456,10 +456,15 @@ options found in the
 - `iptables` - Enable addition of iptables rules
 - `ipv6` - Enable IPv6 networking
 - `log_level` - Set the logging level
+<<<<<<< HEAD
 - `labels` A string or array to set metadata on the daemon in the form
   ['foo:bar', 'hello:world']`
 - `log_driver` - Container's logging driver
   (json-file/syslog/journald/gelf/fluentd/none)
+=======
+- `labels` A string or array to set metadata on the daemon in the form ['foo:bar', 'hello:world']`
+- `log_driver` - Container's logging driver (json-file/syslog/journald/gelf/fluentd/awslogs/splunk/etwlogs/gcplogs/none)
+>>>>>>> log_drivers
 - `log_opts` - Container's logging driver options (driver-specific)
 - `mtu` - Set the containers network MTU
 - `pidfile` - Path to use for daemon PID file
@@ -1168,6 +1173,7 @@ Most `docker_container` properties are the `snake_case` version of the `CamelCas
 - `links` - An array of source container/alias pairs to link the container to in the form `[container_a:www', container_b:db']`
 - `log_driver` - Sets a custom logging driver for the container (json-file/syslog/journald/gelf/fluentd/none).
 - `log_opts` - Configures the above logging driver options (driver-specific).
+- `ip_address` - Container IPv4 address (e.g. 172.30.100.104)
 - `mac_address` - The mac address for the container to use.
 - `memory` - Memory limit in bytes.
 - `memory_swap` - Total memory limit (memory + swap); set `-1` to disable swap limit (unlimited). You must use this with memory and make the swap value larger than memory.
@@ -1189,6 +1195,7 @@ Most `docker_container` properties are the `snake_case` version of the `CamelCas
 - `user` - A string value specifying the user inside the container.
 - `volumes` - An Array of paths inside the container to expose. Does the same thing as the `VOLUME` directive in a Dockerfile, but works on container creation.
 - `volumes_from` - A list of volumes to inherit from another container. Specified in the form `<container name>[:<ro|rw>]`
+- `volume_driver` - Driver that this container users to mount volumes.
 - `working_dir` - A string specifying the working directory for commands to run in.
 - `read_timeout` - May need to increase for commits or exports that are slow
 - `write_timeout` - May need to increase for commits or exports that are slow
@@ -1218,6 +1225,7 @@ Most `docker_container` properties are the `snake_case` version of the `CamelCas
 - `:unpause` - Unpauses the container.
 - `:delete` - Deletes the container.
 - `:redeploy` - Deletes and runs the container.
+- `:reload` - Sends SIGHUP to pid 1 in the container
 
 ## docker_registry
 

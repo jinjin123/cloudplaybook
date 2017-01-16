@@ -9,12 +9,12 @@
 # BootDev defined docker default script
 
 # Check if target web directory is exist, create it if not
-yum_package 'docker' do
-end
-
 # Assign docker access right to ec2-user
-execute 'change_usermod' do
-  command 'usermod -aG docker ec2-user'
+#yum_package 'docker'
+docker_installation_script 'default' do
+  repo 'main'
+  script_url 'https://get.daocloud.io/docker'
+  action :create
 end
 
 # Start cgconfig service to meet docker prerequisite
@@ -22,10 +22,15 @@ service "cgconfig" do
   action :start
 end
 
+# Assign docker access right to ec2-user
+execute 'change_usermod' do
+  command 'usermod -aG docker ec2-user'
+end
+
 # Start Docker service
-docker_service 'sparkpadgp:2376' do
-  host [ "tcp://#{node['ipaddress']}:2376", 'unix:///var/run/docker.sock' ]
-  action [:create, :start]
+docker_service 'default' do
+  host 'unix:///var/run/docker.sock'
+  action :start
 end
 
 docker_registry 'dockerpriv.kybot.io:5001' do
@@ -78,7 +83,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       repo docker[:image]
       tag docker[:tag]
       action :run
-      port ['5671:5671','5672:5672','15672:15672','15674:15674','25672:25672']
+      port ['5671:5671','8082:8082','4369:4369','15672:15672','15674:15674','25672:25672']
       binds [ dir + ':/var/lib/rabbitmq' ]
     end
   else #app_mq #cdb #Drupal

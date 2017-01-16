@@ -3,9 +3,10 @@
 ################
 
 caname = 'docker_service_default'
-caroot = "/tmp/kitchen/#{caname}"
+caroot = "/ca/#{caname}"
 
 directory caroot.to_s do
+  recursive true
   action :create
 end
 
@@ -138,7 +139,7 @@ docker_service 'default' do
   tls_client_cert "#{caroot}/cert.pem"
   tls_client_key "#{caroot}/key.pem"
   cluster_store "etcd://#{node['ipaddress']}:4001"
-  cluster_advertise 'eth0:0'
+  cluster_advertise "#{node['ipaddress']}:4001"
   install_method 'package'
   action [:create, :start]
 end
