@@ -1,3 +1,10 @@
+directory "/root/.ssh" do
+  owner 'root'
+  group 'root'
+  mode '0700'
+  action :create
+end
+
 template "/root/.ssh/config" do
   source "config.erb"
   mode 0600
@@ -27,7 +34,7 @@ end
 
 #code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
 #if code_owner_home.to_s.strip.length == 0
-  code_owner_home="/home/ec2-user"
+  code_owner_home="/home/#{node[:deployuser]}"
 #end
 
 directory "#{code_owner_home}/.ssh" do
@@ -74,6 +81,7 @@ end
 
 basedir = node[:deploycode][:basedirectory]
 
+#Create directory
 node[:deploycode][:localfolder].each do |localfolder,giturl|
   directory basedir + localfolder do
     recursive true

@@ -9,7 +9,7 @@
 # BootDev defined docker default script
 
 # Check if target web directory is exist, create it if not
-# Assign docker access right to ec2-user
+# Assign docker access right to user
 #yum_package 'docker'
 docker_installation_script 'default' do
   repo 'main'
@@ -22,9 +22,10 @@ service "cgconfig" do
   action :start
 end
 
-# Assign docker access right to ec2-user
+# Assign docker access right to user
+user = node[:deployuser]
 execute 'change_usermod' do
-  command 'usermod -aG docker ec2-user'
+  command "usermod -aG docker #{user}"
 end
 
 # Start Docker service
@@ -49,53 +50,82 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   end
 end
 
-count = 81
+etchosts = []
 node[:deploycode][:runtime].each do |localfolder,docker|
     #if tagged localdir, give the localfolder as mount poinT 
     if docker[:mountlocal].include?("localdir")
       #Override dir to custom url
       dir = node[:deploycode][:basedirectory] + localfolder
     else
-      dir = "#{node[:deploycode][:basedirectory]}#{localfolder}/#{docker[:mountlocal]}"
+      dir = docker[:mountlocal]
     end
-    #Override port if it is not shared port (mostly common port are 80 and 8080)
-    if docker[:port].eql?("80")
-      map_port = "90#{count}"
-      count = count + 1
-    elsif docker[:port].eql?("8080") 
-      map_port = "90#{count}"
-      count = count + 1
-    else 
-      map_port = docker[:port]
-    end 
-  #Directory for drupal folders
+
+  #Prepare directories
   directory dir do
-    owner 'ec2-user'
-    group 'ec2-user'
+    owner user
+    group user
     mode '0755'
     recursive true
     action :create
   end
-  #prepare docker
-  #custom port number add here
-  if docker[:image].include?("rmq") 
-    docker_container 'sparkpadgp_' + localfolder do
+
+  container_name = 'sparkpadgp_' + localfolder
+  if container_name.eql?("sparkpadgp_mysql") 
+    #Add the first docker
+    docker_container container_name do
       repo docker[:image]
       tag docker[:tag]
+      kill_after 3
       action :run
-      port ['5671:5671','8082:8082','4369:4369','15672:15672','15674:15674','25672:25672']
-      binds [ dir + ':/var/lib/rabbitmq' ]
-    end
-  else #app_mq #cdb #Drupal
-    docker_container 'sparkpadgp_' + localfolder do
-      repo docker[:image]
-      tag docker[:tag]
-      kill_after 10
-      action :run
-      ignore_failure true
-      port "#{map_port}:#{docker[:port]}"
-      #binds [ dir + ':/var/www/html', '/data/' + localfolder:' + dir + '/sites/default/files' ]
+      #ignore_failure true
+      port docker[:ports]
       binds [ dir + ":#{docker[:mountdocker]}" ]
     end
+    etchosts.push("#{container_name}:#{container_name}")
+    #Break and dont create mysql proxy.conf
+    next
+  else 
+    #prepare dockers
+    docker_container container_name do
+      repo docker[:image]
+      tag docker[:tag]
+      #Add all docker link
+      links etchosts
+      kill_after 5
+      action :run
+      port docker[:ports]
+      binds [ dir + ":#{docker[:mountdocker]}" ]
+    end
+    etchosts.push("#{container_name}:#{container_name}")
   end
+ 
+  #Add proxy.conf to folder if bootproxy defined
+  if node[:externalmode].eql?("bootproxy")
+    #Prepare bootproxy directories
+    directory "#{node[:deploycode][:basedirectory]}bootproxy" do
+      owner user
+      group user
+      mode '0755'
+      recursive true
+      action :create
+    end
+    #Add same amount of proxy templates to Nginx folder
+    template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
+      variables(
+        :host => container_name,
+        :portstring => docker[:proxyport],
+        :prefix => "#{node[:domainprefix]}#{localfolder}",
+        :domain => node[:domainname],
+      )
+        source "proxy.conf"
+        mode 0644
+        retries 3
+        retry_delay 2
+        owner "root"
+        group "root"
+        action :create
+#        ignore_failure true
+    end
+  end
+
 end

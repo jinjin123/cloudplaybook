@@ -9,35 +9,35 @@
      //堂食OC
 
     'eat_oc_db_connect'=>[
-        'db_host'=>'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
-        'db_name'=>'keithyau',
-        'db_pass'=>'thomas123',
+        'db_host'=>'<%= @host %>',
+        'db_name'=>'<%= @username %>',
+        'db_pass'=>''<%= @password %>',
         'db_database'=>'syncedoc',
      ],
      //外卖oc
 
      'takeout_oc_db_connect'=>[
-         'db_host'=>'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
-         'db_name'=>'keithyau',
-         'db_pass'=>'thomas123',
-         'db_database'=>'gfsoc',
+        'db_host'=>'<%= @host %>',
+        'db_name'=>'<%= @username %>',
+        'db_pass'=>''<%= @password %>',
+        'db_database'=>'gfsoc',
      ],
 
      //ERP
 
     'erp_db_connect'=>[
-        'db_host'=>'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
-        'db_name'=>'keithyau',
-        'db_pass'=>'thomas123',
+        'db_host'=>'<%= @host %>',
+        'db_name'=>'<%= @username %>',
+        'db_pass'=>''<%= @password %>',
         'db_database'=>'erp',
     ],
 
      //本地服务器DB 用于多库联查
      'loc_db_connect'=>[
-         'db_host'=>'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
-         'db_name'=>'keithyau',
-         'db_pass'=>'thomas123',
-         'db_database'=>'oc',
+        'db_host'=>'<%= @host %>',
+        'db_name'=>'<%= @username %>',
+        'db_pass'=>''<%= @password %>',
+        'db_database'=>'oc',
      ],
 
 ];

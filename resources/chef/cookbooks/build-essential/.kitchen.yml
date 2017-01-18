@@ -1,55 +1,58 @@
----
-driver_plugin: vagrant
-driver_config:
-  require_chef_omnibus: true
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
 
 platforms:
-- name: debian-6
-  driver_config:
-    box: opscode-debian-6
-    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-6.0.7_provisionerless.box
-  run_list:
-  - recipe[apt]
-
-- name: ubuntu-13.04
-  driver_config:
-    box: opscode-ubuntu-13.04
-    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-13.04_provisionerless.box
-  run_list:
-  - recipe[apt]
-
-- name: ubuntu-12.10
-  driver_config:
-    box: opscode-ubuntu-12.10
-    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.10_provisionerless.box
-  run_list:
-  - recipe[apt]
-
-- name: ubuntu-12.04
-  driver_config:
-    box: opscode-ubuntu-12.04
-    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
-  run_list:
-  - recipe[apt]
-
-- name: ubuntu-10.04
-  driver_config:
-    box: opscode-ubuntu-10.04
-    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box
-  run_list:
-  - recipe[apt]
-
-- name: centos-6.4
-  driver_config:
-    box: opscode-centos-6.4
-    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box
-
-- name: centos-5.9
-  driver_config:
-    box: opscode-centos-5.9
-    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box
+  - name: centos-5.11
+  - name: centos-6.8
+  - name: centos-7.2
+  - name: debian-7.11
+  - name: debian-8.6
+  - name: fedora-25
+    run_list: yum::dnf_yum_compat
+  - name: freebsd-10.3
+    run_list:
+      - freebsd::portsnap
+      - freebsd::pkgng
+  - name: freebsd-11
+    run_list:
+      - freebsd::portsnap
+  - name: omnios-r151014
+    driver:
+      box: omnios/r151014
+  - name: opensuse-13.2
+  - name: opensuse-leap-42.1
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
+  - name: solaris-11
+    driver:
+      box: chef/solaris-11
+  - name: windows-2008r2-standard
+    driver:
+      box: chef/windows-server-2008r2-standard # private box in Chef's Atlas account
+  - name: windows-2012r2
+    driver_config:
+      box: chef/windows-server-2012r2-standard
+  - name: macosx-10.10
+    driver:
+      box: chef/macosx-10.10 # private box in Chef's Atlas account
+      provider: vmware_fusion
+  - name: macosx-10.11
+    driver:
+      box: chef/macosx-10.11 # private box in Chef's Atlas account
+      provider: vmware_fusion
 
 suites:
-- name: default
-  run_list:
-  - recipe[build-essential]
+  - name: default
+    run_list: test::default
+  - name: compile_time
+    run_list: test::default
+    attributes:
+      build-essential:
+        compile_time: true

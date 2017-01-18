@@ -102,6 +102,11 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
   end
 
   template "#{dir}/sites/default/settings.php" do
+      variables(
+        :host => 'sparkpadgp_mysql',
+        :username => 'root',
+        :password => 'thomas123',
+      )
         source "#{localfolder}.settings.php"
         mode 0644
         retries 3

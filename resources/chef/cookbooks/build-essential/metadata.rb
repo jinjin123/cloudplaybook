@@ -1,15 +1,35 @@
-name              "build-essential"
-maintainer        "Opscode, Inc."
-maintainer_email  "cookbooks@opscode.com"
-license           "Apache 2.0"
-description       "Installs C compiler / build tools"
-version           "1.4.2"
-recipe            "build-essential", "Installs packages required for compiling C software from source."
+name              'build-essential'
+maintainer        'Chef Software, Inc.'
+maintainer_email  'cookbooks@chef.io'
+license           'Apache 2.0'
+description       'Installs C compiler / build tools'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version           '7.0.3'
+recipe            'build-essential', 'Installs packages required for compiling C software from source.'
 
-%w{ fedora redhat centos ubuntu debian amazon suse scientific oracle smartos}.each do |os|
-  supports os
-end
+supports 'amazon'
+supports 'centos'
+supports 'debian'
+supports 'fedora'
+supports 'freebsd'
+supports 'mac_os_x', '>= 10.9.0'
+supports 'mac_os_x_server', '>= 10.9.0'
+supports 'opensuse'
+supports 'opensuseleap'
+supports 'oracle'
+supports 'redhat'
+supports 'scientific'
+supports 'smartos'
+supports 'solaris'
+supports 'suse'
+supports 'ubuntu'
+supports 'windows'
+supports 'zlinux'
 
-supports "mac_os_x", ">= 10.6.0"
-supports "mac_os_x_server", ">= 10.6.0"
-suggests "pkgutil" # Solaris 2
+depends 'seven_zip'
+depends 'mingw', '>= 1.1'
+depends 'compat_resource', '>= 12.16.3'
+
+source_url 'https://github.com/chef-cookbooks/build-essential'
+issues_url 'https://github.com/chef-cookbooks/build-essential/issues'
+chef_version '>= 12.1'
