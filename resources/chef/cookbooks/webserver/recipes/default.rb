@@ -109,11 +109,21 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       recursive true
       action :create
     end
+   
+    if docker[:proxyport].eql?("80")
+      portstring = ""
+    else
+      portstring = ":#{docker[:proxyport]}"
+    end
+
+    #Skip template create for bootdev proxy
+    next if localfolder.eql?("bootproxy")
+  
     #Add same amount of proxy templates to Nginx folder
     template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
       variables(
         :host => container_name,
-        :portstring => docker[:proxyport],
+        :portstring => portstring,
         :prefix => "#{node[:domainprefix]}#{localfolder}",
         :domain => node[:domainname],
       )

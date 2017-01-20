@@ -94,10 +94,10 @@ end
 
 #include_recipe 'deploycode::clone_repo'
 
-node[:deploycode][:localfolder].each do |localfolder,giturl|
+node[:deploycode][:localfolder].each do |localfolder,gitinfo|
   dir = basedir + localfolder
     #Dont git pull if it is not a git project
-    next if giturl.include?("nodownload")
+    next if gitinfo.include?("nodownload")
   if ! Dir.exist? dir + "/.git"
     execute "clear_directory" do
       command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
@@ -107,29 +107,27 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
     git "clone_repo_local" do
       user node[:deploycode][:code_owner]
       group node[:deploycode][:code_group]
-      repository giturl
+      repository gitinfo[:giturl]
       depth 10
       retries 1
-      retry_delay 30
+      retry_delay 10
       action :sync
       destination dir
-      checkout_branch 'master'
-      enable_checkout false
+      revision gitinfo[:branch]
+      #checkout_branch gitinfo[:branch] #The name of the checkouted branch
     end
   else
     contents = File.read( dir + "/.git/config")
-    if contents.include?(giturl)
+    if contents.include?(gitinfo[:giturl])
       git "pull_repo" do
         user node[:deploycode][:code_owner]
         group node[:deploycode][:code_group]
         retries 3
-        retry_delay 30
-        repository giturl
-        revision 'master'
+        retry_delay 10
+        repository gitinfo[:giturl]
+        revision gitinfo[:branch]
         action :sync
         destination dir
-#       enable_checkout false
-#        notifies :run, "execute[git_tag]", :immediately
       end        
     else 
       execute "clear_directory" do
@@ -140,14 +138,13 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
       git "clone_repo_local" do
         user node[:deploycode][:code_owner]
         group node[:deploycode][:code_group]
-        repository giturl
+        repository gitinfo[:giturl]
         depth 10
         retries 1
-        retry_delay 30
+        retry_delay 10
         action :sync
         destination dir
-        checkout_branch 'master'
-        enable_checkout false
+        revision gitinfo[:branch]
       end
     end
   end
