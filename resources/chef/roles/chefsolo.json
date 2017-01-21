@@ -3,7 +3,7 @@
    "description":"",
    "json_class":"Chef::Role",
    "default_attributes":{
-      "deployuser":"keithyau",
+      "deployuser":"root",
       "externalmode":"bootproxy",
       "projectname":"shadowdock",
       "domainname":"shadowdock.com",
@@ -129,6 +129,7 @@
             "mysql":{
                "tag":"latest",
                "image":"mysql",
+               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
                "mountlocal":"/root/mysqldir",
                "mountdocker":"/var/lib/mysql",
                "ports":[
@@ -269,7 +270,6 @@
       "recipe[build-essential]",
       "recipe[basicservice]",
       "recipe[glusterfs]",
-      "recipe[diskmount]",
       "recipe[webserver]",
       "recipe[deploycode]",
       "recipe[drupalsetting]"

@@ -34,48 +34,50 @@ end
 
 #code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
 #if code_owner_home.to_s.strip.length == 0
+if node[:deployuser] != "root"
   code_owner_home="/home/#{node[:deployuser]}"
-#end
 
-directory "#{code_owner_home}/.ssh" do
-  owner node[:deploycode][:code_owner]
-  group node[:deploycode][:code_group]
-  mode '0700'
-  action :create
-end
+  directory "#{code_owner_home}/.ssh" do
+    owner node[:deploycode][:code_owner]
+    group node[:deploycode][:code_group]
+    mode '0700'
+    recursive true
+    action :create
+  end
 
-template "#{code_owner_home}/.ssh/config" do
-  source "config.erb"
-  mode 0600
-  owner node[:deploycode][:code_owner] 
-  group node[:deploycode][:code_group]
-  retries 3
-  retry_delay 30
-end
+  template "#{code_owner_home}/.ssh/config" do
+    source "config.erb"
+    mode 0600
+    owner node[:deploycode][:code_owner] 
+    group node[:deploycode][:code_group]
+    retries 3
+    retry_delay 30
+  end
 
-template "#{code_owner_home}/.ssh/gitkey" do
-  source "gitkey.erb"
-  mode 0600
-  owner node[:deploycode][:code_owner]
-  group node[:deploycode][:code_group]
-  retries 3
-  retry_delay 30
-end
+  template "#{code_owner_home}/.ssh/gitkey" do
+    source "gitkey.erb"
+    mode 0600
+    owner node[:deploycode][:code_owner]
+    group node[:deploycode][:code_group]
+    retries 3
+    retry_delay 30
+  end
 
-template "#{code_owner_home}/.ssh/gitkey.pub" do
-  source "gitkey.pub.erb"
-  mode 0600
-  owner node[:deploycode][:code_owner]
-  group node[:deploycode][:code_group]
-  retries 3
-  retry_delay 30
-end
+  template "#{code_owner_home}/.ssh/gitkey.pub" do
+    source "gitkey.pub.erb"
+    mode 0600
+    owner node[:deploycode][:code_owner]
+    group node[:deploycode][:code_group]
+    retries 3
+    retry_delay 30
+  end
 
-ruby_block "Change key config file" do
-  block do
-    fe = Chef::Util::FileEdit.new("#{code_owner_home}/.ssh/config")
-    fe.search_file_replace("/root/","#{code_owner_home}/")
-    fe.write_file
+  ruby_block "Change key config file" do
+    block do
+      fe = Chef::Util::FileEdit.new("#{code_owner_home}/.ssh/config")
+      fe.search_file_replace("/root/","#{code_owner_home}/")
+      fe.write_file
+    end
   end
 end
 

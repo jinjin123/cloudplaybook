@@ -11,6 +11,7 @@
 # Check if target web directory is exist, create it if not
 # Assign docker access right to user
 #yum_package 'docker'
+
 docker_installation_script 'default' do
   repo 'main'
   script_url 'https://get.daocloud.io/docker'
@@ -18,9 +19,9 @@ docker_installation_script 'default' do
 end
 
 # Start cgconfig service to meet docker prerequisite
-service "cgconfig" do
-  action :start
-end
+#service "cgconfig" do
+#  action :start
+#end
 
 # Assign docker access right to user
 user = node[:deployuser]
@@ -70,12 +71,13 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   end
 
   container_name = "#{node[:projectname]}_" + localfolder
-  if container_name.eql?("#{node[:projectname]_mysql") 
+  if container_name.eql?("#{node[:projectname]}_mysql") 
     #Add the first docker
     docker_container container_name do
       repo docker[:image]
       tag docker[:tag]
       kill_after 3
+      env docker[:env]
       action :run
       #ignore_failure true
       port docker[:ports]

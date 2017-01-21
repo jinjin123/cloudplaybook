@@ -1,1 +1,1 @@
-Default[:deploycode][:checkout] = ""
+#Default[:deploycode][:checkout] = ""
