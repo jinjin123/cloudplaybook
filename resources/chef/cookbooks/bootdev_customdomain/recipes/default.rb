@@ -10,10 +10,10 @@
 # Check if target web directory is exist, create it if not
 
 #rootdir = "/home/keithyau/bootdev/shadowdock/customdomains"
-rootdir = nodE
+rootdir = "#{node[:deploycode][:basedirectory]}/bootdev_customdomains"
 
   #Create root dir if it is not exists
-  directory 'rootdir' do
+  directory rootdir do
     recursive true
     owner 'root'
     group 'root'
@@ -21,24 +21,15 @@ rootdir = nodE
     action :create
   end
 
-require 'digest/sha1'
-def generateKey(string)
-  return Digest::SHA1.hexdigest ("#{string}")
-end
-
-def getrandomserver()
-  #We only have this server for now
-  return 'dev.chickenkiller.com'
-end 
-
-
 #Create custom domain template files, dockeruri should have domain:port
-node[:customdomains].each do |username,dockeruri|
+node[:deploycode][:runtime].each do |dockername,dockeruri|
   #Bind name to xxx.shadowdock.com
-  template "#{rootdir}/#{username}.domainsetting.json" do
+  template "#{rootdir}/#{dockername}.domainsetting.json" do
     variables(
-      :subdomain => generateKey(username),
-      :bindtoserver => getrandomserver(), #Get a server to bind from our db
+      #ToDo: since domainprefix binded with nginx bootproxy, now only supports 1 docker per json
+      #support multiple docker add in future
+      :subdomain => node[:domainprefix],
+      :bindtoserver => node[:thisserver], #Get a server to bind from our db
     )
     source "template.domainsetting.json"
     mode 0644
@@ -50,6 +41,31 @@ node[:customdomains].each do |username,dockeruri|
   end
 end
 
+#Options:
+#Using the above template to call route53 add or use cookbook
 
+
+
+
+#Use cookbook
+include_recipe "route53"
+
+node[:deploycode][:runtime].each do |dockername,dockeruri|
+
+  route53_record "create #{} record" do
+    name  "#{node[:domainprefix]}#{dockername}.#{node[:domainname]}"
+    value node[:thisserver]
+    type  "CNAME"
+
+    # The following are for routing policies
+    # Azzume only 1 account which is shadowdock.com
+    set_identifier "#{node[:thisserver]}"
+    zone_id               "Z3ON58C3QO6KKR"
+    aws_access_key_id     "AKIAJM5LVPWZENY6JO7Q"
+    aws_secret_access_key "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"
+    overwrite true
+    action :create
+  end
+end
 
 

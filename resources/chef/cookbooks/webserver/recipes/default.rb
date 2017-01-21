@@ -96,6 +96,8 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       tag docker[:tag]
       #Add all docker link
       links etchosts
+      env docker[:env]
+      command docker[:command]
       kill_after 5
       action :run
       port docker[:ports]
