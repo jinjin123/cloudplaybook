@@ -34,10 +34,10 @@ docker_service 'default' do
   action :start
 end
 
-docker_registry 'dockerpriv.kybot.io:5001' do
-  username 'keithyau'
-  password 'thomas123'
-  email 'keithyau@sparkpad.com'
+docker_registry node[:docker][:privaterepo] do
+  username node[:docker][:username]
+  password node[:docker][:password]
+  email 'support@bootdev.com'
 end
 
 #todo make the array be unique elements
@@ -69,8 +69,8 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     action :create
   end
 
-  container_name = 'sparkpadgp_' + localfolder
-  if container_name.eql?("sparkpadgp_mysql") 
+  container_name = "#{node[:projectname]}_" + localfolder
+  if container_name.eql?("#{node[:projectname]_mysql") 
     #Add the first docker
     docker_container container_name do
       repo docker[:image]

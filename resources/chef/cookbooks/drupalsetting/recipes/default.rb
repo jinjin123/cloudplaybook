@@ -102,7 +102,7 @@ end
 #    EOH
 #  end
 
-#  docker_container 'sparkpadgp_' + localfolder do
+#  docker_container "#{node[:projectname]}_" + localfolder do
 #    action :restart
 #    ignore_failure true
 #  end

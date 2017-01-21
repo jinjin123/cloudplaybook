@@ -9,7 +9,8 @@
 # BootDev defined Route53-for-customdomaiN default script
 # Check if target web directory is exist, create it if not
 
-rootdir = "/home/keithyau/bootdev/shadowdock/customdomains"
+#rootdir = "/home/keithyau/bootdev/shadowdock/customdomains"
+rootdir = nodE
 
   #Create root dir if it is not exists
   directory 'rootdir' do

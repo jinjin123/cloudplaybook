@@ -104,7 +104,7 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
       cwd dir
       #notifies :sync, "git[clone_repo_local]", :immediately
     end
-    git "clone_repo_local" do
+    git "clone_repo_new" do
       user node[:deploycode][:code_owner]
       group node[:deploycode][:code_group]
       repository gitinfo[:giturl]
@@ -135,7 +135,7 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
         cwd dir
         #notifies :sync, "git[clone_repo_local]", :immediately
       end
-      git "clone_repo_local" do
+      git "clone_repo_remove_existing" do
         user node[:deploycode][:code_owner]
         group node[:deploycode][:code_group]
         repository gitinfo[:giturl]
@@ -158,7 +158,7 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
   end
 
   #update changes to docker
-  docker_container 'sparkpadgp_' + localfolder do
+  docker_container "#{node[:projectname]}_" + localfolder do
     action :restart
     kill_after 5
     ignore_failure true
