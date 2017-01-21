@@ -18,10 +18,13 @@ docker_installation_script 'default' do
   action :create
 end
 
-# Start cgconfig service to meet docker prerequisite
-#service "cgconfig" do
-#  action :start
-#end
+# Start cgconfig service to meet docker prerequisite 
+# (only run in amazon) as centos normally dont use systemvinit now
+if node[:platform_family].eql?("rhel") and node[:platform].eql?("amazon")
+  service "cgconfig" do
+    action :start
+  end
+end
 
 # Assign docker access right to user
 user = node[:deployuser]
