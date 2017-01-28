@@ -1,0 +1,1 @@
+{"domainprefix":"a072088067344c42331bc8fb17f2098c","deploycode":{"configuration":{},"localfolder":{"a072088067344c42331bc8fb17f2098c":"nodownload"},"runtime":{"a072088067344c42331bc8fb17f2098c":{"tag":"latest","image":"mritd/shadowsocks","env":["MYSQLDBPASSWORD"],"command":"none","mountlocal":"localdir","mountdocker":"/mnt","proxyport":"5000","ports":["5000","20000/udp"]}}}}

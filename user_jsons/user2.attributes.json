@@ -1,0 +1,24 @@
+{
+      "domainprefix":"user2customhash",
+      "deploycode":{
+         "configuration":{
+         },
+         "localfolder":{
+            "demoshadowsocks":"nodownload"
+         },
+         "runtime":{
+            "demoshadowsocks2":{
+               "tag":"2.9.0",
+               "image":"mritd/shadowsocks",
+               "command": "-k Thomas123 -w 2 -f",
+               "mountlocal":"localdir",
+               "mountdocker":"/mnt",
+               "proxyport":"5001",
+               "ports":[
+                  "5001:5000",
+                  "20001:20000/udp"
+               ]
+            }
+         }
+      }
+}

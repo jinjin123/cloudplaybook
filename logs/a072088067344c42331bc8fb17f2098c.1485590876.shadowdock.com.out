@@ -1,0 +1,76 @@
+[2017-01-28T16:07:58+08:00] INFO: Started chef-zero at chefzero://localhost:8889 with repository at /root/bootdev/chef/chef-repo
+  One version per cookbook
+
+[2017-01-28T16:07:58+08:00] INFO: Forking chef instance to converge...
+[2017-01-28T16:07:58+08:00] INFO: *** Chef 12.17.44 ***
+[2017-01-28T16:07:58+08:00] INFO: Platform: x86_64-linux
+[2017-01-28T16:07:58+08:00] INFO: Chef-client pid: 3687
+[2017-01-28T16:08:00+08:00] WARN: Run List override has been provided.
+[2017-01-28T16:08:00+08:00] WARN: Original Run List: []
+[2017-01-28T16:08:00+08:00] WARN: Overridden Run List: [role[singleusercreate]]
+[2017-01-28T16:08:00+08:00] INFO: Run List is [role[singleusercreate]]
+[2017-01-28T16:08:00+08:00] INFO: Run List expands to [git, build-essential, basicservice, glusterfs, webserver, deploycode, drupalsetting, bootdev_customdomain]
+[2017-01-28T16:08:00+08:00] INFO: Starting Chef Run for iZj6catsa6s2455p0kojsbZ
+[2017-01-28T16:08:00+08:00] INFO: Running start handlers
+[2017-01-28T16:08:00+08:00] INFO: Start handlers complete.
+[2017-01-28T16:08:00+08:00] INFO: HTTP Request Returned 404 Not Found: Object not found: 
+[2017-01-28T16:08:00+08:00] WARN: Cookbook 'local-mode-cache' is empty or entirely chefignored at /root/bootdev/chef/chef-repo/cookbooks/local-mode-cache
+[2017-01-28T16:08:01+08:00] INFO: Loading cookbooks [git@4.0.1, build-essential@7.0.3, basicservice@0.1.0, glusterfs@0.1.0, webserver@0.1.0, deploycode@0.1.0, drupalsetting@0.1.0, bootdev_customdomain@0.1.0, dmg@2.3.0, windows@1.38.4, runit@1.5.9, yum@3.0.5, yum-epel@0.2.2, seven_zip@2.0.2, mingw@1.2.4, compat_resource@12.16.3, docker@2.13.10, route53@1.1.1, chef_handler@1.1.5]
+[2017-01-28T16:08:01+08:00] INFO: Skipping removal of obsoleted cookbooks from the cache
+[2017-01-28T16:08:01+08:00] WARN: method access to node attributes (node.foo.bar) is deprecated and will be removed in Chef 13, please use bracket syntax (node["foo"]["bar"]) (CHEF-4)/root/bootdev/chef/chef-repo/chef-solo/cookbooks/chef_handler/attributes/default.rb:23:in `from_file'.
+Please see https://docs.chef.io/deprecations_attributes.html for further details and information on how to correct this problem. at /opt/chef/embedded/lib/ruby/gems/2.3.0/gems/chef-12.17.44/lib/chef/event_dispatch/dispatcher.rb:43:in `call'
+[2017-01-28T16:08:02+08:00] WARN: Chef::Provider::YumRepository already exists!  Cannot create deprecation class for LWRP provider yum_repository from cookbook yum
+[2017-01-28T16:08:02+08:00] WARN: Default value "1" is invalid for property obsoletes of resource yum_globalconfig. In Chef 13 this will become an error: Option obsoletes must be a kind of [TrueClass, FalseClass]!  You passed "1".. (CHEF-5)/root/bootdev/chef/chef-repo/chef-solo/cookbooks/yum/resources/globalconfig.rb:73:in `class_from_file'.
+Please see https://docs.chef.io/deprecations_custom_resource_cleanups.html for further details and information on how to correct this problem. at /opt/chef/embedded/lib/ruby/gems/2.3.0/gems/chef-12.17.44/lib/chef/event_dispatch/dispatcher.rb:43:in `call'
+[2017-01-28T16:08:02+08:00] WARN: Cannot specify both default and name_property together on property path of resource yum_globalconfig. Only one (name_property) will be obeyed. In Chef 13, this will become an error. Please remove one or the other from the property. (CHEF-5)/root/bootdev/chef/chef-repo/chef-solo/cookbooks/yum/resources/globalconfig.rb:76:in `class_from_file'.
+Please see https://docs.chef.io/deprecations_custom_resource_cleanups.html for further details and information on how to correct this problem. at /opt/chef/embedded/lib/ruby/gems/2.3.0/gems/chef-12.17.44/lib/chef/event_dispatch/dispatcher.rb:43:in `call'
+[2017-01-28T16:08:02+08:00] WARN: Default value "1" is invalid for property plugins of resource yum_globalconfig. In Chef 13 this will become an error: Option plugins must be a kind of [TrueClass, FalseClass]!  You passed "1".. (CHEF-5)/root/bootdev/chef/chef-repo/chef-solo/cookbooks/yum/resources/globalconfig.rb:80:in `class_from_file'.
+Please see https://docs.chef.io/deprecations_custom_resource_cleanups.html for further details and information on how to correct this problem. at /opt/chef/embedded/lib/ruby/gems/2.3.0/gems/chef-12.17.44/lib/chef/event_dispatch/dispatcher.rb:43:in `call'
+[2017-01-28T16:08:02+08:00] WARN: YumRepository already exists!  Deprecation class overwrites Custom resource yum_repository from cookbook yum
+[2017-01-28T16:08:02+08:00] WARN: Cloning resource attributes for directory[/home/keithyau/bootdev/shadowdock/a072088067344c42331bc8fb17f2098c] from prior resource
+Previous directory[/home/keithyau/bootdev/shadowdock/a072088067344c42331bc8fb17f2098c]: /root/bootdev/chef/chef-repo/chef-solo/cookbooks/webserver/recipes/default.rb:68:in `block in from_file'
+Current  directory[/home/keithyau/bootdev/shadowdock/a072088067344c42331bc8fb17f2098c]: /root/bootdev/chef/chef-repo/chef-solo/cookbooks/deploycode/recipes/deploy.rb:88:in `block in from_file' (CHEF-3694)/root/bootdev/chef/chef-repo/chef-solo/cookbooks/deploycode/recipes/deploy.rb:88:in `block in from_file'.
+Please see https://docs.chef.io/deprecations_resource_cloning.html for further details and information on how to correct this problem. at /opt/chef/embedded/lib/ruby/gems/2.3.0/gems/chef-12.17.44/lib/chef/event_dispatch/dispatcher.rb:43:in `call'
+[2017-01-28T16:08:02+08:00] WARN: The default route53 recipe does nothing. See the readme for information on using the route53 resources
+[2017-01-28T16:08:02+08:00] INFO: Processing yum_package[git] action install (git::default line 31)
+[2017-01-28T16:08:05+08:00] INFO: Processing build_essential[install_packages] action install (build-essential::default line 22)
+[2017-01-28T16:08:05+08:00] INFO: Processing yum_package[autoconf, bison, flex, gcc, gcc-c++, gettext, kernel-devel, make, m4, ncurses-devel, patch] action install (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/build-essential/resources/build_essential.rb line 30)
+[2017-01-28T16:08:05+08:00] INFO: Processing execute[addglusterrepo] action run (glusterfs::glusterfs line 3)
+[2017-01-28T16:08:05+08:00] INFO: Processing execute[fixrepo] action nothing (glusterfs::glusterfs line 11)
+[2017-01-28T16:08:05+08:00] INFO: Processing execute[installglusterfsclient] action nothing (glusterfs::glusterfs line 16)
+[2017-01-28T16:08:05+08:00] INFO: Processing docker_installation_script[default] action create (webserver::default line 15)
+[2017-01-28T16:08:05+08:00] INFO: Processing yum_package[curl] action install (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_installation_script.rb line 35)
+[2017-01-28T16:08:05+08:00] INFO: Processing execute[install docker] action run (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_installation_script.rb line 39)
+[2017-01-28T16:08:05+08:00] INFO: Processing execute[change_usermod] action run (webserver::default line 31)
+[2017-01-28T16:08:05+08:00] INFO: execute[change_usermod] ran successfully
+[2017-01-28T16:08:05+08:00] INFO: Processing docker_service[default] action start (webserver::default line 36)
+[2017-01-28T16:08:05+08:00] INFO: Processing docker_service_manager_systemd[default] action start (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service.rb line 77)
+[2017-01-28T16:08:05+08:00] INFO: Processing directory[/usr/libexec/docker] action create (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_base.rb line 100)
+[2017-01-28T16:08:05+08:00] INFO: Processing template[/usr/libexec/docker/docker-wait-ready] action create (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_base.rb line 107)
+[2017-01-28T16:08:05+08:00] INFO: Processing template[/lib/systemd/system/docker.service] action create (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_manager_systemd.rb line 23)
+[2017-01-28T16:08:05+08:00] INFO: Processing template[/lib/systemd/system/docker.socket] action create (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_manager_systemd.rb line 39)
+[2017-01-28T16:08:05+08:00] INFO: Processing template[/etc/systemd/system/docker.service] action create (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_manager_systemd.rb line 53)
+[2017-01-28T16:08:05+08:00] INFO: Processing template[/etc/systemd/system/docker.socket] action create (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_manager_systemd.rb line 71)
+[2017-01-28T16:08:05+08:00] INFO: Processing execute[systemctl daemon-reload] action nothing (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_manager_systemd.rb line 87)
+[2017-01-28T16:08:05+08:00] INFO: Processing service[docker] action enable (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_manager_systemd.rb line 93)
+[2017-01-28T16:08:05+08:00] INFO: Processing service[docker] action start (/root/bootdev/chef/chef-repo/chef-solo/cookbooks/docker/libraries/docker_service_manager_systemd.rb line 93)
+[2017-01-28T16:08:05+08:00] INFO: Processing docker_registry[dockerpriv.shadowdock.com] action login (webserver::default line 41)
+[2017-01-28T16:08:05+08:00] INFO: Processing docker_image[mritd/shadowsocks] action pull (webserver::default line 50)
+[2017-01-28T16:08:08+08:00] INFO: Processing directory[/home/keithyau/bootdev/shadowdock/a072088067344c42331bc8fb17f2098c] action create (webserver::default line 68)
+[2017-01-28T16:08:08+08:00] INFO: Processing docker_container[shadowdock_a072088067344c42331bc8fb17f2098c] action run (webserver::default line 94)
+[2017-01-28T16:08:08+08:00] INFO: Processing directory[/home/keithyau/bootdev/shadowdock/bootproxy] action create (webserver::default line 113)
+[2017-01-28T16:08:08+08:00] INFO: Processing template[/home/keithyau/bootdev/shadowdock/bootproxy/a072088067344c42331bc8fb17f2098c.proxy.conf] action create (webserver::default line 135)
+[2017-01-28T16:08:08+08:00] INFO: Processing directory[/root/.ssh] action create (deploycode::deploy line 1)
+[2017-01-28T16:08:08+08:00] INFO: Processing template[/root/.ssh/config] action create (deploycode::deploy line 8)
+[2017-01-28T16:08:08+08:00] INFO: Processing template[/root/.ssh/gitkey] action create (deploycode::deploy line 17)
+[2017-01-28T16:08:08+08:00] INFO: Processing template[/root/.ssh/gitkey.pub] action create (deploycode::deploy line 26)
+[2017-01-28T16:08:08+08:00] INFO: Processing directory[/home/keithyau/bootdev/shadowdock/a072088067344c42331bc8fb17f2098c] action create (deploycode::deploy line 88)
+[2017-01-28T16:08:08+08:00] INFO: Processing directory[/home/keithyau/bootdev/shadowdock//bootdev_customdomains] action create (bootdev_customdomain::default line 16)
+[2017-01-28T16:08:08+08:00] INFO: Processing template[/home/keithyau/bootdev/shadowdock//bootdev_customdomains/a072088067344c42331bc8fb17f2098c.domainsetting.json] action create (bootdev_customdomain::default line 27)
+[2017-01-28T16:08:08+08:00] INFO: Processing route53_record[a072088067344c42331bc8fb17f2098c.shadowdock.com] action create (bootdev_customdomain::default line 55)
+[2017-01-28T16:08:10+08:00] INFO: Record has not changed, skipping: a072088067344c42331bc8fb17f2098c.shadowdock.com.[CNAME]
+[2017-01-28T16:08:10+08:00] WARN: Skipping final node save because override_runlist was given
+[2017-01-28T16:08:10+08:00] INFO: Chef Run complete in 10.114638468 seconds
+[2017-01-28T16:08:10+08:00] INFO: Skipping removal of unused files from the cache
+[2017-01-28T16:08:10+08:00] INFO: Running report handlers
+[2017-01-28T16:08:10+08:00] INFO: Report handlers complete
