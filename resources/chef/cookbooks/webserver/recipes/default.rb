@@ -99,6 +99,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       env docker[:env]
       command docker[:command]
       kill_after 5
+#      autoremove true
       action :run
       port docker[:ports]
       binds [ dir + ":#{docker[:mountdocker]}" ]
@@ -125,13 +126,17 @@ node[:deploycode][:runtime].each do |localfolder,docker|
 
     #Skip template create for bootdev proxy
     next if localfolder.eql?("bootproxy")
-  
+
+    domainprefixset = node[:domainprefix]
+    if defined?(docker[:customdomainprefix])
+      domainprefixset = docker[:customdomainprefix]
+    end
     #Add same amount of proxy templates to Nginx folder
     template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
       variables(
         :host => container_name,
         :portstring => portstring,
-        :prefix => "#{node[:domainprefix]}#{localfolder}",
+        :prefix => "#{domainprefixset}#{localfolder}",
         :domain => node[:domainname],
       )
         source "proxy.conf"

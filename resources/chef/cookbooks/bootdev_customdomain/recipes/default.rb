@@ -53,7 +53,7 @@ include_recipe "route53"
 node[:deploycode][:runtime].each do |dockername,dockeruri|
 
   route53_record "create #{} record" do
-    name  "#{node[:domainprefix]}#{dockername}.#{node[:domainname]}"
+    name  "#{node[:domainprefix]}.#{node[:domainname]}"
     value node[:thisserver]
     type  "CNAME"
 

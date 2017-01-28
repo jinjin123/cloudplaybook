@@ -123,6 +123,7 @@
                "branch":"master"
             },
             "rmq":"nodownload",
+            "demoshadowsocks":"nodownload",
             "bootproxy":"nodownload"
          },
          "runtime":{
@@ -249,8 +250,21 @@
                   "9090:8080"
                ]
             },
+            "demoshadowsocks":{
+               "tag":"2.9.0",
+               "image":"mritd/shadowsocks",
+               "command": "-k Thomas123 -w 2 -f",
+               "customdomainprefix": "user1customhash",
+               "mountlocal":"localdir",
+               "mountdocker":"/mnt",
+               "proxyport":"5000",
+               "ports":[
+                  "5000:5000",
+                  "20000:20000/udp"
+               ]
+            },
             "bootproxy":{
-               "tag":"latest",
+               "tag":"stable-alpine",
                "image":"nginx",
                "mountlocal":"localdir",
                "mountdocker":"/etc/nginx/conf.d/",
