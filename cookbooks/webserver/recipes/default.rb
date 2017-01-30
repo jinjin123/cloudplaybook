@@ -98,7 +98,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       links etchosts
       env docker[:env]
       command docker[:command]
-      kill_after 5
+      kill_after 7
 #      autoremove true
       action :run
       port docker[:ports]
