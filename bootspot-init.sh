@@ -21,8 +21,7 @@ yum -y update
 yum -y install curl git
 
 #checkout working branch
-git clone https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git .
-git fetch && git checkout shadowdock_laravel_chef
+git clone -b shadowdock_laravel_chef https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git .
 
 #Update this server password: ToDo Random a password
 echo 'thomas1234!' | passwd root --stdin
