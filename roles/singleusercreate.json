@@ -7,7 +7,7 @@
       "externalmode":"bootproxy",
       "projectname":"shadowdock",
       "domainname":"shadowdock.com",
-      "thisserver":"spot1.shadowdock.com",
+      "thisserver":"49808024cf50014398f34dc5cfb95f79.shadowdock.com",
       "docker": {
           "privaterepo":"dockerpriv.shadowdock.com",
           "username":"keithyau",
