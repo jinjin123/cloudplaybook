@@ -5,3 +5,18 @@
 ###
 .chef/*.pem
 .chef/encrypted_data_bag_secret
+# Put files/directories that should be ignored in this file.
+# Lines that start with '# ' are comments.
+
+# emacs
+*~
+
+# vim
+*.sw[a-z]
+
+# subversion
+*/.svn/*
+
+# Ignore all user data
+./json_output/*
+./user_jsons/*
