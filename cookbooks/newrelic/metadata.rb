@@ -4,7 +4,7 @@ maintainer_email 'development@davidjoos.com'
 license 'MIT'
 description 'Installs/Configures New Relic'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '2.24.0'
+version '2.26.0'
 
 %w(debian ubuntu redhat centos fedora scientific amazon windows smartos oracle).each do |os|
   supports os
@@ -16,7 +16,7 @@ issues_url 'https://github.com/djoos-cookbooks/newrelic/issues' if respond_to?(:
 depends 'python'
 depends 'curl'
 depends 'apt'
-depends 'yum', '~> 3.0'
+depends 'yum'
 
 recipe 'newrelic', 'Adds the New Relic repository, installs & configures the New Relic server monitor agent.'
 recipe 'newrelic::repository', 'Adds the New Relic repository.'
