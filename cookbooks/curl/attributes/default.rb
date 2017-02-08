@@ -1,8 +1,9 @@
+# encoding: UTF-8
 #
-# Cookbook Name:: mysql
-# Attributes:: client
+# Cookbook Name:: curl
+# Recipe:: default
 #
-# Copyright 2013, Opscode, Inc.
+# Copyright 2014, John Dewey
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +18,9 @@
 # limitations under the License.
 #
 
-default['mysql']['percona']['apt_key_id'] = 'CD2EFD2A'
-default['mysql']['percona']['apt_uri'] = 'http://repo.percona.com/apt'
-default['mysql']['percona']['apt_keyserver'] = 'keys.gnupg.net'
+case node['platform_family']
+when 'debian'
+  default['curl']['libcurl_packages'] = %w(libcurl3 libcurl4-openssl-dev)
+when 'rhel'
+  default['curl']['libcurl_packages'] = %w(curl-devel)
+end
