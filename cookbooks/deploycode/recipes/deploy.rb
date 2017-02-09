@@ -85,6 +85,7 @@ basedir = node[:deploycode][:basedirectory]
 
 #Create directory
 node[:deploycode][:localfolder].each do |localfolder,giturl|
+  next if localfolder.include?("nocreatefolder")
   directory basedir + localfolder do
     recursive true
     owner node[:deploycode][:code_owner]
