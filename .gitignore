@@ -5,6 +5,9 @@
 ###
 .chef/*
 
+# Ignore all logs
+logs/*
+
 # Ignore all user data
 ./json_output/*
 ./user_jsons/*
