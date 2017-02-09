@@ -1,5 +1,0 @@
-Metrics/LineLength:
-  Max: 160
-
-Style/SpaceBeforeFirstArg:
-  Enabled: false
