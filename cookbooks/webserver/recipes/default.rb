@@ -27,7 +27,12 @@ if node[:platform_family].eql?("rhel") and node[:platform].eql?("amazon")
 end
 
 # Assign docker access right to user
-user = node[:deployuser]
+if not (defined?(node[:deployuser])).nil?
+    user = node[:deployuser]
+else
+    user = node[:webserver][:code_owner] 
+end
+
 execute 'change_usermod' do
   command "usermod -aG docker #{user}"
 end
