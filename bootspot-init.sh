@@ -5,14 +5,25 @@ echo "SELINUX=disabled" > /etc/sysconfig/selinux
 setenforce 0
 
 # Sync time
-yum -y install ntp ntpdate ntp-doc
+CHECKING_NTPDATE=`command -v ntpdate|wc -l`
+if [ "$CHECKING_NTPDATE" != "0" ]; then
+    echo "NTPDATE exists"
+else
+    yum -y install ntp ntpdate ntp-doc
+fi
 ntpdate pool.ntp.org
 
 #Assume Centos and login as root
 cd /root
 
 #Install Chef-solo
-/usr/bin/curl -L https://www.opscode.com/chef/install.sh | bash
+CHECKING_CHEFSOLO=`command -v chef-solo|wc -l`
+if [ "$CHECKING_CHEFSOLO" != "0" ]; then
+    echo "Chef Solo exists"
+else
+    echo "Installing Chef Solo"
+    /usr/bin/curl -L https://www.opscode.com/chef/install.sh | bash
+fi
 
 #Create Chef-repo
 mkdir -p /root/bootdev/chef/chef-repo
@@ -25,10 +36,21 @@ mkdir -p logs
 
 #curl upgrade
 yum -y update
-yum -y install curl git
+CHECKING_GIT=`command -v git|wc -l`
+if [ "$CHECKING_GIT" != "0" ]; then
+    echo "GIT exists"
+else
+    yum -y install git
+fi
+CHECKING_CURL=`command -v curl|wc -l`
+if [ "$CHECKING_CURL" != "0" ]; then
+    echo "CURL exists"
+else
+    yum -y install curl
+fi
 
 #checkout working branch
-git clone -b shadowdock_laravel_chef https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git .
+git clone -b docker-general https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git .
 
 #Update this server password: ToDo Random a password
 echo 'thomas1234!' | passwd root --stdin
