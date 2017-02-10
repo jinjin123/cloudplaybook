@@ -2,6 +2,26 @@
 
 This file is used to list changes made in each version of the docker cookbook.
 
+## 12.14.3 (2017-02-06)
+- Reverting gem vendor due to c extensions in json dep.
+- Using docker-api-1.33.2 in _autoload
+
+## 12.14.2 (2017-01-31)
+- Vendoring docker-api-1.33.2
+
+## 12.14.1 (2017-01-31)
+- defaulting to package installation on amazonlinux
+
+## 2.14.0 (2017-01-31)
+- various updates for Docker 1.13.0
+- defaulting to 1.13.0 for docker_installation
+- package name fixes for new debian/ubuntu schemes
+- defaulting restart_policy to nil in docker_resource
+
+## 2.13.11 (2017-01-25)
+- #798 - Temporary "fix" for delayed service restart: using :immediate
+  notification in docker_service resource
+
 ## 2.13.10 (2017-01-13)
 - #800 - fixing ubuntu startup script
 - #802 - using chef_version methong only in 12.6.0 and higher

@@ -15,6 +15,8 @@ describe 'docker_test::container' do
     stub_command("[ ! -z `docker ps -qaf 'name=uber_options$'` ]").and_return(false)
     stub_command("[ ! -z `docker ps -qaf 'name=kill_after$'` ]").and_return(false)
     stub_command("[ ! -z `docker ps -qaf 'name=change_network_mode$'` ]").and_return(false)
+    stub_command('docker images | grep cmd_change').and_return(false)
+    stub_command('docker ps -a | grep cmd_change$').and_return(false)
   end
 
   context 'testing create action' do
@@ -37,7 +39,7 @@ describe 'docker_test::container' do
         network_disabled: false,
         outfile: nil,
         restart_maximum_retry_count: 0,
-        restart_policy: 'no',
+        restart_policy: nil,
         security_opts: nil,
         signal: 'SIGTERM',
         user: ''
@@ -507,7 +509,7 @@ describe 'docker_test::container' do
         tag: '3.1',
         command: 'nc -ll -p 123 -e /bin/cat',
         port: '123',
-        restart_policy: 'always',
+        restart_policy: nil,
         restart_maximum_retry_count: 2
       )
     end
