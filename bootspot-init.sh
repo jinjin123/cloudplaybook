@@ -12,7 +12,13 @@ ntpdate pool.ntp.org
 cd /root
 
 #Install Chef-solo
-/usr/bin/curl -L https://www.opscode.com/chef/install.sh | bash
+CHECKING_CHEFSOLO=`command -v chef-solo|wc -l`
+if [ "$CHECKING_CHEFSOLO" != "0" ]; then
+    echo "Chef Solo exists"
+else
+    echo "Installing Chef Solo"
+    /usr/bin/curl -L https://www.opscode.com/chef/install.sh | bash
+fi
 
 #Create Chef-repo
 mkdir -p /root/bootdev/chef/chef-repo
