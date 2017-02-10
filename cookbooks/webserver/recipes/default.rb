@@ -108,7 +108,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   end
  
   #Add proxy.conf to folder if bootproxy defined
-  if node[:externalmode].eql?("bootproxy")
+  if not (defined?(node[:externalmode])).nil? && node[:externalmode].eql?("bootproxy")
     #Prepare bootproxy directories
     directory "#{node[:deploycode][:basedirectory]}bootproxy" do
       owner user
