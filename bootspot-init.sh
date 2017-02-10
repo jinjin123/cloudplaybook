@@ -20,6 +20,9 @@ mkdir -p /root/bootdev/chef/chef-repo
 mkdir -p /home/keithyau/bootdev/shadowdock/
 cd /root/bootdev/chef/chef-repo
 
+#prepare directories
+mkdir -p logs
+
 #curl upgrade
 yum -y update
 yum -y install curl git
