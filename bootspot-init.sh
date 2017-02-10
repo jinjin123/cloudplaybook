@@ -5,7 +5,12 @@ echo "SELINUX=disabled" > /etc/sysconfig/selinux
 setenforce 0
 
 # Sync time
-yum -y install ntp ntpdate ntp-doc
+CHECKING_NTPDATE=`command -v ntpdate|wc -l`
+if [ "$CHECKING_NTPDATE" != "0" ]; then
+    echo "NTPDATE exists"
+else
+    yum -y install ntp ntpdate ntp-doc
+fi
 ntpdate pool.ntp.org
 
 #Assume Centos and login as root
@@ -28,7 +33,18 @@ cd /root/bootdev/chef/chef-repo
 
 #curl upgrade
 yum -y update
-yum -y install curl git
+CHECKING_GIT=`command -v git|wc -l`
+if [ "$CHECKING_GIT" != "0" ]; then
+    echo "GIT exists"
+else
+    yum -y install git
+fi
+CHECKING_CURL=`command -v curl|wc -l`
+if [ "$CHECKING_CURL" != "0" ]; then
+    echo "CURL exists"
+else
+    yum -y install curl
+fi
 
 #checkout working branch
 git clone -b docker-general https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git .
