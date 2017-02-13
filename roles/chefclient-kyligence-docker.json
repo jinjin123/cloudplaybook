@@ -1,5 +1,5 @@
 {
-"name": "chefclient-docker",
+"name": "chefclient-kyligence-docker",
   "description": "Role json file for starting and maintaining Kybot Production env",
   "json_class": "Chef::Role",
   "default_attributes": {

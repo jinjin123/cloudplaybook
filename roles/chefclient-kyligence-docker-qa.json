@@ -1,5 +1,5 @@
 {
-"name": "chefclient-docker-qa",
+"name": "chefclient-kyligence-docker-qa",
   "description": "Role json file for starting and maintaining Kybot QA env",
   "json_class": "Chef::Role",
   "default_attributes": {
