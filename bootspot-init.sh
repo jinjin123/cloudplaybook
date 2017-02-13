@@ -42,12 +42,7 @@ if [ "$CHECKING_GIT" != "0" ]; then
 else
     yum -y install git
 fi
-CHECKING_CURL=`command -v curl|wc -l`
-if [ "$CHECKING_CURL" != "0" ]; then
-    echo "CURL exists"
-else
-    yum -y install curl
-fi
+yum -y install curl
 
 #checkout working branch
 git clone -b docker-general https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git .
