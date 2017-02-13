@@ -1,108 +1,109 @@
 {
-"name": "chefclient-docker",
-  "description": "",
-  "json_class": "Chef::Role",
-  "default_attributes": {
-  "deploycode": {
-     "basedirectory" : "/home/ec2-user/tools/drupal_dir/",
-     "localfolder": {
-       "de":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-de.git",
-       "erp":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-erp.git",
-       "crm":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-crm.git",
-       "pmt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-pmt.git",
-       "mkt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-mkt.git",
-       "oc":"https://keithyau:thomas@git.coding.net/keithyau/deploymentoc.git",
-       "tsoc":"https://keithyau:thomas@git.coding.net/keithyau/deploymenttsoc.git",
-       "orderserver":"https://keithyau:thomas@git.coding.net/keithyau/orderserver.git",
-       "wmserver":"https://keithyau:thomas@git.coding.net/keithyau/WMServer.git",
-       "reportingsys":"https://keithyau:thomas@git.coding.net/chankongching/reports.git",
-       "syncoc":"https://keithyau:thomas@git.coding.net/keithyau/syncoc.git"
-    },
-    "runtime": {
-       "de":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
-           "mountlocal":"localdir",
-           "mountdocker":"/var/www/html",
-            "port":"80"
-       },
-       "erp":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
-           "mountlocal":"localdir",
-           "mountdocker":"/var/www/html",
-           "port":"80"
-       },
-       "crm":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
-           "mountlocal":"localdir",
-           "mountdocker":"/var/www/html",
-           "port":"80"
-       },
-       "pmt":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/php7shanghaitime",
-           "mountlocal":"localdir",
-           "mountdocker":"/var/www/html",
-           "port":"80"
-       },
-       "mkt":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/php7shanghaitime",
-           "mountlocal":"localdir",
-           "mountdocker":"/var/www/html",
-           "port":"80"
-       },
-       "oc":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
-           "mountlocal":"localdir",
-           "mountdocker":"/usr/local/tomcat/webapps",
-           "port":"8080"
-       },
-       "tsoc":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
-           "mountlocal":"localdir",
-           "mountdocker":"/usr/local/tomcat/webapps",
-           "port":"8080"
-       },
-       "orderserver":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
-           "mountlocal":"localdir",
-           "mountdocker":"/usr/local/tomcat/webapps",
-           "port":"8080"
-       },
-       "wmserver":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
-           "mountlocal":"localdir",
-           "mountdocker":"/usr/local/tomcat/webapps",
-           "port":"8080"
-       },
-       "reportingsys":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/laravelnewrelic",
-           "port":"80",
-           "mountlocal":"localdir",
-           "mountdocker":"/var/www/html/"
-       },
-       "syncoc":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
-           "mountlocal":"localdir",
-           "mountdocker":"/usr/local/tomcat/webapps",
-           "port":"8080"
-       }
+  "name":"chefclient-docker",
+  "description":"Role json file for starting and maintaining Sparkpad Generic Platform",
+  "json_class":"Chef::Role",
+  "default_attributes":{
+    "deploycode":{
+      "basedirectory":"/home/ec2-user/tools/drupal_dir/",
+      "localfolder":{
+        "de":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-de.git",
+        "erp":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-erp.git",
+        "crm":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-crm.git",
+        "pmt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-pmt.git",
+        "mkt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-mkt.git",
+        "oc":"https://keithyau:thomas@git.coding.net/keithyau/deploymentoc.git",
+        "tsoc":"https://keithyau:thomas@git.coding.net/keithyau/deploymenttsoc.git",
+        "orderserver":"https://keithyau:thomas@git.coding.net/keithyau/orderserver.git",
+        "wmserver":"https://keithyau:thomas@git.coding.net/keithyau/WMServer.git",
+        "reportingsys":"https://keithyau:thomas@git.coding.net/chankongching/reports.git",
+        "syncoc":"https://keithyau:thomas@git.coding.net/keithyau/syncoc.git"
+      },
+      "runtime":{
+        "de":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
+          "mountlocal":"localdir",
+          "mountdocker":"/var/www/html",
+          "port":"80"
+        },
+        "erp":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
+          "mountlocal":"localdir",
+          "mountdocker":"/var/www/html",
+          "port":"80"
+        },
+        "crm":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
+          "mountlocal":"localdir",
+          "mountdocker":"/var/www/html",
+          "port":"80"
+        },
+        "pmt":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/php7shanghaitime",
+          "mountlocal":"localdir",
+          "mountdocker":"/var/www/html",
+          "port":"80"
+        },
+        "mkt":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/php7shanghaitime",
+          "mountlocal":"localdir",
+          "mountdocker":"/var/www/html",
+          "port":"80"
+        },
+        "oc":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "port":"8080"
+        },
+        "tsoc":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "port":"8080"
+        },
+        "orderserver":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "port":"8080"
+        },
+        "wmserver":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "port":"8080"
+        },
+        "reportingsys":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/laravelnewrelic",
+          "port":"80",
+          "mountlocal":"localdir",
+          "mountdocker":"/var/www/html/"
+        },
+        "syncoc":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "port":"8080"
+        }
+      }
     }
-  }
   },
-  "override_attributes": {
+  "override_attributes":{
+
   },
-  "chef_type": "role",
-  "run_list": [
+  "chef_type":"role",
+  "run_list":[
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
@@ -112,6 +113,7 @@
     "recipe[deploycode]",
     "recipe[drupalsetting]"
   ],
-  "env_run_lists": {
+  "env_run_lists":{
+
   }
 }
