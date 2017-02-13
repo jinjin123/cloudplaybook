@@ -1,0 +1,44 @@
+{
+"name": "chefclient-docker",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  "deploycode": {
+     "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
+     "localfolder": {
+       "prod":"http://keithyau:thomas123@gitlab.kybot.io/root/kybot-deployment.git",
+       "qa":"http://keithyau:thomas123@gitlab.kybot.io/root/kybot-deployment.git"
+    },
+    "runtime": {
+       "qa":{
+           "tag":"latest",
+           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+           "mountlocal":"localdir",
+           "mountdocker":"/usr/local/tomcat/webapps",
+           "port":"8080"
+       },
+       "prod":{
+           "tag":"latest",
+           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+           "mountlocal":"localdir",
+           "mountdocker":"/usr/local/tomcat/webapps",
+           "port":"8080"
+       }
+    }
+  }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[glusterfs]",
+    "recipe[diskmount]",
+    "recipe[webserver]",
+    "recipe[deploycode]"
+  ],
+  "env_run_lists": {
+  }
+}
