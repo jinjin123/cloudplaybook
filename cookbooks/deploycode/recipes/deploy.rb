@@ -132,8 +132,8 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
       enable_checkout true
     end
   else
-    contents = File.read( dir + "/.git/config")
-    if contents.include?(gitinfo[:giturl])
+    #contents = File.read( dir + "/.git/config")
+    if File.readlines(dir + "/.git/config").grep(/#{gitinfo[:giturl]}/).any?
       git "pull_repo" do
         user node[:deploycode][:code_owner]
         group node[:deploycode][:code_group]
