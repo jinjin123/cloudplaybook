@@ -24,7 +24,7 @@
              "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
              "mountlocal":"localdir",
              "mountdocker":"/usr/local/tomcat/webapps",
-             "port":"8080"
+             "ports":"8081:8080"
          }
       }
     }
