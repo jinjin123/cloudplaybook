@@ -31,6 +31,9 @@ mkdir -p /root/bootdev/chef/chef-repo
 mkdir -p /home/keithyau/bootdev/shadowdock/
 cd /root/bootdev/chef/chef-repo
 
+#prepare directories
+mkdir -p logs
+
 #curl upgrade
 yum -y update
 CHECKING_GIT=`command -v git|wc -l`
