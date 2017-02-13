@@ -1,31 +1,66 @@
 {
 "name": "chefclient-docker",
-  "description": "",
+  "description": "Role json file for starting and maintaining Kybot Production env",
   "json_class": "Chef::Role",
   "default_attributes": {
-  "deploycode": {
-     "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
-     "localfolder": {
+    "projectname": "kyligence",
+    "docker": {
+        "privaterepo":"dockerpriv.kybot.io:5002",
+        "username":"keithyau",
+        "password":"thomas123"
+    },
+    "deploycode": {
+      "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
+      "localfolder": {
+        "qa": {
+          "giturl": "git@gitlab.kybot.io:root/kybot-deployment.git",
+          "branch": "qa"
+        },
+        "prod": {
+          "giturl": "git@gitlab.kybot.io:root/kybot-deployment.git",
+          "branch": "prod"
+        }
+      },
+      "runtime": {
+        "qa":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "ports":"8081:8080"
+        },
+        "prod":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "port":"8082:8080"
+        }
+      }
+    },
+    "deploycode": {
+      "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
+      "localfolder": {
        "prod":"http://keithyau:thomas123@gitlab.kybot.io/root/kybot-deployment.git",
        "qa":"http://keithyau:thomas123@gitlab.kybot.io/root/kybot-deployment.git"
-    },
-    "runtime": {
-       "qa":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
-           "mountlocal":"localdir",
-           "mountdocker":"/usr/local/tomcat/webapps",
-           "port":"8080"
-       },
-       "prod":{
-           "tag":"latest",
-           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
-           "mountlocal":"localdir",
-           "mountdocker":"/usr/local/tomcat/webapps",
-           "port":"8080"
-       }
+      },
+      "runtime": {
+        "qa":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "port":"8080"
+        },
+        "prod":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/local/tomcat/webapps",
+          "port":"8080"
+        }
+      }
     }
-  }
   },
   "override_attributes": {
   },
@@ -36,8 +71,8 @@
     "recipe[basicservice]",
     "recipe[glusterfs]",
     "recipe[diskmount]",
-    "recipe[webserver]",
-    "recipe[deploycode]"
+    "recipe[deploycode]",
+    "recipe[webserver]"
   ],
   "env_run_lists": {
   }
