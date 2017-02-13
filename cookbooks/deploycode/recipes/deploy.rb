@@ -32,11 +32,21 @@ template "/root/.ssh/gitkey.pub" do
   retry_delay 30
 end
 
+if node[:deployuser] && not((node[:deployuser]).empty?)
+  user = node[:deployuser]
+else
+  user = node[:deploycode][:code_owner]
+end
+
 #code_owner_home=`cat /etc/passwd| grep #{node[:deploycode][:code_owner]}| cut -d: -f6| tr -d '\040\011\012\015'`
 #if code_owner_home.to_s.strip.length == 0
 # By piping Json input into this cookbook
-if not (defined?(node[:deployuser])).nil? && node[:deployuser] != "root"
-  code_owner_home="/home/#{node[:deployuser]}"
+#if not (defined?(node[:deployuser])).nil? && node[:deployuser] != "root"
+
+if user != "root"
+#  code_owner_home="/home/#{node[:deployuser]}"
+
+  code_owner_home="/home/#{user}"
 
   directory "#{code_owner_home}/.ssh" do
     owner node[:deploycode][:code_owner]
@@ -118,7 +128,8 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
       action :sync
       destination dir
       revision gitinfo[:branch]
-      #checkout_branch gitinfo[:branch] #The name of the checkouted branch
+      checkout_branch gitinfo[:branch] #The name of the checkouted branch
+      enable_checkout true
     end
   else
     contents = File.read( dir + "/.git/config")
@@ -130,6 +141,8 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
         retry_delay 10
         repository gitinfo[:giturl]
         revision gitinfo[:branch]
+        checkout_branch gitinfo[:branch] #The name of the checkouted branch
+        enable_checkout true
         action :sync
         destination dir
       end        
@@ -149,6 +162,8 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
         action :sync
         destination dir
         revision gitinfo[:branch]
+        checkout_branch gitinfo[:branch] #The name of the checkouted branch
+        enable_checkout true
       end
     end
   end

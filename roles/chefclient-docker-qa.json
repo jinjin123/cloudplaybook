@@ -1,0 +1,46 @@
+{
+"name": "chefclient-docker-qa",
+  "description": "Role json file for starting and maintaining Kybot QA env",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser" : "ec2-user",
+    "projectname": "kyligence",
+    "docker": {
+        "privaterepo":"dockerpriv.kybot.io:5002",
+        "username":"keithyau",
+        "password":"thomas123"
+    },
+    "deploycode": {
+       "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
+       "localfolder": {
+         "qa": {
+            "giturl": "git@gitlab.kybot.io:root/kybot-deployment.git",
+            "branch": "qa"
+         }
+      },
+      "runtime": {
+         "qa":{
+             "tag":"latest",
+             "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+             "mountlocal":"localdir",
+             "mountdocker":"/usr/local/tomcat/webapps",
+             "port":"8080"
+         }
+      }
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[glusterfs]",
+    "recipe[diskmount]",
+    "recipe[deploycode]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists": {
+  }
+}

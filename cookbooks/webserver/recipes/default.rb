@@ -27,11 +27,20 @@ if node[:platform_family].eql?("rhel") and node[:platform].eql?("amazon")
 end
 
 # Assign docker access right to user
-if not (defined?(node[:deployuser])).nil?
+user = node[:webserver][:code_owner]
+if (defined?(node[:deployuser])).nil?
     user = node[:deployuser]
-else
-    user = node[:webserver][:code_owner] 
 end
+
+#log 'message1' do
+#  message "Log message:User = " + node[:webserver][:code_owner]
+#  level :info
+#end
+
+#log 'message2' do
+#  message "Log message:User = " + user
+#  level :info
+#end
 
 execute 'change_usermod' do
   command "usermod -aG docker #{user}"
@@ -40,6 +49,8 @@ end
 # Start Docker service
 docker_service 'default' do
   host 'unix:///var/run/docker.sock'
+  userland_proxy false
+  ipv6 false
   action :start
 end
 
