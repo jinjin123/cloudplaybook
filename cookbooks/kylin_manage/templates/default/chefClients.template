@@ -560,21 +560,6 @@
                             "30configchefclient": {
                                 "command": "echo \"ssl_verify_mode :verify_none\" >> /etc/chef/client.rb;echo \"validation_client_name  'ec2-user'\" >> /etc/chef/client.rb;echo \"validation_key '/etc/chef/ec2-user.pem'\" >> /etc/chef/client.rb"
                             },
-                            "45reg_as_chefclientbase": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "/usr/bin/chef-client --server ",
-                                            {
-                                                "Ref": "ChefServerURL"
-                                            },
-                                            "/organizations/admin -j /etc/chef/client.json"
-                                        ]
-                                    ]
-                                },
-                                "cwd": "/home/ec2-user"
-                            },
                             "48registernode": {
                                 "command": {
                                     "Fn::Join": [
