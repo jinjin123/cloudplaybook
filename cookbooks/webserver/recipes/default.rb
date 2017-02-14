@@ -28,7 +28,7 @@ end
 
 # Assign docker access right to user
 user = node[:webserver][:code_owner]
-if (defined?(node[:deployuser])).nil?
+if defined?(node[:deployuser])
     user = node[:deployuser]
 end
 
