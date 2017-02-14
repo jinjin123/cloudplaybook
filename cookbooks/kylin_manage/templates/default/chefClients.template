@@ -555,7 +555,7 @@
                                 }
                             },
                             "20geminstallvault": {
-                                "command": "aws s3 cp s3://bootdevcn/chef-vault-2.6.1.gem ~/chef-vault-2.6.1.gem;/usr/bin/gem install --local ~/chef-vault-2.6.1.gem"
+                                "command": "#aws s3 cp s3://bootdevcn/chef-vault-2.6.1.gem ~/chef-vault-2.6.1.gem;#/usr/bin/gem install --local ~/chef-vault-2.6.1.gem"
                             },
                             "30configchefclient": {
                                 "command": "echo \"ssl_verify_mode :verify_none\" >> /etc/chef/client.rb;echo \"validation_client_name  'ec2-user'\" >> /etc/chef/client.rb;echo \"validation_key '/etc/chef/ec2-user.pem'\" >> /etc/chef/client.rb"

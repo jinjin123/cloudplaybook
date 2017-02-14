@@ -42,9 +42,11 @@ end
 #if code_owner_home.to_s.strip.length == 0
 # By piping Json input into this cookbook
 #if not (defined?(node[:deployuser])).nil? && node[:deployuser] != "root"
-
-if user != "root"
+#if user != "root"
 #  code_owner_home="/home/#{node[:deployuser]}"
+
+if defined?(node[:deployuser]) 
+  user = node[:deployuser]
 
   code_owner_home="/home/#{user}"
 
