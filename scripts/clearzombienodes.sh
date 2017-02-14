@@ -4,16 +4,32 @@
 source /root/.bashrc
 cd /home/ec2-user/chef12
 NODE_LIST=`/usr/bin/knife node list`
+CLIENT_LIST=`/usr/bin/knife client list| grep -v admin`
 
-for x in $NODE_LIST
+for x in $NODE_LIST 
 do
-echo $x
-/usr/bin/knife ssh "name:*" "echo \"exists!\"" > /tmp/check_chef.txt
-if [ ! `cat /tmp/check_chef.txt|grep exists|wc -l` -eq 1 ];
-then
-echo $x
-#/usr/bin/knife node delete $x -y
-fi
+  echo $x
+  /usr/bin/knife ssh "name:$x" "echo \"exists!\"" > /tmp/check_chef.txt
+  if [ ! `cat /tmp/check_chef.txt|grep exists|wc -l` -eq 1 ];
+  then
+    echo $x" does not exists! Will be removed."
+    /usr/bin/knife node delete $x -y
+  else
+    echo $x" exists!"
+  fi
+done
+
+for x in $CLIENT_LIST 
+do
+  echo $x
+  /usr/bin/knife ssh "name:$x" "echo \"exists!\"" > /tmp/check_chef.txt
+  if [ ! `cat /tmp/check_chef.txt|grep exists|wc -l` -eq 1 ];
+  then
+    echo $x" does not exists! Will be removed."
+    /usr/bin/knife client delete $x -y
+  else
+    echo $x" exists!"
+  fi
 done
 
 #if [ -f /tmp/check_chef.txt ];
