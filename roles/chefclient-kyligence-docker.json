@@ -3,6 +3,7 @@
   "description": "Role json file for starting and maintaining Kybot Production env",
   "json_class": "Chef::Role",
   "default_attributes": {
+    "deployuser" : "ec2-user",
     "projectname": "kyligence",
     "docker": {
         "privaterepo":"dockerpriv.kybot.io:5002",
