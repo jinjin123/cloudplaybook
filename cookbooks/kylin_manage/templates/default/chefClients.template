@@ -277,9 +277,9 @@
                 "HVMebs": "ami-3b0c9926"
             },
             "cn-north-1": {
-                "PVinstancestore": "ami-68b22e51",
-                "PVebs": "ami-54b22e6d",
-                "HVMebs": "ami-6cb22e55"
+                "PVinstancestore":"ami-7c15c111",
+                "PVebs":"ami-7c15c111",
+                "HVMebs":"ami-7c15c111"
             }
         }
     },
