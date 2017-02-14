@@ -31,9 +31,6 @@ mkdir -p /root/bootdev/chef/chef-repo
 mkdir -p /home/keithyau/bootdev/shadowdock/
 cd /root/bootdev/chef/chef-repo
 
-#prepare directories
-mkdir -p logs
-
 #curl upgrade
 yum -y update
 CHECKING_GIT=`command -v git|wc -l`
@@ -42,10 +39,13 @@ if [ "$CHECKING_GIT" != "0" ]; then
 else
     yum -y install git
 fi
-yum -y install curl
+yum -y install curl wget
 
 #checkout working branch
 git clone -b docker-general https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git .
+
+#prepare directories
+mkdir -p logs
 
 #Update this server password: ToDo Random a password
 echo 'thomas1234!' | passwd root --stdin
