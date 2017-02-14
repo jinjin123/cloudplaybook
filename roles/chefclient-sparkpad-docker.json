@@ -1,100 +1,139 @@
 {
-  "name":"chefclient-docker",
+  "name":"chefclient-sparkpad-docker",
   "description":"Role json file for starting and maintaining Sparkpad Generic Platform",
   "json_class":"Chef::Role",
   "default_attributes":{
+    "projectname": "sparkpadgp",
+    "docker": {
+        "privaterepo":"dockerpriv.kybot.io:5002",
+        "username":"keithyau",
+        "password":"thomas123"
+    },
     "deploycode":{
       "basedirectory":"/home/ec2-user/tools/drupal_dir/",
       "localfolder":{
-        "de":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-de.git",
-        "erp":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-erp.git",
-        "crm":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-crm.git",
-        "pmt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-pmt.git",
-        "mkt":"https://keithyau:thomas@git.coding.net/keithyau/sparkpad-drupal-backend-mkt.git",
-        "oc":"https://keithyau:thomas@git.coding.net/keithyau/deploymentoc.git",
-        "tsoc":"https://keithyau:thomas@git.coding.net/keithyau/deploymenttsoc.git",
-        "orderserver":"https://keithyau:thomas@git.coding.net/keithyau/orderserver.git",
-        "wmserver":"https://keithyau:thomas@git.coding.net/keithyau/WMServer.git",
-        "reportingsys":"https://keithyau:thomas@git.coding.net/chankongching/reports.git",
-        "syncoc":"https://keithyau:thomas@git.coding.net/keithyau/syncoc.git"
+        "de": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+          "branch": "master"
+        },
+        "erp": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-erp.git",
+          "branch": "master"
+        },
+        "crm": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
+          "branch": "master"
+        },
+        "pmt": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
+          "branch": "master"
+        },
+        "mkt": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-mkt.git",
+          "branch": "master"
+        },
+        "oc": {
+          "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
+          "branch": "master"
+        },
+        "tsoc": {
+          "giturl": "git@git.coding.net:keithyau/deploymenttsoc.git",
+          "branch": "master"
+        },
+        "orderserver": {
+          "giturl": "git@git.coding.net:keithyau/orderserver.git",
+          "branch": "master"
+        },
+        "wmserver": {
+          "giturl": "git@git.coding.net:keithyau/WMServer.git",
+          "branch": "master"
+        },
+        "reportingsys": {
+          "giturl": "git@git.coding.net:chankongching/reports.git",
+          "branch": "master"
+        },
+        "syncoc": {
+          "giturl": "git@git.coding.net:keithyau/syncoc.git",
+          "branch": "master"
+        }
       },
       "runtime":{
         "de":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
+          "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
           "mountlocal":"localdir",
           "mountdocker":"/var/www/html",
-          "port":"80"
+          "ports":"9081:80"
         },
         "erp":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
+          "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
           "mountlocal":"localdir",
           "mountdocker":"/var/www/html",
-          "port":"80"
+          "ports":"9082:80"
         },
         "crm":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/drupalshanghaitime",
+          "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
           "mountlocal":"localdir",
           "mountdocker":"/var/www/html",
-          "port":"80"
+          "ports":"9083:80"
         },
         "pmt":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/php7shanghaitime",
+          "image":"dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
           "mountlocal":"localdir",
           "mountdocker":"/var/www/html",
-          "port":"80"
+          "ports":"9084:80"
         },
         "mkt":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/php7shanghaitime",
+          "image":"dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
           "mountlocal":"localdir",
           "mountdocker":"/var/www/html",
-          "port":"80"
+          "ports":"9085:80"
         },
         "oc":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal":"localdir",
           "mountdocker":"/usr/local/tomcat/webapps",
-          "port":"8080"
+          "ports":"9086:8080"
         },
         "tsoc":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal":"localdir",
           "mountdocker":"/usr/local/tomcat/webapps",
-          "port":"8080"
+          "ports":"9087:8080"
         },
         "orderserver":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal":"localdir",
           "mountdocker":"/usr/local/tomcat/webapps",
-          "port":"8080"
+          "ports":"9088:8080"
         },
         "wmserver":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal":"localdir",
           "mountdocker":"/usr/local/tomcat/webapps",
-          "port":"8080"
+          "ports":"9089:8080"
         },
         "reportingsys":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/laravelnewrelic",
-          "port":"80",
+          "image":"dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
           "mountlocal":"localdir",
-          "mountdocker":"/var/www/html/"
+          "mountdocker":"/var/www/html/",
+          "ports":"9090:80"
         },
         "syncoc":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5001/keithyau/tomcatsparkpadglusternewrelic",
+          "image":"dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal":"localdir",
           "mountdocker":"/usr/local/tomcat/webapps",
-          "port":"8080"
+          "ports":"9091:8080"
         }
       }
     }

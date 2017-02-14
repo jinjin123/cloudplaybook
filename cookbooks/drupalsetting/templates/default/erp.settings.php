@@ -4,9 +4,9 @@ $databases = array (
   'default' => array (
     'default' => array (
       'database' => 'erp',
-      'username' => '<%= @username %>',
-      'password' => '<%= @password %>',
-      'host' => '<%= @host %>',
+      'username' => 'keithyau',
+      'password' => 'thomas123',
+      'host' => 'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
@@ -15,9 +15,9 @@ $databases = array (
   'slave' => array (
     'default' => array (
       'database' => 'cc2',
-      'username' => '<%= @username %>',
-      'password' => '<%= @password %>',
-      'host' => '<%= @host %>',
+      'username' => 'terry',
+      'password' => 'Abcd@1234~',
+      'host' => '172.16.103.189',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',

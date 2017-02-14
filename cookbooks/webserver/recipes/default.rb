@@ -12,10 +12,37 @@
 # Assign docker access right to user
 #yum_package 'docker'
 
+include_recipe 'yum'
+
 docker_installation_script 'default' do
+  retries 3
+  ignore_failure true
   repo 'main'
   script_url 'https://get.daocloud.io/docker'
   action :create
+end
+
+ruby_block "check_docker" do
+  block do
+  #tricky way to load this Chef::Mixin::ShellOut utilities
+    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut) 
+    command = 'command -v docker| wc -l'
+    command_out = shell_out(command)
+    node.set['docker_exists'] = command_out.stdout
+  end
+  action :create
+end
+
+ruby_block 'install_docker_iffail' do
+  block do
+    if not node['docker_exists'].to_i > 0  
+      resources(:yum_package => "docker").run_action(:install)
+    end
+  end
+end
+
+yum_package 'docker' do
+  action :nothing
 end
 
 # Start cgconfig service to meet docker prerequisite 
@@ -28,7 +55,7 @@ end
 
 # Assign docker access right to user
 user = node[:webserver][:code_owner]
-if (defined?(node[:deployuser])).nil?
+if defined?(node[:deployuser])
     user = node[:deployuser]
 end
 

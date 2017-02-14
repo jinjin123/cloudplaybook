@@ -3,10 +3,10 @@
 $databases = array (
   'default' => array (
     'default' => array (
-      'database' => 'pmt',
-      'username' => '<%= @username %>',
-      'password' => '<%= @password %>',
-      'host' => '<%= @host %>',
+      'database' => 'payment',
+      'username' => 'keithyau',
+      'password' => 'thomas123',
+      'host' => 'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
