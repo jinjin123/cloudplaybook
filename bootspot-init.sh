@@ -179,7 +179,6 @@ cat <<EOF > roles/singleusercreate.json
       "recipe[glusterfs]",
       "recipe[webserver]",
       "recipe[deploycode]",
-      "recipe[drupalsetting]",
       "recipe[bootdev_customdomain]"
    ],
    "env_run_lists":{
