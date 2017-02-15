@@ -127,8 +127,8 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
         mode 0644
         retries 3
         retry_delay 30
-        owner "root"
-        group "root"
+        owner "ec2-user"
+        group "ec2-user"
         action :create
         ignore_failure true
   end rescue NoMethodError
