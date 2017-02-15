@@ -1,0 +1,51 @@
+{
+"name": "chefclient-kyligence-monitor",
+  "description": "Role to deploy monitoring for kyligence",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser" : "ec2-user",
+    "projectname": "kyligence",
+    "docker": {
+        "privaterepo":"dockerpriv.kybot.io:5002",
+        "username":"keithyau",
+        "password":"thomas123"
+    },
+    "deploycode": {
+       "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
+       "localfolder": {
+         "cadvisor": "nodownload",
+         "nodeexporter": "nodownload" 
+      },
+      "runtime": {
+         "cadvisor":{
+             "tag":"latest",
+             "image":"dockerpriv.kybot.io:5002/keithyau/cadvisor",
+             "mountlocal":"/",
+             "mountdocker":"/rootfs:root,/var/run:/var/run:rw,/sys:/sys:ro,/var/lib/docker/:/var/lib/docker:ro",
+             "ports":"8080"
+         },
+         "nodeexporter":{
+             "tag":"latest",
+             "image":"dockerpriv.kybot.io:5002/keithyau/node-exporter",
+             "mountlocal":"/",
+             "mountdocker":"/root",
+             "ports":"9100"
+         }
+      }
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[glusterfs]",
+    "recipe[diskmount]",
+    "recipe[deploycode]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists": {
+  }
+}
