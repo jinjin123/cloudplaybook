@@ -189,7 +189,10 @@ cat <<EOF > roles/singleusercreate.json
 
 EOF
 
-
-
 #Finally run chef and init all setups E.G. Docker install
 chef-solo -c ./settings/solo.rb -o "role[chefsoloinit]"
+
+#ToDo: Put it into Chef
+#Init datadog for monitoring, with the machine unique identifier
+dockerid=`docker run -d --hostname shadowdog_${thisuniqueid} --name shadowdog_${thisuniqueid} -v /var/run/docker.sock:/var/run/docker.sock:ro -v /proc/:/host/proc/:ro -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro -e API_KEY=24ddff8c136abf711cfe1cf24fbdb684 datadog/docker-dd-agent:latest`
+
