@@ -53,19 +53,25 @@ include_recipe "route53"
 node[:deploycode][:runtime].each do |dockername,dockeruri|
 
   domain_type = 'CNAME';
- 
+
+  #Assign different values for CNAME and A 
   if defined?(node[:domain_type])
+    #For A from self_domain.json
     domain_type = node[:domain_type]
+    this_server = node[:thisserver]
+  else
+    #From docker deploy json 
+    this_server = node[:bootspot]
   end
 
   route53_record "create #{} record" do
     name  "#{node[:domainprefix]}.#{node[:domainname]}"
-    value node[:thisserver]
+    value this_server
     type  "#{domain_type}"
 
     # The following are for routing policies
     # Azzume only 1 account which is shadowdock.com
-    set_identifier "#{node[:thisserver]}"
+    set_identifier "#{this_server]}"
     zone_id               "Z3ON58C3QO6KKR"
     aws_access_key_id     "AKIAJM5LVPWZENY6JO7Q"
     aws_secret_access_key "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"
