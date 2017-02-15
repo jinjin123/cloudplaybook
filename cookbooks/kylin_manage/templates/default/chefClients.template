@@ -574,7 +574,7 @@
                                             {
                                                 "Ref": "RoleName"
                                             },
-                                            "]'"
+                                            "]' >> /var/log/cfn-init.logs"
                                         ]
                                     ]
                                 },
