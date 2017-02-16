@@ -50,7 +50,11 @@ end
 if defined?(node[:deployuser]) 
   user = node[:deployuser]
 
+if user.include?("root")
+  code_owner_home="root"
+else
   code_owner_home="/home/#{user}"
+end
 
   file "#{code_owner_home}/.ssh/authorized_keys" do
    backup 5

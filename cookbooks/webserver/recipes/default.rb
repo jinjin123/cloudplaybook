@@ -99,23 +99,32 @@ end
 
 etchosts = []
 node[:deploycode][:runtime].each do |localfolder,docker|
-    #if tagged localdir, give the localfolder as mount poinT 
-    if docker[:mountlocal].include?("localdir")
-      #Override dir to custom url
-      dir = node[:deploycode][:basedirectory] + localfolder
+  #if tagged localdir, give the localfolder as mount poinT 
+  printf "MountLocal variable equal = " + docker[:mountlocal]
+  if docker[:mountlocal].eql?("localdir")
+    #Override dir to custom url
+    dir = node[:deploycode][:basedirectory] + localfolder
+    bindvolume = [ dir + ":#{docker[:mountdocker]}" ]
+  else
+    if docker[:mountlocal].eql?("multipledir")
+      bindvolume = docker[:mountdocker]
     else
       dir = docker[:mountlocal]
+      bindvolume = [ dir + ":#{docker[:mountdocker]}" ]
     end
-
-  #Prepare directories
-  directory dir do
-    owner user
-    group user
-    mode '0755'
-    recursive true
-    action :create
   end
 
+  if not docker[:mountlocal].eql?("multipledir") 
+    #Prepare directories
+    directory dir do
+      owner user
+      group user
+      mode '0755'
+      recursive true
+      action :create
+    end
+  end
+    
   container_name = "#{node[:projectname]}_" + localfolder
   if container_name.eql?("#{node[:projectname]}_mysql") 
     #Add the first docker
@@ -127,7 +136,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       action :run
       #ignore_failure true
       port docker[:ports]
-      binds [ dir + ":#{docker[:mountdocker]}" ]
+      binds [ bindvolume ]
     end
     etchosts.push("#{container_name}:#{container_name}")
     #Break and dont create mysql proxy.conf
@@ -145,7 +154,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
 #      autoremove true
       action :run
       port docker[:ports]
-      binds [ dir + ":#{docker[:mountdocker]}" ]
+      volumes bindvolume
     end
     etchosts.push("#{container_name}:#{container_name}")
   end
