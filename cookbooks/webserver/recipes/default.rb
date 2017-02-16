@@ -103,18 +103,14 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   printf "MountLocal variable equal = " + docker[:mountlocal]
   if docker[:mountlocal].eql?("localdir")
     #Override dir to custom url
-    printf "localfolder called-------------------------------------------------------------------"
     dir = node[:deploycode][:basedirectory] + localfolder
-    bindvolume = dir + ":#{docker[:mountdocker]}"
+    bindvolume = [ dir + ":#{docker[:mountdocker]}" ]
   else
     if docker[:mountlocal].eql?("multipledir")
-      printf "multiple mount called----------------------------------------------------------------"
-      printf docker[:mountdocker]
-      bindvolume = "#{docker[:mountdocker]}".to_s.split ","
+      bindvolume = docker[:mountdocker]
     else
-      printf "Single mount called------------------------------------------------------------------"
       dir = docker[:mountlocal]
-      bindvolume = dir + ":#{docker[:mountdocker]}"
+      bindvolume = [ dir + ":#{docker[:mountdocker]}" ]
     end
   end
 
@@ -158,7 +154,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
 #      autoremove true
       action :run
       port docker[:ports]
-      binds [ bindvolume ]
+      volumes bindvolume
     end
     etchosts.push("#{container_name}:#{container_name}")
   end
