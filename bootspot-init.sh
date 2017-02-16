@@ -179,7 +179,6 @@ cat <<EOF > roles/singleusercreate.json
       "recipe[glusterfs]",
       "recipe[webserver]",
       "recipe[deploycode]",
-      "recipe[drupalsetting]",
       "recipe[bootdev_customdomain]"
    ],
    "env_run_lists":{
@@ -189,7 +188,16 @@ cat <<EOF > roles/singleusercreate.json
 
 EOF
 
-
-
 #Finally run chef and init all setups E.G. Docker install
 chef-solo -c ./settings/solo.rb -o "role[chefsoloinit]"
+
+#ToDo: Put it into Chef
+#Init datadog for monitoring, with the machine unique identifier
+#Docker agent not working while change the hostname
+docker rm -f shadowdog_$thisuniqueid
+dockerid=`docker run -d --name shadowdog_${thisuniqueid} -v /var/run/docker.sock:/var/run/docker.sock:ro -v /proc/:/host/proc/:ro -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro -e API_KEY=24ddff8c136abf711cfe1cf24fbdb684 datadog/docker-dd-agent:latest`
+
+echo $dockerid
+
+#Rewrite record if there is a monitor id
+ownip=`/usr/bin/curl --user "keithyau@163.com":thomas123 -F "dd_dockerid=${dockerid}" -F "linux_uid=${thisuniqueid}" -F 'spot_sshpass=thomas1234!' -F "spot_sshroot=root" http://d.bootdev.com/spot-register`

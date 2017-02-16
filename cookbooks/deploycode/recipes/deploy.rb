@@ -34,6 +34,8 @@ end
 
 if node[:deployuser] && not((node[:deployuser]).empty?)
   user = node[:deployuser]
+  node.default[:deploycode][:code_owner] = node[:deployuser]
+  node.default[:deploycode][:code_group] = node[:deployuser]
 else
   user = node[:deploycode][:code_owner]
 end
@@ -48,11 +50,23 @@ end
 if defined?(node[:deployuser]) 
   user = node[:deployuser]
 
+if user.include?("root")
+  code_owner_home="root"
+else
   code_owner_home="/home/#{user}"
+end
+
+  file "#{code_owner_home}/.ssh/authorized_keys" do
+   backup 5
+   mode 0600
+   owner user
+   group user
+   action :touch
+  end
 
   directory "#{code_owner_home}/.ssh" do
-    owner node[:deploycode][:code_owner]
-    group node[:deploycode][:code_group]
+    owner user
+    group user
     mode '0700'
     recursive true
     action :create
@@ -61,8 +75,8 @@ if defined?(node[:deployuser])
   template "#{code_owner_home}/.ssh/config" do
     source "config.erb"
     mode 0600
-    owner node[:deploycode][:code_owner] 
-    group node[:deploycode][:code_group]
+    owner user
+    group user
     retries 3
     retry_delay 30
   end
@@ -70,8 +84,8 @@ if defined?(node[:deployuser])
   template "#{code_owner_home}/.ssh/gitkey" do
     source "gitkey.erb"
     mode 0600
-    owner node[:deploycode][:code_owner]
-    group node[:deploycode][:code_group]
+    owner user
+    group user
     retries 3
     retry_delay 30
   end
@@ -79,8 +93,8 @@ if defined?(node[:deployuser])
   template "#{code_owner_home}/.ssh/gitkey.pub" do
     source "gitkey.pub.erb"
     mode 0600
-    owner node[:deploycode][:code_owner]
-    group node[:deploycode][:code_group]
+    owner user
+    group user
     retries 3
     retry_delay 30
   end

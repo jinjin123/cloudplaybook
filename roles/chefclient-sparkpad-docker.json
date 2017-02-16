@@ -3,6 +3,7 @@
   "description":"Role json file for starting and maintaining Sparkpad Generic Platform",
   "json_class":"Chef::Role",
   "default_attributes":{
+    "deployuser" : "ec2-user",
     "projectname": "sparkpadgp",
     "docker": {
         "privaterepo":"dockerpriv.kybot.io:5002",
