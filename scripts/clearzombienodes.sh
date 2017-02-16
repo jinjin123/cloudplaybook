@@ -12,8 +12,8 @@ do
   /usr/bin/knife ssh "name:$x" "echo \"exists!\"" > /tmp/check_chef.txt
   if [ ! `cat /tmp/check_chef.txt|grep exists|wc -l` -eq 1 ];
   then
-    ADDRESS=`/usr/bin/knife node show $x -a fqdn|grep fqdn|awk {'print $2'}`
-    ping -c 1 $ADDRESS
+    export ADDRESS=`/usr/bin/knife node show $x -a fqdn|grep fqdn|awk {'print $2'}`
+    ping -c 1 $ADDRESS >> /dev/null
     if [ $? -ne 0 ]; then    
       echo $x" does not exists! Will be removed."
       /usr/bin/knife node delete $x -y
@@ -31,9 +31,9 @@ do
   /usr/bin/knife ssh "name:$x" "echo \"exists!\"" > /tmp/check_chef.txt
   if [ ! `cat /tmp/check_chef.txt|grep exists|wc -l` -eq 1 ];
   then
-    ADDRESS=`/usr/bin/knife node show $x -a fqdn|grep fqdn|awk {'print $2'}`
-    ping -c 1 $ADDRESS
-    if [ $? -ne 0 ]; then 
+    export ADDRESS=`/usr/bin/knife node show $x -a fqdn|grep fqdn|awk {'print $2'}`
+    ping -c 1 $ADDRESS >> /dev/null
+    if [ $? -ne 0 ]; then
       echo $x" does not exists! Will be removed."
       /usr/bin/knife client delete $x -y
     else
