@@ -109,16 +109,8 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   else
     if docker[:mountlocal].eql?("multipledir")
       printf "multiple mount called----------------------------------------------------------------"
-      bindvolume = docker[:mountdocker].split(',')
-      
-#      result = bindvolume.find(1)
-#      printf "Type of bindvolume = " + result.class.name + "\n"
-#      ruby_block 'changestringtoarray' do
-#        block do
-          #type(bindvolume)
-#          bindvolume = bindvolume.split(',')
-#        end
-#      end
+      printf docker[:mountdocker]
+      bindvolume = "#{docker[:mountdocker]}".to_s.split ","
     else
       printf "Single mount called------------------------------------------------------------------"
       dir = docker[:mountlocal]
