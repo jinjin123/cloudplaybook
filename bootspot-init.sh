@@ -193,5 +193,8 @@ chef-solo -c ./settings/solo.rb -o "role[chefsoloinit]"
 
 #ToDo: Put it into Chef
 #Init datadog for monitoring, with the machine unique identifier
-dockerid=`docker run -d --hostname shadowdog_${thisuniqueid} --name shadowdog_${thisuniqueid} -v /var/run/docker.sock:/var/run/docker.sock:ro -v /proc/:/host/proc/:ro -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro -e API_KEY=24ddff8c136abf711cfe1cf24fbdb684 datadog/docker-dd-agent:latest`
+#Docker agent not working while change the hostname
+dockerid=`docker run -d --name shadowdog_${thisuniqueid} -v /var/run/docker.sock:/var/run/docker.sock:ro -v /proc/:/host/proc/:ro -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro -e API_KEY=24ddff8c136abf711cfe1cf24fbdb684 datadog/docker-dd-agent:latest`
 
+#Rewrite record if there is a monitor id
+ownip=`/usr/bin/curl --user "keithyau@163.com":thomas123 -F "dd_dockerid=${dockerid}" -F "linux_uid=${thisuniqueid}" -F 'spot_sshpass=thomas1234!' -F "spot_sshroot=root" http://d.bootdev.com/spot-register`
