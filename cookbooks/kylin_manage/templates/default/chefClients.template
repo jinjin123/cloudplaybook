@@ -463,7 +463,11 @@
                                         "",
                                         [
                                             "{\n",
-                                            "\"run_list\": \"role[chefclient-base]\"\n",
+                                            "\"run_list\": \"role[",
+                                            {
+                                                "Ref":"RoleName"
+                                            },
+                                            "]\"\n",
                                             "}\n",
                                             ""
                                         ]
@@ -561,24 +565,19 @@
                                 "command": "echo \"ssl_verify_mode :verify_none\" >> /etc/chef/client.rb;echo \"validation_client_name  'ec2-user'\" >> /etc/chef/client.rb;echo \"validation_key '/etc/chef/ec2-user.pem'\" >> /etc/chef/client.rb"
                             },
                             "48registernode": {
-                                "command": {
-                                    "Fn::Join": [
+                                "command":{
+                                    "Fn::Join":[
                                         "",
                                         [
                                             "/usr/bin/chef-client --server ",
                                             {
-                                                "Ref": "ChefServerURL"
+                                              "Ref":"ChefServerURL"
                                             },
-                                            "/organizations/admin",
-                                            " -o 'role[",
-                                            {
-                                                "Ref": "RoleName"
-                                            },
-                                            "]'"
+                                            "/organizations/admin -j /etc/chef/client.json >> /var/log/cfn-init.log"
                                         ]
                                     ]
                                 },
-                                "cwd": "/home/ec2-user"
+                                "cwd":"/home/ec2-user"
                             }
                         }
                     }
