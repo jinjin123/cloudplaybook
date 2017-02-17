@@ -155,6 +155,10 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       action :run
       port docker[:ports]
       volumes bindvolume
+      cap_add 'SYS_ADMIN' 
+      devices []
+      privileged true 
+#{["/dev/fuse"]}
     end
     etchosts.push("#{container_name}:#{container_name}")
   end
