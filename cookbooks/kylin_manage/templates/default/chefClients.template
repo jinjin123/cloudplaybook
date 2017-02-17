@@ -456,26 +456,6 @@
                                 "mode": "000644",
                                 "group": "root",
                                 "owner": "root"
-                            },
-                            "/etc/chef/client.json": {
-                                "content": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "{\n",
-                                            "\"run_list\": \"role[",
-                                            {
-                                                "Ref":"RoleName"
-                                            },
-                                            "]\"\n",
-                                            "}\n",
-                                            ""
-                                        ]
-                                    ]
-                                },
-                                "mode": "000644",
-                                "group": "root",
-                                "owner": "root"
                             }
                         },
                         "commands": {
@@ -544,20 +524,6 @@
                                 "command": "tempVar=$( /home/ec2-user/tools/ec2-metadata -i | cut -d' ' -f2 );echo node_name \\'${tempVar}\\' >> /etc/chef/client.rb;echo no_lazy_load true>> /etc/chef/client.rb",
                                 "cwd": "/home/ec2-user/tools"
                             },
-                            "12writeRoleName": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "echo \"",
-                                            {
-                                                "Ref": "RoleName"
-                                            },
-                                            "\" > /etc/chef/role.txt"
-                                        ]
-                                    ]
-                                }
-                            },
                             "20geminstallvault": {
                                 "command": "#aws s3 cp s3://bootdevcn/chef-vault-2.6.1.gem ~/chef-vault-2.6.1.gem;#/usr/bin/gem install --local ~/chef-vault-2.6.1.gem"
                             },
@@ -573,7 +539,11 @@
                                             {
                                               "Ref":"ChefServerURL"
                                             },
-                                            "/organizations/admin -j /etc/chef/client.json >> /var/log/cfn-init.log"
+                                            "/organizations/admin -r 'role[ ",
+                                            {
+                                                "Ref": "RoleName"
+                                            },
+                                            "]' >> /var/log/cfn-init.log"
                                         ]
                                     ]
                                 },
