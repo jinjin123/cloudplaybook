@@ -81,10 +81,10 @@ basedir = node[:deploycode][:basedirectory]
         ignore_failure true
   end
 
-node[:deploycode][:localfolder].each do |localfolder,giturl|
+node[:deploycode][:localfolder].each do |localfolder,gitinfo|
   dir = basedir + localfolder
   # Break if it is not Drupal
-  if giturl.include?("drupal")
+  if gitinfo[:giturl].include?("drupal")
   bash "mount_if_gluster" do
     user "root"
     cwd "/tmp"
