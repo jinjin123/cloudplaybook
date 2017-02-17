@@ -45,7 +45,7 @@
          'db_host'=>'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
          'db_name'=>'keithyau',
          'db_pass'=>'thomas123',
-         'db_database'=>'syncedoc',
+         'db_database'=>'laravel',
      ],
 ];
 

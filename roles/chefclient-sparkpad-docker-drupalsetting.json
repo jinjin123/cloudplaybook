@@ -1,5 +1,5 @@
 {
-  "name":"chefclient-sparkpad-docker",
+  "name":"chefclient-sparkpad-docker-drupalsetting",
   "description":"Role json file for starting and maintaining Sparkpad Generic Platform",
   "json_class":"Chef::Role",
   "default_attributes":{
@@ -144,14 +144,7 @@
   },
   "chef_type":"role",
   "run_list":[
-    "recipe[git]",
-    "recipe[build-essential]",
-    "recipe[basicservice]",
-    "recipe[glusterfs]",
-    "recipe[diskmount]",
-    "recipe[deploycode]",
-    "recipe[drupalsetting]",
-    "recipe[webserver]"
+    "recipe[drupalsetting]"
   ],
   "env_run_lists":{
 
