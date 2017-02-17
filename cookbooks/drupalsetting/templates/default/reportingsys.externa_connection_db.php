@@ -40,6 +40,13 @@
          'db_database'=>'syncedoc',
      ],
 
+     //更新门店用到的数据库
+     'datastore_db_connect'=>[
+         'db_host'=>'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
+         'db_name'=>'keithyau',
+         'db_pass'=>'thomas123',
+         'db_database'=>'syncedoc',
+     ],
 ];
 
 

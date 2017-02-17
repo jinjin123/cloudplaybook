@@ -149,9 +149,9 @@
     "recipe[basicservice]",
     "recipe[glusterfs]",
     "recipe[diskmount]",
-    "recipe[webserver]",
     "recipe[deploycode]",
-    "recipe[drupalsetting]"
+    "recipe[drupalsetting]",
+    "recipe[webserver]"
   ],
   "env_run_lists":{
 
