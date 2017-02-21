@@ -150,7 +150,6 @@
     "recipe[glusterfs]",
     "recipe[diskmount]",
     "recipe[deploycode]",
-    "recipe[drupalsetting]",
     "recipe[webserver]"
   ],
   "env_run_lists":{
