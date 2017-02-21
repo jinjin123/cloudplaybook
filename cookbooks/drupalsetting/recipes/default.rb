@@ -116,9 +116,11 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
     #temp fix before having glusterfs
     mkdir #{dir}/sites/default/files
     chmod 777 #{dir}/sites/default/files
+    chown -R ec2-user:ec2-user #{dir}/sites/default/files
     #Set file permission anyway, fix docker issue
     mkdir #{dir}/sites/default/private
     chmod 777 #{dir}/sites/default/private
+    chown -R ec2-user:ec2-user #{dir}/sites/default/private
     EOH
   end
 
