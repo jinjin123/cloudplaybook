@@ -1,5 +1,6 @@
 {
   "name":"chefclient-sparkpad-docker",
+  "tz": "Asia/Shanghai",
   "description":"Role json file for starting and maintaining Sparkpad Generic Platform",
   "json_class":"Chef::Role",
   "default_attributes":{
@@ -144,6 +145,7 @@
   },
   "chef_type":"role",
   "run_list":[
+    "recipe[timezone-ii]",
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
