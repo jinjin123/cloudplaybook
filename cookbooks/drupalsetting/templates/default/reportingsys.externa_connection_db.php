@@ -11,7 +11,7 @@
     'eat_oc_db_connect'=>[
         'db_host'=>'<%= @host %>',
         'db_name'=>'<%= @username %>',
-        'db_pass'=>''<%= @password %>',
+        'db_pass'=>'<%= @password %>',
         'db_database'=>'syncedoc',
      ],
      //外卖oc
@@ -19,7 +19,7 @@
      'takeout_oc_db_connect'=>[
         'db_host'=>'<%= @host %>',
         'db_name'=>'<%= @username %>',
-        'db_pass'=>''<%= @password %>',
+        'db_pass'=>'<%= @password %>',
         'db_database'=>'gfsoc',
      ],
 
@@ -28,7 +28,7 @@
     'erp_db_connect'=>[
         'db_host'=>'<%= @host %>',
         'db_name'=>'<%= @username %>',
-        'db_pass'=>''<%= @password %>',
+        'db_pass'=>'<%= @password %>',
         'db_database'=>'erp',
     ],
 
@@ -36,7 +36,7 @@
      'loc_db_connect'=>[
         'db_host'=>'<%= @host %>',
         'db_name'=>'<%= @username %>',
-        'db_pass'=>''<%= @password %>',
+        'db_pass'=>'<%= @password %>',
         'db_database'=>'oc',
      ],
 
