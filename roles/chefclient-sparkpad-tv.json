@@ -1,0 +1,68 @@
+{
+   "name":"chefclient-sparkpad-tv",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"sparkpadtv",
+      "docker": {
+          "privaterepo":"dockerpriv.kybot.io:5002",
+          "username":"keithyau",
+          "password":"thomas123"
+      },
+      "deploycode":{
+         "basedirectory":"/root/tools/code/",
+         "default":{
+            "variables":{
+               "dbuser":"root",
+               "dbpass":"thomas123",
+               "dbhost":"shadowdock_mysql"
+            }
+         },
+         "configuration":{
+         },
+         "localfolder":{
+            "mysql":"nodownload",
+            "drupa_sparkpos":{
+              "giturl": "git@git.coding.net:dyx_raptor/drupa_sparkpos.git",
+              "branch": "master"
+            }
+         },
+         "runtime":{
+            "mysql":{
+               "tag":"latest",
+               "image":"mysql",
+               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
+               "mountlocal":"/root/mysqldir",
+               "mountdocker":"/var/lib/mysql",
+               "ports":[
+                  "3306:3306"
+               ]
+            },
+            "drupa_sparkpos":{
+                "tag":"latest",
+                "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+                "mountlocal":"localdir",
+                "mountdocker":"/var/www/html",
+                "ports":"80:80"
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[glusterfs]",
+      "recipe[deploycode]",
+      "recipe[drupalsetting]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}
