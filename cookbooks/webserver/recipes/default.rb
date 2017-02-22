@@ -136,7 +136,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       action :run
       #ignore_failure true
       port docker[:ports]
-      binds bindvolume
+      volumes bindvolume
     end
     etchosts.push("#{container_name}:#{container_name}")
     #Break and dont create mysql proxy.conf
