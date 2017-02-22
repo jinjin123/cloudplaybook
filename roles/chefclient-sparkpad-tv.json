@@ -30,7 +30,7 @@
               },
               "variables" : {
                 "dbhost": "47.91.156.91",
-                "dbuser": "keithyau",
+                "dbuser": "root",
                 "dbpass": "thomas123"
               }
             } 

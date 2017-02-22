@@ -3,10 +3,10 @@
 $databases = array (
   'default' => array (
     'default' => array (
-      'database' => 'de',
-      'username' => 'keithyau',
-      'password' => 'thomas123',
-      'host' => '47.91.156.91',
+      'database' => "<%= :dbname %>",
+      'username' => "<%= :username %>",
+      'password' => "<%= :password %>",
+      'host' => "<%= :host %>",
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
