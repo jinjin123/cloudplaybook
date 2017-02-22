@@ -11,7 +11,7 @@
           "password":"thomas123"
       },
       "deploycode":{
-         "basedirectory":"/root/tools/code/",
+         "basedirectory":"/root/tools/code",
          "default":{
             "variables":{
                "dbuser":"root",

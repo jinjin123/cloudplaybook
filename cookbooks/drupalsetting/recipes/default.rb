@@ -53,7 +53,7 @@ node[:deploycode][:configuration].each do |appname,spec|
         group "root"
         action :create
         force_unlink true
-#        ignore_failure true
+        ignore_failure true
     end
   end
 
