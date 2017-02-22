@@ -6,23 +6,12 @@ $databases = array (
       'database' => 'de',
       'username' => 'keithyau',
       'password' => 'thomas123',
-      'host' => 'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
+      'host' => '47.91.156.91',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
     ),
-  ),
-  'erp' => array (
-    'default' => array (
-      'database' => 'erp',
-      'username' => 'keithyau',
-      'password' => 'thomas123',
-      'host' => 'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
-      'port' => '',
-      'driver' => 'mysql',
-      'prefix' => '',
-    ),
-  ),
+  )
 );
 
 $update_free_access = FALSE;
