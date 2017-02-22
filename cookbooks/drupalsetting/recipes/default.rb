@@ -26,7 +26,7 @@ node[:deploycode][:configuration].each do |appname,spec|
   spec[:settings].each do | sourcefile,dest |
 
     #If not set variables, use default
-    if (defined?(spec[:variables])).nil?
+    if not (defined?(spec[:variables])).nil?
       dbhost = spec[:variables][:dbhost]
       dbuser = spec[:variables][:dbuser]
       dbpass = spec[:variables][:dbpass]
