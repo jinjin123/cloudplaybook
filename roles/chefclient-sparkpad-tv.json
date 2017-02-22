@@ -28,7 +28,7 @@
               "settings": {
                 "sparkpad-tv.settings.php" : "sites/default/settings.php"
               },
-              "variables" {
+              "variables" : {
                 "dbhost": "47.91.156.91",
                 "dbuser": "keithyau",
                 "dbpass": "thomas123"
