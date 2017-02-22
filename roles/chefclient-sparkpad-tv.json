@@ -12,13 +12,6 @@
       },
       "deploycode":{
          "basedirectory":"/root/tools/code/",
-         "default":{
-            "variables":{
-               "dbuser":"root",
-               "dbpass":"thomas123",
-               "dbhost":"shadowdock_mysql"
-            }
-         },
          "configuration":{
             "drupa_sparkpos": {
               "folders": {
