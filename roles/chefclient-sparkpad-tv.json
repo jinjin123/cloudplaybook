@@ -20,6 +20,20 @@
             }
          },
          "configuration":{
+            "drupa_sparkpos": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" "777"
+              },
+              "settings": {
+                "sparkpad-tv.settings.php" : "sites/default/settings.php"
+              },
+              "variables" {
+                "dbhost": "47.91.156.91",
+                "dbuser": "keithyau",
+                "dbpass": "thomas123"
+              }
+            } 
          },
          "localfolder":{
             "mysql":"nodownload",
