@@ -42,7 +42,7 @@ node[:deploycode][:configuration].each do |appname,spec|
         :host => dbhost,
         :username => dbuser,
         :password => dbpass,
-        :dbname => dir
+        :dbname => appname
       )
         #The filename already in template folder
         source sourcefile
