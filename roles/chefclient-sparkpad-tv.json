@@ -23,7 +23,7 @@
             "drupa_sparkpos": {
               "folders": {
                 "sites/default/files" : "777",
-                "sites/default/privates" "777"
+                "sites/default/privates" : "777"
               },
               "settings": {
                 "sparkpad-tv.settings.php" : "sites/default/settings.php"
