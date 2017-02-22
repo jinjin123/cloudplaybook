@@ -6,7 +6,7 @@ $databases = array (
       'database' => "<%= @dbname %>",
       'username' => "<%= @username %>",
       'password' => "<%= @password %>",
-      'host' => "<%= :host %>",
+      'host' => "<%= @host %>",
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
