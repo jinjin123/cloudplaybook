@@ -1,5 +1,5 @@
 {
-   "name":"chefclient-docker-solo",
+   "name":"chefclient-docker-proxy-solo",
    "description":"",
    "json_class":"Chef::Role",
    "default_attributes":{
