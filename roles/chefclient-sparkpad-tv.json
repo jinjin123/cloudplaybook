@@ -19,7 +19,7 @@
                 "sites/default/privates" : "777"
               },
               "settings": {
-                "sparkpos.settings.php" : "sites/default/settings.php"
+                "general.settings.php" : "sites/default/settings.php"
               },
               "variables" : {
                 "dbhost": "47.91.156.91",
@@ -33,7 +33,7 @@
                 "sites/default/privates" : "777"
               },
               "settings": {
-                "sparkpad_tvbackend_drupal.settings.php" : "sites/default/settings.php"
+                "general.settings.php" : "sites/default/settings.php"
               },
               "variables" : {
                 "dbhost": "47.91.156.91",
@@ -51,7 +51,7 @@
             "sparkpad_tvbackend_drupal":{
               "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
               "branch": "master"
-            },
+            }
          },
          "runtime":{
             "mysql":{
