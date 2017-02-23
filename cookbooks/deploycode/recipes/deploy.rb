@@ -51,7 +51,7 @@ if defined?(node[:deployuser])
   user = node[:deployuser]
 
 if user.include?("root")
-  code_owner_home="root"
+  code_owner_home="/root"
 else
   code_owner_home="/home/#{user}"
 end
