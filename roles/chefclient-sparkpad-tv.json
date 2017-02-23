@@ -11,15 +11,29 @@
           "password":"thomas123"
       },
       "deploycode":{
-         "basedirectory":"/root/tools/code/",
-         "configuration":{
+        "basedirectory":"/root/tools/code/",
+        "configuration":{
             "drupa_sparkpos": {
               "folders": {
                 "sites/default/files" : "777",
                 "sites/default/privates" : "777"
               },
               "settings": {
-                "sparkpad-tv.settings.php" : "sites/default/settings.php"
+                "sparkpos.settings.php" : "sites/default/settings.php"
+              },
+              "variables" : {
+                "dbhost": "47.91.156.91",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            },
+            "sparkpad_tvbackend_drupal": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" : "777"
+              },
+              "settings": {
+                "sparkpad_tvbackend_drupal.settings.php" : "sites/default/settings.php"
               },
               "variables" : {
                 "dbhost": "47.91.156.91",
@@ -27,13 +41,17 @@
                 "dbpass": "thomas123"
               }
             } 
-         },
-         "localfolder":{
+        },
+        "localfolder":{
             "mysql":"nodownload",
             "drupa_sparkpos":{
               "giturl": "git@git.coding.net:dyx_raptor/drupa_sparkpos.git",
               "branch": "master"
-            }
+            },
+            "sparkpad_tvbackend_drupal":{
+              "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
+              "branch": "master"
+            },
          },
          "runtime":{
             "mysql":{
