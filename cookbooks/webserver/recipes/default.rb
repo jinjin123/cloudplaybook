@@ -133,6 +133,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       tag docker[:tag]
       kill_after 3
       env docker[:env]
+      command '--sql-mode="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"'
       action :run
       #ignore_failure true
       port docker[:ports]
