@@ -212,5 +212,8 @@ if defined?(node[:monitoring])
       end
       action :create
   end
-  printf node['dockerinfo']
+  log 'message' do
+    message node['dockerinfo']
+    level :info
+  end
 end
