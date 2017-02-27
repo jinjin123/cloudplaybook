@@ -202,18 +202,37 @@ end
 
 
 if defined?(node[:monitoring])
-  ruby_block "getcurrentdocker" do
-      block do
-          #tricky way to load this Chef::Mixin::ShellOut utilities
-          Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
-          command = 'docker ps|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\''
-          command_out = shell_out(command)
-          node.set['dockerinfo'] = command_out.stdout
-      end
-      action :create
+  results = "/tmp/dockerinfo.txt"
+  file results do
+    action :delete
   end
-  log 'message' do
-    message node['dockerinfo']
-    level :info
+
+  cmd = "docker ps|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\'"
+  bash cmd do
+    code <<-EOH
+    #{cmd} &> #{results}
+    EOH
   end
+
+  ruby_block "Results" do
+    only_if { ::File.exists?(results) }
+    block do
+      print "\n"
+      print File.read(results)
+    end
+  end
+  # ruby_block "getcurrentdocker" do
+  #     block do
+  #         #tricky way to load this Chef::Mixin::ShellOut utilities
+  #         Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
+  #         command = 'docker ps|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\''
+  #         command_out = shell_out(command)
+  #         node.set['dockerinfo'] = command_out.stdout
+  #     end
+  #     action :create
+  # end
+  # log 'message' do
+  #   message node['dockerinfo']
+  #   level :info
+  # end
 end
