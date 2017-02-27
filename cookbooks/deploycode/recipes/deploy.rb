@@ -200,8 +200,8 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
   end
 end
 
-#u = user 'root' do
 if defined?(node[:monitoring])
+  node.set[:dockerinfo] = []
   results = "/tmp/dockerinfo.txt"
   file results do
     action :delete
@@ -223,37 +223,20 @@ if defined?(node[:monitoring])
         dockerinfo[line.chomp.split(' ')[0]] = line.chomp.split(' ')[1]
       end
       f.close
-      #print dockerinfo 
       node.set[:dockerinfo] = dockerinfo
     end
-
-    #node.set[:dockerinfo] = dockerinfo
-    #only_if { dockerinfo.length >0 }
-    #block do
-    
-    #end
   end
 
-  print node[:dockerinfo]
-  if defined?(node[:dockerinfo])                                                        # && node[:dockerinfo].length > 0
-#    if node[:dockerinfo].length > 0
-    directory '/etc/filebeat' do
-      owner 'root'
-      group 'root'
-      mode '0755'
-      action :create
+  ruby_block "createfile" do
+    block do
+      res = Chef::Resource::Template.new "/etc/filebeat/filebeat.yml", run_context
+      res.source("filebeat.yml.erb")
+      res.cookbook("deploycode")
+      res.variables(
+        :dockerinfo => node.set[:dockerinfo],
+        :logstash_address => node[:monitoring],
+      )
+      res.run_action :create
     end
-
-    template '/etc/filebeat/filebeat.yml' do
-      variables(:dockerinfo => node[:dockerinfo], :logstash_address => node[:monitoring])
-      ignore_failure true
-      source 'filebeat.yml.erb'
-      owner 'root'
-      group 'root'
-      mode '0755'
-    end    
-#    end
   end
 end
-#end
-#u.run_action(:create)

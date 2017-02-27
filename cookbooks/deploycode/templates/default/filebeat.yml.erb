@@ -1,15 +1,15 @@
 filebeat.prospectors:
-<% @dockerinfo.each do |hash, dockername| %>
-<% "- input_type: log"%>
-<% "  paths:" %>
-<% "    - /var/lib/docker/containers/#{hash}*/*.log" %>
-<% "  fields:" %>
-<% "    machine: #{dockername}" %>
-<% "  fields_under_root: true" %>
-<% "  json.add_error_key: true" %>
-<% "  json.message_key: log"%>
+<% @dockerinfo.each_pair do |hash, dockername| %>
+<%= "- input_type: log"%>
+<%= "  paths:" %>
+<%= "    - /var/lib/docker/containers/#{hash}*/*.log" %>
+<%= "  fields:" %>
+<%= "    machine: #{dockername}" %>
+<%= "  fields_under_root: true" %>
+<%= "  json.add_error_key: true" %>
+<%= "  json.message_key: log"%>
+<%= "" %>
 <% end %>
-
 output:
   logstash:
-    hosts: ["<% @logstash_address %>"]
+    hosts: ["<%= @logstash_address %>"]
