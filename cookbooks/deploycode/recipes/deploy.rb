@@ -206,7 +206,7 @@ if defined?(node[:monitoring])
       block do
           #tricky way to load this Chef::Mixin::ShellOut utilities
           Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
-          command = 'docker ps|grep -v CONTAINER|grep -v monitor|awk "{print $1, $NF}"'
+          command = 'docker ps|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\''
           command_out = shell_out(command)
           node.set['dockerinfo'] = command_out.stdout
       end
