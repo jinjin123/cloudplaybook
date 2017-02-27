@@ -199,3 +199,18 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
     ignore_failure true
   end
 end
+
+
+if not (defined?(node[:monitoring])).nil? 
+  ruby_block "getcurrentdocker" do
+      block do
+          #tricky way to load this Chef::Mixin::ShellOut utilities
+          Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
+          command = 'docker ps|grep -v CONTAINER|grep -v monitor|awk '{print $1, $NF}''
+          command_out = shell_out(command)
+          node.set['dockerinfo'] = command_out.stdout
+      end
+      action :create
+  end
+  printf node['dockerinfo']
+end

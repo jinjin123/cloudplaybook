@@ -4,7 +4,7 @@
   "json_class": "Chef::Role",
   "default_attributes": {
     "deployuser" : "ec2-user",
-    "projectname": "kyligence",
+    "projectname": "monitoring",
     "docker": {
         "privaterepo":"dockerpriv.kybot.io:5002",
         "username":"keithyau",
@@ -37,6 +37,9 @@
              "ports":"9100:9100"
          }
       }
+    },
+    "monitoring" : {
+      "logstash" : "monitoring.chinacloudapp.cn:5000"
     }
   },
   "override_attributes": {
