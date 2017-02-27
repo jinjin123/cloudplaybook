@@ -219,7 +219,9 @@ if defined?(node[:monitoring])
     f = File.open(results)
     node.set['dockerinfo'] = []
     f.each {|line|
-      node.set['dockerinfo'][line.split(' ')[0]] = line.split(' ')[1]
+      #node.set['dockerinfo'][line.split(' ')[0]] = line.split(' ')[1]
+      print line.split(' ')[0]
+      print line.split(' ')[1]
     }
     f.close
     print node['dockerinfo']
