@@ -217,7 +217,7 @@ if defined?(node[:monitoring])
   ruby_block "Results" do
     only_if { ::File.exists?(results) }
     f = File.open(results)
-    node.set['dockerinfo'] = ''
+    node.set['dockerinfo'] = []
     f.each {|line|
       node.set['dockerinfo'][line.split(' ')[0]] = line.split(' ')[1]
     }
