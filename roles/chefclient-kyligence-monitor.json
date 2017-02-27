@@ -38,9 +38,7 @@
          }
       }
     },
-    "monitoring" : {
-      "logstash" : "monitoring.chinacloudapp.cn:5000"
-    }
+    "monitoring" :  "monitoring.chinacloudapp.cn:5000"
   },
   "override_attributes": {
   },
