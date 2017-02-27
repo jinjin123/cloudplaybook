@@ -200,7 +200,7 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
   end
 end
 
-
+#u = user 'root' do
 if defined?(node[:monitoring])
   results = "/tmp/dockerinfo.txt"
   file results do
@@ -216,32 +216,44 @@ if defined?(node[:monitoring])
 
   ruby_block "Results" do
     only_if { ::File.exists?(results) }
-    f = File.open(results)
-    node.set['dockerinfo'] = []
-    f.each {|line|
-      #node.set['dockerinfo'][line.split(' ')[0]] = line.split(' ')[1]
-      print line.split(' ')[0]
-      print line.split(' ')[1]
-    }
-    f.close
-    print node['dockerinfo']
-    # block do
-    #   print "\n"
-    #   print File.read(results)
-    # end
+    block do
+      f = File.open(results)
+      dockerinfo = Hash.new 
+      f.each do |line|
+        dockerinfo[line.chomp.split(' ')[0]] = line.chomp.split(' ')[1]
+      end
+      f.close
+      #print dockerinfo 
+      node.set[:dockerinfo] = dockerinfo
+    end
+
+    #node.set[:dockerinfo] = dockerinfo
+    #only_if { dockerinfo.length >0 }
+    #block do
+    
+    #end
   end
-  # ruby_block "getcurrentdocker" do
-  #     block do
-  #         #tricky way to load this Chef::Mixin::ShellOut utilities
-  #         Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
-  #         command = 'docker ps|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\''
-  #         command_out = shell_out(command)
-  #         node.set['dockerinfo'] = command_out.stdout
-  #     end
-  #     action :create
-  # end
-  # log 'message' do
-  #   message node['dockerinfo']
-  #   level :info
-  # end
+
+  print node[:dockerinfo]
+  if defined?(node[:dockerinfo])                                                        # && node[:dockerinfo].length > 0
+#    if node[:dockerinfo].length > 0
+    directory '/etc/filebeat' do
+      owner 'root'
+      group 'root'
+      mode '0755'
+      action :create
+    end
+
+    template '/etc/filebeat/filebeat.yml' do
+      variables(:dockerinfo => node[:dockerinfo], :logstash_address => node[:monitoring])
+      ignore_failure true
+      source 'filebeat.yml.erb'
+      owner 'root'
+      group 'root'
+      mode '0755'
+    end    
+#    end
+  end
 end
+#end
+#u.run_action(:create)

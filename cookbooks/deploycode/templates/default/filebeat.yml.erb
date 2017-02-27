@@ -1,103 +1,15 @@
 filebeat.prospectors:
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/db518a985d91*/*.log
-  fields:
-    machine: sparkpadgp_mkt
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/6ba6cb11cec6*/*.log
-  fields:
-    machine: sparkpadgp_pmt
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/64d21acf7a45*/*.log
-  fields:
-    machine: sparkpadgp_syncoc
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/f7458f64dcc4*/*.log
-  fields:
-    machine: sparkpadgp_reportingsys
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/14f1a6715f49*/*.log
-  fields:
-    machine: sparkpadgp_wmserver
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/b18853e2675a*/*.log
-  fields:
-    machine: sparkpadgp_orderserver
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/b7da943d80f0*/*.log
-  fields:
-    machine: sparkpadgp_tsoc
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/3da7bfa0a59e*/*.log
-  fields:
-    machine: sparkpadgp_oc
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/38e014eb22b7*/*.log
-  fields:
-    machine: sparkpadgp_crm
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/d2e7ae8f1bc8*/*.log
-  fields:
-    machine: sparkpadgp_erp
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
-- input_type: log
-  paths:
-    - /var/lib/docker/containers/fc3e3518b017*/*.log
-  fields:
-    machine: sparkpadgp_de
-  fields_under_root: true
-  json.keys_under_root: true
-  json.add_error_key: true
-  json.message_key: log
+<% @dockerinfo.each do |hash, dockername| %>
+<% "- input_type: log"%>
+<% "  paths:" %>
+<% "    - /var/lib/docker/containers/#{hash}*/*.log" %>
+<% "  fields:" %>
+<% "    machine: #{dockername}" %>
+<% "  fields_under_root: true" %>
+<% "  json.add_error_key: true" %>
+<% "  json.message_key: log"%>
+<% end %>
+
 output:
   logstash:
-    hosts: ["logging.liansuola.com:8881"]
+    hosts: ["<% @logstash_address %>"]
