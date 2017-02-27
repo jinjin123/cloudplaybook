@@ -216,10 +216,17 @@ if defined?(node[:monitoring])
 
   ruby_block "Results" do
     only_if { ::File.exists?(results) }
-    block do
-      print "\n"
-      print File.read(results)
-    end
+    f = File.open(results)
+    node.set['dockerinfo'] = ''
+    f.each {|line|
+      node.set['dockerinfo'][line.split(' ')[0]] = line.split(' ')[1]
+    }
+    f.close
+    print node['dockerinfo']
+    # block do
+    #   print "\n"
+    #   print File.read(results)
+    # end
   end
   # ruby_block "getcurrentdocker" do
   #     block do
