@@ -201,7 +201,7 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
 end
 
 
-if not (defined?(node[:monitoring])).nil? 
+if defined?(node[:monitoring])
   ruby_block "getcurrentdocker" do
       block do
           #tricky way to load this Chef::Mixin::ShellOut utilities
