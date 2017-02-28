@@ -8,8 +8,15 @@ filebeat.prospectors:
 <%= "  fields_under_root: true" %>
 <%= "  json.add_error_key: true" %>
 <%= "  json.message_key: log"%>
+<%= "  ignore_older: 5m"%>
+<%= "  encoding: \"UTF-8\""%>
+<%= "  harvester_buffer_size: 2048"%>
 <%= "" %>
 <% end %>
 output:
   logstash:
     hosts: ["<%= @logstash_address %>"]
+    timeout: 10
+    bulk_max_size: 16384
+    piplining: 1
+    compression_level: 9

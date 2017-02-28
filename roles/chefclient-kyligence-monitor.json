@@ -14,7 +14,8 @@
        "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
        "localfolder": {
          "cadvisor": "nodownload",
-         "nodeexporter": "nodownload" 
+         "nodeexporter": "nodownload", 
+         "filebeat": "nodownload"
       },
       "runtime": {
          "cadvisor":{
@@ -35,6 +36,15 @@
              "mountlocal":"/",
              "mountdocker":"/root",
              "ports":"9100:9100"
+         },
+         "filebeat":{
+             "tag":"latest",
+             "image":"dockerpriv.kybot.io:5002/keithyau/filebeat",
+             "mountlocal":"multipledir",
+             "mountdocker": [
+                 "/etc/monitoring/filebeat.yml:/filebeat.yml",
+                 "/var/lib/docker:/var/lib/docker"
+             ]
          }
       }
     },

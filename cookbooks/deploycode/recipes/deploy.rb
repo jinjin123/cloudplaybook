@@ -229,14 +229,23 @@ if defined?(node[:monitoring])
 
   ruby_block "createfile" do
     block do
-      res = Chef::Resource::Template.new "/etc/filebeat/filebeat.yml", run_context
-      res.source("filebeat.yml.erb")
-      res.cookbook("deploycode")
-      res.variables(
+      dir = Chef::Resource::Directory.new "/etc/monitoring", run_context
+      dir.run_action :create
+      res1 = Chef::Resource::Template.new "/etc/monitoring/filebeat.yml", run_context
+      res1.source("filebeat.yml.erb")
+      res1.cookbook("deploycode")
+      res1.variables(
         :dockerinfo => node.set[:dockerinfo],
         :logstash_address => node[:monitoring],
       )
-      res.run_action :create
+      res1.run_action :create
+      res2 = Chef::Resource::Template.new "/etc/monitoring/topbeat.yml", run_context
+      res2.source("topbeat.yml.erb")
+      res2.cookbook("deploycode")
+      res2.variables(
+        :logstash_address => node[:monitoring],
+      )
+      res2.run_action :create
     end
   end
 end
