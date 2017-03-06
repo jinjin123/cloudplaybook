@@ -13,20 +13,6 @@
       "deploycode":{
         "basedirectory":"/root/tools/code/",
         "configuration":{
-            "drupa_sparkpos": {
-              "folders": {
-                "sites/default/files" : "777",
-                "sites/default/privates" : "777"
-              },
-              "settings": {
-                "general.settings.php" : "sites/default/settings.php"
-              },
-              "variables" : {
-                "dbhost": "47.91.156.91",
-                "dbuser": "root",
-                "dbpass": "thomas123"
-              }
-            },
             "sparkpad_tvbackend_drupal": {
               "folders": {
                 "sites/default/files" : "777",
@@ -44,8 +30,8 @@
         },
         "localfolder":{
             "mysql":"nodownload",
-            "drupa_sparkpos":{
-              "giturl": "git@git.coding.net:dyx_raptor/drupa_sparkpos.git",
+            "sparkposcn":{
+              "giturl": "git@git.coding.net:chankongching/sparkpos.cn.git",
               "branch": "master"
             },
             "sparkpad_tvbackend_drupal":{
@@ -64,12 +50,12 @@
                   "3306:3306"
                ]
             },
-            "drupa_sparkpos":{
-                "tag":"latest",
-                "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+            "sparkposcn":{
+                "tag":"stable-alpine",
+                "image":"dockerpriv.kybot.io:5002/keithyau/nginx",
                 "mountlocal":"localdir",
                 "mountdocker":"/var/www/html",
-                "ports":"8081:80"
+                "ports":"80:80"
             },
             "sparkpad_tvbackend_drupal":{
                 "tag":"latest",
