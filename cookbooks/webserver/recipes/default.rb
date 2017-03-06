@@ -163,7 +163,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     end
 
     if not (defined?(docker[:exec])).nil? 
-      execute 'pull jenkins.sh script from github' do
+      execute 'execute command inside docker' do
       command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec])}\'"
       end
     end
