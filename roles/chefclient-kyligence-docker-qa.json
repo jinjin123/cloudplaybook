@@ -25,7 +25,7 @@
              "mountlocal":"localdir",
              "mountdocker":"/usr/local/tomcat/webapps",
              "ports":"8081:8080",
-             "exec": "if ! grep -q 10.0.0.61 \"/etc/fstab\"; then echo \"10.0.0.61:/glt0 /data glusterfs defaults 0 0\" >> /etc/fstab;fi"
+             "exec": "if ! grep -q 10.0.0.61 \"/etc/fstab\"; then echo \"10.0.0.61:/glt0 /data glusterfs defaults 0 0\" >> /etc/fstab;fi;mount /data"
          }
       }
     }
