@@ -73,9 +73,13 @@
             },
             "sparkpad_tvbackend_drupal":{
                 "tag":"latest",
-                "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
-                "mountlocal":"localdir",
-                "mountdocker":"/var/www/html",
+                "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+                "mountlocal":"multipledir",
+                "mountdocker":[
+                    "/root/tools/code/sparkpad_tvbackend_drupal:/var/www/html",
+                    "/root/tools/nginx.conf:/etc/nginx/nginx.conf",
+                    "/usr/bin/which:/usr/bin/which"
+                ],
                 "ports":"8082:80"
             }
          }
@@ -90,7 +94,6 @@
       "recipe[build-essential]",
       "recipe[basicservice]",
       "recipe[glusterfs]",
-      "recipe[deploycode]",
       "recipe[drupalsetting]",
       "recipe[webserver]"
    ],

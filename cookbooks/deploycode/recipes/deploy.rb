@@ -200,7 +200,7 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
   end
 end
 
-if defined?(node[:monitoring])
+if (defined?(node[:monitoring])).nil?
   node.set[:dockerinfo] = []
   results = "/tmp/dockerinfo.txt"
   file results do
