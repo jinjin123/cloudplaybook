@@ -161,6 +161,13 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       privileged true 
 #{["/dev/fuse"]}
     end
+
+    if not (defined?(docker[:exec])).nil? 
+      execute 'pull jenkins.sh script from github' do
+      command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec])}\'"
+      end
+    end
+
     etchosts.push("#{container_name}:#{container_name}")
   end
  
