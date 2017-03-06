@@ -27,7 +27,7 @@
          }
       }
     },
-    "monitoring" :  "monitoring.chinacloudapp.cn:5000"
+    "monitoring" :  "monitoring.kybot.io:5000"
   },
   "override_attributes": {
   },
