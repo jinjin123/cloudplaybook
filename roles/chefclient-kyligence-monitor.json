@@ -13,30 +13,9 @@
     "deploycode": {
        "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
        "localfolder": {
-         "cadvisor": "nodownload",
-         "nodeexporter": "nodownload", 
          "filebeat": "nodownload"
       },
       "runtime": {
-         "cadvisor":{
-             "tag":"latest",
-             "image":"dockerpriv.kybot.io:5002/keithyau/cadvisor",
-             "mountlocal":"multipledir",
-             "mountdocker": [ 
-                 "/:/rootfs:ro",
-                 "/var/run:/var/run:rw",
-                 "/sys:/sys:ro",
-                 "/var/lib/docker/:/var/lib/docker:ro"
-             ],
-             "ports":"18080:8080"
-         },
-         "nodeexporter":{
-             "tag":"latest",
-             "image":"dockerpriv.kybot.io:5002/keithyau/node-exporter",
-             "mountlocal":"/",
-             "mountdocker":"/root",
-             "ports":"9100:9100"
-         },
          "filebeat":{
              "tag":"latest",
              "image":"dockerpriv.kybot.io:5002/keithyau/filebeat",
