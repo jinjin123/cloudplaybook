@@ -54,7 +54,7 @@
                 "tag":"stable-alpine",
                 "image":"dockerpriv.kybot.io:5002/keithyau/nginx",
                 "mountlocal":"localdir",
-                "mountdocker":"/var/www/html",
+                "mountdocker":"/usr/share/nginx/html",
                 "ports":"80:80"
             },
             "sparkpad_tvbackend_drupal":{
@@ -63,10 +63,11 @@
                 "mountlocal":"multipledir",
                 "mountdocker":[
                     "/root/tools/code/sparkpad_tvbackend_drupal:/var/www/html",
-                    "/root/tools/nginx.conf:/etc/nginx/nginx.conf",
-                    "/usr/bin/which:/usr/bin/which"
+                    "/usr/bin/which:/usr/bin/which",
+                    "/root/php-fpm.conf:/usr/local/php/etc/php-fpm.conf"
                 ],
-                "ports":"8082:80"
+                "ports":"8082:80",
+                "exec": "ln -sf /dev/stderr /var/log/php-fpm.log"
             }
          }
       }
@@ -80,6 +81,7 @@
       "recipe[build-essential]",
       "recipe[basicservice]",
       "recipe[glusterfs]",
+      "recipe[deploycode]",
       "recipe[drupalsetting]",
       "recipe[webserver]"
    ],

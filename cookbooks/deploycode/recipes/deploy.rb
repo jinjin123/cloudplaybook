@@ -117,7 +117,7 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
     recursive true
     owner node[:deploycode][:code_owner]
     group node[:deploycode][:code_group]
-    mode '0755'
+    mode '0777'
     action :create
   end
 end

@@ -162,7 +162,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
 #{["/dev/fuse"]}
     end
 
-    if not (defined?(docker[:exec])).nil? 
+    if (not (defined?(docker[:exec])).nil?) && (not "#{docker[:exec]}" == "")
       execute 'execute command inside docker' do
       command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec]}\'"
       end
