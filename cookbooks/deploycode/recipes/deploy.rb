@@ -200,7 +200,7 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
   end
 end
 
-if (defined?(node[:monitoring])).nil?
+if (not (defined?(node[:monitoring])).nil?) && (not "#{node[:monitoring]}" == "")
   node.set[:dockerinfo] = []
   results = "/tmp/dockerinfo.txt"
   file results do
@@ -239,13 +239,13 @@ if (defined?(node[:monitoring])).nil?
         :logstash_address => node[:monitoring],
       )
       res1.run_action :create
-      res2 = Chef::Resource::Template.new "/etc/monitoring/topbeat.yml", run_context
-      res2.source("topbeat.yml.erb")
-      res2.cookbook("deploycode")
-      res2.variables(
-        :logstash_address => node[:monitoring],
-      )
-      res2.run_action :create
+#      res2 = Chef::Resource::Template.new "/etc/monitoring/topbeat.yml", run_context
+#      res2.source("topbeat.yml.erb")
+#      res2.cookbook("deploycode")
+#      res2.variables(
+#        :logstash_address => node[:monitoring],
+#      )
+#      res2.run_action :create
     end
   end
 end
