@@ -192,7 +192,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     next if localfolder.eql?("bootproxy")
 
     domainprefixset = node[:domainprefix]
-    if defined?(docker[:customdomainprefix])
+    if (not (defined?(docker[:customdomainprefix])).nil?) && (not "#{docker[:customdomainprefix]}" == "")
       domainprefixset = docker[:customdomainprefix]
     end
     #Add same amount of proxy templates to Nginx folder
@@ -200,7 +200,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       variables(
         :host => container_name,
         :portstring => portstring,
-        :prefix => "dev-#{domainprefixset}#{localfolder}", #Tempfix
+        :prefix => "#{domainprefixset}#{localfolder}",
         :domain => node[:domainname],
       )
         source "proxy.conf"
