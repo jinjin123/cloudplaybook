@@ -1,0 +1,46 @@
+{
+"name": "chefclient-sparkpad-monitor",
+  "description": "Role to deploy monitoring for sparkpad",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser" : "root",
+    "projectname": "monitoring",
+    "docker": {
+        "privaterepo":"dockerpriv.kybot.io:5002",
+        "username":"keithyau",
+        "password":"thomas123"
+    },
+    "deploycode": {
+       "basedirectory" : "/root/tools/code/",
+       "localfolder": {
+         "filebeat": "nodownload"
+      },
+      "runtime": {
+         "filebeat":{
+             "tag":"latest",
+             "image":"dockerpriv.kybot.io:5002/keithyau/filebeat",
+             "mountlocal":"multipledir",
+             "mountdocker": [
+                 "/etc/monitoring/filebeat.yml:/filebeat.yml",
+                 "/var/lib/docker:/var/lib/docker"
+             ]
+         }
+      }
+    },
+    "monitoring" :  "monitoring.liansuole.com:5000"
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[glusterfs]",
+    "recipe[diskmount]",
+    "recipe[deploycode]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists": {
+  }
+}
