@@ -199,29 +199,30 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     end
     #Add same amount of proxy templates to Nginx folder
     if (not (defined?(docker[:proxyport])).nil?) && (not "#{docker[:proxyport]}" == "")# && (docker[:proxyport].is_a?).eql?("String")
-      print "Proxyport = "
-      print docker[:proxyport]
-      #if defined?(docker[:proxyport]).eql?(String)
       if docker[:proxyport].instance_of?(String)
         if docker[:proxyport].eql?("80")
           portstring = ""
         else
           portstring = ":#{docker[:proxyport]}"
         end
+        if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
+          domainstring = docker[:overridesubdomain]
+        else
+          domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
+        end
         template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
           variables(
             :host => container_name,
             :portstring => portstring,
-            :prefix => "#{domainprefixset}#{localfolder}",
-            :domain => node[:domainname],
+            :domain  => domainstring
           )
-            source "proxy.conf"
-            mode 0644
-            retries 3
-            retry_delay 2
-            owner "root"
-            group "root"
-            action :create
+          source "proxy.conf"
+          mode 0644
+          retries 3
+          retry_delay 2
+          owner "root"
+          group "root"
+          action :create
     #        ignore_failure true
         end
       end
