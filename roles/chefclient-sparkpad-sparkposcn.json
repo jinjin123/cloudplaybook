@@ -23,19 +23,17 @@
                 "mountlocal":"localdir",
                 "mountdocker":"/usr/share/nginx/html",
                 "overridesubdomain":"www",
+                "proxyport":"8081",
                 "ports":"8081:80"
             },
             "bootproxy":{
-                "tag":"stable-alpine",
-                "image":"daocloud.io/library/nginx",
-                "mountlocal":"multipledir",
-                "mountdocker": [
-                  "/root/tools/code/bootproxy:/etc/nginx/conf.d/",
-                  "/usr/bin/curl:/usr/bin/curl"
-                ],
-                "ports":[
+               "tag":"stable-alpine",
+               "image":"daocloud.io/library/nginx",
+               "mountlocal":"localdir",
+               "mountdocker":"/etc/nginx/conf.d/",
+               "ports":[
                   "80:80"
-                ]
+               ]
             }
          }
       }
