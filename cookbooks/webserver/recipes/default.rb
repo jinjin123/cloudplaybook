@@ -197,14 +197,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     if (not (defined?(docker[:customdomainprefix])).nil?) && (not "#{docker[:customdomainprefix]}" == "")
       domainprefixset = docker[:customdomainprefix]
     end
-    #Add same amount of proxy templates to Nginx folder
-    if (not (defined?(docker[:proxyport])).nil?) && (not "#{docker[:proxyport]}" == "")# && (docker[:proxyport].is_a?).eql?("String")
-      if docker[:proxyport].instance_of?(String)
-        if docker[:proxyport].eql?("80")
-          portstring = ""
-        else
-          portstring = ":#{docker[:proxyport]}"
-        end
         if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
           if docker[:overridesubdomain].eql?("www")
             domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]} #{node[:domainname]}"
@@ -229,8 +221,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
           action :create
     #        ignore_failure true
         end
-      end
-    end
   end
 
 end
