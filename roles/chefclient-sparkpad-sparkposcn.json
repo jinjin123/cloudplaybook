@@ -4,7 +4,7 @@
    "json_class":"Chef::Role",
    "default_attributes":{
       "deployuser":"root",
-      "projectname":"sparkposcn",
+      "projectname":"sparkpad",
       "externalmode":"bootproxy",
       "domainname":"sparkpos.cn",
       "deploycode":{
