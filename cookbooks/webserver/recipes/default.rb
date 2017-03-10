@@ -81,10 +81,12 @@ docker_service 'default' do
   action :start
 end
 
-docker_registry node[:docker][:privaterepo] do
-  username node[:docker][:username]
-  password node[:docker][:password]
-  email 'support@bootdev.com'
+if (not (defined?(node[:docker][:privaterepo])).nil?) && (not "#{node[:docker][:privaterepo]}" == "")
+  docker_registry node[:docker][:privaterepo] do
+    username node[:docker][:username]
+    password node[:docker][:password]
+    email 'support@bootdev.com'
+  end
 end
 
 #todo make the array be unique elements
