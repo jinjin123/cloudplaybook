@@ -4,14 +4,8 @@
   "json_class":"Chef::Role",
   "chef_type":"role",
   "run_list":[
-    "recipe[chefclient-sparkpad-aliyun]",
-    "recipe[build-essential]",
-    "recipe[basicservice]",
-    "recipe[glusterfs]",
-    "recipe[diskmount]",
-    "recipe[deploycode]",
-    "recipe[drupalsetting]",
-    "recipe[webserver]"
+    "role[chefclient-sparkpad-aliyun]",
+    "role[chefclient-sparkpad-monitor]"
   ],
   "env_run_lists":{
 
