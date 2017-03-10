@@ -198,27 +198,29 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       domainprefixset = docker[:customdomainprefix]
     end
     #Add same amount of proxy templates to Nginx folder
-    if (docker[:proxyport].is_a?).eql?("String")
-      if docker[:proxyport].eql?("80")
-        portstring = ""
-      else
-        portstring = ":#{docker[:proxyport]}"
-      end
-      template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
-        variables(
-          :host => container_name,
-          :portstring => portstring,
-          :prefix => "#{domainprefixset}#{localfolder}",
-          :domain => node[:domainname],
-        )
-          source "proxy.conf"
-          mode 0644
-          retries 3
-          retry_delay 2
-          owner "root"
-          group "root"
-          action :create
-  #        ignore_failure true
+    if (not (defined?(docker[:proxyport])).nil?) && (not "#{docker[:proxyport]}" == "")
+      if (docker[:proxyport].is_a?).eql?("String")
+        if docker[:proxyport].eql?("80")
+          portstring = ""
+        else
+          portstring = ":#{docker[:proxyport]}"
+        end
+        template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
+          variables(
+            :host => container_name,
+            :portstring => portstring,
+            :prefix => "#{domainprefixset}#{localfolder}",
+            :domain => node[:domainname],
+          )
+            source "proxy.conf"
+            mode 0644
+            retries 3
+            retry_delay 2
+            owner "root"
+            group "root"
+            action :create
+    #        ignore_failure true
+        end
       end
     end
   end
