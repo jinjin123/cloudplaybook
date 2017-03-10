@@ -80,7 +80,6 @@
       "recipe[git]",
       "recipe[build-essential]",
       "recipe[basicservice]",
-      "recipe[glusterfs]",
       "recipe[deploycode]",
       "recipe[drupalsetting]",
       "recipe[webserver]"
