@@ -30,7 +30,7 @@
                 "ports":"8081:80"
             },
             "bootproxy":{
-               "tag":"stable-alpine",
+               "tag":"stable-alpines",
                "image":"nginx",
                "mountlocal":"localdir",
                "mountdocker":"/etc/nginx/conf.d/",
@@ -50,7 +50,6 @@
       "recipe[build-essential]",
       "recipe[basicservice]",
       "recipe[deploycode]",
-      "recipe[drupalsetting]",
       "recipe[webserver]"
    ],
    "env_run_lists":{
