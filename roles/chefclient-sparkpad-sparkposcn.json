@@ -1,5 +1,5 @@
 {
-   "name":"chefclient-sparkpad-aliyun",
+   "name":"chefclient-sparkpad-sparkposcn",
    "description":"",
    "json_class":"Chef::Role",
    "default_attributes":{
