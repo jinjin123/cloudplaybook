@@ -209,7 +209,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
         template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
           variables(
             :host => container_name,
-            :portstring => portstring,
             :domain  => domainstring
           )
           source "proxy.conf"
