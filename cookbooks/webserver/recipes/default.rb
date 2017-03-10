@@ -206,7 +206,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
           portstring = ":#{docker[:proxyport]}"
         end
         if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
-          domainstring = docker[:overridesubdomain]
+          domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]}"
         else
           domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
         end
