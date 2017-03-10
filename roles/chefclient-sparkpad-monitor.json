@@ -3,6 +3,8 @@
   "description": "Role to deploy monitoring for sparkpad",
   "json_class": "Chef::Role",
   "default_attributes": {
+  },
+  "override_attributes": {
     "deployuser" : "root",
     "projectname": "monitoring",
     "docker": {
@@ -28,8 +30,6 @@
       }
     },
     "monitoring" :  "monitoring.liansuole.com:5000"
-  },
-  "override_attributes": {
   },
   "chef_type": "role",
   "run_list": [
