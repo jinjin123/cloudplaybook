@@ -1,5 +1,5 @@
 {
-   "name":"chefclient-sparkpad-aliyun",
+   "name":"chefclient-sparkpad-gptv",
    "description":"",
    "json_class":"Chef::Role",
    "default_attributes":{
@@ -30,10 +30,6 @@
         },
         "localfolder":{
             "mysql":"nodownload",
-            "sparkposcn":{
-              "giturl": "git@git.coding.net:chankongching/sparkpos.cn.git",
-              "branch": "master"
-            },
             "sparkpad_tvbackend_drupal":{
               "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
               "branch": "master"
@@ -49,13 +45,6 @@
                "ports":[
                   "3306:3306"
                ]
-            },
-            "sparkposcn":{
-                "tag":"stable-alpine",
-                "image":"dockerpriv.kybot.io:5002/keithyau/nginx",
-                "mountlocal":"localdir",
-                "mountdocker":"/usr/share/nginx/html",
-                "ports":"80:80"
             },
             "sparkpad_tvbackend_drupal":{
                 "tag":"latest",

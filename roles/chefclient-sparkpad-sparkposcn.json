@@ -1,0 +1,47 @@
+{
+   "name":"chefclient-sparkpad-aliyun",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"sparkpadtv",
+      "docker": {
+          "privaterepo":"dockerpriv.kybot.io:5002",
+          "username":"keithyau",
+          "password":"thomas123"
+      },
+      "deploycode":{
+        "basedirectory":"/root/tools/code/",
+        "localfolder":{
+            "sparkposcn":{
+              "giturl": "git@git.coding.net:chankongching/sparkpos.cn.git",
+              "branch": "master"
+            }
+         },
+         "runtime":{
+            "sparkposcn":{
+                "tag":"stable-alpine",
+                "image":"dockerpriv.kybot.io:5002/keithyau/nginx",
+                "mountlocal":"localdir",
+                "mountdocker":"/usr/share/nginx/html",
+                "ports":"80:80"
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[deploycode]",
+      "recipe[drupalsetting]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}
