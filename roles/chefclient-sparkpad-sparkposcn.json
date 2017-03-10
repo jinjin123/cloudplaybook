@@ -7,11 +7,6 @@
       "projectname":"sparkpadtv",
       "externalmode":"bootproxy",
       "domainname":"sparkpos.cn",
-      "docker": {
-        "privaterepo":"dockerpriv.kybot.io:5002",
-        "username":"keithyau",
-        "password":"thomas123"
-      },
       "deploycode":{
         "basedirectory":"/root/tools/code/",
         "localfolder":{
@@ -23,14 +18,14 @@
          },
          "runtime":{
             "sparkposcn":{
-                "tag":"latest",
+                "tag":"stable-alpine",
                 "image":"daocloud.io/library/nginx",
                 "mountlocal":"localdir",
                 "mountdocker":"/usr/share/nginx/html",
                 "ports":"8081:80"
             },
             "bootproxy":{
-               "tag":"latest",
+               "tag":"stable-alpine",
                "image":"daocloud.io/library/nginx",
                "mountlocal":"localdir",
                "mountdocker":"/etc/nginx/conf.d/",
