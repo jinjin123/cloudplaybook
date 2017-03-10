@@ -24,14 +24,14 @@
          "runtime":{
             "sparkposcn":{
                 "tag":"stable-alpine",
-                "image":"nginx",
+                "image":"daocloud.io/library/nginx",
                 "mountlocal":"localdir",
                 "mountdocker":"/usr/share/nginx/html",
                 "ports":"8081:80"
             },
             "bootproxy":{
                "tag":"stable-alpines",
-               "image":"nginx",
+               "image":"daocloud.io/library/nginx",
                "mountlocal":"localdir",
                "mountdocker":"/etc/nginx/conf.d/",
                "ports":[
