@@ -201,7 +201,8 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     if (not (defined?(docker[:proxyport])).nil?) && (not "#{docker[:proxyport]}" == "")# && (docker[:proxyport].is_a?).eql?("String")
       print "Proxyport = "
       print docker[:proxyport]
-      if defined?(docker[:proxyport]) = String
+      #if defined?(docker[:proxyport]).eql?(String)
+      if docker[:proxyport].instance_of?(String)
         if docker[:proxyport].eql?("80")
           portstring = ""
         else
