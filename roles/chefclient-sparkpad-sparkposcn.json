@@ -23,7 +23,6 @@
                 "mountlocal":"localdir",
                 "mountdocker":"/usr/share/nginx/html",
                 "overridesubdomain":"www",
-                "proxyport":"8081",
                 "ports":"8081:80"
             },
             "bootproxy":{

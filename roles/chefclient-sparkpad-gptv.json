@@ -5,6 +5,8 @@
    "default_attributes":{
       "deployuser":"root",
       "projectname":"sparkpad",
+      "externalmode":"bootproxy",
+      "domainname":"liansuole.com",
       "docker": {
           "privaterepo":"dockerpriv.kybot.io:5002",
           "username":"keithyau",
@@ -22,40 +24,51 @@
                 "general.settings.php" : "sites/default/settings.php"
               },
               "variables" : {
-                "dbhost": "47.91.156.91",
+                "dbhost": "sparkpad_mysql",
                 "dbuser": "root",
                 "dbpass": "thomas123"
               }
-            } 
+            }
         },
         "localfolder":{
             "mysql":"nodownload",
             "sparkpad_tvbackend_drupal":{
               "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
               "branch": "master"
-            }
+            },
+            "bootproxy":"nodownload"
          },
          "runtime":{
             "mysql":{
-               "tag":"5.7",
-               "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
-               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
-               "mountlocal":"/root/mysqldir",
-               "mountdocker":"/var/lib/mysql",
-               "ports":[
-                  "3306:3306"
-               ]
+              "tag":"5.7",
+              "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
+              "env":["MYSQL_ROOT_PASSWORD=thomas123"],
+              "mountlocal":"/root/mysqldir",
+              "mountdocker":"/var/lib/mysql",
+              "ports":[
+                "3306:3306"
+              ]
             },
             "sparkpad_tvbackend_drupal":{
-                "tag":"latest",
-                "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-                "mountlocal":"multipledir",
-                "mountdocker":[
-                    "/root/tools/code/sparkpad_tvbackend_drupal:/var/www/html",
-                    "/usr/bin/which:/usr/bin/which"
-                ],
-                "ports":"8082:80",
-                "exec": "ln -sf /dev/stderr /var/log/php-fpm.log"
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "mountlocal":"multipledir",
+              "mountdocker":[
+                "/root/tools/code/sparkpad_tvbackend_drupal:/var/www/html",
+                "/usr/bin/which:/usr/bin/which"
+              ],
+              "ports":"8082:80",
+              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log",
+              "overridesubdomain":"tv",
+            },
+            "bootproxy":{
+               "tag":"stable-alpine",
+               "image":"daocloud.io/library/nginx",
+               "mountlocal":"localdir",
+               "mountdocker":"/etc/nginx/conf.d/",
+               "ports":[
+                  "80:80"
+               ]
             }
          }
       }
