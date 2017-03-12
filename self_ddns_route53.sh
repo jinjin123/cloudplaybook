@@ -40,4 +40,4 @@ cat <<EOF  > user_jsons/self_domain_cron.json
 }
 EOF
 
-chef-solo -c ./settings/solo.rb -o "recIpe[bootdev_customdomain]" -j user_jsons/self_domain_cron.json
+chef-solo -c ./settings/solo.rb -o "recipe[bootdev_customdomain]" -j user_jsons/self_domain_cron.json
