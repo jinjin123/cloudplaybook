@@ -205,7 +205,7 @@ echo $dockerid
 ownip=`/usr/bin/curl --user "keithyau@163.com":thomas123 -F "dd_dockerid=${dockerid}" -F "linux_uid=${thisuniqueid}" -F 'spot_sshpass=thomas1234!' -F "spot_sshroot=root" http://d.bootdev.com/spot-register`
 
 #Setup crontab to update IP address
-cat << EOF > /etc/cron.d/updateDNS.10mins
+cat << EOF > /etc/cron.d/updateDNS.5mins
 
 # Example of job definition:
 # .---------------- minute (0 - 59)
@@ -219,6 +219,6 @@ cat << EOF > /etc/cron.d/updateDNS.10mins
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 MAILTO=root
-*/10 * * * * root /root/bootdev/chef/chef-repo/self_ddns_route53.sh
+*/5 * * * * root /root/bootdev/chef/chef-repo/self_ddns_route53.sh
 
 EOF
