@@ -127,9 +127,8 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     end
   end
     
-  etchosts.push("#{container_name}:#{container_name}")
-
   container_name = "#{node[:projectname]}_" + localfolder
+  etchosts.push("#{container_name}:#{container_name}")
   if container_name.eql?("#{node[:projectname]}_mysql") 
     #Add the first docker
     docker_container container_name do
