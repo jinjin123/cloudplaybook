@@ -143,6 +143,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     end
     print "---------------------------------------------------------------------------------------------"
     print "----------------------------------#{container_name}:#{container_name}------------------------"
+    print "----------------------------------#{etchosts}------------------------------------------------"
     etchosts.push("#{container_name}:#{container_name}")
     #Break and dont create mysql proxy.conf
     next
