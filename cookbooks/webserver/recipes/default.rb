@@ -128,7 +128,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   end
     
   container_name = "#{node[:projectname]}_" + localfolder
-  etchosts.push("#{container_name}:#{container_name}")
   if container_name.eql?("#{node[:projectname]}_mysql") 
     #Add the first docker
     docker_container container_name do
@@ -142,6 +141,9 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       port docker[:ports]
       volumes bindvolume
     end
+    print "---------------------------------------------------------------------------------------------"
+    print "----------------------------------#{container_name}:#{container_name}------------------------"
+    etchosts.push("#{container_name}:#{container_name}")
     #Break and dont create mysql proxy.conf
     next
   else 
