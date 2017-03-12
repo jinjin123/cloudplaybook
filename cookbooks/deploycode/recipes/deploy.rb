@@ -117,7 +117,7 @@ node[:deploycode][:localfolder].each do |localfolder,giturl|
     recursive true
     owner node[:deploycode][:code_owner]
     group node[:deploycode][:code_group]
-    mode '0755'
+    mode '0777'
     action :create
   end
 end
@@ -197,5 +197,55 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
     action :restart
     kill_after 5
     ignore_failure true
+  end
+end
+
+if (not (defined?(node[:monitoring])).nil?) && (not "#{node[:monitoring]}" == "")
+  node.set[:dockerinfo] = []
+  results = "/tmp/dockerinfo.txt"
+  file results do
+    action :delete
+  end
+
+  cmd = "docker ps|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\'"
+  bash cmd do
+    code <<-EOH
+    #{cmd} &> #{results}
+    EOH
+  end
+
+  ruby_block "Results" do
+    only_if { ::File.exists?(results) }
+    block do
+      f = File.open(results)
+      dockerinfo = Hash.new 
+      f.each do |line|
+        dockerinfo[line.chomp.split(' ')[0]] = line.chomp.split(' ')[1]
+      end
+      f.close
+      node.set[:dockerinfo] = dockerinfo
+    end
+  end
+
+  ruby_block "createfile" do
+    block do
+      dir = Chef::Resource::Directory.new "/etc/monitoring", run_context
+      dir.run_action :create
+      res1 = Chef::Resource::Template.new "/etc/monitoring/filebeat.yml", run_context
+      res1.source("filebeat.yml.erb")
+      res1.cookbook("deploycode")
+      res1.variables(
+        :dockerinfo => node.set[:dockerinfo],
+        :logstash_address => node[:monitoring],
+      )
+      res1.run_action :create
+#      res2 = Chef::Resource::Template.new "/etc/monitoring/topbeat.yml", run_context
+#      res2.source("topbeat.yml.erb")
+#      res2.cookbook("deploycode")
+#      res2.variables(
+#        :logstash_address => node[:monitoring],
+#      )
+#      res2.run_action :create
+    end
   end
 end

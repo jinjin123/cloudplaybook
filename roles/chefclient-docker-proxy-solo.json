@@ -254,7 +254,7 @@
                "image":"dockerpriv.kybot.io:5001/keithyau/laravelnewrelic",
                "mountlocal":"localdir",
                "mountdocker":"/var/www/html/",
-               "proxyport":"80",
+               "proxyport":"9089",
                "ports":[
                   "9089:80"
                ]

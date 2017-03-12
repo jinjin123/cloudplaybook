@@ -160,7 +160,6 @@
   },
   "chef_type":"role",
   "run_list":[
-    "recipe[timezone-ii]",
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",

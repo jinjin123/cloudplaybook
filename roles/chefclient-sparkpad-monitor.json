@@ -1,9 +1,11 @@
 {
-"name": "chefclient-kyligence-monitor",
-  "description": "Role to deploy monitoring for kyligence",
+"name": "chefclient-sparkpad-monitor",
+  "description": "Role to deploy monitoring for sparkpad",
   "json_class": "Chef::Role",
   "default_attributes": {
-    "deployuser" : "ec2-user",
+  },
+  "override_attributes": {
+    "deployuser" : "root",
     "projectname": "monitoring",
     "docker": {
         "privaterepo":"dockerpriv.kybot.io:5002",
@@ -11,7 +13,7 @@
         "password":"thomas123"
     },
     "deploycode": {
-       "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
+       "basedirectory" : "/root/tools/code/",
        "localfolder": {
          "filebeat": "nodownload"
       },
@@ -27,17 +29,13 @@
          }
       }
     },
-    "monitoring" :  "monitoring.kybot.io:5000"
-  },
-  "override_attributes": {
+    "monitoring" :  "monitoring.liansuole.com:5000"
   },
   "chef_type": "role",
   "run_list": [
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
-    "recipe[glusterfs]",
-    "recipe[diskmount]",
     "recipe[deploycode]",
     "recipe[webserver]"
   ],

@@ -81,10 +81,12 @@ docker_service 'default' do
   action :start
 end
 
-docker_registry node[:docker][:privaterepo] do
-  username node[:docker][:username]
-  password node[:docker][:password]
-  email 'support@bootdev.com'
+if (not (defined?(node[:docker][:privaterepo])).nil?) && (not "#{node[:docker][:privaterepo]}" == "")
+  docker_registry node[:docker][:privaterepo] do
+    username node[:docker][:username]
+    password node[:docker][:password]
+    email 'support@bootdev.com'
+  end
 end
 
 #todo make the array be unique elements
@@ -139,6 +141,9 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       port docker[:ports]
       volumes bindvolume
     end
+    print "---------------------------------------------------------------------------------------------"
+    print "----------------------------------#{container_name}:#{container_name}------------------------"
+    print "----------------------------------#{etchosts}------------------------------------------------"
     etchosts.push("#{container_name}:#{container_name}")
     #Break and dont create mysql proxy.conf
     next
@@ -161,11 +166,18 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       privileged true 
 #{["/dev/fuse"]}
     end
+
+    if (not (defined?(docker[:exec])).nil?) && (not "#{docker[:exec]}" == "")
+      execute 'execute command inside docker' do
+      command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec]}\'"
+      end
+    end
+
     etchosts.push("#{container_name}:#{container_name}")
   end
  
   #Add proxy.conf to folder if bootproxy defined
-  if not (defined?(node[:externalmode])).nil? && node[:externalmode].eql?("bootproxy")
+  if defined?(node[:externalmode]) && node[:externalmode].eql?("bootproxy")
     #Prepare bootproxy directories
     directory "#{node[:deploycode][:basedirectory]}bootproxy" do
       owner user
@@ -175,36 +187,43 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       action :create
     end
    
-    if docker[:proxyport].eql?("80")
-      portstring = ""
-    else
-      portstring = ":#{docker[:proxyport]}"
-    end
+    # if docker[:proxyport].eql?("80")
+    #   portstring = ""
+    # else
+    #   portstring = ":#{docker[:proxyport]}"
+    # end
 
     #Skip template create for bootdev proxy
     next if localfolder.eql?("bootproxy")
 
     domainprefixset = node[:domainprefix]
-    if defined?(docker[:customdomainprefix])
+    if (not (defined?(docker[:customdomainprefix])).nil?) && (not "#{docker[:customdomainprefix]}" == "")
       domainprefixset = docker[:customdomainprefix]
     end
-    #Add same amount of proxy templates to Nginx folder
-    template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
-      variables(
-        :host => container_name,
-        :portstring => portstring,
-        :prefix => "dev-#{domainprefixset}#{localfolder}", #Tempfix
-        :domain => node[:domainname],
-      )
-        source "proxy.conf"
-        mode 0644
-        retries 3
-        retry_delay 2
-        owner "root"
-        group "root"
-        action :create
-#        ignore_failure true
-    end
+        if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
+          if docker[:overridesubdomain].eql?("www")
+            domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]} #{node[:domainname]}"
+          else
+            domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]}"
+          end
+        else
+          domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
+        end
+        template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
+          variables(
+            :host => container_name,
+            :domain  => domainstring,
+            :proxyport => "80"
+          )
+          source "proxy.conf"
+          mode 0644
+          retries 3
+          retry_delay 2
+          owner "root"
+          group "root"
+          action :create
+    #        ignore_failure true
+        end
   end
 
 end
