@@ -141,9 +141,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       port docker[:ports]
       volumes bindvolume
     end
-    print "---------------------------------------------------------------------------------------------"
-    print "----------------------------------#{container_name}:#{container_name}------------------------"
-    print "----------------------------------#{etchosts}------------------------------------------------"
     etchosts.push("#{container_name}:#{container_name}")
     #Break and dont create mysql proxy.conf
     next
@@ -156,7 +153,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
         action :delete
       end
 
-      cmd = "docker ps|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\'"
+      cmd = "docker ps -a|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\'"
       bash cmd do
         code <<-EOH
         #{cmd} &> #{results}
@@ -177,13 +174,17 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       end
       
       linking = []
-      node.set[:dockerinfo].each_pair do |hash, dockername|
+      node.set[:dockerinfo].each do |hash, dockername|
         linking.push("#{dockername}:#{dockername}")
       end
     else
       linking = etchosts
     end
 
+    print "-------------------------------PRINT linking before running---------------------------------\n"
+    print "-------------------------------"
+    print linking
+    print "-------------------------------"
     #prepare dockers
     docker_container container_name do
       repo docker[:image]
