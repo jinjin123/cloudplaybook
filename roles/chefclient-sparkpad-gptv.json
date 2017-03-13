@@ -6,7 +6,7 @@
       "deployuser":"root",
       "projectname":"sparkpad",
       "externalmode":"bootproxy",
-      "domainname":"liansuole.com",
+      "domainname":"liansuola.com",
       "docker": {
           "privaterepo":"dockerpriv.kybot.io:5002",
           "username":"keithyau",
