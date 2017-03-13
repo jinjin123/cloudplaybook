@@ -164,8 +164,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
           f = File.open(results)
           dockerinfo = Hash.new 
           f.each do |line|
-            print "Printing line of read++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            print line
             dockerinfo[line.chomp.split(' ')[0]] = line.chomp.split(' ')[1]
           end
           f.close
@@ -173,62 +171,14 @@ node[:deploycode][:runtime].each do |localfolder,docker|
           node.run_state[:linking] = dockerinfo
           node.set[:linking] = []
           node.set[:dockerinfo].each do |hash, dockername|
-            print "DOCKER COUNTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print "This is "
-            print dockername          
             node.set[:linking].push("#{dockername}:#{dockername}")
           end
-
-#          run_context.include_recipe "docker"
-#          cookbook = cookbook_collection["docker"]
-#          container = Chef::DockerBase::docker_container.new(container_name,run_context)
-#          container.cookbook("docker")
-#          container.repo(docker[:image])
-#          container.tag(tag docker[:tag])
-#          container.link(node.set[:linking])
-#          container.env(docker[:env])
-#          container.command(docker[:command])
-#          container.port(docker[:ports])
-#          container.volumes(bindvolume)
         end
       end
-      
-#      linking = []
-#      print "CHECK of counting docker++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-#      node.set[:dockerinfo].each do |hash, dockername|
-#        print "DOCKER COUNTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-#        print "This is "
-#        print dockername
-#        node.set[:linking].push("#{dockername}:#{dockername}")
-#      end
-      
-
     else
       node.set[:linking] = etchosts
-#      docker_container container_name do
-#        repo docker[:image]
-#        tag docker[:tag]
-#        #Add all docker link
-#  #      links linking
-#        links node.set[:linking]
-#        env docker[:env]
-#        command docker[:command]
-#        kill_after 7
-#  #      autoremove true
-#        action :run
-#        port docker[:ports]
-#        volumes bindvolume
-#        cap_add 'SYS_ADMIN'
-#        devices []
-#        privileged true
-#  #      {["/dev/fuse"]}
-#      end
     end
 
-#    print "-------------------------------PRINT linking before running---------------------------------\n"
-#    print "-------------------------------"
-#    print linking
-#    print "-------------------------------"
 #    #prepare dockers
     docker_container container_name do
       repo docker[:image]
