@@ -24,7 +24,7 @@
             "general.settings.php" : "sites/default/settings.php"
           },
           "variables" : {
-            "dbhost": "sparkpad_mysql",
+            "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
             "dbuser": "root",
             "dbpass": "thomas123"
           }
