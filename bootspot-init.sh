@@ -39,7 +39,9 @@ if [ "$CHECKING_GIT" != "0" ]; then
 else
     yum -y install git
 fi
-yum -y install curl wget
+
+#Must install
+yum -y install curl wget bind-utils
 
 #checkout working branch
 git clone -b docker-general https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git .
@@ -57,7 +59,7 @@ thisuniqueid="$(dmidecode | grep -i uuid | head -1 | awk -F" " '{print $2}')"
 ownip=`/usr/bin/curl --user "keithyau@163.com":thomas123 -F "linux_uid=${thisuniqueid}" -F 'spot_sshpass=thomas1234!' -F "spot_sshroot=root" http://d.bootdev.com/spot-register`
 
 #Update the Route53 cookbook self name for dockers to CNAME
-changeme=`echo -n ${ownip} | md5sum | awk -F" " '{ print $1 }'`
+changeme=`echo -n ${thisuniqueid} | md5sum | awk -F" " '{ print $1 }'`
 cat <<EOF  > user_jsons/self_domain.json
 {
       "deployuser":"root",
@@ -201,3 +203,22 @@ echo $dockerid
 
 #Rewrite record if there is a monitor id
 ownip=`/usr/bin/curl --user "keithyau@163.com":thomas123 -F "dd_dockerid=${dockerid}" -F "linux_uid=${thisuniqueid}" -F 'spot_sshpass=thomas1234!' -F "spot_sshroot=root" http://d.bootdev.com/spot-register`
+
+#Setup crontab to update IP address
+cat << EOF > /etc/cron.d/updateDNS.5mins
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+# Run the 10mins jobs
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+*/5 * * * * root /root/bootdev/chef/chef-repo/self_ddns_route53.sh
+
+EOF
