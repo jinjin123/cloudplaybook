@@ -129,7 +129,8 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   end
   
   if (not (defined?(node[:deploycode][:configuration][:general][localfolder])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
-    node[:deploycode][:configuration][:general]["#{localfolder}"].each do |file,path|
+    spec = node[:deploycode][:configuration][:general]["#{localfolder}"]
+    spec.each do |file,path|
       bindvolume.push("#{basedir}#{localfolder}_configuration/#{file}:#{path}")
     end
   end
