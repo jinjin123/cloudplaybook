@@ -248,7 +248,6 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
-    "recipe[diskmount]",
     "recipe[deploycode]",
     "recipe[drupalsetting]",
     "recipe[webserver]"
