@@ -195,7 +195,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     print "Docker tag"
     print docker[:tag]
     print "Docker linking"
-    lazy{node.set[:linking]}.each do |link|
+    node.set[:linking].each do |link|
       print link
     end
     print "Docker command"
