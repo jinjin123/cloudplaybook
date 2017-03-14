@@ -185,6 +185,11 @@ node[:deploycode][:runtime].each do |localfolder,docker|
           end
         end
       end
+    else
+      node.set[:linking] = etchosts
+    end
+
+    if localfolder.eql?("bootproxy")
       # Using lazy evaluation if bootproxy
       docker_container container_name do
         repo docker[:image]
@@ -205,7 +210,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   #      {["/dev/fuse"]}
       end
     else
-      node.set[:linking] = etchosts
       docker_container container_name do
         repo docker[:image]
         tag docker[:tag]
