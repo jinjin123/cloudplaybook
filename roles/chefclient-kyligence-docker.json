@@ -42,18 +42,22 @@
         "qa":{
           "tag":"latest",
           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
-          "mountlocal":"localdir",
-          "mountdocker":"/usr/local/tomcat/webapps",
-          "ports":"8081:8080",
-          "exec": "if ! grep -q 10.0.0.61 \"/etc/fstab\"; then echo \"10.0.0.61:/glt0 /data glusterfs defaults 0 0\" >> /etc/fstab;fi;mount /data"
+          "mountlocal":"multipledir",
+          "mountdocker":[
+             "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
+             "/data:/data"
+           ],
+          "ports":"8081:8080"
         },
         "prod":{
           "tag":"latest",
           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
-          "mountlocal":"localdir",
-          "mountdocker":"/usr/local/tomcat/webapps",
-          "ports":"8082:8080",
-          "exec": "if ! grep -q 10.0.0.61 \"/etc/fstab\"; then echo \"10.0.0.61:/glt0 /data glusterfs defaults 0 0\" >> /etc/fstab;fi;mount /data"
+          "mountlocal":"multipledir",
+          "mountdocker":[
+             "/home/ec2-user/tools/tomcat_dir/prod:/usr/local/tomcat/webapps",
+             "/data:/data"
+           ],
+          "ports":"8082:8080"
         }
       }
     }
