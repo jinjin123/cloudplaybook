@@ -47,6 +47,7 @@
     "recipe[glusterfs]",
     "recipe[diskmount]",
     "recipe[deploycode]",
+    "recipe[configs]",
     "recipe[webserver]"
   ],
   "env_run_lists": {
