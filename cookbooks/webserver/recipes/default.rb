@@ -107,13 +107,13 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   if docker[:mountlocal].eql?("localdir")
     #Override dir to custom url
     dir = node[:deploycode][:basedirectory] + localfolder
-    bindvolume = [ dir + ":#{docker[:mountdocker]}" ]
+    node.default["bindvolume"] = [ dir + ":#{docker[:mountdocker]}" ]
   else
     if docker[:mountlocal].eql?("multipledir")
-      bindvolume = docker[:mountdocker]
+      node.default["bindvolume"] = docker[:mountdocker]
     else
       dir = docker[:mountlocal]
-      bindvolume = [ dir + ":#{docker[:mountdocker]}" ]
+      node.default["bindvolume"] = [ dir + ":#{docker[:mountdocker]}" ]
     end
   end
 
@@ -131,7 +131,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
   if (not (defined?(node[:deploycode][:configuration][:general][localfolder])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
     spec = node[:deploycode][:configuration][:general]["#{localfolder}"]
     spec.each do |file,path|
-      bindvolume.push("#{basedir}#{localfolder}_configuration/#{file}:#{path}")
+      node.default["bindvolume"].push("#{basedir}#{localfolder}_configuration/#{file}:#{path}")
     end
   end
 
@@ -148,7 +148,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       action :run
       #ignore_failure true
       port docker[:ports]
-      volumes bindvolume
+      volumes node.default["bindvolume"]
     end
     etchosts.push("#{container_name}:#{container_name}")
     #Break and dont create mysql proxy.conf
@@ -202,7 +202,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
 #      autoremove true
       action :redeploy
       port docker[:ports]
-      volumes bindvolume
+      volumes node.default["bindvolume"]
       cap_add 'SYS_ADMIN' 
       devices []
       privileged true 
