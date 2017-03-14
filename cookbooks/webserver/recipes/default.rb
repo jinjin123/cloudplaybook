@@ -188,13 +188,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     else
       node.set[:linking] = etchosts
     end
-
-    # Lazy evaluation when needed
-    if localfolder.eql?("bootproxy")
-      linking = lazy{node.set[:linking]}
-    else
-      linking = node.set[:linking]
-    end
  
 #    #prepare dockers
     docker_container container_name do
@@ -203,7 +196,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       #Add all docker link
 #      links linking
       #links lazy{node.set[:linking]}
-      links linking
+      links node.set[:linking]
       env docker[:env]
       command docker[:command]
       kill_after 30
