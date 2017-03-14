@@ -15,74 +15,76 @@
     "deploycode": {
       "basedirectory": "/home/ec2-user/tools/drupal_dir/",        
       "configuration":{
-        "de": {
-          "folders": {
-            "sites/default/files" : "777",
-            "sites/default/privates" : "777"
+        "drupal": {
+          "de": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
           },
-          "settings": {
-            "general.settings.php" : "sites/default/settings.php"
+          "erp": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpad_mysql",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
           },
-          "variables" : {
-            "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-            "dbuser": "root",
-            "dbpass": "thomas123"
-          }
-        },
-        "erp": {
-          "folders": {
-            "sites/default/files" : "777",
-            "sites/default/privates" : "777"
+          "crm": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpad_mysql",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
           },
-          "settings": {
-            "general.settings.php" : "sites/default/settings.php"
+          "pmt": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpad_mysql",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
           },
-          "variables" : {
-            "dbhost": "sparkpad_mysql",
-            "dbuser": "root",
-            "dbpass": "thomas123"
-          }
-        },
-        "crm": {
-          "folders": {
-            "sites/default/files" : "777",
-            "sites/default/privates" : "777"
-          },
-          "settings": {
-            "general.settings.php" : "sites/default/settings.php"
-          },
-          "variables" : {
-            "dbhost": "sparkpad_mysql",
-            "dbuser": "root",
-            "dbpass": "thomas123"
-          }
-        },
-        "pmt": {
-          "folders": {
-            "sites/default/files" : "777",
-            "sites/default/privates" : "777"
-          },
-          "settings": {
-            "general.settings.php" : "sites/default/settings.php"
-          },
-          "variables" : {
-            "dbhost": "sparkpad_mysql",
-            "dbuser": "root",
-            "dbpass": "thomas123"
-          }
-        },
-        "mkt": {
-          "folders": {
-            "sites/default/files" : "777",
-            "sites/default/privates" : "777"
-          },
-          "settings": {
-            "general.settings.php" : "sites/default/settings.php"
-          },
-          "variables" : {
-            "dbhost": "sparkpad_mysql",
-            "dbuser": "root",
-            "dbpass": "thomas123"
+          "mkt": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpad_mysql",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
           }
         }
       },

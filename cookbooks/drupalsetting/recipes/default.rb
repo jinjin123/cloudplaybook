@@ -9,7 +9,7 @@
 
 basedir = node[:deploycode][:basedirectory]
 
-node[:deploycode][:configuration].each do |appname,spec|
+node[:deploycode][:configuration][:drupal].each do |appname,spec|
   #create custom directories && set permission 
   spec[:folders].each do | dir,permission |
     directory basedir + "#{appname}/#{dir}" do
