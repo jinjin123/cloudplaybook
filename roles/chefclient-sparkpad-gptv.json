@@ -14,7 +14,8 @@
       },
       "deploycode":{
         "basedirectory":"/root/tools/code/",
-        "configuration":{
+        "configuration": {
+          "drupal" : {
             "sparkpad_tvbackend_drupal": {
               "folders": {
                 "sites/default/files" : "777",
@@ -29,6 +30,7 @@
                 "dbpass": "thomas123"
               }
             }
+          }
         },
         "localfolder":{
             "mysql":"nodownload",
