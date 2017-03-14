@@ -13,6 +13,11 @@
     "deploycode": {
       "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
       "configuration":{
+        "general" : {
+            "qa": {
+            "server.xml" : "/usr/local/tomcat/conf/server.xml",
+          }
+        }
       },
       "localfolder": {
         "qa": {
