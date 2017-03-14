@@ -13,6 +13,7 @@
 #yum_package 'docker'
 
 include_recipe 'yum'
+basedir = node[:deploycode][:basedirectory]
 
 docker_installation_script 'default' do
   retries 3
@@ -126,7 +127,14 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       action :create
     end
   end
-    
+  
+  if (not (defined?(node[:deploycode][:configuration][:general][localfolder])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
+    node[:deploycode][:configuration][:general][localfolder].each do |file,path|
+      bindvolume.push("#{basedir}#{localfolder}/configurations/#{file}:#{path}")
+    end
+  end
+
+  # Begin running containers
   container_name = "#{node[:projectname]}_" + localfolder
   if container_name.eql?("#{node[:projectname]}_mysql") 
     #Add the first docker
@@ -145,6 +153,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
     #Break and dont create mysql proxy.conf
     next
   else 
+    #Special handling if bootproxy,  get all local running docker id and name and link into bootproxy
     if localfolder.eql?("bootproxy")
       node.set[:dockerinfo] = []
       results = "/tmp/dockerinfo.txt"
