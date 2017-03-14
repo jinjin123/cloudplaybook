@@ -15,14 +15,16 @@
     "deploycode": {
       "basedirectory": "/home/ec2-user/tools/drupal_dir/",        
       "configuration":{
+        "general" : {
+          "de": {
+            "de.settings.php": "/var/www/html/sites/default/settings.php"
+          }
+        },
         "drupal": {
           "de": {
             "folders": {
               "sites/default/files" : "777",
               "sites/default/privates" : "777"
-            },
-            "settings": {
-              "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
@@ -39,7 +41,7 @@
               "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "sparkpad_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
@@ -53,7 +55,7 @@
               "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "sparkpad_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
@@ -67,7 +69,7 @@
               "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "sparkpad_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
@@ -81,7 +83,7 @@
               "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "sparkpad_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
