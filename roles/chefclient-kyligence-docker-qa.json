@@ -15,7 +15,7 @@
       "configuration":{
         "general" : {
             "qa": {
-            "server.xml" : "/usr/local/tomcat/conf/server.xml",
+            "server.xml" : "/usr/local/tomcat/conf/server.xml"
           }
         }
       },
