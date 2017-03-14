@@ -163,7 +163,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
-          "ports": "80:80"
+          "ports": "9084:80"
         },
         "mkt": {
           "tag": "latest",
