@@ -207,8 +207,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
         devices []
         privileged true 
         timeout 30
-        restart_policy 'on-failure'
-        restart_maximum_retry_count 2
   #      {["/dev/fuse"]}
       end
     else
