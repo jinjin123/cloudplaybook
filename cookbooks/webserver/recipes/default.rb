@@ -214,7 +214,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       links lazy{node.set[:linking]}
       env docker[:env]
       command docker[:command]
-      kill_after 7
+      kill_after 30
 #      autoremove true
       action :redeploy
       port docker[:ports]
