@@ -6,12 +6,28 @@
     "deployuser" : "ec2-user",
     "projectname": "kyligence",
     "docker": {
-        "privaterepo":"dockerpriv.kybot.io:5002",
-        "username":"keithyau",
-        "password":"thomas123"
+      "privaterepo":"dockerpriv.kybot.io:5002",
+      "username":"keithyau",
+      "password":"thomas123"
     },
     "deploycode": {
       "basedirectory" : "/home/ec2-user/tools/tomcat_dir/",
+      "configuration":{
+        "general" : {
+          "qa": {
+            "qa_server.xml" : "/usr/local/tomcat/conf/server.xml",
+            "qa_web.xml": "/usr/local/tomcat/conf/web.xml",
+            "qa_logging.properties": "/usr/local/tomcat/conf/qa_logging.properties",
+            "qa_context.xml": "/usr/local/tomcat/conf/context.xml" 
+          },
+          "prod": {
+            "prod_server.xml" : "/usr/local/tomcat/conf/server.xml",
+            "prod_web.xml": "/usr/local/tomcat/conf/web.xml",
+            "prod_logging.properties": "/usr/local/tomcat/conf/qa_logging.properties",
+            "prod_context.xml": "/usr/local/tomcat/conf/context.xml" 
+          }
+        }
+      },
       "localfolder": {
         "qa": {
           "giturl": "git@gitlab.kybot.io:root/kybot-deployment.git",
@@ -52,6 +68,7 @@
     "recipe[glusterfs]",
     "recipe[diskmount]",
     "recipe[deploycode]",
+    "recipe[configs]",
     "recipe[webserver]"
   ],
   "env_run_lists": {
