@@ -200,7 +200,7 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       command docker[:command]
       kill_after 7
 #      autoremove true
-      action :run
+      action :redeploy
       port docker[:ports]
       volumes node.default["bindvolume"]
       cap_add 'SYS_ADMIN' 
