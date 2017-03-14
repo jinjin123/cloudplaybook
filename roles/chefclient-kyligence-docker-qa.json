@@ -32,7 +32,7 @@
         "qa":{
           "tag":"latest",
            "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
-           "mountlocal":"multidir",
+           "mountlocal":"multipledir",
            "mountdocker":[
              "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
              "/data:/data"
