@@ -15,7 +15,10 @@
       "configuration":{
         "general" : {
             "qa": {
-            "server.xml" : "/usr/local/tomcat/conf/server.xml"
+            "qa_server.xml" : "/usr/local/tomcat/conf/server.xml",
+            "qa_web.xml": "/usr/local/tomcat/conf/web.xml",
+            "qa_logging.propreties": "/usr/local/tomcat/conf/logging.propreties",
+            "qa_context.xml": "/usr/local/tomcat/conf/context.xml" 
           }
         }
       },
