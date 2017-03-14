@@ -195,7 +195,8 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       tag docker[:tag]
       #Add all docker link
 #      links linking
-      links lazy{node.set[:linking]}
+      #links lazy{node.set[:linking]}
+      links node.set[:linking]
       env docker[:env]
       command docker[:command]
       kill_after 30
