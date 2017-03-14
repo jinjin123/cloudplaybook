@@ -189,22 +189,6 @@ node[:deploycode][:runtime].each do |localfolder,docker|
       node.set[:linking] = etchosts
     end
 
-    print "Start Trouble Shooting............................................................."
-    print "Docker image" 
-    print docker[:image]
-    print "Docker tag"
-    print docker[:tag]
-    print "Docker linking"
-    node.set[:linking].each do |link|
-      print link
-    end
-    print "Docker command"
-    print docker[:command]
-    print "Docker port"
-    print docker[:ports]
-    node.default["bindvolume"].each do |bindvolume|
-      print bindvolume
-    end
 #    #prepare dockers
     docker_container container_name do
       repo docker[:image]
