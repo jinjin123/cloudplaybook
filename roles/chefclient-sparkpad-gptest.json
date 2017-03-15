@@ -73,7 +73,7 @@
             },
             "oc":{
               "giturl": "git@gitlab.com:insready/spark-oc.git",
-              "branch": "newplatform"
+              "branch": "master"
             },
             "bootproxy":"nodownload"
          },
