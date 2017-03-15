@@ -90,24 +90,21 @@
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "mountlocal":"localdir",
               "mountdocker":"/var/www/html",
-              "ports":"8082:80",
-              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log"
+              "ports":"8082:80"
             },
             "pmt":{
               "tag":"latest",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "mountlocal":"localdir",
               "mountdocker":"/var/www/html",
-              "ports":"8082:80",
-              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log"
+              "ports":"8082:80"
             },
             "oc":{
               "tag":"latest",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "mountlocal":"localdir",
               "mountdocker":"/var/www/html",
-              "ports":"8082:80",
-              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log"
+              "ports":"8082:80"
             },
             "bootproxy":{
                "tag":"stable-alpine",
