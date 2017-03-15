@@ -1,0 +1,35 @@
+{
+   "name":"chefclient-kyligence-azure",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"kyligence",
+      "deploycode":{
+        "basedirectory":"/root/tools/code/",
+        "localfolder":{
+            "azure-cli":"nodownload"
+         },
+         "runtime":{
+            "azure-cli":{
+              "tag":"latest",
+              "image":"microsoft/azure-cli"
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[deploycode]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}
