@@ -102,8 +102,7 @@ end
 
 etchosts = []
 node[:deploycode][:runtime].each do |localfolder,docker|
-  #if tagged localdir, give the localfolder as mount poinT 
-  printf "MountLocal variable equal = " + docker[:mountlocal]
+  #if tagged localdir, give the localfolder as mount point 
   if docker[:mountlocal].eql?("localdir")
     #Override dir to custom url
     dir = node[:deploycode][:basedirectory] + localfolder
