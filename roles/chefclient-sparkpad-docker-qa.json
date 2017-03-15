@@ -14,7 +14,7 @@
       "password": "thomas123"
     },
     "deploycode": {
-      "basedirectory": "/root/tools/code/",        
+      "basedirectory": "/root/tools/liansuola/",        
       "configuration":{
         "drupal": {
           "de": {
