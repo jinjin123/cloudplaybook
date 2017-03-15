@@ -107,18 +107,20 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
     if (not (defined?(docker[:mountlocal])).nil?)
       if docker[:mountlocal].eql?("localdir")
         #Override dir to custom url
+        dir_name = "#{node[:deploycode][:basedirectory]}#{localfolder}"
         node.default["bindvolume"] = [ "#{node[:deploycode][:basedirectory]}#{localfolder}:#{docker[:mountdocker]}" ]
       else
         if docker[:mountlocal].eql?("multipledir")
           node.default["bindvolume"] = docker[:mountdocker]
         else
+          dir_name = docker[:mountlocal]
           node.default["bindvolume"] = [ "#{docker[:mountlocal]}:#{docker[:mountdocker]}" ]
         end
       end
 
-      if not docker[:mountlocal].eql?("multipledir") 
+      if not docker[:mountlocal].eql?("multipledir") && (not (defined?(dir_name)).nil?)
         #Prepare directories
-        directory dir do
+        directory dir_name do
           owner user
           group user
           mode '0755'
