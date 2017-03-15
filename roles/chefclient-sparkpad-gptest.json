@@ -92,7 +92,7 @@
                 "/root/tools/sparkpad-dev/de:/var/www/html",
                 "/usr/bin/which:/usr/bin/which"
               ],
-              "ports":"7081:80"
+              "ports":"7081:5000"
             },
             "pmt":{
               "tag":"latest",
@@ -120,7 +120,8 @@
                "mountlocal":"localdir",
                "mountdocker":"/etc/nginx/conf.d/",
                "ports":[
-                  "80:80"
+                  "80:80",
+                  "5000:5000"
                ]
             }
          }
