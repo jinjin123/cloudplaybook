@@ -82,10 +82,7 @@
               "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
               "mountlocal":"/root/mysqldir",
-              "mountdocker":"/var/lib/mysql",
-              "ports":[
-                "3306:3306"
-              ]
+              "mountdocker":"/var/lib/mysql"
             },
             "de":{
               "tag":"latest",
