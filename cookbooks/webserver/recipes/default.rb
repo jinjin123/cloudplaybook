@@ -107,8 +107,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
     if (not (defined?(docker[:mountlocal])).nil?)
       if docker[:mountlocal].eql?("localdir")
         #Override dir to custom url
-        dir = node[:deploycode][:basedirectory] + localfolder
-        node.default["bindvolume"] = [ dir + ":#{docker[:mountdocker]}" ]
+        node.default["bindvolume"] = [ "#{node[:deploycode][:basedirectory]}#{localfolder}:#{docker[:mountdocker]}" ]
       else
         if docker[:mountlocal].eql?("multipledir")
           node.default["bindvolume"] = docker[:mountdocker]
