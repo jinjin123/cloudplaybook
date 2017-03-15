@@ -110,7 +110,7 @@
                 "/root/tools/sparkpad-dev/de:/var/www/html",
                 "/usr/bin/which:/usr/bin/which"
               ],
-              "ports":"7081:5000"
+              "ports":"7081:80"
             },
             "pmt":{
               "tag":"latest",
@@ -130,7 +130,7 @@
                 "/root/tools/sparkpad-dev/crm:/var/www/html",
                 "/usr/bin/which:/usr/bin/which"
               ],
-              "ports":"7083:5000"
+              "ports":"7083:80"
             },
             "oc":{
               "tag":"latest",
