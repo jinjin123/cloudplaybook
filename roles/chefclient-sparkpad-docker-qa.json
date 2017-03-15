@@ -4,7 +4,7 @@
   "json_class": "Chef::Role",
   "default_attributes": {
     "deployuser": "root",
-    "projectname": "sparkpadgp",
+    "projectname": "liansuola",
     "externalmode": "bootproxy",
     "domainname": "liansuola.com",
     "domainprefix": "dev-",
