@@ -130,7 +130,7 @@
                 "/root/tools/sparkpad-dev/crm:/var/www/html",
                 "/usr/bin/which:/usr/bin/which"
               ],
-              "ports":"7083:80"
+              "ports":"7083:5000"
             },
             "oc":{
               "tag":"latest",
