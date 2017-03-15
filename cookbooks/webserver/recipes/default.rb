@@ -113,8 +113,10 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
         if docker[:mountlocal].eql?("multipledir")
           node.default["bindvolume"] = docker[:mountdocker]
         else
-          dir = docker[:mountlocal]
-          node.default["bindvolume"] = [ dir + ":#{docker[:mountdocker]}" ]
+          if (not (defined?(docker[:mountlocal])).nil?)
+            dir = docker[:mountlocal]
+            node.default["bindvolume"] = [ dir + ":#{docker[:mountdocker]}" ]
+          end
         end
       end
 
