@@ -120,7 +120,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
 
       if not docker[:mountlocal].eql?("multipledir") && (not (defined?(dir_name)).nil?)
         #Prepare directories
-        directory dir_name do
+        directory "#{dir_name}" do
           owner user
           group user
           mode '0755'
