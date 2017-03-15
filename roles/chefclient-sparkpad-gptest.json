@@ -7,6 +7,7 @@
       "projectname":"sparkpadgp",
       "externalmode":"bootproxy",
       "domainname":"sparkpad-dev.com",
+      "domainprefix": "dev-",
       "docker": {
           "privaterepo":"dockerpriv.kybot.io:5002",
           "username":"keithyau",
@@ -72,7 +73,7 @@
             },
             "oc":{
               "giturl": "git@gitlab.com:insready/spark-oc.git",
-              "branch": "newplatform"
+              "branch": "master"
             },
             "bootproxy":"nodownload"
          },
