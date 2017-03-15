@@ -1,0 +1,141 @@
+{
+   "name":"chefclient-sparkpad-gptest",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"sparkpadgp",
+      "externalmode":"bootproxy",
+      "domainname":"sparkpad-dev.com",
+      "docker": {
+          "privaterepo":"dockerpriv.kybot.io:5002",
+          "username":"keithyau",
+          "password":"thomas123"
+      },
+      "deploycode":{
+        "basedirectory":"/root/tools/code/",
+        "configuration": {
+          "drupal" : {
+            "de": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" : "777"
+              },
+              "settings": {
+                "general.settings.php" : "sites/default/settings.php"
+              },
+              "variables" : {
+                "dbhost": "sparkpadgp_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            },
+            "pmt": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" : "777"
+              },
+              "settings": {
+                "general.settings.php" : "sites/default/settings.php"
+              },
+              "variables" : {
+                "dbhost": "sparkpadgp_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            },
+            "oc": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" : "777"
+              },
+              "settings": {
+                "general.settings.php" : "sites/default/settings.php"
+              },
+              "variables" : {
+                "dbhost": "sparkpadgp_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            }
+          }
+        },
+        "localfolder":{
+            "mysql":"nodownload",
+            "de":{
+              "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+              "branch": "newplatform"
+            },
+            "pmt":{
+              "giturl": "git@gitlab.com:insready/spark-payment-d8.git",
+              "branch": "master"
+            },
+            "oc":{
+              "giturl": "git@gitlab.com:insready/spark-oc.git",
+              "branch": "newplatform"
+            },
+            "bootproxy":"nodownload"
+         },
+         "runtime":{
+            "mysql":{
+              "tag":"5.7",
+              "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
+              "env":["MYSQL_ROOT_PASSWORD=thomas123"],
+              "mountlocal":"/root/mysqldir",
+              "mountdocker":"/var/lib/mysql",
+              "ports":[
+                "3306:3306"
+              ]
+            },
+            "de":{
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "mountlocal":"localdir",
+              "mountdocker":"/var/www/html",
+              "ports":"8082:80",
+              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log"
+            },
+            "pmt":{
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "mountlocal":"localdir",
+              "mountdocker":"/var/www/html",
+              "ports":"8082:80",
+              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log"
+            },
+            "oc":{
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "mountlocal":"localdir",
+              "mountdocker":"/var/www/html",
+              "ports":"8082:80",
+              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log"
+            },
+            "bootproxy":{
+               "tag":"stable-alpine",
+               "image":"daocloud.io/library/nginx",
+               "mountlocal":"localdir",
+               "mountdocker":"/etc/nginx/conf.d/",
+               "ports":[
+                  "80:80"
+               ]
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[deploycode]",
+      "recipe[drupalsetting]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}
