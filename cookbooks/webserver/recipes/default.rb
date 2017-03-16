@@ -192,7 +192,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
         node.set[:linking] = etchosts
       end
 
-      if node.default["bindvolume"].eql?(":")
+      if node.default["bindvolume"].eql?([":"])
         node.default["bindvolume"] = ""
       end
       if localfolder.eql?("bootproxy")
