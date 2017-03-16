@@ -20,6 +20,7 @@
               "password":"Kyligence2016@"
             },
             "kylin": {
+              "key1": "value1"
             }
           }
         },
@@ -44,7 +45,7 @@
       "recipe[build-essential]",
       "recipe[basicservice]",
       "recipe[deploycode]",
-      "recipe[webserver]"
+      "recipe[webserver]",
       "recipe[azure]"
    ],
    "env_run_lists":{
