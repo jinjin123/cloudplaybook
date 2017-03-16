@@ -100,11 +100,12 @@
               "image":"mysql",
               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
               "mountlocal":"/root/mysqlsparkpadgp",
-              "mountdocker":"/var/lib/mysql"
+              "mountdocker":"/var/lib/mysql",
+              "ports":"3306:3306"
             },
             "de":{
               "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
               "mountlocal":"multipledir",
               "mountdocker": [
                 "/root/tools/sparkpad-dev/de:/var/www/html",
@@ -114,7 +115,7 @@
             },
             "pmt":{
               "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
               "mountlocal":"multipledir",
               "mountdocker": [
                 "/root/tools/sparkpad-dev/pmt:/var/www/html",
@@ -124,7 +125,7 @@
             },
             "crm":{
               "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
               "mountlocal":"multipledir",
               "mountdocker": [
                 "/root/tools/sparkpad-dev/crm:/var/www/html",
@@ -134,7 +135,7 @@
             },
             "oc":{
               "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
               "mountlocal":"multipledir",
               "mountdocker": [
                 "/root/tools/sparkpad-dev/oc:/var/www/html",

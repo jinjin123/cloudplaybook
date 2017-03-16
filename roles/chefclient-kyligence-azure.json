@@ -14,8 +14,12 @@
         "basedirectory":"/root/tools/code/",
         "configuration": {
           "azure":{
+            "credentials": {
+              "env":"AzureChinaCloud",
+              "username":"jacky.chan@kycloud.partner.onmschina.cn",
+              "password":"Kyligence2016@"
+            },
             "kylin": {
-              
             }
           }
         },
@@ -25,7 +29,9 @@
          "runtime":{
             "azure-cli":{
               "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/azure-cli"
+              "image":"dockerpriv.kybot.io:5002/keithyau/azure-cli",
+              "mountlocal":"localdir",
+              "mountdocker":"/templates"
             }
          }
       }
