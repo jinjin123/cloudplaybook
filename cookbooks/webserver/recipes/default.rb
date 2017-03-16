@@ -192,6 +192,9 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
         node.set[:linking] = etchosts
       end
 
+      if node.default["bindvolume"].eql?(":")
+        node.default["bindvolume"] = ""
+      end
       if localfolder.eql?("bootproxy")
         # Using lazy evaluation if bootproxy
         docker_container container_name do
@@ -213,9 +216,6 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
     #      {["/dev/fuse"]}
         end
       else
-        if node.default["bindvolume"].eql?(":")
-          node.default["bindvolume"] = ""
-        end
         docker_container container_name do
           repo docker[:image]
           tag docker[:tag]
