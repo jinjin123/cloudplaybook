@@ -8,7 +8,7 @@
 #
 
 credentials = node[:deploycode][:configuration][:azure][:credentials]
-image = node[:deploycode][:runtime][:azure-cli][:image]
+image = node[:deploycode][:runtime]["azure-cli"][:image]
 
 if (not (defined?(credentials[:env])).nil?)
 	execute 'login_china' do
