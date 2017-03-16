@@ -12,6 +12,13 @@
       },
       "deploycode":{
         "basedirectory":"/root/tools/code/",
+        "configuration": {
+          "azure":{
+            "kylin": {
+              
+            }
+          }
+        },
         "localfolder":{
             "azure-cli":"nodownload"
          },
@@ -28,11 +35,11 @@
    },
    "chef_type":"role",
    "run_list":[
-      "recipe[git]",
       "recipe[build-essential]",
       "recipe[basicservice]",
       "recipe[deploycode]",
       "recipe[webserver]"
+      "recipe[azure]"
    ],
    "env_run_lists":{
 
