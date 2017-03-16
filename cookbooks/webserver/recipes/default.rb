@@ -125,6 +125,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
           group user
           mode '0755'
           recursive true
+          ignore_failure true
           action :create
         end
       end
