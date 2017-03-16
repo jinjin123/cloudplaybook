@@ -193,7 +193,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
       end
 
       if node.default["bindvolume"].eql?([":"])
-        node.default["bindvolume"] = ""
+        node.default["bindvolume"] = nil
       end
       if localfolder.eql?("bootproxy")
         # Using lazy evaluation if bootproxy
