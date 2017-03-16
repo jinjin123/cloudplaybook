@@ -213,6 +213,9 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
     #      {["/dev/fuse"]}
         end
       else
+        if node.default["bindvolume"].eql?(":")
+          node.default["bindvolume"] = ""
+        end
         docker_container container_name do
           repo docker[:image]
           tag docker[:tag]
