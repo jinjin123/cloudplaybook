@@ -26,14 +26,6 @@
         },
         "localfolder":{
             "azure-cli":"nodownload"
-         },
-         "runtime":{
-            "azure-cli":{
-              "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/azure-cli",
-              "mountlocal":"localdir",
-              "mountdocker":"/templates"
-            }
          }
       }
    },
