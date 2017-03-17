@@ -91,7 +91,7 @@ if (not (defined?(node[:docker][:privaterepo])).nil?) && (not "#{node[:docker][:
 end
 
 #todo make the array be unique elements
-if (not (defined?(node[:deploycode][:runtime])).nil?)
+if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycode][:runtime]}" == "")
   node[:deploycode][:runtime].each do |localfolder,docker|
     # Pull latest image
     docker_image docker[:image] do
