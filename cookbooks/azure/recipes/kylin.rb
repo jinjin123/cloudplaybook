@@ -20,7 +20,7 @@ container_name = "#{node[:projectname]}_azure"
 image_name = container_name
 
 execute "createimageifnotexist_removecontainerifexist" do
-    command "if [ `docker images|awk {'print $NF'}|grep \'^#{image_name}$\'|wc -l` != \'1\' ];then docker commit #{container_name} #{image_name};fi;if [ `docker ps -a|awk {'print $NF'}|grep \'^#{container_name}$\'|wc -l` == \'1\' ];then docker stop #{container_name}||true;docker rm #{container_name};fi"
+    command "if [ `docker images|awk {'print $NF'}|grep \'^#{image_name}$\'|wc -l` != \'1\' ];then docker commit #{container_name} #{image_name};fi;if [ `docker ps -a|awk {'print $NF'}|grep \'^#{container_name}$\'|wc -l` == \'1\' ];then docker stop #{container_name}||true;docker rm #{container_name}||true;fi"
 end
 
 # Reinit azure docker_container
@@ -37,6 +37,6 @@ else
 end
 
 execute "commit_docker" do
-	command "docker commit #{container_name} #{image_name}_tmp;docker rm #{container_name};docker rmi #{image_name};docker tag #{image_name}_tmp #{image_name};docker rmi #{image_name}_tmp;docker rm #{container_name}"
+	command "docker commit #{container_name} #{image_name}_tmp;docker rm #{container_name};docker rmi #{image_name};docker tag #{image_name}_tmp #{image_name};docker rmi #{image_name}_tmp"
     action :nothing
 end
