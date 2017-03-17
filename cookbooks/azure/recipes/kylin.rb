@@ -20,7 +20,7 @@ container_name = "#{node[:projectname]}_azure"
 image_name = container_name
 
 execute "createimageifnotexist_removecontainerifexist" do
-    command "if [ `docker images|grep \'^#{image_name}$\'|wc -l` -nq \'1\' ];then docker commit #{container_name} #{image_name};fi;if [ `docker ps -a|grep \'^#{container_name}$\'|wc -l` -eq \'1\' ];then docker stop #{container_name}||true;docker rm #{container_name}|fi"
+    command "if [ `docker images|grep \'^#{image_name}$\'|wc -l` != \'1\' ];then docker commit #{container_name} #{image_name};fi;if [ `docker ps -a|grep \'^#{container_name}$\'|wc -l` == \'1\' ];then docker stop #{container_name}||true;docker rm #{container_name}|fi"
 end
 
 # Reinit azure docker_container
