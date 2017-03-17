@@ -14,7 +14,13 @@ container_name = "azure"
 
 if (not (defined?(credentials[:env])).nil?)
 	execute 'login_china' do
-	  command "docker run --name #{container_name} #{image} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}"
+	  command "
+	    $VAR=`docker ps -a| awk {\'print $(NF)\'}| grep \'^#{container_name}$\'|wc -l`;
+	    if [ $VAR -eq \"1\" ]; 
+	    then docker run --name #{container_name} #{image} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}
+        else docker run #{image} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}
+        fi
+	    "
 	end
 else
 	execute 'login_global' do
