@@ -15,7 +15,7 @@
 credentials = node[:deploycode][:configuration][:azure][:credentials]
 #image = node[:deploycode][:runtime]["azure-cli"][:image]
 # Name of docker container is not imaport, just make one
-container_name = "#{node[:projectname]_azure-cli}"
+container_name = "#{node[:projectname]_azure}"
 # Aggregating operations into image, default = container_name
 image_name = container_name
 
