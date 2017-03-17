@@ -103,7 +103,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 end
 
 etchosts = []
-if (not (defined?(node[:deploycode][:runtime])).nil?)
+if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycode][:runtime]}" == "")
   node[:deploycode][:runtime].each do |localfolder,docker|
     #if tagged localdir, give the localfolder as mount point 
     if (not (defined?(docker[:mountlocal])).nil?)
