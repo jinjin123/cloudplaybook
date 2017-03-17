@@ -91,12 +91,14 @@ if (not (defined?(node[:docker][:privaterepo])).nil?) && (not "#{node[:docker][:
 end
 
 #todo make the array be unique elements
-node[:deploycode][:runtime].each do |localfolder,docker|
-  # Pull latest image
-  docker_image docker[:image] do
-    tag docker[:tag]
-    action :pull
-#   notifies :redeploy, 'docker_container[webservice]'
+if (not (defined?(node[:deploycode][:runtime])).nil?)
+  node[:deploycode][:runtime].each do |localfolder,docker|
+    # Pull latest image
+    docker_image docker[:image] do
+      tag docker[:tag]
+      action :pull
+  #   notifies :redeploy, 'docker_container[webservice]'
+    end
   end
 end
 
