@@ -119,11 +119,16 @@ if (not (defined?(node[:deploycode][:runtime])).nil?)
       end
 
       if not docker[:mountlocal].eql?("multipledir") && (not (defined?(dir_name)).nil?)
+        if localfolder.eql?("mysql")
+          dir_permission = '0777'
+        else 
+          dir_permission = '0755'
+        end
         #Prepare directories
         directory "#{dir_name}" do
           owner user
           group user
-          mode '0755'
+          mode "#{dir_permission}"
           recursive true
           ignore_failure true
           action :create
