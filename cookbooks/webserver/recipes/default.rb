@@ -176,9 +176,9 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         container_name = localfolder
         node.set[:dockerinfo] = []
         results = "/tmp/dockerinfo.txt"
-        # file results do
-        #   action :delete
-        # end
+        file results do
+          action :delete
+        end
 
         cmd = "docker ps -a|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\'"
         bash cmd do
@@ -187,7 +187,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           EOH
         end
         ruby_block "Results" do
-          only_if { "cat #{results}| wc -l" }
+          only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
           # only_if { ::File.exists?(results) }
           block do
             f = File.open(results)
