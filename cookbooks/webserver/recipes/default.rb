@@ -220,7 +220,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
   #      autoremove true
         action :run
         port docker[:ports]
-        volumes [ "#{basedir}../bootproxy:#{docker[:mountdocker]}" ]
+        volumes node.default["bindvolume"]
         cap_add 'SYS_ADMIN'
         devices []
         privileged true
