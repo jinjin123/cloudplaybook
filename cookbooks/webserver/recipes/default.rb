@@ -187,7 +187,18 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           #{cmd} > #{results}
           EOH
         end
-        ruby_block "Results" do
+        ruby_block "datefunctioning" do
+            block do
+                #tricky way to load this Chef::Mixin::ShellOut utilities
+                Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+                command = 'date +%Y%m%d%H%M%S'
+                command_out = shell_out(command)
+                node.set['timing'] = command_out.stdout
+            end
+            action :create
+        end
+
+        ruby_block "Results_#{node.set['timing']}" do
           only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
           # only_if { ::File.exists?(results) }
           block do
@@ -204,8 +215,6 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
               node.set[:linking].push("#{dockername}:#{dockername}")
             end
           end
-          retries 3
-          notifies :redeploy, 'docker_container[bootproxy]', :immediately
         end
       else
         node.set[:linking] = etchosts
@@ -226,7 +235,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           command docker[:command]
           kill_after 30
     #      autoremove true
-          action :nothing
+          action :redeploy
           port docker[:ports]
           volumes node.default["bindvolume"]
           cap_add 'SYS_ADMIN'
