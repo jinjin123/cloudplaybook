@@ -171,7 +171,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       #Break and dont create mysql proxy.conf
       next
     else
-      node.set[:linking] = []
+      node.run_state[:linking] = []
       #Special handling if bootproxy,  get all local running docker id and name and link into bootproxy
       if localfolder.eql?("bootproxy")
         container_name = localfolder
@@ -198,10 +198,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
               dockerinfo[line.chomp.split(' ')[0]] = line.chomp.split(' ')[1]
             end
             f.close
-            node.set[:dockerinfo] = dockerinfo
-            node.run_state[:linking] = dockerinfo
-            node.run_state[:linking] = []
-            node.set[:dockerinfo].each do |hash, dockername|
+            dockerinfo.each do |hash, dockername|
               node.run_state[:linking].push("#{dockername}:#{dockername}")
             end
           end
