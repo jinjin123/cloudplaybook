@@ -210,25 +210,45 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       if node.default["bindvolume"].eql?([":"])
         node.default["bindvolume"] = nil
       end
-      docker_container container_name do
-        repo docker[:image]
-        tag docker[:tag]
-        #Add all docker link
-        links lazy{node.set[:linking]}
-        env docker[:env]
-        command docker[:command]
-        kill_after 30
-  #      autoremove true
-        action :run
-        port docker[:ports]
-        volumes node.default["bindvolume"]
-        cap_add 'SYS_ADMIN'
-        devices []
-        privileged true
-        timeout 30
-  #      {["/dev/fuse"]}
-      end
-
+      if localfolder.eql?("bootproxy")
+        # Using lazy evaluation if bootproxy
+        docker_container container_name do
+          repo docker[:image]
+          tag docker[:tag]
+          #Add all docker link
+          links lazy{node.set[:linking]}
+          env docker[:env]
+          command docker[:command]
+          kill_after 30
+    #      autoremove true
+          action :run
+          port docker[:ports]
+          volumes node.default["bindvolume"]
+          cap_add 'SYS_ADMIN'
+          devices []
+          privileged true
+          timeout 30
+    #      {["/dev/fuse"]}
+        end
+      else
+        docker_container container_name do
+          repo docker[:image]
+          tag docker[:tag]
+          #Add all docker link
+          links node.set[:linking]
+          env docker[:env]
+          command docker[:command]
+          kill_after 30
+    #      autoremove true
+          action :run
+          port docker[:ports]
+          volumes node.default["bindvolume"]
+          cap_add 'SYS_ADMIN'
+          devices []
+          privileged true
+          timeout 30
+    #      {["/dev/fuse"]}
+        end
 
       if (not (defined?(docker[:exec])).nil?) && (not "#{docker[:exec]}" == "")
         execute 'execute command inside docker' do
