@@ -200,7 +200,8 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
                 node.save rescue nil
             end
         end
-
+        print "Timing = "
+        print node.set['timing']
         resultname = "Results_" + node.set['timing']
         ruby_block resultname do
           only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
