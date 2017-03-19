@@ -195,14 +195,14 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
                 Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
                 command = 'date +%Y%m%d%H%M%S'
                 command_out = shell_out(command)
-                node.set['timing'] = command_out.stdout
-                print node.set['timing']
+                node.run_state['timing'] = command_out.stdout
+                print node.run_state['timing']
                 node.save rescue nil
             end
         end
         print "Timing = "
-        print node.set['timing']
-        resultname = "Results_" + node.set['timing']
+        print node.run_state['timing']
+        resultname = "Results_" + node.run_state['timing']
         ruby_block resultname do
           only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
           # only_if { ::File.exists?(results) }
