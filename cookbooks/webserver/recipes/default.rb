@@ -221,7 +221,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           command docker[:command]
           kill_after 30
     #      autoremove true
-          action :run
+          action :redeploy
           port docker[:ports]
           volumes node.default["bindvolume"]
           cap_add 'SYS_ADMIN'
@@ -240,7 +240,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           command docker[:command]
           kill_after 30
     #      autoremove true
-          action :run
+          action :redeploy
           port docker[:ports]
           volumes node.default["bindvolume"]
           cap_add 'SYS_ADMIN'
@@ -250,7 +250,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
     #      {["/dev/fuse"]}
         end
       end
-      
+
       if (not (defined?(docker[:exec])).nil?) && (not "#{docker[:exec]}" == "")
         execute 'execute command inside docker' do
         command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec]}\'"
