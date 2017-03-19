@@ -183,7 +183,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         cmd = "docker ps -a|grep -v CONTAINER|grep -v monitor|awk \'{print $1, $NF}\'"
         bash cmd do
           code <<-EOH
-          #{cmd} &> #{results}
+          #{cmd} > #{results}
           EOH
         end
         ruby_block "Results" do
