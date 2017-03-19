@@ -10,7 +10,9 @@
 
 # Check if target web directory is exist, create it if not
 # Assign docker access right to user
-#yum_package 'docker'
+# yum_package 'docker'
+
+# Moving bootproxy dirctory to one path upper than basedirectory
 
 include_recipe 'yum'
 basedir = node[:deploycode][:basedirectory]
@@ -26,7 +28,7 @@ end
 ruby_block "check_docker" do
   block do
   #tricky way to load this Chef::Mixin::ShellOut utilities
-    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut) 
+    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
     command = 'command -v docker| wc -l'
     command_out = shell_out(command)
     node.set['docker_exists'] = command_out.stdout
@@ -36,7 +38,7 @@ end
 
 ruby_block 'install_docker_iffail' do
   block do
-    if not node['docker_exists'].to_i > 0  
+    if not node['docker_exists'].to_i > 0
       resources(:yum_package => "docker").run_action(:install)
     end
   end
@@ -46,7 +48,7 @@ yum_package 'docker' do
   action :nothing
 end
 
-# Start cgconfig service to meet docker prerequisite 
+# Start cgconfig service to meet docker prerequisite
 # (only run in amazon) as centos normally dont use systemvinit now
 if node[:platform_family].eql?("rhel") and node[:platform].eql?("amazon")
   service "cgconfig" do
@@ -105,7 +107,7 @@ end
 etchosts = []
 if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycode][:runtime]}" == "")
   node[:deploycode][:runtime].each do |localfolder,docker|
-    #if tagged localdir, give the localfolder as mount point 
+    #if tagged localdir, give the localfolder as mount point
     if (not (defined?(docker[:mountlocal])).nil?)
       if docker[:mountlocal].eql?("localdir")
         #Override dir to custom url
@@ -123,7 +125,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       if not docker[:mountlocal].eql?("multipledir") && (not (defined?(dir_name)).nil?)
         if localfolder.eql?("mysql")
           dir_permission = '0777'
-        else 
+        else
           dir_permission = '0755'
         end
         #Prepare directories
@@ -137,7 +139,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         end
       end
     end
-    
+
     if (not (defined?(node[:deploycode][:configuration][:general][localfolder])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
       spec = node[:deploycode][:configuration][:general]["#{localfolder}"]
       spec.each do |file,path|
@@ -147,7 +149,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 
     # Begin running containers
     container_name = "#{node[:projectname]}_" + localfolder
-    if container_name.eql?("#{node[:projectname]}_mysql") 
+    if container_name.eql?("#{node[:projectname]}_mysql")
       #Add the first docker
       docker_container container_name do
         repo docker[:image]
@@ -163,7 +165,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       etchosts.push("#{container_name}:#{container_name}")
       #Break and dont create mysql proxy.conf
       next
-    else 
+    else
       #Special handling if bootproxy,  get all local running docker id and name and link into bootproxy
       if localfolder.eql?("bootproxy")
         node.set[:dockerinfo] = []
@@ -182,7 +184,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           only_if { ::File.exists?(results) }
           block do
             f = File.open(results)
-            dockerinfo = Hash.new 
+            dockerinfo = Hash.new
             f.each do |line|
               dockerinfo[line.chomp.split(' ')[0]] = line.chomp.split(' ')[1]
             end
@@ -215,10 +217,10 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
     #      autoremove true
           action :run
           port docker[:ports]
-          volumes node.default["bindvolume"]
-          cap_add 'SYS_ADMIN' 
+          volumes [ "#{basedir}../bootproxy:#{docker[:mountdocker]}" ]
+          cap_add 'SYS_ADMIN'
           devices []
-          privileged true 
+          privileged true
           timeout 30
     #      {["/dev/fuse"]}
         end
@@ -235,9 +237,9 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           action :run
           port docker[:ports]
           volumes node.default["bindvolume"]
-          cap_add 'SYS_ADMIN' 
+          cap_add 'SYS_ADMIN'
           devices []
-          privileged true 
+          privileged true
           timeout 30
     #      {["/dev/fuse"]}
         end
@@ -251,18 +253,18 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 
       etchosts.push("#{container_name}:#{container_name}")
     end
-   
+
     #Add proxy.conf to folder if bootproxy defined
     if defined?(node[:externalmode]) && node[:externalmode].eql?("bootproxy")
       #Prepare bootproxy directories
-      directory "#{node[:deploycode][:basedirectory]}bootproxy" do
+      directory "#{node[:deploycode][:basedirectory]}/../bootproxy" do
         owner user
         group user
         mode '0755'
         recursive true
         action :create
       end
-     
+
       # if docker[:proxyport].eql?("80")
       #   portstring = ""
       # else
@@ -284,7 +286,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         else
           domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
         end
-        template "#{node[:deploycode][:basedirectory]}bootproxy/#{localfolder}.proxy.conf" do
+        template "#{node[:deploycode][:basedirectory]}/../bootproxy/#{localfolder}.proxy.conf" do
           variables(
             :host => container_name,
             :domain  => domainstring,
