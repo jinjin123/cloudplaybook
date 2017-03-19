@@ -187,6 +187,8 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           #{cmd} > #{results}
           EOH
         end
+
+        node.set['timing'] = ""
         ruby_block "datefunctioning" do
             block do
                 #tricky way to load this Chef::Mixin::ShellOut utilities
@@ -197,7 +199,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
             end
         end
 
-        resultname = "Results_#{node.set['timing']}"
+        resultname = "Results_" + node.set['timing']
         ruby_block resultname do
           only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
           # only_if { ::File.exists?(results) }
