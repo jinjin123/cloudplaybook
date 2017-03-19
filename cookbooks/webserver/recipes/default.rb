@@ -249,7 +249,8 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           timeout 30
     #      {["/dev/fuse"]}
         end
-
+      end
+      
       if (not (defined?(docker[:exec])).nil?) && (not "#{docker[:exec]}" == "")
         execute 'execute command inside docker' do
         command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec]}\'"
