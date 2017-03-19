@@ -202,7 +202,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         end
         print "Timing = "
         print node.run_state['timing']
-        resultname = "Results_" + node.run_state['timing']
+        resultname = "Results_#{node.run_state['timing']}"
         ruby_block resultname do
           only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
           # only_if { ::File.exists?(results) }
