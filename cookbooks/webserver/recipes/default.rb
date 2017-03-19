@@ -108,8 +108,13 @@ etchosts = []
 if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycode][:runtime]}" == "")
   node[:deploycode][:runtime].each do |localfolder,docker|
     #if tagged localdir, give the localfolder as mount point
+
     if (not (defined?(docker[:mountlocal])).nil?)
-      if docker[:mountlocal].eql?("localdir")
+      # Preparing directory
+      if localfolder.eql?("bootproxy")
+        dir_name = "#{node[:deploycode][:basedirectory]}../bootproxy"
+        node.default["bindvolume"] = [ "#{node[:deploycode][:basedirectory]}../bootproxy:#{docker[:mountdocker]}" ]
+      elsif docker[:mountlocal].eql?("localdir")
         #Override dir to custom url
         dir_name = "#{node[:deploycode][:basedirectory]}#{localfolder}"
         node.default["bindvolume"] = [ "#{node[:deploycode][:basedirectory]}#{localfolder}:#{docker[:mountdocker]}" ]
@@ -204,46 +209,25 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       if node.default["bindvolume"].eql?([":"])
         node.default["bindvolume"] = nil
       end
-      if localfolder.eql?("bootproxy")
-        # Using lazy evaluation if bootproxy
-        docker_container container_name do
-          repo docker[:image]
-          tag docker[:tag]
-          #Add all docker link
-          links lazy{node.set[:linking]}
-          env docker[:env]
-          command docker[:command]
-          kill_after 30
-    #      autoremove true
-          action :run
-          port docker[:ports]
-          volumes [ "#{basedir}../bootproxy:#{docker[:mountdocker]}" ]
-          cap_add 'SYS_ADMIN'
-          devices []
-          privileged true
-          timeout 30
-    #      {["/dev/fuse"]}
-        end
-      else
-        docker_container container_name do
-          repo docker[:image]
-          tag docker[:tag]
-          #Add all docker link
-          links node.set[:linking]
-          env docker[:env]
-          command docker[:command]
-          kill_after 30
-    #      autoremove true
-          action :run
-          port docker[:ports]
-          volumes node.default["bindvolume"]
-          cap_add 'SYS_ADMIN'
-          devices []
-          privileged true
-          timeout 30
-    #      {["/dev/fuse"]}
-        end
+      docker_container container_name do
+        repo docker[:image]
+        tag docker[:tag]
+        #Add all docker link
+        links lazy{node.set[:linking]}
+        env docker[:env]
+        command docker[:command]
+        kill_after 30
+  #      autoremove true
+        action :run
+        port docker[:ports]
+        volumes [ "#{basedir}../bootproxy:#{docker[:mountdocker]}" ]
+        cap_add 'SYS_ADMIN'
+        devices []
+        privileged true
+        timeout 30
+  #      {["/dev/fuse"]}
       end
+
 
       if (not (defined?(docker[:exec])).nil?) && (not "#{docker[:exec]}" == "")
         execute 'execute command inside docker' do
@@ -257,7 +241,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
     #Add proxy.conf to folder if bootproxy defined
     if defined?(node[:externalmode]) && node[:externalmode].eql?("bootproxy")
       #Prepare bootproxy directories
-      directory "#{node[:deploycode][:basedirectory]}/../bootproxy" do
+      directory "#{node[:deploycode][:basedirectory]}../bootproxy" do
         owner user
         group user
         mode '0755'
@@ -286,7 +270,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         else
           domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
         end
-        template "#{node[:deploycode][:basedirectory]}/../bootproxy/#{localfolder}.proxy.conf" do
+        template "#{node[:deploycode][:basedirectory]}../bootproxy/#{localfolder}.proxy.conf" do
           variables(
             :host => container_name,
             :domain  => domainstring,
