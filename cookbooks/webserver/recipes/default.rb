@@ -187,7 +187,8 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           EOH
         end
         ruby_block "Results" do
-          only_if { ::File.exists?(results) }
+          only_if { "cat #{results}| wc -l" }
+          # only_if { ::File.exists?(results) }
           block do
             f = File.open(results)
             dockerinfo = Hash.new
@@ -202,6 +203,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
               node.set[:linking].push("#{dockername}:#{dockername}")
             end
           end
+          retries 3
         end
       else
         node.set[:linking] = etchosts
