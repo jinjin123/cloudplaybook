@@ -196,6 +196,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
                 command = 'date +%Y%m%d%H%M%S'
                 command_out = shell_out(command)
                 node.set['timing'] = command_out.stdout
+                print node.set['timing']
             end
         end
 
