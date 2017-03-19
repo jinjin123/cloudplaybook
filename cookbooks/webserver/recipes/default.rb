@@ -225,7 +225,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           command docker[:command]
           kill_after 30
     #      autoremove true
-          action :redeploy
+          action :nothing
           port docker[:ports]
           volumes node.default["bindvolume"]
           cap_add 'SYS_ADMIN'
