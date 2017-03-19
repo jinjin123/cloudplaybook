@@ -2,7 +2,7 @@
 # Cookbook Name:: azure
 # Recipe:: kylin
 #
-# Copyright 2017, YOUR_COMPANY_NAME
+# Copyright 2017, Kylin
 #
 # All rights reserved - Do Not Redistribute
 #
@@ -12,6 +12,8 @@
 # 2. run command into container
 # 3. create image from new container
 # 4. remove new container
+# So in any point of time, on host there shld be no container exists but image is upto date
+
 credentials = node[:deploycode][:configuration][:azure][:credentials]
 #image = node[:deploycode][:runtime]["azure-cli"][:image]
 # Name of docker container is not imaport, just make one
