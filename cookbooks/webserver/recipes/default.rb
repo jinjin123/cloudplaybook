@@ -188,7 +188,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           EOH
         end
 
-        node.set['timing'] = ""
+        node.set[:timing] = ""
         ruby_block "datefunctioning" do
             block do
                 #tricky way to load this Chef::Mixin::ShellOut utilities
@@ -197,6 +197,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
                 command_out = shell_out(command)
                 node.set['timing'] = command_out.stdout
                 print node.set['timing']
+                node.save rescue nil
             end
         end
 
