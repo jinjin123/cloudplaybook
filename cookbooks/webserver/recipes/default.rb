@@ -188,22 +188,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           EOH
         end
 
-        node.set[:timing] = ""
-        ruby_block "datefunctioning" do
-            block do
-                #tricky way to load this Chef::Mixin::ShellOut utilities
-                Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-                command = 'date +%Y%m%d%H%M%S'
-                command_out = shell_out(command)
-                node.run_state['timing'] = command_out.stdout
-                print node.run_state['timing']
-                node.save rescue nil
-            end
-        end
-        print "Timing = "
-        print node.run_state['timing']
-        resultname = lazy { "Results_#{node.run_state['timing']}" }
-        ruby_block resultname do
+        ruby_block "result" do
           only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
           # only_if { ::File.exists?(results) }
           block do
@@ -215,14 +200,14 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
             f.close
             node.set[:dockerinfo] = dockerinfo
             node.run_state[:linking] = dockerinfo
-            node.set[:linking] = []
+            node.run_state[:linking] = []
             node.set[:dockerinfo].each do |hash, dockername|
-              node.set[:linking].push("#{dockername}:#{dockername}")
+              node.run_state[:linking].push("#{dockername}:#{dockername}")
             end
           end
         end
       else
-        node.set[:linking] = etchosts
+        node.run_state[:linking] = etchosts
       end
 
       if node.default["bindvolume"].eql?([":"])
@@ -235,7 +220,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           tag docker[:tag]
           #Add all docker link
           # links node.set[:linking]
-          links lazy{node.set[:linking]}
+          links lazy{node.run_state[:linking]}
           env docker[:env]
           command docker[:command]
           kill_after 30
@@ -254,7 +239,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           repo docker[:image]
           tag docker[:tag]
           #Add all docker link
-          links node.set[:linking]
+          links node.run_state[:linking]
           env docker[:env]
           command docker[:command]
           kill_after 30
