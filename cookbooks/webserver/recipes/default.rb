@@ -204,7 +204,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
             end
           end
           retries 3
-          notifies :redeploy, 'docker_container[bootproxy]'
+          notifies :redeploy, 'docker_container[bootproxy]', :immediately
         end
       else
         node.set[:linking] = etchosts
