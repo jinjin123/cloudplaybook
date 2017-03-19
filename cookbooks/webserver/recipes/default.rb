@@ -171,6 +171,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       #Break and dont create mysql proxy.conf
       next
     else
+      node.set[:linking] = []
       #Special handling if bootproxy,  get all local running docker id and name and link into bootproxy
       if localfolder.eql?("bootproxy")
         container_name = localfolder
