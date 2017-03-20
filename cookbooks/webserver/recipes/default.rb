@@ -201,6 +201,8 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
             dockerinfo.each do |hash, dockername|
               node.run_state[:linking].push("#{dockername}:#{dockername}")
             end
+            # Removing bootproxy entry
+            node.run_state[:linking] = node.run_state[:linking] - ["bootproxy:bootproxy"]
           end
         end
       else
