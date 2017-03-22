@@ -24,8 +24,8 @@
               "region": "chinaeast",
               "cluster": true,
               "appType": "KAP+KyAnalyzer+Zeppelin",
-              "clusterLoginUserName": "kylin",
-              "clusterLoginPassword": "Kyligence2016@",
+              "clusterLoginUserName": "admintest",
+              "clusterLoginPassword": "Kyligence2016",
               "clusterName": "testingcluster",
               "clusterType": "hbase",
               "clusterVersion": "3.5",
@@ -33,8 +33,8 @@
               "containerName": "testingcontainer",
               "edgeNodeSize": "Standard_D3_V2",
               "metastoreName": "kylin_default_instance",
-              "sshUserName": "kylin",
-              "sshPassword": "Kyligence2016@",
+              "sshUserName": "admintest",
+              "sshPassword": "Kyligence2016",
               "storageAccount": "testingstorageaccount"
             }
           }
