@@ -107,4 +107,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
   end
+
+  # Create resources group
+  execute 'create_resources_group' do
+    command "docker run --name #{container_name} #{image_name} azure group create -n kylin_#{identifier} -l #{kylin[:region]}"
+      notifies :run, 'execute[commit_docker]', :immediately
+  end
 end
