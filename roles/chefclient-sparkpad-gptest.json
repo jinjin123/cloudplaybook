@@ -92,6 +92,7 @@
               "giturl": "git@gitlab.com:insready/spark-oc.git",
               "branch": "master"
             },
+            "couchdb": "nodownload",
             "bootproxy":"nodownload"
          },
          "runtime":{
@@ -142,6 +143,14 @@
                 "/usr/bin/which:/usr/bin/which"
               ],
               "ports":"7084:80"
+            },
+            "couchdb": {
+              "tag":"latest",
+              "image":"couchdb",
+              "env":["COUCHDB_USER=admin","COUCHDB_PASSWORD=thomas123"],
+              "mountlocal":"localdir",
+              "mountdocker":"",
+              "ports":"7085:5984"
             },
             "bootproxy":{
                "tag":"stable-alpine",
