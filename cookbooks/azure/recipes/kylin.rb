@@ -119,7 +119,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   file results do
     action :delete
   end
-  cmd = "docker run -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure create -g kylin_#{identifier} -n kylin_#{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
+  cmd = "docker run -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure group deployment create -g kylin_#{identifier} -n kylin_#{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
   bash cmd do
     code <<-EOH
     #{cmd} &> #{results}
