@@ -295,11 +295,12 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         else
           domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
         end
+        portnumber = docker[:ports].chomp.split(':')[1]
         template "#{node[:deploycode][:basedirectory]}../bootproxy/#{node[:projectname]}.#{localfolder}.proxy.conf" do
           variables(
             :host => container_name,
             :domain  => domainstring,
-            :proxyport => "80"
+            :proxyport => portnumber
           )
           source "proxy.conf"
           mode 0644

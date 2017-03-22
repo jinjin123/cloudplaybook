@@ -17,13 +17,13 @@
           "qa": {
             "qa_server.xml" : "/usr/local/tomcat/conf/server.xml",
             "qa_web.xml": "/usr/local/tomcat/conf/web.xml",
-            "qa_logging.properties": "/usr/local/tomcat/conf/qa_logging.properties",
+            "qa_logging.properties": "/usr/local/tomcat/conf/logging.properties",
             "qa_context.xml": "/usr/local/tomcat/conf/context.xml" 
           },
           "prod": {
             "prod_server.xml" : "/usr/local/tomcat/conf/server.xml",
             "prod_web.xml": "/usr/local/tomcat/conf/web.xml",
-            "prod_logging.properties": "/usr/local/tomcat/conf/qa_logging.properties",
+            "prod_logging.properties": "/usr/local/tomcat/conf/logging.properties",
             "prod_context.xml": "/usr/local/tomcat/conf/context.xml" 
           }
         }
