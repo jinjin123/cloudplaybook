@@ -35,7 +35,7 @@
               "metastoreName": "kylin_default_instance",
               "sshUserName": "kylin",
               "sshPassword": "Kyligence2016@",
-              "storageAccount": "testingstorageAccount"
+              "storageAccount": "testingstorageaccount"
             }
           }
         },
