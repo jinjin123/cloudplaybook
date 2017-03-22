@@ -7,11 +7,11 @@
       "metadata": {
         "description": "Which services you want to install"
       },
-      "defaultValue": "KAP+KyAnalyzer",
+      "defaultValue": "KAP+KyAnalyzer+Zeppelin",
       "allowedValues": [
-        "KAP",
+        "KAP+KyAnalyzer+Zeppelin",
         "KAP+KyAnalyzer",
-        "KAP+KyAnalyzer+Zeppelin"
+        "KAP"
       ]
     },
     "clusterName": {
