@@ -20,6 +20,7 @@
               "password":"Kyligence2016@"
             },
             "kylin": {
+              "identifier": "20170322055502",
               "region": "chinaeast",
               "cluster": true
             }
