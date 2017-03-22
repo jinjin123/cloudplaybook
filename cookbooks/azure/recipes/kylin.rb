@@ -62,7 +62,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 
   if kylin[:region].downcase.include?("china")
-    template "#{basedir}azure/#{identifier}/deploywithcluster_cn.#{identifier}.json" do
+    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
       source "deploywithcluster_cn.json"
       mode 0644
       retries 3
@@ -71,7 +71,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       group "root"
       action :create
     end
-    template "#{basedir}azure/#{identifier}/deploywithcluster_cn.#{identifier}.parameters.json" do
+    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
       source "deploywithcluster_cn.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
@@ -85,9 +85,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :edgeNodeSize => kylin[:edgeNodeSize],
         :location => kylin[:region],
         :metastoreName => kylin[:metastoreName],
-        :sshUserName => kylin[:appType],
+        :sshUserName => kylin[:sshUserName],
         :sshPassword => kylin[:appType],
-        :storageAccount => kylin[:appType]
+        :storageAccount => kylin[:storageAccount]
       )
       mode 0644
       retries 3
@@ -97,7 +97,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
   else
-    template "#{basedir}azure/#{identifier}/deploywithcluster.#{identifier}.json" do
+    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
       source "deploywithcluster.json"
       mode 0644
       retries 3
@@ -111,6 +111,18 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   # Create resources group
   execute 'create_resources_group' do
     command "docker run --name #{container_name} #{image_name} azure group create -n kylin_#{identifier} -l #{kylin[:region]}"
-      notifies :run, 'execute[commit_docker]', :immediately
+    notifies :run, 'execute[commit_docker]', :immediately
+    ignore_failure true
+  end
+  # Running deploymentTemplate
+  results = "#{basedir}azure/#{identifier}/kylin_#{identifier}_deploy.log"
+  file results do
+    action :delete
+  end
+  cmd = "docker run --name #{container_name} #{image_name} azure create -g kylin_#{identifier} -n kylin_#{identifier} -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json"
+  bash cmd do
+    code <<-EOH
+    #{cmd} &> #{results}
+    EOH
   end
 end
