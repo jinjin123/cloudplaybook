@@ -124,5 +124,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     code <<-EOH
     #{cmd} &> #{results}
     EOH
+    notifies :run, 'execute[commit_docker]', :immediately
   end
 end
