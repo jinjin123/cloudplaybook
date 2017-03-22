@@ -80,5 +80,6 @@ identifier = kylin[:identifier]
       owner "root"
       group "root"
       action :create
+    end
   end
 end
