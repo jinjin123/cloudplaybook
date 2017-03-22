@@ -22,7 +22,20 @@
             "kylin": {
               "identifier": "20170322055502",
               "region": "chinaeast",
-              "cluster": true
+              "cluster": true,
+              "appType": "KAP+KyAnalyzer+Zeppelin",
+              "clusterLoginUserName": "kylin",
+              "clusterLoginPassword": "Kyligence2016@",
+              "clusterName": "testingcluster",
+              "clusterType": "hadoop",
+              "clusterVersion": "3.5",
+              "clusterWorkerNodeCount": 2,
+              "containerName": "testingcontainer",
+              "edgeNodeSize": "Standard_D3_V2",
+              "metastoreName": "kylin_default_instance",
+              "sshUserName": "kylin",
+              "sshPassword": "Kyligence2016@",
+              "storageAccount": "testingstorageAccount"
             }
           }
         },

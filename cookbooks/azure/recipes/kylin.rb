@@ -71,6 +71,31 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       group "root"
       action :create
     end
+    template "#{basedir}azure/#{identifier}/deploywithcluster_cn.#{identifier}.parameters.json" do
+      source "deploywithcluster_cn.parameters.json"
+      variables(
+        :appType => kylin[:appType],
+        :clusterName  => kylin[:clusterName],
+        :clusterLoginUserName => kylin[:clusterLoginUserName],
+        :clusterLoginPassword => kylin[:clusterLoginPassword],
+        :clusterType => kylin[:clusterType],
+        :clusterVersion => kylin[:clusterVersion],
+        :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
+        :containerName => kylin[:containerName],
+        :edgeNodeSize => kylin[:edgeNodeSize],
+        :location => kylin[:region],
+        :metastoreName => kylin[:metastoreName],
+        :sshUserName => kylin[:appType],
+        :sshPassword => kylin[:appType],
+        :storageAccount => kylin[:appType]
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
   else
     template "#{basedir}azure/#{identifier}/deploywithcluster.#{identifier}.json" do
       source "deploywithcluster.json"
