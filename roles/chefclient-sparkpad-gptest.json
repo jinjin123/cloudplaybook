@@ -149,7 +149,7 @@
               "image":"couchdb",
               "env":["COUCHDB_USER=admin","COUCHDB_PASSWORD=thomas123"],
               "mountlocal":"localdir",
-              "mountdocker":"",
+              "mountdocker":"/usr/local/var/lib/couchdb",
               "ports":"7085:5984"
             },
             "bootproxy":{
