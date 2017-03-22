@@ -295,7 +295,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         else
           domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
         end
-        template "#{node[:deploycode][:basedirectory]}../bootproxy/#{localfolder}.proxy.conf" do
+        template "#{node[:deploycode][:basedirectory]}../bootproxy/#{node[:projectname]}.#{localfolder}.proxy.conf" do
           variables(
             :host => container_name,
             :domain  => domainstring,
