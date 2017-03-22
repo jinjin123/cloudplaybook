@@ -27,7 +27,7 @@
               "clusterLoginUserName": "kylin",
               "clusterLoginPassword": "Kyligence2016@",
               "clusterName": "testingcluster",
-              "clusterType": "hadoop",
+              "clusterType": "hbase",
               "clusterVersion": "3.5",
               "clusterWorkerNodeCount": 2,
               "containerName": "testingcontainer",
