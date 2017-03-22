@@ -62,7 +62,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 
   if kylin[:region].downcase.include?("china")
-    template "#{basedir}azure/#{identifier}/deploywithcluster_cn.#{identifier}.json"
+    template "#{basedir}azure/#{identifier}/deploywithcluster_cn.#{identifier}.json" do
       source "deploywithcluster_cn.json"
       mode 0644
       retries 3
@@ -72,7 +72,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
   else
-    template "#{basedir}azure/#{identifier}/deploywithcluster.#{identifier}.json"
+    template "#{basedir}azure/#{identifier}/deploywithcluster.#{identifier}.json" do
       source "deploywithcluster.json"
       mode 0644
       retries 3
