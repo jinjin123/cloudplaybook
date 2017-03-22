@@ -52,7 +52,7 @@ execute "commit_docker" do
 end
 
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
-identifier = kylin[:identifier]
+  identifier = kylin[:identifier]
   directory "#{basedir}azure/#{identifier}" do
     owner username
     group username
@@ -60,7 +60,7 @@ identifier = kylin[:identifier]
     recursive true
     action :create
   end
-  end
+
   if kylin[:region].downcase.include?("china")
     template "#{basedir}azure/#{identifier}/deploywithcluster_cn.#{identifier}.json"
       source "deploywithcluster_cn.json"
