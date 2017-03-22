@@ -72,7 +72,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
     template "#{basedir}azure/#{identifier}/deploywithcluster_cn.#{identifier}.parameters.json" do
-      source "deploywithcluster_cn.parameters.json"
+      source "deploywithcluster_cn.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
         :clusterName  => kylin[:clusterName],
