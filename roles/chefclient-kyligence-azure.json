@@ -20,7 +20,8 @@
               "password":"Kyligence2016@"
             },
             "kylin": {
-              "key1": "value1"
+              "region": "chinaeast",
+              "cluster": true
             }
           }
         },
