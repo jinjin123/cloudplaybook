@@ -86,7 +86,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :location => kylin[:region],
         :metastoreName => kylin[:metastoreName],
         :sshUserName => kylin[:sshUserName],
-        :sshPassword => kylin[:appType],
+        :sshPassword => kylin[:sshPassword],
         :storageAccount => kylin[:storageAccount]
       )
       mode 0644
