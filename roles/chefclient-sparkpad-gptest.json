@@ -22,7 +22,7 @@
                 "sites/default/privates" : "777"
               },
               "settings": {
-                "general.settings.php" : "sites/default/settings.php"
+                "sparkpad-dev-de.settings.php" : "sites/default/settings.php"
               },
               "variables" : {
                 "dbhost": "sparkpadgp_mysql",
