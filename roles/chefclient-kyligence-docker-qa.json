@@ -26,7 +26,7 @@
         "qa": {
           "giturl": "git@gitlab.kybot.io:root/kybot-deployment.git",
           "branch": "qa",
-          "memory_limit": 1073741824
+          "memory_limit": 2147483648
         }
       },
       "runtime": {
