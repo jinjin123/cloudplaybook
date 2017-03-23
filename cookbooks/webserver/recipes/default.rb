@@ -215,7 +215,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       if (not (defined?(docker[:memory_limit])).nil?) && (not "#{docker[:memory_limit]}" == "")
         memory_limit = docker[:memory_limit]
       else
-        memory_limit = "-1"
+        memory_limit = -1
       end
       if localfolder.eql?("bootproxy")
         # Using lazy evaluation if bootproxy
