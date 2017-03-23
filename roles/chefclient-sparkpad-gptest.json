@@ -146,7 +146,7 @@
             },
             "couchdb": {
               "tag":"latest",
-              "image":"couchdb",
+              "image":"klaemo/couchdb",
               "env":["COUCHDB_USER=admin","COUCHDB_PASSWORD=thomas123"],
               "mountlocal":"localdir",
               "mountdocker":"/opt/couchdb/data",
