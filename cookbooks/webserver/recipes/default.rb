@@ -212,11 +212,11 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       if node.default["bindvolume"].eql?([":"])
         node.default["bindvolume"] = nil
       end
-      if (not (defined?(docker[:memory_limit])).nil?) && (not "#{docker[:memory_limit]}" == "")
-        memory_limit = docker[:memory_limit]
-      else
-        memory_limit = -1
-      end
+#      if (not (defined?(docker[:memory_limit])).nil?) && (not "#{docker[:memory_limit]}" == "")
+#        memory_limit = docker[:memory_limit]
+#      else
+#        memory_limit = -1
+#      end
       if localfolder.eql?("bootproxy")
         # Using lazy evaluation if bootproxy
         docker_container container_name do
@@ -236,7 +236,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           devices []
           privileged true
           timeout 30
-          memory memory_limit
+          memory docker[:memory_limit]
     #      {["/dev/fuse"]}
         end
       else
@@ -256,7 +256,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           devices []
           privileged true
           timeout 30
-          memory memory_limit
+          memory docker[:memory_limit]
     #      {["/dev/fuse"]}
         end
       end
