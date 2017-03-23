@@ -47,7 +47,8 @@
              "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
              "/data:/data"
            ],
-          "ports":"8081:8080"
+          "ports":"8081:8080",
+          "memory_limit":"1073741824"
         },
         "prod":{
           "tag":"latest",
