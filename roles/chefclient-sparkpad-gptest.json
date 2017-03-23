@@ -147,7 +147,7 @@
             "couchdb": {
               "tag":"latest",
               "image":"klaemo/couchdb",
-              "env":["COUCHDB_USER=admin","COUCHDB_PASSWORD=thomas123"],
+              "env":["PATH=/opt/couchdb/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:$PATH","COUCHDB_USER=admin","COUCHDB_PASSWORD=thomas123"],
               "mountlocal":"localdir",
               "mountdocker":"/opt/couchdb/data",
               "ports":"7085:5984"
