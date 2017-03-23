@@ -25,7 +25,8 @@
       "localfolder": {
         "qa": {
           "giturl": "git@gitlab.kybot.io:root/kybot-deployment.git",
-          "branch": "qa"
+          "branch": "qa",
+          "memory_limit": 1073741824
         }
       },
       "runtime": {
