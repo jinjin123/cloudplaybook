@@ -129,5 +129,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     #{cmd} &> #{results}
     EOH
     notifies :run, 'execute[commit_docker]', :immediately
+    timeout 21600
   end
 end
