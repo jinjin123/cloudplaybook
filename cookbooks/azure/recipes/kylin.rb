@@ -91,7 +91,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :metastoreName => kylin[:metastoreName],
         :sshUserName => kylin[:sshUserName],
         :sshPassword => kylin[:sshPassword],
-        :storageAccount => "#{kylin[:identifier]}storageAccount"
+        :storageAccount => "#{kylin[:identifier]}sa"
       )
       mode 0644
       retries 3
