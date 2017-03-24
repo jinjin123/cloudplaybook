@@ -34,8 +34,7 @@
               "edgeNodeSize": "Standard_D3_V2",
               "metastoreName": "kylin_default_instance",
               "sshUserName": "admintest",
-              "sshPassword": "Kyligence2016",
-              "storageAccount": "testingstorageaccount"
+              "sshPassword": "Kyligence2016"
             }
           }
         },
