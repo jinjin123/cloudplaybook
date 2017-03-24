@@ -20,7 +20,7 @@
               "password":"Kyligence2016@"
             },
             "kylin": {
-              "identifier": "20170322055502",
+              "identifier": "20170324055502",
               "region": "chinaeast",
               "cluster": true,
               "appType": "KAP+KyAnalyzer+Zeppelin",
