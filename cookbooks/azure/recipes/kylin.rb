@@ -29,6 +29,65 @@ if (not (defined?(node[:deploycode][:configuration][:azure][:kylin])).nil?) && (
   kylin = node[:deploycode][:configuration][:azure][:kylin]
 end
 
+# Create directory
+if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
+  identifier = kylin[:identifier]
+  directory "#{basedir}azure/#{identifier}" do
+    owner username
+    group username
+    mode '0755'
+    recursive true
+    action :create
+  end
+
+  if kylin[:region].downcase.include?("china")
+    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
+      source "deploywithcluster_cn.json"
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
+      source "deploywithcluster_cn.parameters.json.erb"
+      variables(
+        :appType => kylin[:appType],
+        :clusterName  => kylin[:clusterName],
+        :clusterLoginUserName => kylin[:clusterLoginUserName],
+        :clusterLoginPassword => kylin[:clusterLoginPassword],
+        :clusterType => kylin[:clusterType],
+        :clusterVersion => kylin[:clusterVersion],
+        :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
+        :containerName => kylin[:containerName],
+        :edgeNodeSize => kylin[:edgeNodeSize],
+        :location => kylin[:region],
+        :metastoreName => kylin[:metastoreName],
+        :sshUserName => kylin[:sshUserName],
+        :sshPassword => kylin[:sshPassword],
+        :storageAccount => "#{kylin[:identifier]}sa"
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+  else
+    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
+      source "deploywithcluster.json"
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+  end
+end
+
 #execute "removeimage_if_exists" do
 #    command "if [ `docker images|awk {'print $NF'}|grep \'^#{image_name}$\'|wc -l` == \'1\' ];then docker rmi #{image_name};fi"
 #end
@@ -38,16 +97,26 @@ execute "createimageifnotexist_removecontainerifexist" do
 end
 
 # Reinit azure docker_container
-if (not (defined?(credentials[:env])).nil?)
-	execute 'login_china' do
-	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}"
-      notifies :run, 'execute[commit_docker]', :immediately
-	end
-else
-	execute 'login_global' do
-	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]}"
-      notifies :run, 'execute[commit_docker]', :immediately
-	end
+if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:username]}" == "")
+  if (not (defined?(credentials[:env])).nil?)
+  	execute 'login_china' do
+  	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}"
+        notifies :run, 'execute[commit_docker]', :immediately
+  	end
+  else
+  	execute 'login_global' do
+  	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]}"
+        notifies :run, 'execute[commit_docker]', :immediately
+  	end
+  end
+elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
+  ruby_block "writetokenfile" do
+    block do
+      require 'pp'
+      $stdout = File.open("#{basedir}azure/#{identifier}/accessTokens.json", 'w')
+      pp credentials[:token]
+    end
+  end
 end
 
 execute "commit_docker" do

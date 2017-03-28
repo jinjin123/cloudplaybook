@@ -63,7 +63,7 @@
             }
           },
           "kylin": {
-            "identifier": "20170324055502",
+            "identifier": "20170328055502",
             "region": "chinaeast",
             "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
