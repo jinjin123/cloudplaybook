@@ -98,7 +98,9 @@ execute "createimageifnotexist_removecontainerifexist" do
 end
 
 # Reinit azure docker_container
+print credentials[:username]
 if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:username]}" == "")
+  print credentials[:env]
   if (not (defined?(credentials[:env])).nil?) && (not "#{credentials[:env]}" == "")
   	execute 'login_china' do
   	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}"
