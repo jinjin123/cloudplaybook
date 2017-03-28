@@ -15,11 +15,7 @@
 # So in any point of time, on host there shld be no container exists but image is upto date
 
 credentials = node[:deploycode][:configuration][:azure][:credentials]
-#image = node[:deploycode][:runtime]["azure-cli"][:image]
-# Name of docker container is not imaport, just make one
-container_name = "#{node[:projectname]}_azure"
-# Aggregating operations into image, default = container_name
-image_name = container_name
+
 # Setting basedir to store template files
 basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
@@ -28,10 +24,15 @@ username = node[:deployuser]
 if (not (defined?(node[:deploycode][:configuration][:azure][:kylin])).nil?) && (not "#{node[:deploycode][:configuration][:azure][:kylin]}" == "")
   kylin = node[:deploycode][:configuration][:azure][:kylin]
 end
+identifier = kylin[:identifier]
+
+# Name of docker container is not imaport, just make one
+container_name = "#{node[:projectname]}_azure_#{identifier}"
+# Aggregating operations into image, default = container_name
+image_name = container_name
 
 # Create directory
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
-  identifier = kylin[:identifier]
   directory "#{basedir}azure/#{identifier}" do
     owner username
     group username
@@ -98,7 +99,7 @@ end
 
 # Reinit azure docker_container
 if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:username]}" == "")
-  if (not (defined?(credentials[:env])).nil?)
+  if (not (defined?(credentials[:env])).nil?) && (not "#{credentials[:env]}" == "")
   	execute 'login_china' do
   	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}"
         notifies :run, 'execute[commit_docker]', :immediately
