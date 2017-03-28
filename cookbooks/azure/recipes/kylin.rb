@@ -128,62 +128,6 @@ execute "commit_docker" do
 end
 
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
-  identifier = kylin[:identifier]
-  directory "#{basedir}azure/#{identifier}" do
-    owner username
-    group username
-    mode '0755'
-    recursive true
-    action :create
-  end
-
-  if kylin[:region].downcase.include?("china")
-    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
-      source "deploywithcluster_cn.json"
-      mode 0644
-      retries 3
-      retry_delay 2
-      owner "root"
-      group "root"
-      action :create
-    end
-    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
-      source "deploywithcluster_cn.parameters.json.erb"
-      variables(
-        :appType => kylin[:appType],
-        :clusterName  => kylin[:clusterName],
-        :clusterLoginUserName => kylin[:clusterLoginUserName],
-        :clusterLoginPassword => kylin[:clusterLoginPassword],
-        :clusterType => kylin[:clusterType],
-        :clusterVersion => kylin[:clusterVersion],
-        :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
-        :containerName => kylin[:containerName],
-        :edgeNodeSize => kylin[:edgeNodeSize],
-        :location => kylin[:region],
-        :metastoreName => kylin[:metastoreName],
-        :sshUserName => kylin[:sshUserName],
-        :sshPassword => kylin[:sshPassword],
-        :storageAccount => "#{kylin[:identifier]}sa"
-      )
-      mode 0644
-      retries 3
-      retry_delay 2
-      owner "root"
-      group "root"
-      action :create
-    end
-  else
-    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
-      source "deploywithcluster.json"
-      mode 0644
-      retries 3
-      retry_delay 2
-      owner "root"
-      group "root"
-      action :create
-    end
-  end
-
   # Create resources group
   execute 'create_resources_group' do
     command "docker run --name #{container_name} #{image_name} azure group create -n kylin#{identifier} -l #{kylin[:region]} || true"
