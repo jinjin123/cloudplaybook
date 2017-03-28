@@ -65,6 +65,25 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
+  # Setting parameters
+  if kylin[:clusterName].eql?("default")
+    clusterName = "cluster#{kylin[:identifier]}"
+  else
+    clusterName = kylin[:clusterName]
+  end
+
+  if kylin[:containerName].eql?("default")
+    containerName = "container#{kylin[:identifier]}"
+  else
+    containerName = kylin[:containerName]
+  end
+
+  if kylin[:metastoreName].eql?("default")
+    metastoreName = "metastore#{kylin[:identifier]}"
+  else
+    metastoreName = kylin[:metastoreName]
+  end
+
   if kylin[:region].downcase.include?("china")
     template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
       source "deploywithcluster_cn.json"
@@ -79,16 +98,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       source "deploywithcluster_cn.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
-        :clusterName  => kylin[:clusterName],
+        :clusterName  => clusterName,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
         :clusterType => kylin[:clusterType],
         :clusterVersion => kylin[:clusterVersion],
         :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
-        :containerName => kylin[:containerName],
+        :containerName => containerName,
         :edgeNodeSize => kylin[:edgeNodeSize],
         :location => kylin[:region],
-        :metastoreName => kylin[:metastoreName],
+        :metastoreName => metastoreName,
         :sshUserName => kylin[:sshUserName],
         :sshPassword => kylin[:sshPassword],
         :storageAccount => "#{kylin[:identifier]}sa"
