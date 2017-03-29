@@ -166,9 +166,9 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
       #pp credentials[:profile]
     end
   end
-  execute "writeconfigjson" do
-    command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> #{basedir}azure/#{identifier}/azure/config.json"
-  end
+  # execute "writeconfigjson" do
+  #   command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> #{basedir}azure/#{identifier}/azure/config.json"
+  # end
   execute "writetelemetryjson" do
     command "echo {\\\"telemetry\\\"\: \\\"false\\\"} >> #{basedir}azure/#{identifier}/azure/telemetry.json"
   end
@@ -179,6 +179,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   if deploymentmode.eql?("token")
     mapvolume = "-v #{basedir}azure/#{identifier}/azure:$HOME/.azure"
   end
+  execute 'config_arm_mode' do
+    command "docker run --name #{container_name} #{mapvolume} #{image_name} azure config mode arm || true"
+    notifies :run, 'execute[commit_docker]', :immediately
+    ignore_failure true
+  end
+  azure config mode arm
   # Create resources group
   execute 'create_resources_group' do
     command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n kylin#{identifier} -l #{kylin[:region]} || true"
