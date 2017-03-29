@@ -106,7 +106,7 @@
             },
             "de":{
               "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimenewrelic",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimeini",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-de"],
               "mountlocal":"multipledir",
               "mountdocker": [
@@ -137,7 +137,7 @@
             },
             "oc":{
               "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimenewrelic",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimeini",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-oc"],
               "mountlocal":"multipledir",
               "mountdocker": [
