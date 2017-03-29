@@ -1,69 +1,65 @@
 {
-   "name":"chefclient-kyligence-azure",
-   "description":"",
-   "json_class":"Chef::Role",
-   "default_attributes":{
-      "deployuser":"root",
-      "projectname":"kyligence",
-      "docker": {
-          "privaterepo":"dockerpriv.kybot.io:5002",
-          "username":"keithyau",
-          "password":"thomas123"
-      },
-      "deploycode":{
-        "basedirectory":"/root/tools/code/",
-        "configuration": {
-          "azure":{
-            "credentials": {
-              "env":"AzureChinaCloud",
-              "username":"jacky.chan@kycloud.partner.onmschina.cn",
-              "password":"Kyligence2016@"
-            },
-            "kylin": {
-              "identifier": "20170324055502",
-              "region": "chinaeast",
-              "cluster": true,
-              "appType": "KAP+KyAnalyzer+Zeppelin",
-              "clusterLoginUserName": "admintest",
-              "clusterLoginPassword": "Kyligence2016",
-              "clusterName": "testingcluster",
-              "clusterType": "hbase",
-              "clusterVersion": "3.5",
-              "clusterWorkerNodeCount": 2,
-              "containerName": "testingcontainer",
-              "edgeNodeSize": "Standard_D3_V2",
-              "metastoreName": "kylin_default_instance",
-              "sshUserName": "admintest",
-              "sshPassword": "Kyligence2016"
-            }
+  "name": "chefclient-kyligence-azure",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser": "root",
+    "projectname": "kyligence",
+    "docker": {
+      "privaterepo": "dockerpriv.kybot.io:5002",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
+    "deploycode": {
+      "basedirectory": "/root/tools/code/",
+      "configuration": {
+        "azure": {
+          "credentials": {
+            "env": "AzureChinaCloud",
+            "username": "jacky.chan@kycloud.partner.onmschina.cn",
+            "password": "Kyligence2016@"
+          },
+          "kylin": {
+            "identifier": "20170324055502",
+            "region": "chinaeast",
+            "cluster": true,
+            "appType": "KAP+KyAnalyzer+Zeppelin",
+            "clusterLoginUserName": "admintest",
+            "clusterLoginPassword": "Kyligence2016",
+            "clusterName": "testingcluster",
+            "clusterType": "hbase",
+            "clusterVersion": "3.5",
+            "clusterWorkerNodeCount": 2,
+            "containerName": "testingcontainer",
+            "edgeNodeSize": "Standard_D3_V2",
+            "metastoreName": "kylin_default_instance",
+            "sshUserName": "admintest",
+            "sshPassword": "Kyligence2016"
           }
-        },
-        "localfolder":{
-            "azure-cli":"nodownload"
-         },
-         "runtime":{
-            "azure":{
-              "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/azure-cli",
-              "mountlocal":"localdir",
-              "mountdocker":"/templates"
-            }
-         }
+        }
+      },
+      "localfolder": {
+        "azure-cli": "nodownload"
+      },
+      "runtime": {
+        "azure": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/azure-cli",
+          "mountlocal": "localdir",
+          "mountdocker": "/templates"
+        }
       }
-   },
-   "override_attributes":{
-
-   },
-   "chef_type":"role",
-   "run_list":[
-      "recipe[git]",
-      "recipe[build-essential]",
-      "recipe[basicservice]",
-      "recipe[deploycode]",
-      "recipe[webserver]",
-      "recipe[azure]"
-   ],
-   "env_run_lists":{
-
-   }
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[deploycode]",
+    "recipe[webserver]",
+    "recipe[azure]"
+  ],
+  "env_run_lists": {}
 }
