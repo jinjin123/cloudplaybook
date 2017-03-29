@@ -155,10 +155,10 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
     end
   end
   execute "writeconfigjson" do
-    command "{\"mode\": \"arm\"} >> #{basedir}azure/#{identifier}/azure/config.json"
+    command "{\"mode\"\: \"arm\"} >> #{basedir}azure/#{identifier}/azure/config.json"
   end
   execute "writetelemetryjson" do
-    command "{\"telemetry\": \"false\"} >> #{basedir}azure/#{identifier}/azure/telemetry.json"
+    command "{\"telemetry\"\: \"false\"} >> #{basedir}azure/#{identifier}/azure/telemetry.json"
   end
 end
 
