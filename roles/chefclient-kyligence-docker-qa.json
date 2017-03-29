@@ -3,6 +3,11 @@
   "description": "Role json file for starting and maintaining Kybot QA env",
   "json_class": "Chef::Role",
   "default_attributes": {
+    "diskmount": {
+      "localsourcefolder": "/data",
+      "glusterserverip": "10.0.0.61",
+      "glustervolume": "glt0"
+    },
     "deployuser" : "ec2-user",
     "projectname": "kyligence",
     "docker": {
@@ -18,7 +23,7 @@
             "qa_server.xml" : "/usr/local/tomcat/conf/server.xml",
             "qa_web.xml": "/usr/local/tomcat/conf/web.xml",
             "qa_logging.properties": "/usr/local/tomcat/conf/logging.properties",
-            "qa_context.xml": "/usr/local/tomcat/conf/context.xml" 
+            "qa_context.xml": "/usr/local/tomcat/conf/context.xml"
           }
         }
       },
