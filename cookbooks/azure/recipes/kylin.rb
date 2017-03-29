@@ -117,9 +117,9 @@ execute "createimageifnotexist_removecontainerifexist" do
 end
 
 # Reinit azure docker_container
-print credentials[:username]
+deploymentmode = ""
 if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:username]}" == "")
-  print credentials[:env]
+  deploymentmode = "username"
   if (not (defined?(credentials[:env])).nil?) && (not "#{credentials[:env]}" == "")
   	execute 'login_china' do
   	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}"
@@ -132,12 +132,33 @@ if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:usernam
   	end
   end
 elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
+  deploymentmode = "token"
+  directory "#{basedir}azure/#{identifier}/azure" do
+    owner username
+    group username
+    mode '0755'
+    recursive true
+    action :create
+  end
   ruby_block "writetokenfile" do
     block do
       require 'pp'
-      $stdout = File.open("#{basedir}azure/#{identifier}/accessTokens.json", 'w')
+      $stdout = File.open("#{basedir}azure/#{identifier}/azure/accessTokens.json", 'w')
       pp credentials[:token]
     end
+  end
+  ruby_block "writeprofilefile" do
+    block do
+      require 'pp'
+      $stdout = File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json", 'w')
+      pp credentials[:profile]
+    end
+  end
+  execute "writeconfigjson" do
+    command "{\"mode\": \"arm\"} >> #{basedir}azure/#{identifier}/azure/config.json"
+  end
+  execute "writetelemetryjson" do
+    command "{\"telemetry\": \"false\"} >> #{basedir}azure/#{identifier}/azure/telemetry.json"
   end
 end
 
@@ -147,6 +168,10 @@ execute "commit_docker" do
 end
 
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
+  mapvolume = ""
+  if deploymentmode.eql?("token")
+    mapvolume = "-v #{basedir}azure/#{identifier}/azure:$HOME/.azure"
+  end
   # Create resources group
   execute 'create_resources_group' do
     command "docker run --name #{container_name} #{image_name} azure group create -n kylin#{identifier} -l #{kylin[:region]} || true"
