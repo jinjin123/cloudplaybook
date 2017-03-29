@@ -151,9 +151,13 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
   end
   ruby_block "writetokenfile" do
     block do
-      require 'pp'
-      $stdout = File.open("#{basedir}azure/#{identifier}/azure/accessTokens.json", 'w')
-      pp credentials[:token]
+      require 'json'
+      File.open("#{basedir}azure/#{identifier}/azure/accessTokens.json","w") do |f|
+        f.puts(credentials[:token].to_json)
+      end
+      #require 'pp'
+      #$stdout = File.open("#{basedir}azure/#{identifier}/azure/accessTokens.json", 'w')
+      #pp credentials[:token]
     end
   end
   ruby_block "writeprofilefile" do
