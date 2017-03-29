@@ -155,6 +155,7 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
       File.open("#{basedir}azure/#{identifier}/azure/accessTokens.json","w") do |f|
         f.puts(credentials[:token].to_json)
       end
+      f.puts("")
       #require 'pp'
       #$stdout = File.open("#{basedir}azure/#{identifier}/azure/accessTokens.json", 'w')
       #pp credentials[:token]
@@ -166,6 +167,7 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
       File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json","w") do |f|
         f.puts(credentials[:profile].to_json)
       end
+      f.puts("")
       #$stdout = File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json", 'w')
       #pp credentials[:profile]
     end
