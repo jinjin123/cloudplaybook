@@ -160,7 +160,7 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
     block do
       require 'json'
       File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json","w") do |f|
-        f.write(credentials[:profile].to_json)
+        f.puts(credentials[:profile].to_json)
       end
       #$stdout = File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json", 'w')
       #pp credentials[:profile]
@@ -184,7 +184,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     notifies :run, 'execute[commit_docker]', :immediately
     ignore_failure true
   end
-  
+
   # Create resources group
   execute 'create_resources_group' do
     command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n kylin#{identifier} -l #{kylin[:region]} || true"
