@@ -184,7 +184,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     notifies :run, 'execute[commit_docker]', :immediately
     ignore_failure true
   end
-  azure config mode arm
+  
   # Create resources group
   execute 'create_resources_group' do
     command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n kylin#{identifier} -l #{kylin[:region]} || true"
