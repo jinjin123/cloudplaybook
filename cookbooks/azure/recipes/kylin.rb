@@ -31,6 +31,14 @@ container_name = "#{node[:projectname]}_azure_#{identifier}"
 # Aggregating operations into image, default = container_name
 image_name = container_name
 
+# Define committing docker images
+execute "commit_docker" do
+	command "docker stop #{container_name};docker commit #{container_name} #{image_name}_tmp;docker rm #{container_name};docker rmi #{image_name};docker tag #{image_name}_tmp #{image_name};docker rmi #{image_name}_tmp"
+    action :nothing
+end
+
+## Writing deployment info into host
+
 # Create directory
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   directory "#{basedir}azure/#{identifier}" do
@@ -112,6 +120,8 @@ end
 #    command "if [ `docker images|awk {'print $NF'}|grep \'^#{image_name}$\'|wc -l` == \'1\' ];then docker rmi #{image_name};fi"
 #end
 
+## Begin execution of deployment
+
 execute "createimageifnotexist_removecontainerifexist" do
     command "if [ `docker images|awk {'print $NF'}|grep \'^#{image_name}$\'|wc -l` != \'1\' ];then docker commit #{container_name} #{image_name};fi;if [ `docker ps -a|awk {'print $NF'}|grep \'^#{container_name}$\'|wc -l` == \'1\' ];then docker stop #{container_name}||true;docker rm #{container_name}||true;fi"
 end
@@ -121,15 +131,13 @@ deploymentmode = ""
 if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:username]}" == "")
   deploymentmode = "username"
   if (not (defined?(credentials[:env])).nil?) && (not "#{credentials[:env]}" == "")
-  	execute 'login_china' do
-  	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]} --environment #{credentials[:env]}"
-        notifies :run, 'execute[commit_docker]', :immediately
-  	end
+    envstring = "--environment #{credentials[:env]}"
   else
-  	execute 'login_global' do
-  	  command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]}"
-        notifies :run, 'execute[commit_docker]', :immediately
-  	end
+    envstring = ""
+  end
+  execute 'login' do
+    command "docker run --name #{container_name} #{image_name} azure login --username #{credentials[:username]} --password #{credentials[:password]} #{envstring}"
+      notifies :run, 'execute[commit_docker]', :immediately
   end
 elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
   deploymentmode = "token"
@@ -160,11 +168,6 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
   execute "writetelemetryjson" do
     command "echo {\\\"telemetry\\\"\: \\\"false\\\"} >> #{basedir}azure/#{identifier}/azure/telemetry.json"
   end
-end
-
-execute "commit_docker" do
-	command "docker stop #{container_name};docker commit #{container_name} #{image_name}_tmp;docker rm #{container_name};docker rmi #{image_name};docker tag #{image_name}_tmp #{image_name};docker rmi #{image_name}_tmp"
-    action :nothing
 end
 
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
