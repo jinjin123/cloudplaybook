@@ -23,7 +23,7 @@
                 "mountlocal":"localdir",
                 "mountdocker":"/usr/share/nginx/html",
                 "overridesubdomain":"www",
-                "ports":"8081:80"
+                "ports":"7051:80"
             },
             "bootproxy":{
                "tag":"stable-alpine",
