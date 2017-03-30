@@ -1,0 +1,97 @@
+{
+   "name":"chefclient-sparkpad-management",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"sparkpadmgmt",
+      "externalmode":"bootproxy",
+      "domainname":"liansuola.com",
+      "docker": {
+          "privaterepo":"dockerpriv.kybot.io:5002",
+          "username":"keithyau",
+          "password":"thomas123"
+      },
+      "deploycode":{
+        "basedirectory":"/root/tools/sparkpad-management/",
+        "configuration": {
+          "general" : {
+            "elasticsearch": {
+              "": ""
+            },
+            "logstash": {
+              "": ""
+            }
+          }
+        },
+        "localfolder":{
+            "jenkins":"nodownload",
+            "elasticsearch":"nodownload",
+            "logstash":"nodownload",
+            "kibana":"nodownload",
+            "bootproxy":"nodownload"
+         },
+         "runtime":{
+            "elasticsearch":{
+              "tag":"latest",
+              "image":"elasticsearch",
+              "env":["ES_JAVA_OPTS=-Xmx256m -Xms256m"],
+              "mountlocal":"localdir",
+              "mountdocker": "/usr/share/elasticsearch/data",
+              "ports":"8001:80"
+            },
+            "logstash":{
+              "tag":"latest",
+              "image":"logstash",
+              "mountlocal":"localdir",
+              "mountdocker": [
+                "/root/tools/sparkpad-dev/pmt:/var/www/html",
+                "/usr/bin/which:/usr/bin/which"
+              ],
+              "ports":"8002:80"
+            },
+            "kibana":{
+              "tag":"latest",
+              "image":"kibana",
+              "mountlocal":"localdir",
+              "mountdocker": [
+                "/root/tools/sparkpad-dev/crm:/var/www/html",
+                "/usr/bin/which:/usr/bin/which"
+              ],
+              "ports":"8003:80"
+            },
+            "jenkins": {
+              "tag":"latest",
+              "image":"jenkins",
+              "mountlocal":"localdir",
+              "mountdocker":"/var/jenkins_home",
+              "ports":"8004:8080"
+            },
+            "bootproxy":{
+               "tag":"stable-alpine",
+               "image":"daocloud.io/library/nginx",
+               "mountlocal":"localdir",
+               "mountdocker":"/etc/nginx/conf.d/",
+               "ports":[
+                  "80:80",
+                  "5000:5000"
+               ]
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[deploycode]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}
