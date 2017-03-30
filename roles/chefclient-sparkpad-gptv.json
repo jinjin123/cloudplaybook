@@ -46,10 +46,7 @@
               "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
               "mountlocal":"/root/mysqldir",
-              "mountdocker":"/var/lib/mysql",
-              "ports":[
-                "3306:3306"
-              ]
+              "mountdocker":"/var/lib/mysql"
             },
             "sparkpad_tvbackend_drupal":{
               "tag":"latest",
@@ -59,7 +56,7 @@
                 "/root/tools/code/sparkpad_tvbackend_drupal:/var/www/html",
                 "/usr/bin/which:/usr/bin/which"
               ],
-              "ports":"8082:80",
+              "ports":"7052:80",
               "exec": "ln -sf /dev/stderr /var/log/php-fpm.log",
               "overridesubdomain":"tv"
             },
