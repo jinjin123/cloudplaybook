@@ -73,7 +73,7 @@ end
 #end
 
 execute 'change_usermod' do
-  command "usermod -aG docker #{user}"
+  command "usermod -aG docker #{user}||true;usermod -aG dockerroot #{user}||true"
 end
 
 # Start Docker service
