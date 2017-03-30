@@ -17,10 +17,14 @@
       "configuration": {
         "general": {
           "elasticsearch": {
-            "": ""
+            "management/elasticsearch.yml": "/usr/share/elasticsearch/config/elasticsearch.yml"
           },
           "logstash": {
-            "": ""
+            "management/config_logstash.yml": "/usr/share/logstash/config/logstash.yml",
+            "management/pipeline_logstash.yml": "/usr/share/logstash/pipeline/logstash.yml"
+          },
+          "kibana": {
+            "management/kibana.yml": "/usr/share/kibana/config/kibana.yml"
           }
         }
       },
@@ -36,7 +40,7 @@
           "tag": "latest",
           "image": "elasticsearch",
           "env": [
-            "ES_JAVA_OPTS=-Xmx256m -Xms256m"
+            "ES_JAVA_OPTS='-Xmx256m -Xms256m'"
           ],
           "mountlocal": "localdir",
           "mountdocker": "/usr/share/elasticsearch/data",
@@ -45,21 +49,14 @@
         "logstash": {
           "tag": "latest",
           "image": "logstash",
-          "mountlocal": "localdir",
-          "mountdocker": [
-            "/root/tools/sparkpad-dev/pmt:/var/www/html",
-            "/usr/bin/which:/usr/bin/which"
+          "env" : [
+             "LS_JAVA_OPTS='-Xmx256m -Xms256m'"
           ],
           "ports": "8002:5000"
         },
         "kibana": {
           "tag": "latest",
           "image": "kibana",
-          "mountlocal": "localdir",
-          "mountdocker": [
-            "/root/tools/sparkpad-dev/crm:/var/www/html",
-            "/usr/bin/which:/usr/bin/which"
-          ],
           "ports": "8003:5601"
         },
         "jenkins": {
