@@ -146,7 +146,10 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
     end
 
     if (not (defined?(node[:deploycode][:configuration][:general][localfolder])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
-      spec = node[:deploycode][:configuration][:general]["#{localfolder}"]
+      spec = node[:deploycode][:configuration][:general][localfolder]
+      if !spec 
+        spec = []
+      end
       spec.each do |file,path|
         node.default["bindvolume"].push("#{basedir}#{localfolder}_configuration/#{file}:#{path}")
       end
