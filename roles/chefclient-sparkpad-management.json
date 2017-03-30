@@ -64,10 +64,7 @@
           "image": "jenkins",
           "mountlocal": "localdir",
           "mountdocker": "/var/jenkins_home",
-          "ports": [
-            "8004:8080",
-            "50000:50000"
-          ]
+          "ports": "8004:8080"
         },
         "bootproxy": {
           "tag": "stable-alpine",
