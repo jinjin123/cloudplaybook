@@ -13,7 +13,7 @@
           "password":"thomas123"
       },
       "deploycode":{
-        "basedirectory":"/root/tools/code/",
+        "basedirectory":"/root/tools/sparkpad/",
         "configuration": {
           "drupal" : {
             "sparkpad_tvbackend_drupal": {
@@ -45,7 +45,7 @@
               "tag":"5.7",
               "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
-              "mountlocal":"/root/mysqldir",
+              "mountlocal":"/root/sparkpadmysql",
               "mountdocker":"/var/lib/mysql"
             },
             "sparkpad_tvbackend_drupal":{

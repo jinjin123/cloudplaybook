@@ -8,7 +8,7 @@
       "externalmode":"bootproxy",
       "domainname":"sparkpos.cn",
       "deploycode":{
-        "basedirectory":"/root/tools/code/",
+        "basedirectory":"/root/tools/sparkpad/",
         "localfolder":{
             "sparkposcn":{
               "giturl": "git@git.coding.net:chankongching/sparkpos.cn.git",
