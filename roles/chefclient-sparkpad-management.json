@@ -40,7 +40,7 @@
           ],
           "mountlocal": "localdir",
           "mountdocker": "/usr/share/elasticsearch/data",
-          "ports": "8001:80"
+          "ports": "8001:9200"
         },
         "logstash": {
           "tag": "latest",
@@ -50,7 +50,7 @@
             "/root/tools/sparkpad-dev/pmt:/var/www/html",
             "/usr/bin/which:/usr/bin/which"
           ],
-          "ports": "8002:80"
+          "ports": "8002:5000"
         },
         "kibana": {
           "tag": "latest",
@@ -60,7 +60,7 @@
             "/root/tools/sparkpad-dev/crm:/var/www/html",
             "/usr/bin/which:/usr/bin/which"
           ],
-          "ports": "8003:80"
+          "ports": "8003:5601"
         },
         "jenkins": {
           "tag": "latest",
