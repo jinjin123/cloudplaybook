@@ -50,8 +50,8 @@
             }
           },
           "kylin": {
-            "identifier": "20170329000001",
-            "region": "chinaeast",
+            "identifier": "20170331000000",
+            "region": "eastasia",
             "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
             "clusterLoginUserName": "admintest",
