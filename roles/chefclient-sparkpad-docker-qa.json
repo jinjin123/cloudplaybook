@@ -161,7 +161,7 @@
         },
         "crm": {
           "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9083:80"
