@@ -17,8 +17,14 @@
     "clusterType": {
       "value": "<%= @clusterType %>"
     },
+    "clusterVersion": {
+      "value": "<%= @clusterVersion %>"
+    },
     "clusterWorkerNodeCount": {
-      "value": "<%= @clusterWorkerNodeCount %>"
+      "value": <%= @clusterWorkerNodeCount %>
+    },
+    "containerName": {
+      "value": "<%= @containerName %>"
     },
     "edgeNodeSize": {
       "value": "<%= @edgeNodeSize %>"
@@ -34,6 +40,9 @@
     },
     "sshPassword": {
       "value": "<%= @sshPassword %>"
+    },
+    "storageAccount": {
+      "value": "<%= @storageAccount %>"
     }
   }
 }

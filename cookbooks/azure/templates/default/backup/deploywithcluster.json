@@ -8,18 +8,6 @@
         "description": "The name of the HDInsight cluster to create."
       }
     },
-    "storageAccount": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of StorageAccount."
-      }
-    },
-    "containerName": {
-      "type": "string",
-      "metadata": {
-        "description": "Specify container name."
-      }
-    },
     "clusterLoginUserName": {
       "type": "string",
       "defaultValue": "admin",
@@ -48,36 +36,21 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "eastasia",
+      "defaultValue": "East US",
       "allowedValues": [
-        "chinaeast",
-        "chinanorth",
-        "eastasia",
-        "southeastasia",
-        "centralus",
-        "eastus",
-        "eastus2",
-        "westus",
-        "northcentralus",
-        "southcentralus",
-        "northeurope",
-        "westeurope",
-        "japanwest",
-        "japaneast",
-        "brazilsouth",
-        "australiaeast",
-        "australiasoutheast",
-        "southindia",
-        "centralindia",
-        "westindia",
-        "canadacentral",
-        "canadaeast",
-        "uksouth",
-        "ukwest",
-        "westcentralus",
-        "westus2",
-        "koreacentral",
-        "koreasouth"
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast"
       ],
       "metadata": {
         "description": "The location where all azure resources will be deployed."
@@ -85,7 +58,7 @@
     },
     "clusterType": {
       "type": "string",
-      "defaultValue": "hbase",
+      "defaultValue": "hadoop",
       "allowedValues": [
         "hadoop",
         "hbase",
@@ -95,16 +68,6 @@
       "metadata": {
         "description": "The type of the HDInsight cluster to create."
       }
-    },
-    "clusterVersion": {
-      "type": "string",
-      "metadata": {
-        "description": "The version of HDI."
-      },
-      "defaultValue": "3.5",
-      "allowedValues": [
-        "3.5"
-      ]
     },
     "clusterWorkerNodeCount": {
       "type": "int",
@@ -118,18 +81,16 @@
       "metadata": {
         "description": "Size of the edge node that hosts the application"
       },
-      "defaultValue": "Standard_D3_V2",
+      "defaultValue": "Standard_D3",
       "allowedValues": [
         "Standard_A1",
         "Standard_A2",
         "Standard_A3",
         "Standard_A4",
-        "Standard_D1_V2",
-        "Standard_D2_V2",
+        "Standard_D1",
+        "Standard_D2",
         "Standard_D3",
-        "Standard_D4",
-        "Standard_D3_V2",
-        "Standard_D4_V2"
+        "Standard_D4"
       ]
     },
     "appType": {
@@ -137,11 +98,11 @@
       "metadata": {
         "description": "Which services you want to install"
       },
-      "defaultValue": "KAP+KyAnalyzer+Zeppelin",
+      "defaultValue": "KAP+KyAnalyzer",
       "allowedValues": [
-        "KAP+KyAnalyzer+Zeppelin",
+        "KAP",
         "KAP+KyAnalyzer",
-        "KAP"
+        "KAP+KyAnalyzer+Zeppelin"
       ]
     },
     "metastoreName": {
@@ -161,7 +122,7 @@
   },
   "resources": [
     {
-      "name": "[parameters('storageAccount')]",
+      "name": "[variables('clusterStorageAccountName')]",
       "type": "Microsoft.Storage/storageAccounts",
       "location": "[parameters('location')]",
       "apiVersion": "[variables('defaultApiVersion')]",
@@ -177,17 +138,17 @@
       "location": "[parameters('location')]",
       "apiVersion": "[variables('clusterApiVersion')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount'))]"
+        "[concat('Microsoft.Storage/storageAccounts/',variables('clusterStorageAccountName'))]"
       ],
       "tags": {},
       "properties": {
-        "clusterVersion": "[parameters('clusterVersion')]",
+        "clusterVersion": "3.4",
         "osType": "Linux",
         "clusterDefinition": {
           "kind": "[parameters('clusterType')]",
           "configurations": {
             "gateway": {
-              "restAuthCredential.isEnabled": false,
+              "restAuthCredential.isEnabled": true,
               "restAuthCredential.username": "[parameters('clusterLoginUserName')]",
               "restAuthCredential.password": "[parameters('clusterLoginPassword')]"
             }
@@ -196,10 +157,10 @@
         "storageProfile": {
           "storageaccounts": [
             {
-              "name": "[concat(parameters('storageAccount'),'.blob.core.chinacloudapi.cn')]",
+              "name": "[concat(variables('clusterStorageAccountName'),'.blob.core.windows.net')]",
               "isDefault": true,
-              "container": "[parameters('containerName')]",
-              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount')), variables('defaultApiVersion')).key1]"
+              "container": "[parameters('clusterName')]",
+              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('clusterStorageAccountName')), variables('defaultApiVersion')).key1]"
             }
           ]
         },

@@ -69,51 +69,40 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     metastoreName = kylin[:metastoreName]
   end
 
-  if kylin[:region].downcase.include?("china")
-    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
-      source "deploywithcluster_cn.json"
-      mode 0644
-      retries 3
-      retry_delay 2
-      owner "root"
-      group "root"
-      action :create
-    end
-    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
-      source "deploywithcluster_cn.parameters.json.erb"
-      variables(
-        :appType => kylin[:appType],
-        :clusterName  => clusterName,
-        :clusterLoginUserName => kylin[:clusterLoginUserName],
-        :clusterLoginPassword => kylin[:clusterLoginPassword],
-        :clusterType => kylin[:clusterType],
-        :clusterVersion => kylin[:clusterVersion],
-        :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
-        :containerName => containerName,
-        :edgeNodeSize => kylin[:edgeNodeSize],
-        :location => kylin[:region],
-        :metastoreName => metastoreName,
-        :sshUserName => kylin[:sshUserName],
-        :sshPassword => kylin[:sshPassword],
-        :storageAccount => "#{kylin[:identifier]}sa"
-      )
-      mode 0644
-      retries 3
-      retry_delay 2
-      owner "root"
-      group "root"
-      action :create
-    end
-  else
-    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
-      source "deploywithcluster.json"
-      mode 0644
-      retries 3
-      retry_delay 2
-      owner "root"
-      group "root"
-      action :create
-    end
+
+  template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
+    source "deploywithcluster.json"
+    mode 0644
+    retries 3
+    retry_delay 2
+    owner "root"
+    group "root"
+    action :create
+  end
+  template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
+    source "deploywithcluster.parameters.json.erb"
+    variables(
+      :appType => kylin[:appType],
+      :clusterName  => clusterName,
+      :clusterLoginUserName => kylin[:clusterLoginUserName],
+      :clusterLoginPassword => kylin[:clusterLoginPassword],
+      :clusterType => kylin[:clusterType],
+      :clusterVersion => kylin[:clusterVersion],
+      :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
+      :containerName => containerName,
+      :edgeNodeSize => kylin[:edgeNodeSize],
+      :location => kylin[:region],
+      :metastoreName => metastoreName,
+      :sshUserName => kylin[:sshUserName],
+      :sshPassword => kylin[:sshPassword],
+      :storageAccount => "#{kylin[:identifier]}sa"
+    )
+    mode 0644
+    retries 3
+    retry_delay 2
+    owner "root"
+    group "root"
+    action :create
   end
 end
 
