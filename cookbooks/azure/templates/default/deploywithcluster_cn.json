@@ -48,10 +48,36 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "East US",
+      "defaultValue": "eastasia",
       "allowedValues": [
         "chinaeast",
-        "chinanorth"
+        "chinanorth",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2",
+        "koreacentral",
+        "koreasouth"
       ],
       "metadata": {
         "description": "The location where all azure resources will be deployed."
@@ -59,7 +85,7 @@
     },
     "clusterType": {
       "type": "string",
-      "defaultValue": "hadoop",
+      "defaultValue": "hbase",
       "allowedValues": [
         "hadoop",
         "hbase",
@@ -100,6 +126,8 @@
         "Standard_A4",
         "Standard_D1_V2",
         "Standard_D2_V2",
+        "Standard_D3",
+        "Standard_D4",
         "Standard_D3_V2",
         "Standard_D4_V2"
       ]
