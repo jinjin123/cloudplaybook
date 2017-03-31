@@ -185,7 +185,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/code/oc:/usr/local/tomcat/webapps",
+            "/root/tools/liansuola/oc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9086:8080"
@@ -195,7 +195,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/code/tsoc:/usr/local/tomcat/webapps",
+            "/root/tools/liansuola/tsoc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9087:8080"
@@ -205,7 +205,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/code/orderserver:/usr/local/tomcat/webapps",
+            "/root/tools/liansuola/orderserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9088:8080"
@@ -215,7 +215,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/code/wmserver:/usr/local/tomcat/webapps",
+            "/root/tools/liansuola/wmserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "8080:8080"
@@ -233,7 +233,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/code/syncoc:/usr/local/tomcat/webapps",
+            "/root/tools/liansuola/syncoc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9091:8080"
