@@ -69,9 +69,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     metastoreName = kylin[:metastoreName]
   end
 
-
+  if kylin[:region].downcase.include?("china")
+    accountregion = "china"
+  else 
+    accountregion = "global"
+  end
   template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
-    source "deploywithcluster.json"
+    source "deploywithcluster.json.erb"
+    variables(
+      :accountregion => accountregion
+    )
     mode 0644
     retries 3
     retry_delay 2
