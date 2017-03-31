@@ -1,5 +1,5 @@
 {
-  "name": "chefclient-kyligence-azure-token",
+  "name": "chefclient-kyligence-azure-token-cn",
   "description": "",
   "json_class": "Chef::Role",
   "default_attributes": {
