@@ -17,14 +17,14 @@
       "configuration": {
         "general": {
           "elasticsearch": {
-            "management/elasticsearch.yml": "/usr/share/elasticsearch/config/elasticsearch.yml"
+            "spmgmt_elasticsearch.yml": "/usr/share/elasticsearch/config/elasticsearch.yml"
           },
           "logstash": {
-            "management/config_logstash.yml": "/usr/share/logstash/config/logstash.yml",
-            "management/pipeline_logstash.yml": "/usr/share/logstash/pipeline/logstash.yml"
+            "spmgmt_config_logstash.yml": "/usr/share/logstash/config/logstash.yml",
+            "spmgmt_pipeline_logstash.yml": "/usr/share/logstash/pipeline/logstash.yml"
           },
           "kibana": {
-            "management/kibana.yml": "/usr/share/kibana/config/kibana.yml"
+            "spmgmt_kibana.yml": "/usr/share/kibana/config/kibana.yml"
           }
         }
       },
