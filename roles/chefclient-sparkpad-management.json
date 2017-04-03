@@ -40,7 +40,7 @@
           "tag": "latest",
           "image": "elasticsearch",
           "env": [
-            "ES_JAVA_OPTS='-Xmx256m -Xms256m'"
+            "ES_JAVA_OPTS=-Xmx256m -Xms256m"
           ],
           "mountlocal": "localdir",
           "mountdocker": "/usr/share/elasticsearch/data",
