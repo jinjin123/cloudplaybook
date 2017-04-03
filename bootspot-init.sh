@@ -53,7 +53,9 @@ mkdir -p logs
 echo 'thomas1234!' | passwd root --stdin
 
 #Make this Linux Unique ID
-thisuniqueid="$(dmidecode | grep -i uuid | head -1 | awk -F" " '{print $2}')"
+#thisuniqueid="$(dmidecode | grep -i uuid | head -1 | awk -F" " '{print $2}')"
+#Since dmidecode code cannot get unique id, temp use mac address
+thisuniqueid=`ip addr show | grep ether | head -1 | awk -F" "  '{print $2}'`
 
 #get own IP and register to laravel, tell Laravel this server's password
 ownip=`/usr/bin/curl --user "keithyau@163.com":thomas123 -F "linux_uid=${thisuniqueid}" -F 'spot_sshpass=thomas1234!' -F "spot_sshroot=root" http://d.bootdev.com/spot-register`
@@ -196,13 +198,14 @@ chef-solo -c ./settings/solo.rb -o "role[chefsoloinit]"
 #ToDo: Put it into Chef
 #Init datadog for monitoring, with the machine unique identifier
 #Docker agent not working while change the hostname
-docker rm -f shadowdog_$thisuniqueid
-dockerid=`docker run -d --name shadowdog_${thisuniqueid} -v /var/run/docker.sock:/var/run/docker.sock:ro -v /proc/:/host/proc/:ro -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro -e API_KEY=24ddff8c136abf711cfe1cf24fbdb684 datadog/docker-dd-agent:latest`
+uniquedockername=`echo -n ${thisuniqueid} | md5sum | awk -F" " '{ print $1 }'`
+docker rm -f shadowdog_$uniquedockername
+dockerid=`docker run -d --name shadowdog_${uniquedockername} -v /var/run/docker.sock:/var/run/docker.sock:ro -v /proc/:/host/proc/:ro -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro -e API_KEY=24ddff8c136abf711cfe1cf24fbdb684 datadog/docker-dd-agent:latest`
 
 echo $dockerid
 
 #Rewrite record if there is a monitor id
-ownip=`/usr/bin/curl --user "keithyau@163.com":thomas123 -F "dd_dockerid=${dockerid}" -F "linux_uid=${thisuniqueid}" -F 'spot_sshpass=thomas1234!' -F "spot_sshroot=root" http://d.bootdev.com/spot-register`
+ownip=`/usr/bin/curl --user "keithyau@163.com":thomas123 -F "dd_dockerid=${dockerid}" -F "linux_uid=${uniquedockername}" -F 'spot_sshpass=thomas1234!' -F "spot_sshroot=root" http://d.bootdev.com/spot-register`
 
 #Setup crontab to update IP address
 cat << EOF > /etc/cron.d/updateDNS.5mins

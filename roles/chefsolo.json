@@ -42,7 +42,7 @@
             },
             "demoshadowsocks":{
                "tag":"latest",
-               "image":"mritd/shadowsocks",
+               "image":"keithyau/ss",
                "command": "-k Thomas123 -w 2 -f",
                "customdomainprefix": "user1customhash",
                "mountlocal":"localdir",
