@@ -212,7 +212,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         node.run_state[:linking] = etchosts
       end
 
-      if node.default["bindvolume"].eql?([":"]) || not node.default["bindvolume"].any?
+      if ( node.default["bindvolume"].eql?([":"]) || not node.default["bindvolume"].any? )
         node.default["bindvolume"] = nil
       end
 #      if (not (defined?(docker[:memory_limit])).nil?) && (not "#{docker[:memory_limit]}" == "")
