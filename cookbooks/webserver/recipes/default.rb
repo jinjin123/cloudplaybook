@@ -109,7 +109,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
   node[:deploycode][:runtime].each do |localfolder,docker|
     #if tagged localdir, give the localfolder as mount point
 
-    if (not (defined?(docker[:mountlocal])).nil?)
+    if (not (defined?(docker[:mountlocal])).nil?) && (not "#{docker[:mountlocal]}" == "")
       # Preparing directory
       if localfolder.eql?("bootproxy")
         dir_name = "#{node[:deploycode][:basedirectory]}../bootproxy"
@@ -143,6 +143,8 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           action :create
         end
       end
+    else 
+      node.default["bindvolume"] = nil
     end
 
     if (not (defined?(node[:deploycode][:configuration][:general][localfolder])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
