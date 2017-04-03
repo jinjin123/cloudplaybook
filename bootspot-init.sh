@@ -117,7 +117,7 @@ cat <<EOF  > roles/chefsoloinit.json
          "runtime":{
             "shadowsocksinit":{
                "tag":"latest",
-               "image":"mritd/shadowsocks",
+               "image":"keithyau/ss",
                "env":[
                   "DUMMY"
                ],
