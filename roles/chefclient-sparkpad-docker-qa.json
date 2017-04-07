@@ -14,7 +14,7 @@
       "password": "thomas123"
     },
     "deploycode": {
-      "basedirectory": "/root/tools/liansuola/",        
+      "basedirectory": "/home/sparkpad/code/liansuola/",        
       "configuration":{
         "drupal": {
           "de": {
@@ -142,7 +142,7 @@
           "tag":"5.7",
           "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
           "env":["MYSQL_ROOT_PASSWORD=thomas123"],
-          "mountlocal":"/root/mysql_liansuola",
+          "mountlocal":"/home/sparkpad/mysql_liansuola",
           "mountdocker":"/var/lib/mysql"
         },
         "de": {
@@ -185,7 +185,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/liansuola/oc:/usr/local/tomcat/webapps",
+            "/home/sparkpad/code/liansuola/oc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9086:8080"
@@ -195,7 +195,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/liansuola/tsoc:/usr/local/tomcat/webapps",
+            "/home/sparkpad/code/liansuola/tsoc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9087:8080"
@@ -205,7 +205,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/liansuola/orderserver:/usr/local/tomcat/webapps",
+            "/home/sparkpad/code/liansuola/orderserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9088:8080"
@@ -215,7 +215,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/liansuola/wmserver:/usr/local/tomcat/webapps",
+            "/home/sparkpad/code/liansuola/wmserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "8080:8080"
@@ -233,7 +233,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/root/tools/liansuola/syncoc:/usr/local/tomcat/webapps",
+            "/home/sparkpad/code/liansuola/syncoc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9091:8080"
