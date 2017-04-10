@@ -143,13 +143,13 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           action :create
         end
       end
-    else 
+    else
       node.default["bindvolume"] = nil
     end
 
     if (not (defined?(node[:deploycode][:configuration][:general][localfolder])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
       spec = node[:deploycode][:configuration][:general][localfolder]
-      if !spec 
+      if !spec
         spec = []
       end
       if not node.default["bindvolume"].nil?
@@ -300,15 +300,16 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       if (not (defined?(docker[:customdomainprefix])).nil?) && (not "#{docker[:customdomainprefix]}" == "")
         domainprefixset = docker[:customdomainprefix]
       end
-        if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
-          if docker[:overridesubdomain].eql?("www")
-            domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]} #{node[:domainname]}"
-          else
-            domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]}"
-          end
+      if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
+        if docker[:overridesubdomain].eql?("www")
+          domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]} #{node[:domainname]}"
         else
-          domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
+          domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]}"
         end
+      else
+        domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
+      end
+      if (not (defined?(docker[:ports]).nil?) && (not "#{docker[:ports]}" == "")
         portnumber = docker[:ports].chomp.split(':')[1]
         template "#{node[:deploycode][:basedirectory]}../bootproxy/#{node[:projectname]}.#{localfolder}.proxy.conf" do
           variables(
@@ -325,6 +326,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           action :create
       #    ignore_failure true
         end
+      end
       #end
     end
   end
