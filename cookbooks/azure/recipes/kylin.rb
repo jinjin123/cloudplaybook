@@ -71,7 +71,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
 
   if kylin[:region].downcase.include?("china")
     accountregion = "china"
-  else 
+  else
     accountregion = "global"
   end
   template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
@@ -199,8 +199,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   cmd = "docker run #{mapvolume} -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure group deployment create -g kylin#{identifier} -n kylin#{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
   bash cmd do
     code <<-EOH
-    #{cmd} &> #{results}
+    #{cmd}
     EOH
+    #{cmd} &> #{results}
     notifies :run, 'execute[commit_docker]', :immediately
     timeout 21600
   end
