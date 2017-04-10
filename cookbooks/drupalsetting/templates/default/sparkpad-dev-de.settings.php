@@ -27,3 +27,16 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
 $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
 $conf['restws_basic_auth_user_regex'] = '/.*/';
 $conf['user_failed_login_ip_limit'] = 1000;
+
+/**
+ * Redis Configuration.
+ */
+ // Redis settings
+ $conf['redis_client_interface'] = 'PhpRedis';
+ $conf['redis_client_host'] = 'sparkpadgp_redis';
+ $conf['lock_inc'] = 'sites/all/modules/contrib/redis/redis.lock.inc';
+ $conf['path_inc'] = 'sites/all/modules/contrib/redis/redis.path.inc';
+ $conf['cache_backends'][] = 'sites/all/modules/contrib/redis/redis.autoload.inc';
+ $conf['cache_default_class'] = 'Redis_Cache';
+ // For multisite, you must use a unique prefix for each site
+ $conf['cache_prefix'] = 'sparkpadgp_de';
