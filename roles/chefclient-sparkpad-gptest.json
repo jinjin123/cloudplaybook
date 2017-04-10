@@ -93,6 +93,7 @@
               "branch": "master"
             },
             "couchdb": "nodownload",
+            "redis": "nodownload",
             "bootproxy":"nodownload"
          },
          "runtime":{
@@ -103,6 +104,10 @@
               "mountlocal":"/home/sparkpad/mysqlsparkpadgp",
               "mountdocker":"/var/lib/mysql",
               "ports":"3306:3306"
+            },
+            "redis":{
+              "tag":"latest",
+              "image":"redis"
             },
             "de":{
               "tag":"latest",
