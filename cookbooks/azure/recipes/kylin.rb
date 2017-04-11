@@ -14,6 +14,12 @@
 # 4. remove new container
 # So in any point of time, on host there shld be no container exists but image is upto date
 
+azureaction = node[:deploycode][:configuration][:azure][:action]
+# storing kylin variables to be called
+if not ((not (defined?(azureaction)).nil?) && (not "#{azureaction}" == ""))
+  azureaction = "create"
+end
+
 credentials = node[:deploycode][:configuration][:azure][:credentials]
 
 # Setting basedir to store template files
@@ -74,6 +80,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   else
     accountregion = "global"
   end
+  if (not (defined?(kylin[:storageAccount])).nil?) && (not "#{kylin[:storageAccount]}" == "")
+    storageAccount = kylin[:storageAccount]
+  else
+    storageAccount = "#{kylin[:identifier]}sa"
+  end
+
   template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
     source "deploywithcluster.json.erb"
     variables(
@@ -102,7 +114,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       :metastoreName => metastoreName,
       :sshUserName => kylin[:sshUserName],
       :sshPassword => kylin[:sshPassword],
-      :storageAccount => "#{kylin[:identifier]}sa"
+      :storageAccount => storageAccount
     )
     mode 0644
     retries 3
@@ -185,24 +197,39 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     ignore_failure true
   end
 
-  # Create resources group
-  execute 'create_resources_group' do
-    command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
-    notifies :run, 'execute[commit_docker]', :immediately
-    ignore_failure true
-  end
-  # Running deploymentTemplate
-  results = "#{basedir}azure/#{identifier}/#{identifier}_deploy.log"
-  file results do
-    action :delete
-  end
-  cmd = "docker run #{mapvolume} -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure group deployment create -g #{identifier} -n #{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
-  bash cmd do
-    code <<-EOH
-    #{cmd}
-    EOH
-    #{cmd} &> #{results}
-    notifies :run, 'execute[commit_docker]', :immediately
-    timeout 21600
+  # case when azureaction
+  if azureaction.eql?("create")
+    # Create resources group
+    execute 'create_resources_group' do
+      command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
+      notifies :run, 'execute[commit_docker]', :immediately
+      ignore_failure true
+    end
+    # Running deploymentTemplate
+    results = "#{basedir}azure/#{identifier}/#{identifier}_deploy.log"
+    file results do
+      action :delete
+    end
+    cmd = "docker run #{mapvolume} -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure group deployment create -g #{identifier} -n #{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
+    bash cmd do
+      code <<-EOH
+      #{cmd}
+      EOH
+      #{cmd} &> #{results}
+      notifies :run, 'execute[commit_docker]', :immediately
+      timeout 21600
+    end
+  elsif azureaction.eql?("removehdi")
+    execute 'removehdi_resources_group' do
+      command "# docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
+      #notifies :run, 'execute[commit_docker]', :immediately
+      ignore_failure true
+    end
+  elsif azureaction.eql?("removeall")
+    execute 'remove_resources_group' do
+      command "# docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
+      #notifies :run, 'execute[commit_docker]', :immediately
+      ignore_failure true
+    end
   end
 end

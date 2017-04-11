@@ -64,7 +64,8 @@
             "edgeNodeSize": "Standard_D3_V2",
             "metastoreName": "default",
             "sshUserName": "admintest",
-            "sshPassword": "Kyligence2016"
+            "sshPassword": "Kyligence2016",
+            "storageAccount": "20170329000001sa"
           }
         }
       },
