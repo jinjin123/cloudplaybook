@@ -118,34 +118,27 @@
               "ports":"7081:80"
             },
             "pmt":{
-              "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
-              "mountlocal":"multipledir",
-              "mountdocker": [
-                "/home/sparkpad/code/sparkpad-dev/pmt:/var/www/html",
-                "/usr/bin/which:/usr/bin/which"
-              ],
+              "tag":"7.0.17_v1",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-pmt"],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
               "ports":"7082:80"
             },
             "crm":{
-              "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
-              "mountlocal":"multipledir",
-              "mountdocker": [
-                "/home/sparkpad/code/sparkpad-dev/crm:/var/www/html",
-                "/usr/bin/which:/usr/bin/which"
-              ],
+              "tag":"7.0.17_v1",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-crm"],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
               "ports":"7083:80"
             },
             "oc":{
-              "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimeini",
+              "tag":"7.0.17_v1",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-oc"],
-              "mountlocal":"multipledir",
-              "mountdocker": [
-                "/home/sparkpad/code/sparkpad-dev/oc:/var/www/html",
-                "/usr/bin/which:/usr/bin/which"
-              ],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
               "ports":"7084:80"
             },
             "couchdb": {
