@@ -49,13 +49,11 @@
               "mountdocker":"/var/lib/mysql"
             },
             "sparkpad_tvbackend_drupal":{
-              "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
-              "mountlocal":"multipledir",
-              "mountdocker":[
-                "/home/sparkpad/code/sparkpad/sparkpad_tvbackend_drupal:/var/www/html",
-                "/usr/bin/which:/usr/bin/which"
-              ],
+              "tag":"7.0.17_v1",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuolaTV"],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
               "ports":"7052:80",
               "exec": "ln -sf /dev/stderr /var/log/php-fpm.log",
               "overridesubdomain":"tv"
