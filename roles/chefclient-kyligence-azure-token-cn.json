@@ -14,6 +14,7 @@
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "azure": {
+          "action": "removeall",
           "credentials": {
             "token": [
               {
@@ -50,7 +51,7 @@
             }
           },
           "kylin": {
-            "identifier": "20170329000001",
+            "identifier": "20170411000001",
             "region": "chinaeast",
             "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
@@ -64,7 +65,8 @@
             "edgeNodeSize": "Standard_D3_V2",
             "metastoreName": "default",
             "sshUserName": "admintest",
-            "sshPassword": "Kyligence2016"
+            "sshPassword": "Kyligence2016",
+            "storageAccount": "20170329000001sa"
           }
         }
       },
