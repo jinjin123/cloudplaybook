@@ -50,7 +50,7 @@
             },
             "sparkpad_tvbackend_drupal":{
               "tag":"latest",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
               "mountlocal":"multipledir",
               "mountdocker":[
                 "/home/sparkpad/code/sparkpad/sparkpad_tvbackend_drupal:/var/www/html",
