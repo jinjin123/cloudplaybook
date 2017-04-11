@@ -187,16 +187,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
 
   # Create resources group
   execute 'create_resources_group' do
-    command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n kylin#{identifier} -l #{kylin[:region]} || true"
+    command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
     notifies :run, 'execute[commit_docker]', :immediately
     ignore_failure true
   end
   # Running deploymentTemplate
-  results = "#{basedir}azure/#{identifier}/kylin#{identifier}_deploy.log"
+  results = "#{basedir}azure/#{identifier}/#{identifier}_deploy.log"
   file results do
     action :delete
   end
-  cmd = "docker run #{mapvolume} -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure group deployment create -g kylin#{identifier} -n kylin#{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
+  cmd = "docker run #{mapvolume} -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure group deployment create -g #{identifier} -n #{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
   bash cmd do
     code <<-EOH
     #{cmd}
