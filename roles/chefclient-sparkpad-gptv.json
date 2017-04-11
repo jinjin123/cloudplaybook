@@ -49,7 +49,7 @@
               "mountdocker":"/var/lib/mysql"
             },
             "sparkpad_tvbackend_drupal":{
-              "tag":"7.0.17_v1",
+              "tag":"7.0.17_v2",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuolaTV"],
               "mountlocal":"localdir",
