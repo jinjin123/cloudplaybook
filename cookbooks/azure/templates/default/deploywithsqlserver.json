@@ -51,7 +51,33 @@
       "defaultValue": "chinaeast",
       "allowedValues": [
         "chinaeast",
-        "chinanorth"
+        "chinanorth",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2",
+        "koreacentral",
+        "koreasouth"
       ],
       "metadata": {
         "description": "The location where all azure resources will be deployed."
@@ -225,7 +251,7 @@
             },
             "hive-site": {
               "javax.jdo.option.ConnectionDriverName": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-              "javax.jdo.option.ConnectionURL": "[concat('jdbc:sqlserver://', variables('sqlDatabase').serverName, '.database.chinacloudapi.cn', ';databaseName=', variables('sqlDatabase').databaseName, ';')]",
+              "javax.jdo.option.ConnectionURL": "[concat('jdbc:sqlserver://', variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>', ';databaseName=', variables('sqlDatabase').databaseName, ';')]",
               "javax.jdo.option.ConnectionUserName": "[concat(parameters('clusterLoginUserName'), '@', variables('sqlDatabase').serverName)]",
               "javax.jdo.option.ConnectionPassword": "[parameters('clusterLoginPassword')]"
             },
@@ -235,14 +261,14 @@
               "hive_database_type": "mssql",
               "hive_existing_mssql_server_database": "[variables('sqlDatabase').databaseName]",
               "hive_existing_mssql_server_host": "[concat(variables('sqlDatabase').serverName, '.database.chinacloudapi.cn')]",
-              "hive_hostname": "[concat(variables('sqlDatabase').serverName, '.database.chinacloudapi.cn')]"
+              "hive_hostname": "[concat(variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>')]"
             }
           }
         },
         "storageProfile": {
           "storageaccounts": [
             {
-              "name": "[concat(parameters('storageAccount'),'.blob.core.chinacloudapi.cn')]",
+              "name": "[concat(parameters('storageAccount'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
               "isDefault": true,
               "container": "[parameters('containerName')]",
               "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount')), variables('defaultApiVersion')).key1]"
