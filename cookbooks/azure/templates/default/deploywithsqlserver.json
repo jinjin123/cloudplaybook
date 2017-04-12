@@ -73,14 +73,14 @@
     "clusterVersion": {
       "type": "string",
       "metadata": {
-          "description": "The version of HDI."
+        "description": "The version of HDI."
       },
       "defaultValue": "3.5",
       "allowedValues": [
-          "3.5",
-          "3.4",
-          "3.3",
-          "3.2"
+        "3.5",
+        "3.4",
+        "3.3",
+        "3.2"
       ]
     },
     "clusterWorkerNodeCount": {
@@ -91,42 +91,42 @@
       }
     },
     "edgeNodeSize": {
-            "type": "string",
-            "metadata": {
-                "description": "Size of the edge node that hosts the application"
-            },
-            "defaultValue": "Standard_D3_V2",
-            "allowedValues": [
-                "Standard_A1",
-                "Standard_A2",
-                "Standard_A3",
-                "Standard_A4",
-                "Standard_D1_V2",
-                "Standard_D2_V2",
-                "Standard_D3",
-                "Standard_D4",
-                "Standard_D3_V2",
-                "Standard_D4_V2"
-            ]
+      "type": "string",
+      "metadata": {
+        "description": "Size of the edge node that hosts the application"
+      },
+      "defaultValue": "Standard_D3_V2",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_D1_V2",
+        "Standard_D2_V2",
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_D3_V2",
+        "Standard_D4_V2"
+      ]
     },
     "appType": {
-            "type": "string",
-            "metadata": {
-                "description": "Which services you want to install"
-            },
-            "defaultValue": "KAP+KyAnalyzer+Zeppelin",
-            "allowedValues": [
-                "KAP+KyAnalyzer+Zeppelin",
-                "KAP+KyAnalyzer",
-                "KAP"
-            ]
+      "type": "string",
+      "metadata": {
+        "description": "Which services you want to install"
+      },
+      "defaultValue": "KAP+KyAnalyzer+Zeppelin",
+      "allowedValues": [
+        "KAP+KyAnalyzer+Zeppelin",
+        "KAP+KyAnalyzer",
+        "KAP"
+      ]
     },
     "metastoreName": {
-            "type": "string",
-            "defaultValue": "kylin_default_instance",
-            "metadata": {
-                "description": "The name of metadata store for KAP"
-            }
+      "type": "string",
+      "defaultValue": "kylin_default_instance",
+      "metadata": {
+        "description": "The name of metadata store for KAP"
+      }
     }
   },
   "variables": {
@@ -135,7 +135,7 @@
     "clusterStorageAccountName": "[concat(parameters('clusterName'),'store')]",
     "applicationName": "KAP",
     "galleryPackageIdentity": "Kyligence",
-    "sqlDatabase":{
+    "sqlDatabase": {
       "serverName": "[concat(parameters('clusterName'),'dbserver')]",
       "databaseName": "[concat(parameters('clusterName'),'db')]"
     }
@@ -146,10 +146,8 @@
       "type": "Microsoft.Storage/storageAccounts",
       "location": "[parameters('location')]",
       "apiVersion": "[variables('defaultApiVersion')]",
-      "dependsOn": [ ],
-      "tags": {
-
-      },
+      "dependsOn": [],
+      "tags": {},
       "properties": {
         "accountType": "Standard_LRS"
       }
@@ -159,10 +157,10 @@
       "type": "Microsoft.Sql/servers",
       "location": "[resourceGroup().location]",
       "tags": {
-        "displayName": "SqlServer"        
+        "displayName": "SqlServer"
       },
       "apiVersion": "2014-04-01",
-      "dependsOn": [ ],
+      "dependsOn": [],
       "properties": {
         "administratorLogin": "[parameters('clusterLoginUserName')]",
         "administratorLoginPassword": "[parameters('clusterLoginPassword')]",
@@ -207,10 +205,13 @@
       "type": "Microsoft.HDInsight/clusters",
       "location": "[parameters('location')]",
       "apiVersion": "[variables('clusterApiVersion')]",
-      "dependsOn": [ "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount'))]", "[concat('Microsoft.Sql/servers/', variables('sqlDatabase').serverName)]", "[variables('sqlDatabase').databaseName]", "AllowAllAzureIps"],
-      "tags": {
-
-      },
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount'))]",
+        "[concat('Microsoft.Sql/servers/', variables('sqlDatabase').serverName)]",
+        "[variables('sqlDatabase').databaseName]",
+        "AllowAllAzureIps"
+      ],
+      "tags": {},
       "properties": {
         "clusterVersion": "[parameters('clusterVersion')]",
         "osType": "Linux",
@@ -223,18 +224,18 @@
               "restAuthCredential.password": "[parameters('clusterLoginPassword')]"
             },
             "hive-site": {
-                "javax.jdo.option.ConnectionDriverName": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-                "javax.jdo.option.ConnectionURL": "[concat('jdbc:sqlserver://', variables('sqlDatabase').serverName, '.database.chinacloudapi.cn', ';databaseName=', variables('sqlDatabase').databaseName, ';')]",
-                "javax.jdo.option.ConnectionUserName": "[concat(parameters('clusterLoginUserName'), '@', variables('sqlDatabase').serverName)]",
-                "javax.jdo.option.ConnectionPassword": "[parameters('clusterLoginPassword')]"
+              "javax.jdo.option.ConnectionDriverName": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+              "javax.jdo.option.ConnectionURL": "[concat('jdbc:sqlserver://', variables('sqlDatabase').serverName, '.database.chinacloudapi.cn', ';databaseName=', variables('sqlDatabase').databaseName, ';')]",
+              "javax.jdo.option.ConnectionUserName": "[concat(parameters('clusterLoginUserName'), '@', variables('sqlDatabase').serverName)]",
+              "javax.jdo.option.ConnectionPassword": "[parameters('clusterLoginPassword')]"
             },
             "hive-env": {
-                "hive_database": "Existing MSSQL Server database with SQL authentication",
-                "hive_database_name": "[variables('sqlDatabase').databaseName]",
-                "hive_database_type": "mssql",
-                "hive_existing_mssql_server_database": "[variables('sqlDatabase').databaseName]",
-                "hive_existing_mssql_server_host": "[concat(variables('sqlDatabase').serverName, '.database.chinacloudapi.cn')]",
-                "hive_hostname": "[concat(variables('sqlDatabase').serverName, '.database.chinacloudapi.cn')]"
+              "hive_database": "Existing MSSQL Server database with SQL authentication",
+              "hive_database_name": "[variables('sqlDatabase').databaseName]",
+              "hive_database_type": "mssql",
+              "hive_existing_mssql_server_database": "[variables('sqlDatabase').databaseName]",
+              "hive_existing_mssql_server_host": "[concat(variables('sqlDatabase').serverName, '.database.chinacloudapi.cn')]",
+              "hive_hostname": "[concat(variables('sqlDatabase').serverName, '.database.chinacloudapi.cn')]"
             }
           }
         },
@@ -280,55 +281,72 @@
         }
       }
     },
-      {
-	    "name": "[concat(parameters('clusterName'),'/', variables('applicationName'))]",
-	    "type": "Microsoft.HDInsight/clusters/applications",
-	    "dependsOn": [
-			"[concat('Microsoft.HDInsight/clusters/', parameters('clusterName'))]"
-	    ],
-	    "apiVersion": "[variables('clusterApiVersion')]",
-	    "properties": {
-	        "marketPlaceIdentifier": "[variables('galleryPackageIdentity')]",
-	        "computeProfile": {
-	            "roles": [{
-	                "name": "edgenode",
-	                "targetInstanceCount": 1,
-	                "hardwareProfile": {
-	                    "vmSize": "[parameters('edgeNodeSize')]"
-	                 }
-	             }]
-	          },
-	          "installScriptActions": [{
-	                "name": "[concat('KAP-install-v0','-' ,uniquestring(variables('applicationName')))]",
-	                "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh",
-                  "parameters": "[concat(parameters('clusterLoginUserName'), ' ', parameters('clusterLoginPassword'), ' ', parameters('metastoreName'), ' ', parameters('appType'))]",
-	                "roles": ["edgenode"]
-	            }],
-	            "uninstallScriptActions": [
-                {
-                  "name": "[concat('KAP-uninstall-v0','-' ,uniquestring(variables('applicationName')))]",
-                  "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh",
-                  "parameters": "[parameters('appType')]",
-                  "roles": ["edgenode"]
-              }],
-	            "httpsEndpoints": [{
-                "subDomainSuffix": "kap",
-                "destinationPort": 7070,
-                "accessModes": ["webpage"]
-              },
-              {
-                "subDomainSuffix": "kya",
-                "destinationPort": 8080,
-                "accessModes": ["webpage"]
-              },
-              {
-                "subDomainSuffix": "zep",
-                "destinationPort": 9090,
-                "accessModes": ["webpage"]
-              }],
-	            "applicationType": "CustomApplication"
-	    }
+    {
+      "name": "[concat(parameters('clusterName'),'/', variables('applicationName'))]",
+      "type": "Microsoft.HDInsight/clusters/applications",
+      "dependsOn": [
+        "[concat('Microsoft.HDInsight/clusters/', parameters('clusterName'))]"
+      ],
+      "apiVersion": "[variables('clusterApiVersion')]",
+      "properties": {
+        "marketPlaceIdentifier": "[variables('galleryPackageIdentity')]",
+        "computeProfile": {
+          "roles": [
+            {
+              "name": "edgenode",
+              "targetInstanceCount": 1,
+              "hardwareProfile": {
+                "vmSize": "[parameters('edgeNodeSize')]"
+              }
+            }
+          ]
+        },
+        "installScriptActions": [
+          {
+            "name": "[concat('KAP-install-v0','-' ,uniquestring(variables('applicationName')))]",
+            "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh",
+            "parameters": "[concat(parameters('clusterLoginUserName'), ' ', parameters('clusterLoginPassword'), ' ', parameters('metastoreName'), ' ', parameters('appType'))]",
+            "roles": [
+              "edgenode"
+            ]
+          }
+        ],
+        "uninstallScriptActions": [
+          {
+            "name": "[concat('KAP-uninstall-v0','-' ,uniquestring(variables('applicationName')))]",
+            "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh",
+            "parameters": "[parameters('appType')]",
+            "roles": [
+              "edgenode"
+            ]
+          }
+        ],
+        "httpsEndpoints": [
+          {
+            "subDomainSuffix": "kap",
+            "destinationPort": 7070,
+            "accessModes": [
+              "webpage"
+            ]
+          },
+          {
+            "subDomainSuffix": "kya",
+            "destinationPort": 8080,
+            "accessModes": [
+              "webpage"
+            ]
+          },
+          {
+            "subDomainSuffix": "zep",
+            "destinationPort": 9090,
+            "accessModes": [
+              "webpage"
+            ]
+          }
+        ],
+        "applicationType": "CustomApplication"
       }
+    }
   ],
   "outputs": {
     "cluster": {
