@@ -221,7 +221,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif azureaction.eql?("removehdi")
     execute 'removehdi_resources_group' do
-      command "docker run --name #{container_name} #{mapvolume} #{image_name} azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode"
+      command "docker run --name #{container_name} #{mapvolume} #{image_name} azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p appType=#{kylin[:appType]}"
       notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
