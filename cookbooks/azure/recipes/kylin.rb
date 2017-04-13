@@ -221,19 +221,19 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif azureaction.eql?("removehdi")
     execute 'removehdi_resources_group' do
-      command "# docker run --name #{container_name} #{mapvolume} #{image_name} azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode"
+      command "docker run --name #{container_name} #{mapvolume} #{image_name} azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode"
       notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
     execute 'removehdi_hdinsight' do
-      command "# docker run --name #{container_name} #{mapvolume} #{image_name} hdinsight cluster delete #{clusterName} -g #{identifier}"
+      command "docker run --name #{container_name} #{mapvolume} #{image_name} hdinsight cluster delete #{clusterName} -g #{identifier}"
       notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
   elsif azureaction.eql?("removeall")
     execute 'remove_resources_group' do
-      command "# docker run --name #{container_name} #{mapvolume} #{image_name} sh -c \"echo \\\"y\\\" |azure group delete #{identifier}\""
-      #notifies :run, 'execute[commit_docker]', :immediately
+      command "docker run --name #{container_name} #{mapvolume} #{image_name} sh -c \"echo \\\"y\\\" |azure group delete #{identifier}\""
+      notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
   end
