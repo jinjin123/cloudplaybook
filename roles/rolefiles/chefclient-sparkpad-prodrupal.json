@@ -1,0 +1,257 @@
+{
+  "name": "chefclient-sparkpad-prodrupal",
+  "description": "Role json file for starting and maintaining Sparkpad ZKF drupal backend",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser": "root",
+    "projectname": "zkf",
+    "externalmode": "bootproxy",
+    "domainname": "zkungfu.com",
+    "docker": {
+      "privaterepo": "dockerpriv.kybot.io:5002",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
+    "deploycode": {
+      "basedirectory": "/home/ec2-user/tools/drupal_dir/",        
+      "configuration":{
+        "general" : {
+          "de": {
+            "de.settings.php": "/var/www/html/sites/default/settings.php"
+          }
+        },
+        "drupal": {
+          "de": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "variables" : {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
+          },
+          "erp": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
+          },
+          "crm": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
+          },
+          "pmt": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
+          },
+          "mkt": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
+          }
+        }
+      },
+      "localfolder": {
+        "de": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+          "branch": "master"
+        },
+        "erp": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-erp.git",
+          "branch": "master"
+        },
+        "crm": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
+          "branch": "master"
+        },
+        "pmt": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
+          "branch": "master"
+        },
+        "mkt": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-mkt.git",
+          "branch": "master"
+        },
+        "oc": {
+          "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
+          "branch": "master"
+        },
+        "tsoc": {
+          "giturl": "git@git.coding.net:keithyau/deploymenttsoc.git",
+          "branch": "master"
+        },
+        "orderserver": {
+          "giturl": "git@git.coding.net:keithyau/orderserver.git",
+          "branch": "master"
+        },
+        "wmserver": {
+          "giturl": "git@git.coding.net:keithyau/WMServer.git",
+          "branch": "master"
+        },
+        "reportingsys": {
+          "giturl": "git@git.coding.net:chankongching/reports.git",
+          "branch": "master"
+        },
+        "syncoc": {
+          "giturl": "git@git.coding.net:keithyau/syncoc.git",
+          "branch": "master"
+        },
+        "bootproxy":"nodownload"
+      },
+      "runtime": {
+        "de": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9081:80"
+        },
+        "erp": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9082:80"
+        },
+        "crm": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9083:80"
+        },
+        "pmt": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "80:80"
+        },
+        "mkt": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9085:80"
+        },
+        "oc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/oc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9086:8080"
+        },
+        "tsoc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/tsoc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9087:8080"
+        },
+        "orderserver": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/orderserver:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9088:8080"
+        },
+        "wmserver": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "8080:8080"
+        },
+        "reportingsys": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html/",
+          "ports": "9090:80"
+        },
+        "syncoc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/syncoc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9091:8080"
+        },
+        "bootproxy":{
+          "tag":"stable-alpine",
+          "image":"daocloud.io/library/nginx",
+          "mountlocal":"localdir",
+          "mountdocker":"/etc/nginx/conf.d/",
+          "ports":[
+            "8888:80"
+          ]
+        }
+      }
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[diskmount]",
+    "recipe[deploycode]",
+    "recipe[drupalsetting]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists": {}
+}
