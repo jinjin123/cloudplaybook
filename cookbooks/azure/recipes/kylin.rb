@@ -226,7 +226,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
     execute 'removehdi_hdinsight' do
-      command "docker run --name #{container_name} #{mapvolume} #{image_name} hdinsight cluster delete #{clusterName} -g #{identifier}"
+      command "docker run --name #{container_name} #{mapvolume} #{image_name} azure hdinsight cluster delete #{clusterName} -g #{identifier}"
       notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
