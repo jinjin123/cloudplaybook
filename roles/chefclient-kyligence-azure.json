@@ -14,13 +14,14 @@
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "azure": {
+          "action": "removehdi",
           "credentials": {
             "env": "AzureChinaCloud",
             "username": "jacky.chan@kycloud.partner.onmschina.cn",
             "password": "Kyligence2016@"
           },
           "kylin": {
-            "identifier": "20170411000000",
+            "identifier": "20170413000000",
             "region": "chinaeast",
             "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
