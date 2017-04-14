@@ -8,23 +8,21 @@
     "externalmode": "bootproxy",
     "domainname": "zkungfu.com",
     "docker": {
-      "privaterepo": "dockerpriv.kybot.io:5002",
+      "privaterepo": "dockerpriv.shadowdock.com",
       "username": "keithyau",
       "password": "thomas123"
     },
     "deploycode": {
       "basedirectory": "/home/ec2-user/tools/drupal_dir/",        
       "configuration":{
-        "general" : {
-          "de": {
-            "de.settings.php": "/var/www/html/sites/default/settings.php"
-          }
-        },
         "drupal": {
           "de": {
             "folders": {
               "sites/default/files" : "777",
               "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
@@ -139,36 +137,36 @@
       },
       "runtime": {
         "de": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "tag": "7.0.17",
+          "image": "dockerpriv.shadowdock.com/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9081:80"
         },
         "erp": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "tag": "7.0.17",
+          "image": "dockerpriv.shadowdock.com/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9082:80"
         },
         "crm": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "tag": "7.0.17",
+          "image": "dockerpriv.shadowdock.com/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9083:80"
         },
         "pmt": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "tag": "7.0.17",
+          "image": "dockerpriv.shadowdock.com/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
-          "ports": "80:80"
+          "ports": "9084:80"
         },
         "mkt": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "tag": "7.0.17",
+          "image": "dockerpriv.shadowdock.com/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9085:80"
@@ -238,6 +236,13 @@
           "ports":[
             "8888:80"
           ]
+        },
+        "haproxy":{
+          "tag":"1.7.5",
+          "image":"dockerpriv.shadowdock.com/keithyau/haproxy",
+          "mountlocal": "localdir",
+          "mountdocker": "/usr/local/etc/haproxy",
+          "ports": "80:80"
         }
       }
     }
