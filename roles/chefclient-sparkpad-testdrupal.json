@@ -1,0 +1,112 @@
+{
+  "name": "chefclient-sparkpad-testdrupal",
+  "description": "Role json file for starting and maintaining Sparkpad ZKF drupal backend",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser": "root",
+    "projectname": "zkf",
+    "externalmode": "bootproxy",
+    "hostfile": "spzkf_prod",
+    "domainname": "zkungfu.com",
+    "docker": {
+      "privaterepo": "dockerpriv.shadowdock.com",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
+    "deploycode": {
+      "basedirectory": "/app/web/",
+      "configuration":{
+        "general" : {
+          "bootproxy" : {
+            "spzkf_enablenginxlog": "/etc/nginx/nginx.conf"
+          },
+          "de": {
+            "spzkf_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "haproxy": {
+            "haproxy.cfg": "/usr/local/etc/haproxy/haproxy.cfg"
+          }
+        },
+        "drupal": {
+          "de": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "spzkf_de.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "172.16.103.188",
+              "dbuser": "de",
+              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+            }
+          }
+        }
+      },
+      "localfolder": {
+        "welcome":{
+          "giturl": "git@bitbucket.org:chankongching/bootdev_welcome.git",
+          "branch": "master"
+        },
+        "de": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+          "branch": "master"
+        },
+        "bootproxy":"nodownload",
+        "haproxy":"nodownload"
+      },
+      "runtime": {
+        "welcome": {
+          "tag":"stable-alpine",
+          "image":"daocloud.io/library/nginx",
+          "mountlocal":"localdir",
+          "mountdocker":"/usr/share/nginx/html",
+          "ports":"9080:80"
+        },
+        "de": {
+          "tag": "7.0.17_v2",
+          "image": "dockerpriv.shadowdock.com/keithyau/drupalnginxphp7shanghai",
+          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_DE_Production"],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9081:80"
+        },
+        "haproxy":{
+          "tag":"1.7.5",
+          "image":"dockerpriv.shadowdock.com/keithyau/haproxy",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/haproxy:/usr/local/etc/haproxy",
+            "/etc/hosts:/etc/hosts"
+          ],
+          "ports": [
+              "80:80",
+              "8080:8080"
+            ]
+        },
+        "bootproxy":{
+          "tag":"stable-alpine",
+          "image":"daocloud.io/library/nginx",
+          "mountlocal":"localdir",
+          "mountdocker":"/etc/nginx/conf.d/",
+          "ports":[
+            "8888:80"
+          ]
+        }
+      }
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[deploycode]",
+    "recipe[configs]",
+    "recipe[drupalsetting]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists": {}
+}
