@@ -36,6 +36,13 @@
 
 220.181.112.9 api.baidu.com
 
+# Drupal address
+127.0.0.1 cc.zkungfu.com
+127.0.0.1 de.zkungfu.com
+127.0.0.1 crm.zkungfu.com
+127.0.0.1 pmt.zkungfu.com
+127.0.0.1 mkt.zkungfu.com
+
 # Drupal hosts
 
 139.162.119.198 druapp01.zkf.vpn
