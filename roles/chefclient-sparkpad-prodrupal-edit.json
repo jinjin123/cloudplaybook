@@ -17,6 +17,9 @@
       "basedirectory": "/app/web/",
       "configuration":{
         "general" : {
+          "bootproxy" : {
+            "spzkf_enablenginxlog": "/etc/nginx/nginx.conf"
+          },
           "de": {
             "spzkf_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
