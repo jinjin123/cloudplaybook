@@ -61,8 +61,11 @@
         "haproxy":{
           "tag":"1.7.5",
           "image":"dockerpriv.shadowdock.com/keithyau/haproxy",
-          "mountlocal": "localdir",
-          "mountdocker": "/usr/local/etc/haproxy",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/haproxy:/usr/local/etc/haproxy",
+            "/etc/hosts:/etc/hosts"
+          ],
           "ports": [
               "80:80",
               "8080:8080"

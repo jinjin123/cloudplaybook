@@ -36,12 +36,20 @@
 
 220.181.112.9 api.baidu.com
 
-# Drupal address
-127.0.0.1 cc.zkungfu.com
-127.0.0.1 de.zkungfu.com
-127.0.0.1 crm.zkungfu.com
-127.0.0.1 pmt.zkungfu.com
-127.0.0.1 mkt.zkungfu.com
+# # Drupal address
+# 127.0.0.1 cc.zkungfu.com
+# 127.0.0.1 de.zkungfu.com
+# 127.0.0.1 crm.zkungfu.com
+# 127.0.0.1 pmt.zkungfu.com
+# 127.0.0.1 mkt.zkungfu.com
+# 127.0.0.1 store-erp.zkungfu.com
+
+139.162.119.198 cc.zkungfu.com
+139.162.119.198 de.zkungfu.com
+139.162.119.198 crm.zkungfu.com
+139.162.119.198 pmt.zkungfu.com
+139.162.119.198 mkt.zkungfu.com
+139.162.119.198 store-erp.zkungfu.com
 
 # Drupal hosts
 
