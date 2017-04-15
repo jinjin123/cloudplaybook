@@ -55,7 +55,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_DE_Production"],
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
-          "ports": "9081:8888"
+          "ports": "9081:80"
         },
         "haproxy":{
           "tag":"1.7.5",
