@@ -312,22 +312,23 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       if (not (defined?(docker[:ports]).nil?)) && (not "#{docker[:ports]}" == "")
         if ! docker[:ports].kind_of?(Array)
           portnumber = docker[:ports].chomp.split(':')[1]
-        end
-        template "#{node[:deploycode][:basedirectory]}../bootproxy/#{node[:projectname]}.#{localfolder}.proxy.conf" do
-          variables(
-            :host => container_name,
-            :domain  => domainstring,
-            :proxyport => portnumber
-          )
-          source "proxy.conf"
-          mode 0644
-          retries 3
-          retry_delay 2
-          ignore_failure
-          owner "root"
-          group "root"
-          action :create
-      #    ignore_failure true
+
+          template "#{node[:deploycode][:basedirectory]}../bootproxy/#{node[:projectname]}.#{localfolder}.proxy.conf" do
+            variables(
+              :host => container_name,
+              :domain  => domainstring,
+              :proxyport => portnumber
+            )
+            source "proxy.conf"
+            mode 0644
+            retries 3
+            retry_delay 2
+            ignore_failure
+            owner "root"
+            group "root"
+            action :create
+        #    ignore_failure true
+          end
         end
       end
       #end
