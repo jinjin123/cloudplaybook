@@ -61,7 +61,7 @@
           "tag":"stable-alpine",
           "image":"daocloud.io/library/nginx",
           "mountlocal":"localdir",
-          "mountdocker":"/var/www/html",
+          "mountdocker":"/usr/share/nginx/html",
           "ports":"9080:80"
         },
         "de": {
