@@ -13,11 +13,12 @@
       "password": "thomas123"
     },
     "deploycode": {
-      "basedirectory": "/var/www/code/",
+      "basedirectory": "/app/web/",
       "configuration":{
         "general" : {
           "de": {
-            "de.settings.php": "/var/www/html/sites/default/settings.php"
+            "spzkf_de.settings.php": "/var/www/html/sites/default/settings.php",
+            "spzkf_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           }
         },
         "drupal": {
