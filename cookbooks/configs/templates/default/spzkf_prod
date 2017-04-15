@@ -29,10 +29,11 @@
 172.16.103.190  cdmpdb2.zkf.vpn
 172.16.103.188  cdmpdbv.zkf.vpn
 
-172.16.102.108 de.zkungfu.com
-172.16.102.108 crm.zkungfu.com
-172.16.102.108 pmt.zkungfu.com
-172.16.102.108 mkt.zkungfu.com
+# # ZKF production address
+# 172.16.102.108 de.zkungfu.com
+# 172.16.102.108 crm.zkungfu.com
+# 172.16.102.108 pmt.zkungfu.com
+# 172.16.102.108 mkt.zkungfu.com
 
 220.181.112.9 api.baidu.com
 
