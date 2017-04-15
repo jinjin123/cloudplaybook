@@ -9,6 +9,21 @@
 
 basedir = node[:deploycode][:basedirectory]
 
+if (not (defined?(node[:hostfile])).nil?) && (not "#{node[:hostfile]}" == "")
+  template "/etc/hosts" do
+    source node[:hostfile]
+    #Common config file setting
+    mode "0644"
+    retries 3
+    retry_delay 10
+    owner "root"
+    group "root"
+    action :create
+    force_unlink true
+    ignore_failure true
+  end
+end
+
 if (not (defined?(node[:deploycode][:configuration][:general])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
   node[:deploycode][:configuration][:general].each do |appname,spec|
     directory basedir + appname + "_configuration" do
