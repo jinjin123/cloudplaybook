@@ -57,6 +57,13 @@
           "mountdocker": "/var/www/html",
           "ports": "9081:80"
         },
+        "haproxy":{
+          "tag":"1.7.5",
+          "image":"dockerpriv.shadowdock.com/keithyau/haproxy",
+          "mountlocal": "localdir",
+          "mountdocker": "/usr/local/etc/haproxy",
+          "ports": "80:80"
+        },
         "bootproxy":{
           "tag":"stable-alpine",
           "image":"daocloud.io/library/nginx",
@@ -65,13 +72,6 @@
           "ports":[
             "8888:80"
           ]
-        },
-        "haproxy":{
-          "tag":"1.7.5",
-          "image":"dockerpriv.shadowdock.com/keithyau/haproxy",
-          "mountlocal": "localdir",
-          "mountdocker": "/usr/local/etc/haproxy",
-          "ports": "80:80"
         }
       }
     }
