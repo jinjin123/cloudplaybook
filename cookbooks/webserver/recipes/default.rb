@@ -321,6 +321,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           mode 0644
           retries 3
           retry_delay 2
+          ignore_failure
           owner "root"
           group "root"
           action :create
