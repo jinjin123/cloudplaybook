@@ -62,7 +62,10 @@
           "image":"dockerpriv.shadowdock.com/keithyau/haproxy",
           "mountlocal": "localdir",
           "mountdocker": "/usr/local/etc/haproxy",
-          "ports": "80:80"
+          "ports": [
+              "80:80",
+              "8080:8080"
+            ]
         },
         "bootproxy":{
           "tag":"stable-alpine",
