@@ -1,0 +1,5 @@
+PORT="<%= node["memcached"]["conf"]["port"] %>"
+USER="<%= node["memcached"]["conf"]["user"] %>"
+MAXCONN="<%= node["memcached"]["conf"]["max_conn"] %>"
+CACHESIZE="<%= node["memcached"]["conf"]["cache_size"] %>"
+OPTIONS="-l <%= node["memcached"]["conf"]["listen_ip"] %> -P <%= node["memcached"]["conf"]["pid_file"] %>"

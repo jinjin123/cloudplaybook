@@ -1,0 +1,7 @@
+default["memcached"]["conf"]["path"] = "/etc/sysconfig/memcached"
+default["memcached"]["conf"]["port"] = "11211"
+default["memcached"]["conf"]["user"] = "memcached"
+default["memcached"]["conf"]["max_conn"] = "128"
+default["memcached"]["conf"]["cache_size"] = "64"
+default["memcached"]["conf"]["listen_ip"] = "127.0.0.1"
+default["memcached"]["conf"]["pid_file"] = "/var/run/memcached/memcached.pid"
