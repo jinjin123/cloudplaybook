@@ -17,8 +17,23 @@
       "configuration":{
         "general" : {
           "de": {
-            "spzkf_de.settings.php": "/var/www/html/sites/default/settings.php",
             "spzkf_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          }
+        },
+        "drupal": {
+          "de": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "spzkf_de.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "172.16.103.188",
+              "dbuser": "de",
+              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+            }
           }
         }
       },
