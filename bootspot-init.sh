@@ -123,7 +123,7 @@ cat <<EOF  > roles/chefsoloinit.json
                "env":[
                   "DUMMY"
                ],
-               "command":"",
+               "command":"-k thomas123 -w 2 -f",
                "mountlocal":"localdir",
                "mountdocker":"/mnt",
                "proxyport":"444",
