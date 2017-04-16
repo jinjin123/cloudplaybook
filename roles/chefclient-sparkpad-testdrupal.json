@@ -9,7 +9,7 @@
     "hostfile": "spzkf_prod",
     "domainname": "zkungfu.com",
     "docker": {
-      "privaterepo": "dockerpriv.shadowdock.com",
+      "privaterepo": "dockerpriv.kybot.io:5002",
       "username": "keithyau",
       "password": "thomas123"
     },
