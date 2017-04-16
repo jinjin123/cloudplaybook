@@ -80,6 +80,7 @@
           "image":"dockerpriv.kybot.io:5002/keithyau/haproxy",
           "mountlocal": "multipledir",
           "mountdocker": [
+            "/dev/log:/dev/log",
             "/etc/hosts:/etc/hosts"
           ],
           "ports": [
