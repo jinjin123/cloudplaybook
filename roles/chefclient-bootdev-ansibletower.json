@@ -1,0 +1,66 @@
+{
+   "name":"chefclient-bootdev-ansibletower",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"bootdev",
+      "externalmode":"bootproxy",
+      "domainname":"bootdev.com",
+      "deploycode":{
+        "basedirectory":"/root/code/",
+        "localfolder":{
+            "tower":"nodownload",
+            "bootproxy":"nodownload"
+         },
+         "runtime":{
+            "mysql":{
+              "tag":"5.7",
+              "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
+              "env":["MYSQL_ROOT_PASSWORD=thomas123"],
+              "mountlocal":"/root/mysqldir",
+              "mountdocker":"/var/lib/mysql",
+              "ports":[
+                "3306:3306"
+              ]
+            },
+            "sparkpad_tvbackend_drupal":{
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "mountlocal":"multipledir",
+              "mountdocker":[
+                "/root/tools/code/sparkpad_tvbackend_drupal:/var/www/html",
+                "/usr/bin/which:/usr/bin/which"
+              ],
+              "ports":"8082:80",
+              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log",
+              "overridesubdomain":"tv"
+            },
+            "bootproxy":{
+               "tag":"stable-alpine",
+               "image":"daocloud.io/library/nginx",
+               "mountlocal":"localdir",
+               "mountdocker":"/etc/nginx/conf.d/",
+               "ports":[
+                  "80:80"
+               ]
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[deploycode]",
+      "recipe[drupalsetting]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}
