@@ -170,7 +170,7 @@
           "ports":"9080:80"
         },
         "de": {
-          "tag": "7.0.17_v2",
+          "tag": "7.0.17_v3",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_DE_Testing"],
           "mountlocal": "multipledir",
@@ -181,7 +181,7 @@
           "ports": "9081:80"
         },
         "pmt": {
-          "tag": "7.0.17_v2",
+          "tag": "7.0.17_v3",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_PMT_Testing"],
           "mountlocal": "multipledir",
@@ -192,7 +192,7 @@
           "ports": "9082:80"
         },
         "crm": {
-          "tag": "7.0.17_v2",
+          "tag": "7.0.17_v3",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_CRM_Testing"],
           "mountlocal": "multipledir",
@@ -203,7 +203,7 @@
           "ports": "9083:80"
         },
         "mkt": {
-          "tag": "7.0.17_v2",
+          "tag": "7.0.17_v3",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_MKT_Testing"],
           "mountlocal": "multipledir",
@@ -214,7 +214,7 @@
           "ports": "9084:80"
         },
         "erp": {
-          "tag": "7.0.17_v2",
+          "tag": "7.0.17_v3",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_ERP_Testing"],
           "mountlocal": "multipledir",
@@ -225,7 +225,7 @@
           "ports": "9085:80"
         },
         "crmtc": {
-          "tag": "7.0.17_v2",
+          "tag": "7.0.17_v3",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_CRM_Testing"],
           "mountlocal": "multipledir",
