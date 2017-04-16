@@ -1,32 +1,33 @@
 {
-  "name": "chefclient-sparkpad-docker-qa",
+  "name": "chefclient-sparkpad-liansuola-prod",
   "description": "Role json file for starting and maintaining Sparkpad Generic Platform",
   "json_class": "Chef::Role",
   "default_attributes": {
-    "deployuser": "root",
-    "projectname": "liansuola",
+    "deployuser": "ec2-user",
+    "projectname": "sparkpadgp",
     "externalmode": "bootproxy",
     "domainname": "liansuola.com",
-    "domainprefix": "dev-",
     "docker": {
       "privaterepo": "dockerpriv.kybot.io:5002",
       "username": "keithyau",
       "password": "thomas123"
     },
     "deploycode": {
-      "basedirectory": "/home/sparkpad/code/liansuola/",
+      "basedirectory": "/home/ec2-user/tools/drupal_dir/",        
       "configuration":{
+        "general" : {
+          "de": {
+            "de.settings.php": "/var/www/html/sites/default/settings.php"
+          }
+        },
         "drupal": {
           "de": {
             "folders": {
               "sites/default/files" : "777",
               "sites/default/privates" : "777"
             },
-            "settings": {
-              "general.settings.php" : "sites/default/settings.php"
-            },
             "variables" : {
-              "dbhost": "liansuola_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
@@ -40,7 +41,7 @@
               "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "liansuola_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
@@ -54,7 +55,7 @@
               "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "liansuola_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
@@ -68,7 +69,7 @@
               "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "liansuola_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
@@ -82,7 +83,7 @@
               "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "liansuola_mysql",
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "root",
               "dbpass": "thomas123"
             }
@@ -90,7 +91,6 @@
         }
       },
       "localfolder": {
-        "mysql":"nodownload",
         "de": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
           "branch": "master"
@@ -138,50 +138,38 @@
         "bootproxy":"nodownload"
       },
       "runtime": {
-        "mysql":{
-          "tag":"5.7",
-          "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
-          "env":["MYSQL_ROOT_PASSWORD=thomas123"],
-          "mountlocal":"/home/sparkpad/mysql_liansuola",
-          "mountdocker":"/var/lib/mysql"
-        },
         "de": {
-          "tag":"7.0.17_v2",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-de"],
-          "mountlocal":"localdir",
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9081:80"
         },
         "erp": {
-          "tag":"7.0.17_v2",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-erp"],
-          "mountlocal":"localdir",
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9082:80"
         },
         "crm": {
-          "tag":"7.0.17_v2",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-crm"],
-          "mountlocal":"localdir",
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9083:80"
         },
         "pmt": {
-          "tag":"7.0.17_v2",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-pmt"],
-          "mountlocal":"localdir",
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
-          "ports": "9084:80"
+          "ports": "80:80"
         },
         "mkt": {
-          "tag":"7.0.17_v2",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-mkt"],
-          "mountlocal":"localdir",
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9085:80"
         },
@@ -190,7 +178,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/sparkpad/code/liansuola/oc:/usr/local/tomcat/webapps",
+            "/home/ec2-user/tools/drupal_dir/oc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9086:8080"
@@ -200,7 +188,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/sparkpad/code/liansuola/tsoc:/usr/local/tomcat/webapps",
+            "/home/ec2-user/tools/drupal_dir/tsoc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9087:8080"
@@ -210,7 +198,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/sparkpad/code/liansuola/orderserver:/usr/local/tomcat/webapps",
+            "/home/ec2-user/tools/drupal_dir/orderserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9088:8080"
@@ -220,7 +208,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/sparkpad/code/liansuola/wmserver:/usr/local/tomcat/webapps",
+            "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "8080:8080"
@@ -230,15 +218,14 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html/",
-          "ports": "9090:80",
-          "overridesubdomain":"reporting"
+          "ports": "9090:80"
         },
         "syncoc": {
           "tag": "latest",
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/sparkpad/code/liansuola/syncoc:/usr/local/tomcat/webapps",
+            "/home/ec2-user/tools/drupal_dir/syncoc:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9091:8080"
@@ -261,6 +248,7 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
+    "recipe[diskmount]",
     "recipe[deploycode]",
     "recipe[drupalsetting]",
     "recipe[webserver]"
