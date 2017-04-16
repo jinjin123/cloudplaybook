@@ -15,11 +15,6 @@
     "deploycode": {
       "basedirectory": "/home/ec2-user/tools/drupal_dir/",
       "configuration":{
-        "general" : {
-          "de": {
-            "de.settings.php": "/var/www/html/sites/default/settings.php"
-          }
-        },
         "drupal": {
           "de": {
             "folders": {
