@@ -21,7 +21,22 @@
             "spzkf_enablenginxlog": "/etc/nginx/nginx.conf"
           },
           "de": {
-            "spzkf_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "pmt": {
+            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "crm": {
+            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "mkt": {
+            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "erp": {
+            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "crmtc": {
+            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "loadbalancer": {
             "loadbalancer.conf": "/etc/nginx/conf.d/default.conf"
@@ -29,6 +44,76 @@
         },
         "drupal": {
           "de": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "spzkf_test_de.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "172.16.103.188",
+              "dbuser": "de",
+              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+            }
+          },
+          "pmt": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "spzkf_test_de.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "172.16.103.188",
+              "dbuser": "de",
+              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+            }
+          },
+          "crm": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "spzkf_test_de.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "172.16.103.188",
+              "dbuser": "de",
+              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+            }
+          },
+          "mkt": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "spzkf_test_de.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "172.16.103.188",
+              "dbuser": "de",
+              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+            }
+          },
+          "erp": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "spzkf_test_de.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "172.16.103.188",
+              "dbuser": "de",
+              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+            }
+          },
+          "crmtc": {
             "folders": {
               "sites/default/files" : "777",
               "sites/default/privates" : "777"
@@ -51,7 +136,11 @@
         },
         "de": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
-          "branch": "master"
+          "branch": "dev"
+        },
+        "pmt": {
+          "giturl":"git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
+          "branch": "dev"
         },
         "bootproxy":"nodownload",
         "loadbalancer":"nodownload"
@@ -67,13 +156,68 @@
         "de": {
           "tag": "7.0.17_v2",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_DE_Production"],
+          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_DE_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/de:/var/www/html",
             "/etc/hosts:/etc/hosts"
           ],
           "ports": "9081:80"
+        },
+        "pmt": {
+          "tag": "7.0.17_v2",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_PMT_Testing"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/de:/var/www/html",
+            "/etc/hosts:/etc/hosts"
+          ],
+          "ports": "9082:80"
+        },
+        "crm": {
+          "tag": "7.0.17_v2",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_CRM_Testing"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/de:/var/www/html",
+            "/etc/hosts:/etc/hosts"
+          ],
+          "ports": "9083:80"
+        },
+        "mkt": {
+          "tag": "7.0.17_v2",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_MKT_Testing"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/de:/var/www/html",
+            "/etc/hosts:/etc/hosts"
+          ],
+          "ports": "9084:80"
+        },
+        "erp": {
+          "tag": "7.0.17_v2",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_ERP_Testing"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/de:/var/www/html",
+            "/etc/hosts:/etc/hosts"
+          ],
+          "ports": "9085:80"
+        },
+        "crmtc": {
+          "tag": "7.0.17_v2",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_CRM_Testing"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/de:/var/www/html",
+            "/etc/hosts:/etc/hosts"
+          ],
+          "ports": "9086:80"
         },
         "loadbalancer":{
           "tag":"stable-alpine",
