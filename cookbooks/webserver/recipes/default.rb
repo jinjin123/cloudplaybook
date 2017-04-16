@@ -209,7 +209,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
               node.run_state[:linking].push("#{dockername}:#{dockername}")
             end
             # Removing bootproxy entry
-            node.run_state[:linking] = node.run_state[:linking] - ["bootproxy:bootproxy"] - ["loadbalancer:loadbalancer"]
+            node.run_state[:linking] = node.run_state[:linking] - ["bootproxy:bootproxy"] - ["zkf_loadbalancer:zkf_loadbalancer"]
           end
         end
       else

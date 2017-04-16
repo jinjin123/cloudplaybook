@@ -84,7 +84,7 @@
             "/usr/bin/curl:/usr/bin/curl"
           ],
           "ports": "80:80",
-          "network_mode":"bridge"
+          "network_mode":"host"
         },
         "bootproxy":{
           "tag":"stable-alpine",
