@@ -81,7 +81,8 @@
           "mountlocal": "multipledir",
           "mountdocker": [
             "/dev/log:/dev/log",
-            "/etc/hosts:/etc/hosts"
+            "/etc/hosts:/etc/hosts",
+            "/usr/bin/curl:/usr/bin/curl"
           ],
           "ports": [
               "80:80",
