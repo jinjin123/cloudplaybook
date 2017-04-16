@@ -73,8 +73,7 @@
             "/app/web/de:/var/www/html",
             "/etc/hosts:/etc/hosts"
           ],
-          "ports": "9081:80",
-          "network_mode":"host"
+          "ports": "9081:80"
         },
         "loadbalancer":{
           "tag":"stable-alpine",
