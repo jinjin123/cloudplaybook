@@ -13,7 +13,7 @@
       "password": "thomas123"
     },
     "deploycode": {
-      "basedirectory": "/home/ec2-user/tools/drupal_dir/",        
+      "basedirectory": "/home/ec2-user/tools/drupal_dir/",
       "configuration":{
         "general" : {
           "de": {
@@ -248,7 +248,6 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
-    "recipe[diskmount]",
     "recipe[deploycode]",
     "recipe[drupalsetting]",
     "recipe[webserver]"
