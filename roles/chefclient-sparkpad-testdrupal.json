@@ -68,8 +68,11 @@
           "tag": "7.0.17_v2",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_DE_Production"],
-          "mountlocal": "localdir",
-          "mountdocker": "/var/www/html",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/de:/var/www/html",
+            "/etc/hosts:/etc/hosts"
+          ],
           "ports": "9081:80"
         },
         "haproxy":{
