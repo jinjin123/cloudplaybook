@@ -323,6 +323,9 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       else
         domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
       end
+      if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
+        next if docker[:network_mode].eql?("host")
+      end
       if (not (defined?(docker[:ports]).nil?)) && (not "#{docker[:ports]}" == "")
         if ! docker[:ports].kind_of?(Array)
           portnumber = docker[:ports].chomp.split(':')[1]
