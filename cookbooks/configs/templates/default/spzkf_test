@@ -10,3 +10,15 @@
 172.16.104.124 oc.zkf.vpn oc
 172.16.104.125 fe.zkf.vpn
 172.16.104.126 de.zkf.vpn crm.zkf.vpn gfs.4006927927.com
+
+
+172.16.104.126 cc.zkungfu.com
+172.16.104.126 de.zkungfu.com
+172.16.104.126 crm.zkungfu.com
+172.16.104.126 pmt.zkungfu.com
+172.16.104.126 mkt.zkungfu.com
+172.16.104.126 store-erp.zkungfu.com
+
+# Drupal hosts
+172.16.104.126 welcome.zkungfu.com
+172.16.104.126 druapp01.zkf.vpn
