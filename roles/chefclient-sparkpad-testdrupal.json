@@ -6,7 +6,7 @@
     "deployuser": "root",
     "projectname": "zkf",
     "externalmode": "bootproxy",
-    "hostfile": "spzkf_prod",
+    "hostfile": "spzkf_test",
     "domainname": "zkungfu.com",
     "docker": {
       "privaterepo": "dockerpriv.kybot.io:5002",
