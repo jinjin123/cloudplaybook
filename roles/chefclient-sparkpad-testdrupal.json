@@ -74,7 +74,7 @@
         },
         "haproxy":{
           "tag":"1.7.5",
-          "image":"dockerpriv.shadowdock.com/keithyau/haproxy",
+          "image":"dockerpriv.kybot.io:5002/keithyau/haproxy",
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/haproxy:/usr/local/etc/haproxy",
