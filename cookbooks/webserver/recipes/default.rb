@@ -280,8 +280,15 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec]}\'"
         end
       end
-
-      etchosts.push("#{container_name}:#{container_name}")
+      if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
+        if docker[:network_mode].eql?("host")
+          node.run_state[:linking] = ""
+        else
+          etchosts.push("#{container_name}:#{container_name}")
+        end
+      else
+        etchosts.push("#{container_name}:#{container_name}")
+      end
     end
 
     #Add proxy.conf to folder if bootproxy defined
