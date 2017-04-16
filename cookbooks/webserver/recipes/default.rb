@@ -209,7 +209,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
               node.run_state[:linking].push("#{dockername}:#{dockername}")
             end
             # Removing bootproxy entry
-            node.run_state[:linking] = node.run_state[:linking] - ["bootproxy:bootproxy"]
+            node.run_state[:linking] = node.run_state[:linking] - ["bootproxy:bootproxy"] - ["zkf_loadbalancer:zkf_loadbalancer"]
           end
         end
       else
@@ -224,6 +224,11 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 #      else
 #        memory_limit = -1
 #      end
+      if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
+        if docker[:network_mode].eql?("host")
+          node.run_state[:linking] = ""
+        end
+      end
       if localfolder.eql?("bootproxy")
         # Using lazy evaluation if bootproxy
         docker_container container_name do
@@ -244,6 +249,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           privileged true
           timeout 30
           memory docker[:memory_limit]
+          network_mode docker[:network_mode]
     #      {["/dev/fuse"]}
         end
       else
@@ -264,6 +270,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           privileged true
           timeout 30
           memory docker[:memory_limit]
+          network_mode docker[:network_mode]
     #      {["/dev/fuse"]}
         end
       end
@@ -273,8 +280,15 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec]}\'"
         end
       end
-
-      etchosts.push("#{container_name}:#{container_name}")
+      if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
+        if docker[:network_mode].eql?("host")
+          node.run_state[:linking] = ""
+        else
+          etchosts.push("#{container_name}:#{container_name}")
+        end
+      else
+        etchosts.push("#{container_name}:#{container_name}")
+      end
     end
 
     #Add proxy.conf to folder if bootproxy defined
@@ -308,6 +322,9 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         end
       else
         domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
+      end
+      if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
+        next if docker[:network_mode].eql?("host")
       end
       if (not (defined?(docker[:ports]).nil?)) && (not "#{docker[:ports]}" == "")
         if ! docker[:ports].kind_of?(Array)

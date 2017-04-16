@@ -23,8 +23,8 @@
           "de": {
             "spzkf_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
-          "haproxy": {
-            "haproxy.cfg": "/usr/local/etc/haproxy/haproxy.cfg"
+          "loadbalancer": {
+            "loadbalancer.conf": "/etc/nginx/conf.d/default.conf"
           }
         },
         "drupal": {
@@ -54,7 +54,7 @@
           "branch": "master"
         },
         "bootproxy":"nodownload",
-        "haproxy":"nodownload"
+        "loadbalancer":"nodownload"
       },
       "runtime": {
         "welcome": {
@@ -75,18 +75,16 @@
           ],
           "ports": "9081:80"
         },
-        "haproxy":{
-          "tag":"1.7.5",
-          "image":"dockerpriv.kybot.io:5002/keithyau/haproxy",
+        "loadbalancer":{
+          "tag":"stable-alpine",
+          "image":"daocloud.io/library/nginx",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/dev/log:/dev/log",
-            "/etc/hosts:/etc/hosts"
+            "/etc/hosts:/etc/hosts",
+            "/usr/bin/curl:/usr/bin/curl"
           ],
-          "ports": [
-              "80:80",
-              "8080:8080"
-            ]
+          "ports": "80:80",
+          "network_mode":"host"
         },
         "bootproxy":{
           "tag":"stable-alpine",
