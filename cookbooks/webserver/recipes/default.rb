@@ -244,6 +244,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           privileged true
           timeout 30
           memory docker[:memory_limit]
+          network_mode docker[:network_mode]
     #      {["/dev/fuse"]}
         end
       else
@@ -264,6 +265,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           privileged true
           timeout 30
           memory docker[:memory_limit]
+          network_mode docker[:network_mode]
     #      {["/dev/fuse"]}
         end
       end

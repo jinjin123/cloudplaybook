@@ -73,7 +73,8 @@
             "/app/web/de:/var/www/html",
             "/etc/hosts:/etc/hosts"
           ],
-          "ports": "9081:80"
+          "ports": "9081:80",
+          "network_mode":"bridge"
         },
         "loadbalancer":{
           "tag":"stable-alpine",
@@ -83,7 +84,8 @@
             "/etc/hosts:/etc/hosts",
             "/usr/bin/curl:/usr/bin/curl"
           ],
-          "ports": "80:80"
+          "ports": "80:80",
+          "network_mode":"bridge"
         },
         "bootproxy":{
           "tag":"stable-alpine",
