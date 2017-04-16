@@ -224,6 +224,11 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 #      else
 #        memory_limit = -1
 #      end
+      if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
+        if docker[:network_mode].eql?("host")
+          node.run_state[:linking] = ""
+        end
+      end
       if localfolder.eql?("bootproxy")
         # Using lazy evaluation if bootproxy
         docker_container container_name do
