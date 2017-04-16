@@ -58,10 +58,10 @@
       },
       "runtime": {
         "welcome": {
-          "tag":"stable-alpine",
-          "image":"daocloud.io/library/nginx",
+          "tag":"7.0.17_v2",
+          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal":"localdir",
-          "mountdocker":"/usr/share/nginx/html",
+          "mountdocker":"/var/www/html",
           "ports":"9080:80"
         },
         "de": {
