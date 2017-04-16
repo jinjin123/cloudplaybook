@@ -74,7 +74,7 @@
             "/etc/hosts:/etc/hosts"
           ],
           "ports": "9081:80",
-          "network_mode":"bridge"
+          "network_mode":"host"
         },
         "loadbalancer":{
           "tag":"stable-alpine",
@@ -85,7 +85,7 @@
             "/usr/bin/curl:/usr/bin/curl"
           ],
           "ports": "80:80",
-          "network_mode":"bridge"
+          "network_mode":"host"
         },
         "bootproxy":{
           "tag":"stable-alpine",
