@@ -110,7 +110,7 @@
               "image":"redis"
             },
             "de":{
-              "tag":"7.0.17_v2",
+              "tag":"7.0.17_v4",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-de"],
               "mountlocal":"localdir",
@@ -118,7 +118,7 @@
               "ports":"7081:80"
             },
             "pmt":{
-              "tag":"7.0.17_v2",
+              "tag":"7.0.17_v4",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-pmt"],
               "mountlocal":"localdir",
@@ -126,7 +126,7 @@
               "ports":"7082:80"
             },
             "crm":{
-              "tag":"7.0.17_v2",
+              "tag":"7.0.17_v4",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-crm"],
               "mountlocal":"localdir",
@@ -134,7 +134,7 @@
               "ports":"7083:80"
             },
             "oc":{
-              "tag":"7.0.17_v2",
+              "tag":"7.0.17_v4",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-oc"],
               "mountlocal":"localdir",
