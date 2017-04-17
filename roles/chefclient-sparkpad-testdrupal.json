@@ -158,10 +158,20 @@
           "giturl":"git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
           "branch": "master"
         },
+        "redis":"nodownload",
+        "memcached":"nodownload",
         "bootproxy":"nodownload",
         "loadbalancer":"nodownload"
       },
       "runtime": {
+        "redis": {
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5002/keithyau/redis"
+        },
+        "memcached":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5002/keithyau/memcached"
+        },
         "welcome": {
           "tag":"7.0.17_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
