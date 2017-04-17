@@ -46,7 +46,7 @@ if (extension_loaded('memcached')) {
   #$conf['memcache_servers'] = array('127.0.0.1:11211' => 'default');
   $conf['memcache_servers'] = array(
     #'127.0.0.1:11211' => 'default',
-    'memcached:11211' => 'default',
+    'zkf_memcached:11211' => 'default',
   );
   $conf['memcache_extension'] = 'Memcached';
   $conf['memcache_options'] = array(
