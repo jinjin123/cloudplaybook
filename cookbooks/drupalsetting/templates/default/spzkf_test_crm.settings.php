@@ -22,7 +22,7 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
 
 $conf['memcache_servers'] = array(
   #'127.0.0.1:11211' => 'default',
-  'memcached:11211' => 'default',
+  'zkf_memcached:11211' => 'default',
 );
 $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
 $conf['lock_inc'] = 'sites/all/modules/memcache/memcache-lock.inc';
