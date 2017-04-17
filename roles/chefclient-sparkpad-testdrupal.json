@@ -206,8 +206,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_CRM_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/crm:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/crm:/var/www/html"
           ],
           "ports": "9083:80"
         },
@@ -240,8 +239,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_CRM_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/crmtc:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/crmtc:/var/www/html"
           ],
           "ports": "9086:80"
         },
