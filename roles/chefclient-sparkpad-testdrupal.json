@@ -39,7 +39,7 @@
             "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "loadbalancer": {
-            "loadbalancer.conf": "/etc/nginx/conf.d/default.conf"
+            "loadbalancer-test.conf": "/etc/nginx/conf.d/default.conf"
           }
         },
         "drupal": {
