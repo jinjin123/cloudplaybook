@@ -227,8 +227,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_ERP_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/erp:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/erp:/var/www/html"
           ],
           "ports": "9085:80",
           "customdomainprefix": "store-"
