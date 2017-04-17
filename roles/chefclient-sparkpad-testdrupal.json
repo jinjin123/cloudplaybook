@@ -195,8 +195,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_PMT_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/pmt:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/pmt:/var/www/html"
           ],
           "ports": "9082:80"
         },
@@ -216,8 +215,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_MKT_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/mkt:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/mkt:/var/www/html"
           ],
           "ports": "9084:80"
         },
