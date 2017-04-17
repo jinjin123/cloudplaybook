@@ -196,7 +196,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_PMT_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/de:/var/www/html",
+            "/app/web/pmt:/var/www/html",
             "/etc/hosts:/etc/hosts"
           ],
           "ports": "9082:80"
@@ -207,7 +207,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_CRM_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/de:/var/www/html",
+            "/app/web/crm:/var/www/html",
             "/etc/hosts:/etc/hosts"
           ],
           "ports": "9083:80"
@@ -218,7 +218,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_MKT_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/de:/var/www/html",
+            "/app/web/mkt:/var/www/html",
             "/etc/hosts:/etc/hosts"
           ],
           "ports": "9084:80"
@@ -229,7 +229,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_ERP_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/de:/var/www/html",
+            "/app/web/erp:/var/www/html",
             "/etc/hosts:/etc/hosts"
           ],
           "ports": "9085:80"
@@ -240,7 +240,7 @@
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=ZKF_CRM_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/de:/var/www/html",
+            "/app/web/crmtc:/var/www/html",
             "/etc/hosts:/etc/hosts"
           ],
           "ports": "9086:80"
