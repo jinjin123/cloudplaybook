@@ -232,7 +232,7 @@
             "/etc/hosts:/etc/hosts"
           ],
           "ports": "9085:80",
-          "customdomainprefix": "store-erp"
+          "customdomainprefix": "store-"
         },
         "crmtc": {
           "tag": "7.1.4",
