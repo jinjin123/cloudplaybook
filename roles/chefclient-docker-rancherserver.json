@@ -21,7 +21,7 @@
          "runtime":{
             "server":{
               "tag":"latest",
-              "image":"server",
+              "image":"rancher/server",
               "mountlocal":"localdir",
               "mountdocker":"/var/lib/mysql",
               "ports":[
