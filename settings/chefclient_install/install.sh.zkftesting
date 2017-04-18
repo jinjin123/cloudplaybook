@@ -1,10 +1,10 @@
 #!/bin/bash
 
 CHEF_PATH=~/root/tools
-CHEFSERVER_ADDR=172.16.103.110
-NODE_NAME=pddruapp01
-VALIDATE_NAME=root
-ENV=zkfprod
+CHEFSERVER_ADDR=ec2-52-80-22-204.cn-north-1.compute.amazonaws.com.cn
+NODE_NAME=ttdruapp01
+VALIDATE_NAME=ec2-user
+ENV=testing
 
 # Run installation of binary
 mkdir -p $CHEF_PATH
