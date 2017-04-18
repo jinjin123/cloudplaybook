@@ -25,3 +25,13 @@ chmod 644 /etc/chef/validation.pem
 
 yum install gem -y
 /usr/bin/gem sources --add https://gems.ruby-china.org --remove https://rubygems.org
+
+yum install -y http://mirror.centos.org/centos/7/os/x86_64/Packages/kmod-20-9.el7.x86_64.rpm
+yum install -y http://mirror.centos.org/centos/7/updates/x86_64/Packages/initscripts-9.49.37-1.el7_3.1.x86_64.rpm
+
+yum install -y http://mirror.centos.org/centos/7/updates/x86_64/Packages/systemd-219-30.el7_3.8.x86_64.rpm
+yum install -y http://mirror.centos.org/centos/7/os/x86_64/Packages/libsepol-2.5-6.el7.x86_64.rpm
+yum install -y http://mirror.centos.org/centos/7/os/x86_64/Packages/libselinux-utils-2.5-6.el7.x86_64.rpm
+yum install -y http://mirror.centos.org/centos/7/updates/x86_64/Packages/policycoreutils-2.5-11.el7_3.x86_64.rpm
+yum install http://mirror.centos.org/centos/7/updates/x86_64/Packages/selinux-policy-3.13.1-102.el7_3.16.noarch.rpm -y
+yum install http://mirror.centos.org/centos/7/updates/x86_64/Packages/selinux-policy-targeted-3.13.1-102.el7_3.16.noarch.rpm -y
