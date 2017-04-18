@@ -25,13 +25,21 @@
               "mountlocal":"localdir",
               "mountdocker":"/var/lib/mysql",
               "ports":[
-                "6000:8080"
+                "8080:8080"
               ],
               "customdomainprefix": "rancher-"
             },
             "client":{
               "tag": "latest",
-              "image":"rancher/agent"
+              "image":"rancher/agent",
+              "mountlocal":"multipledir",
+              "mountdocker":[
+                "/proc:/host/proc",
+                "/dev:/host/dev",
+                "/var/run/docker.sock:/var/run/docker.sock",
+                "/var/run/rancher/storage:/var/run/rancher/storage",
+                "/lib/modules:/lib/modules"
+              ],
             },
             "bootproxy":{
                "tag":"latest",
