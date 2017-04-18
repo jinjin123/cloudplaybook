@@ -22,3 +22,6 @@ sed -i "s/VALIDATE_NAME/$VALIDATE_NAME/" /etc/chef/client.rb
 cp ./keys/$ENV/validation.pem /etc/chef/validation.pem
 cp ./keys/$ENV/$VALIDATE_NAME.pem /etc/chef/$VALIDATE_NAME.pem
 chmod 644 /etc/chef/validation.pem
+
+yum install gem -y
+/usr/bin/gem sources --add https://gems.ruby-china.org --remove https://rubygems.org
