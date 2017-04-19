@@ -23,9 +23,7 @@
               "image":"dockerpriv.kybot.io:5002/keithyau/rancher/server",
               "mountlocal":"localdir",
               "mountdocker":"/var/lib/mysql",
-              "ports":[
-                "10000:8080"
-              ],
+              "ports":"10000:8080",
               "customdomainprefix": "rancher-"
             },
             "bootproxy":{
