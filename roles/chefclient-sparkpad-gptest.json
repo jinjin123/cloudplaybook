@@ -15,6 +15,23 @@
       "deploycode":{
         "basedirectory":"/home/sparkpad/code/sparkpad-dev/",
         "configuration": {
+          "general": {
+            "de": {
+              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+            "pmt": {
+              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+            "crm": {
+              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+            "oc": {
+              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+            "erp": {
+              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+          },
           "drupal" : {
             "de": {
               "folders": {
