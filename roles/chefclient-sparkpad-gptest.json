@@ -27,10 +27,7 @@
             },
             "oc": {
               "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-            },
-            "erp": {
-              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-            },
+            }
           },
           "drupal" : {
             "de": {
