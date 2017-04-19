@@ -124,32 +124,32 @@
               "image":"redis"
             },
             "de":{
-              "tag":"7.1.4_v2",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimenewrelic",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-de"],
               "mountlocal":"localdir",
               "mountdocker": "/var/www/html",
               "ports":"7081:80"
             },
             "pmt":{
-              "tag":"7.1.4_v2",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimenewrelic",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-pmt"],
               "mountlocal":"localdir",
               "mountdocker": "/var/www/html",
               "ports":"7082:80"
             },
             "crm":{
-              "tag":"7.1.4_v2",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimenewrelic",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-crm"],
               "mountlocal":"localdir",
               "mountdocker": "/var/www/html",
               "ports":"7083:80"
             },
             "oc":{
-              "tag":"7.1.4_v2",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "tag":"latest",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalshanghaitimenewrelic",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-oc"],
               "mountlocal":"localdir",
               "mountdocker": "/var/www/html",
