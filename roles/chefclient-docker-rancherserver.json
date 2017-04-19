@@ -13,7 +13,7 @@
       },
       "domainname":"liansuola.com",
       "deploycode":{
-         "basedirectory":"/home/keithyau/tools/rancher/",
+         "basedirectory":"/home/sparkpad/code/rancher/",
          "localfolder":{
             "server":"nodownload"
          },
