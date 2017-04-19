@@ -20,7 +20,7 @@
          "runtime":{
             "server":{
               "tag":"latest",
-              "image":"rancher/server",
+              "image":"dockerpriv.kybot.io:5002/keithyau/rancher/server",
               "mountlocal":"localdir",
               "mountdocker":"/var/lib/mysql",
               "ports":[
