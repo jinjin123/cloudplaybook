@@ -4,6 +4,15 @@ cd /root/bootdev/chef/chef-repo
 
 ownip=`dig +short myip.opendns.com @resolver1.opendns.com`
 
+#Sync time, otherwise Route53 wont work
+CHECKING_NTPDATE=`command -v ntpdate|wc -l`
+if [ "$CHECKING_NTPDATE" != "0" ]; then
+    echo "NTPDATE exists"
+else
+    yum -y install ntp ntpdate ntp-doc
+fi
+ntpdate pool.ntp.org
+
 #thisuniqueid="$(dmidecode | grep -i uuid | head -1 | awk -F" " '{print $2}')"
 
 #Update the Route53 cookbook self name for dockers to CNAME
