@@ -23,7 +23,7 @@
               "sites/default/privates" : "777"
             },
             "settings": {
-              "sparkpad-dev-de.settings" : "sites/default/settings.php"
+              "general.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
               "dbhost": "liansuola_mysql",
