@@ -14,7 +14,7 @@
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "azure": {
-          "action":"resize",
+          "action":"removehdi",
           "credentials": {
             "env": "AzureChinaCloud",
             "username": "jacky.chan@kycloud.partner.onmschina.cn",
