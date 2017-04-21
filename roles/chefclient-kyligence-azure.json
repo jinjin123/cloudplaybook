@@ -5,10 +5,16 @@
   "default_attributes": {
     "deployuser": "root",
     "projectname": "kyligence",
+    "docker": {
+      "privaterepo": "dockerpriv.kybot.io:5002",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "azure": {
+          "action":"removehdi",
           "credentials": {
             "env": "AzureChinaCloud",
             "username": "jacky.chan@kycloud.partner.onmschina.cn",
@@ -32,6 +38,17 @@
             "sshPassword": "Kyligence2016",
             "storageAccount": "20170411000000sa"
           }
+        }
+      },
+      "localfolder": {
+        "azure-cli": "nodownload"
+      },
+      "runtime": {
+        "azure": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/azure-cli",
+          "mountlocal": "localdir",
+          "mountdocker": "/templates"
         }
       }
     }
