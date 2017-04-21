@@ -21,22 +21,22 @@
             "spzkf_enablenginxlog": "/etc/nginx/nginx.conf"
           },
           "de": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            "spzkf_test_de_nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "pmt": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            "spzkf_test_pmt_nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "crm": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            "spzkf_test_crm_nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "mkt": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            "spzkf_test_mkt_nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "erp": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            "spzkf_test_erp_nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "crmtc": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            "spzkf_test_crmtc_nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "loadbalancer": {
             "loadbalancer-test.conf": "/etc/nginx/conf.d/default.conf"
@@ -187,7 +187,8 @@
           "mountdocker": [
             "/app/web/de:/var/www/html"
           ],
-          "ports": "9081:80"
+          "ports": "9081:9081",
+          "network_mode":"host"
         },
         "pmt": {
           "tag": "7.1.4_v2",
@@ -197,7 +198,8 @@
           "mountdocker": [
             "/app/web/pmt:/var/www/html"
           ],
-          "ports": "9082:80"
+          "ports": "9082:9082",
+          "network_mode":"host"
         },
         "crm": {
           "tag": "7.1.4_v2",
@@ -207,7 +209,8 @@
           "mountdocker": [
             "/app/web/crm:/var/www/html"
           ],
-          "ports": "9083:80"
+          "ports": "9083:9083",
+          "network_mode":"host"
         },
         "mkt": {
           "tag": "7.1.4_v2",
@@ -217,7 +220,8 @@
           "mountdocker": [
             "/app/web/mkt:/var/www/html"
           ],
-          "ports": "9084:80"
+          "ports": "9084:9084",
+          "network_mode":"host"
         },
         "erp": {
           "tag": "7.1.4_v2_oci8",
@@ -227,7 +231,8 @@
           "mountdocker": [
             "/app/web/erp:/var/www/html"
           ],
-          "ports": "9085:80",
+          "ports": "9085:9085",
+          "network_mode": "host",
           "customdomainprefix": "store-"
         },
         "crmtc": {
@@ -238,7 +243,8 @@
           "mountdocker": [
             "/app/web/crmtc:/var/www/html"
           ],
-          "ports": "9086:80"
+          "ports": "9086:9086",
+          "network_mode":"host"
         },
         "loadbalancer":{
           "tag":"stable-alpine",
