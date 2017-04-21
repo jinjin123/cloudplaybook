@@ -240,7 +240,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
   elsif azureaction.eql?("resize")
-    execute 'remove_resources_group' do
+    execute 'resize_resources_group' do
       command "azure hdinsight cluster resize #{clusterName} -g #{identifier} #{kylin[:clusterWorkerNodeCount]}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
