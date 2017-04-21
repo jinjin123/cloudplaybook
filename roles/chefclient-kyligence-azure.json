@@ -59,8 +59,6 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
-    "recipe[deploycode]",
-    "recipe[webserver]",
     "recipe[azure]"
   ],
   "env_run_lists": {}
