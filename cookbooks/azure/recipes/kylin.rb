@@ -25,7 +25,7 @@ credentials = node[:deploycode][:configuration][:azure][:credentials]
 # Setting basedir to store template files
 basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
-runtime = node[:deploycode][:runtime][:azure]
+#runtime = node[:deploycode][:runtime][:azure]
 
 # storing kylin variables to be called
 if (not (defined?(node[:deploycode][:configuration][:azure][:kylin])).nil?) && (not "#{node[:deploycode][:configuration][:azure][:kylin]}" == "")
