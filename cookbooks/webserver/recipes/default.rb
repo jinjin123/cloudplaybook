@@ -195,6 +195,23 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           EOH
         end
 
+        ruby_block "removehostmode" do
+          only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
+          # only_if { ::File.exists?(results) }
+          block do
+            f = File.open(results)
+            dockerinfo = Hash.new
+            f.each do |line|
+              dockerinfo[line.chomp.split(' ')[0]] = line.chomp.split(' ')[1]
+            end
+            f.close
+            dockerinfo.each do |hash, dockername|
+              # node.run_state[:linking].push("#{dockername}:#{dockername}")
+              cmd = "export CHECKNETWORKMODE=`docker inspect #{hash}| grep NetworkMode| grep host| wc -l`;if [ "$CHECKNETWORKMODE" -ne "0" ]; then sed -i '/#{hash}/d' #{results};fi"
+            end
+          end
+        end
+
         ruby_block "result" do
           only_if { "cat #{results}| wc -l;while [ $? -ne 0 ]; do cat #{results}| wc -l;done" }
           # only_if { ::File.exists?(results) }
@@ -209,7 +226,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
               node.run_state[:linking].push("#{dockername}:#{dockername}")
             end
             # Removing bootproxy entry
-            node.run_state[:linking] = node.run_state[:linking] - ["bootproxy:bootproxy"] - ["zkf_loadbalancer:zkf_loadbalancer"]
+            node.run_state[:linking] = node.run_state[:linking] - ["bootproxy:bootproxy"]
           end
         end
       else
