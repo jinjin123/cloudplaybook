@@ -207,7 +207,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
             f.close
             dockerinfo.each do |hash, dockername|
               # node.run_state[:linking].push("#{dockername}:#{dockername}")
-              cmd = "export CHECKNETWORKMODE=`docker inspect #{hash}| grep NetworkMode| grep host| wc -l`;if [ "$CHECKNETWORKMODE" -ne "0" ]; then sed -i '/#{hash}/d' #{results};fi"
+              cmd = "export CHECKNETWORKMODE=`docker inspect #{hash}| grep NetworkMode| grep host| wc -l`;if [ \"$CHECKNETWORKMODE\" -ne \"0\" ]; then sed -i '/#{hash}/d' #{results};fi"
             end
           end
         end
