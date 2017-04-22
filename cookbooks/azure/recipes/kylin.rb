@@ -25,7 +25,7 @@ credentials = node[:deploycode][:configuration][:azure][:credentials]
 # Setting basedir to store template files
 basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
-runtime = node[:deploycode][:runtime][:azure]
+#runtime = node[:deploycode][:runtime][:azure]
 
 # storing kylin variables to be called
 if (not (defined?(node[:deploycode][:configuration][:azure][:kylin])).nil?) && (not "#{node[:deploycode][:configuration][:azure][:kylin]}" == "")
@@ -203,7 +203,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     # Create resources group
     execute 'create_resources_group' do
       # command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
-      command "azure group create -n #{identifier} -l #{kylin[:region]} || true"
+      command "azure group create -n #{identifier} -l #{kylin[:region]} || :"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
@@ -240,7 +240,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
   elsif azureaction.eql?("resize")
-    execute 'remove_resources_group' do
+    execute 'resize_resources_group' do
       command "azure hdinsight cluster resize #{clusterName} -g #{identifier} #{kylin[:clusterWorkerNodeCount]}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
