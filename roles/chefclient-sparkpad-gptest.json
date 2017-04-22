@@ -17,7 +17,7 @@
         "configuration": {
           "general": {
             "de": {
-              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+              "spgp_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
             },
             "pmt": {
               "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
