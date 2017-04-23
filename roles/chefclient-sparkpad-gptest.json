@@ -124,7 +124,7 @@
               "image":"redis"
             },
             "de":{
-              "tag":"7.1.4_v3",
+              "tag":"7.1.4_vSHENG",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-de"],
               "mountlocal":"localdir",
