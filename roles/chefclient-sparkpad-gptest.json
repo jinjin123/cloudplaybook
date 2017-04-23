@@ -124,11 +124,15 @@
               "image":"redis"
             },
             "de":{
-              "tag":"7.1.4_vSHENG",
+              "tag":"7.1.4_v3",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-de"],
-              "mountlocal":"localdir",
-              "mountdocker": "/var/www/html",
+              "mountlocal":"multipledir",
+              "mountdocker": [
+                "/home/sparkpad/code/sparkpad-dev/de/:/var/www/html",
+                "/var/log/nginx/de.access.log:/var/log/nginx.access.log",
+                "/var/log/nginx/de.error.log:/var/log/nginx.error.log"
+              ],
               "ports":"7081:80"
             },
             "pmt":{
