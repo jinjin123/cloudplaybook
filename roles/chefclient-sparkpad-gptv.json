@@ -16,7 +16,7 @@
         "basedirectory":"/home/sparkpad/code/sparkpad/",
         "configuration": {
           "general" : {
-            "de": {
+            "sparkpad_tvbackend_drupal": {
               "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
             }
           },
@@ -47,7 +47,7 @@
          },
          "runtime":{
             "mysql":{
-              "tag":"7.1.4_v4",
+              "tag":"5.7",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
               "mountlocal":"/home/sparkpad/sparkpadmysql",
