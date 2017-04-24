@@ -15,6 +15,11 @@
       "deploycode":{
         "basedirectory":"/home/sparkpad/code/sparkpad/",
         "configuration": {
+          "general" : {
+            "de": {
+              "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            }
+          },
           "drupal" : {
             "sparkpad_tvbackend_drupal": {
               "folders": {
@@ -42,14 +47,14 @@
          },
          "runtime":{
             "mysql":{
-              "tag":"5.7",
-              "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
+              "tag":"7.1.4_v4",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
               "mountlocal":"/home/sparkpad/sparkpadmysql",
               "mountdocker":"/var/lib/mysql"
             },
             "sparkpad_tvbackend_drupal":{
-              "tag":"7.0.17_v2",
+              "tag":"7.1.4_v4",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuolaTV"],
               "mountlocal":"localdir",
@@ -57,15 +62,6 @@
               "ports":"7052:80",
               "exec": "ln -sf /dev/stderr /var/log/php-fpm.log",
               "overridesubdomain":"tv"
-            },
-            "bootproxy":{
-               "tag":"stable-alpine",
-               "image":"daocloud.io/library/nginx",
-               "mountlocal":"localdir",
-               "mountdocker":"/etc/nginx/conf.d/",
-               "ports":[
-                  "80:80"
-               ]
             }
          }
       }
