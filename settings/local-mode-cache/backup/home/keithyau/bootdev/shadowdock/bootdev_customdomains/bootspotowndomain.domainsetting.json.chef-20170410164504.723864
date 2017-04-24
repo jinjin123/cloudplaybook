@@ -1,0 +1,18 @@
+{
+    "Comment": "Update record to register subdomain on shadowdock.com",
+    "Changes": [
+        {
+            "Action": "UPSERT",
+            "ResourceRecordSet": {
+                "Name": "baa42c3a5f5639475824024c465c7273.",
+                "Type": "CNAME",
+                "TTL": 300,
+                "ResourceRecords": [
+                    {
+                        "Value": "218.255.69.45"
+                    }
+                ]
+            }
+        }
+    ]
+}

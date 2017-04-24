@@ -1,0 +1,26 @@
+{
+      "deployuser":"root",
+      "externalmode":"normal",
+      "projectname":"shadowdock",
+      "domainname":"shadowdock.com",
+      "domain_type":"A",
+      "domainprefix":"6a1f6370bfbac27b01cec7c359bbb2bb",
+      "thisserver":"218.255.69.45",
+      "deploycode":{
+         "basedirectory":"/home/keithyau/bootdev/shadowdock/",
+         "runtime":{
+            "bootspotowndomain":{
+               "tag":"latest",
+               "image":"spotdocker",
+               "env":[
+                  "DUMMY"
+               ],
+               "command":"",
+               "mountlocal":"localdir",
+               "mountdocker":"/mnt",
+               "proxyport":"80",
+               "ports":"80"
+            }
+        }
+      }
+}
