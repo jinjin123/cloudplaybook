@@ -20,7 +20,7 @@ docker run --rm --network=host --name chef-client-$IDENTIFIER \
 -v /root/tools/code/azure/$IDENTIFIER/client.rb:/etc/chef/client.rb \
 -v /root/tools/code/azure/$IDENTIFIER/deploy.json:/etc/chef/deploy.json \
 dockerpriv.kybot.io:5002/keithyau/chefclient:0.2 \
-bash -c "ln -sf /dev/stdout /root/.azure/azure.err;ln -sf /dev/stdout /root/.azure/azure.details.log;echo \"TESTING MESSAGE\" >> /root/.azure/azure.details.log;chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json"
+bash -c "ln -sf /dev/stdout /root/.azure/azure.err;ln -sf /dev/stdout /root/.azure/azure.details.log;chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json"
 
 # -o 'role[chefclient-kyligence-azure]'
 
