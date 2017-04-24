@@ -62,15 +62,6 @@
               "ports":"7052:80",
               "exec": "ln -sf /dev/stderr /var/log/php-fpm.log",
               "overridesubdomain":"tv"
-            },
-            "bootproxy":{
-               "tag":"7.0.17_v4",
-               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-               "mountlocal":"localdir",
-               "mountdocker":"/etc/nginx/conf.d/",
-               "ports":[
-                  "80:80"
-               ]
             }
          }
       }
