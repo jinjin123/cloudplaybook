@@ -1,0 +1,38 @@
+{
+   "name":"singleusercreate",
+   "description":"this add a single new user docker to shadowdock",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "externalmode":"bootproxy",
+      "projectname":"shadowdock",
+      "domainname":"shadowdock.com",
+      "domain_type":"A",
+      "thisserver":"7d8339976a76926d1612e5d0815153e2.shadowdock.com",
+      "docker": {
+          "privaterepo":"dockerpriv.shadowdock.com",
+          "username":"keithyau",
+          "password":"thomas123"
+      },
+      "deploycode":{
+         "basedirectory":"/home/keithyau/bootdev/shadowdock/"
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[glusterfs]",
+      "recipe[webserver]",
+      "recipe[deploycode]",
+      "recipe[bootdev_customdomain]"
+   ],
+   "env_run_lists":{
+
+   }
+}
+
