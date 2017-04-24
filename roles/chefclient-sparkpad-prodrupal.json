@@ -150,55 +150,50 @@
         "de": {
           "tag": "7.0.17_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=ZKF_DE_Production"],
+          "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_DE_Production"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/de:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/de:/var/www/html"
           ],
           "ports": "9081:80"
         },
         "pmt": {
           "tag": "7.0.17_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=ZKF_PMT_Production"],
+          "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_PMT_Production"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/pmt:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/pmt:/var/www/html"
           ],
           "ports": "9082:80"
         },
         "crm": {
           "tag": "7.0.17_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=ZKF_CRM_Production"],
+          "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_CRM_Production"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/crm:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/crm:/var/www/html"
           ],
           "ports": "9083:80"
         },
         "mkt": {
           "tag": "7.0.17_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=ZKF_MKT_Production"],
+          "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_MKT_Production"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/mkt:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/mkt:/var/www/html"
           ],
           "ports": "9084:80"
         },
         "erp": {
           "tag": "7.0.17_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=ZKF_ERP_Production"],
+          "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_ERP_Production"],
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/erp:/var/www/html",
-            "/etc/hosts:/etc/hosts"
+            "/app/web/erp:/var/www/html"
           ],
           "ports": "9085:80"
         },
