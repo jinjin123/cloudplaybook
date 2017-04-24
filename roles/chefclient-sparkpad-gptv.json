@@ -48,7 +48,7 @@
          "runtime":{
             "mysql":{
               "tag":"5.7",
-              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
               "env":["MYSQL_ROOT_PASSWORD=thomas123"],
               "mountlocal":"/home/sparkpad/sparkpadmysql",
               "mountdocker":"/var/lib/mysql"
