@@ -60,7 +60,6 @@
               "mountlocal":"localdir",
               "mountdocker": "/var/www/html",
               "ports":"7052:80",
-              "exec": "ln -sf /dev/stderr /var/log/php-fpm.log",
               "overridesubdomain":"tv"
             }
          }
