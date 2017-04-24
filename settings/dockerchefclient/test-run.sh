@@ -13,7 +13,7 @@
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "azure": {
-          "action":"removehdi",
+          "action": "removehdi",
           "credentials": {
             "env": "AzureChinaCloud",
             "username": "jacky.chan@kycloud.partner.onmschina.cn",
@@ -29,7 +29,7 @@
             "clusterName": "default",
             "clusterType": "hbase",
             "clusterVersion": "3.5",
-            "clusterWorkerNodeCount": 3,
+            "clusterWorkerNodeCount": 2,
             "containerName": "default",
             "edgeNodeSize": "Standard_D3_V2",
             "metastoreName": "default",
