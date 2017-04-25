@@ -95,7 +95,7 @@
               "branch": "master"
             },
             "pmt":{
-              "giturl": "git@gitlab.com:insready/spark-payment-d8.git",
+              "giturl": "git@gitlab.com:Sparkpad/spark-payment-d8.git",
               "branch": "master"
             },
             "crm":{
