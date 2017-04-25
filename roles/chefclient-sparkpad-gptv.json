@@ -99,7 +99,7 @@
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=test2_tv_liansuolaTV"],
               "mountlocal":"localdir",
               "mountdocker": "/var/www/html",
-              "ports":"7052:80",
+              "ports":"7053:80",
               "overridesubdomain":"test2-tv"
             },
             "sparkpad_tvbackend_drupal_3_0":{
@@ -108,7 +108,7 @@
               "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=test3_tv_liansuolaTV"],
               "mountlocal": "localdir",
               "mountdocker": "/var/www/html",
-              "ports": "7053:80",
+              "ports": "7054:80",
               "overridesubdomain": "test3-tv"
             }
          }
