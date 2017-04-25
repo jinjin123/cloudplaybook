@@ -16,6 +16,9 @@
     "deploycode": {
       "basedirectory": "/home/sparkpad/code/liansuola/",
       "configuration":{
+        "bootproxy":{
+          "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+        },
         "drupal": {
           "de": {
             "folders": {

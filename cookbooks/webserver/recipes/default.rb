@@ -153,8 +153,13 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         spec = []
       end
       if not node.default["bindvolume"].nil?
+        if localfolder.eql?("bootproxy")
+          FULLPATH="#{basedir}../#{localfolder}_configuration"
+        else
+          FULLPATH="#{basedir}#{localfolder}_configuration"
+        end
         spec.each do |file,path|
-          node.default["bindvolume"].push("#{basedir}#{localfolder}_configuration/#{file}:#{path}")
+          node.default["bindvolume"].push("#{FULLPATH}/#{file}:#{path}")
         end
       end
     end

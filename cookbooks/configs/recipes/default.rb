@@ -45,7 +45,12 @@ end
 
 if (not (defined?(node[:deploycode][:configuration][:general])).nil?) && (not "#{node[:deploycode][:configuration][:general]}" == "")
   node[:deploycode][:configuration][:general].each do |appname,spec|
-    directory basedir + appname + "_configuration" do
+    if appname.eql?('bootproxy')
+      FULLPATH = basedir + "../" + appname + "_configuration"
+    else
+      FULLPATH = basedir + appname + "_configuration"
+    end
+    directory FULLPATH do
       recursive true
       #Assume all root with docker
       owner 'root'
@@ -55,7 +60,7 @@ if (not (defined?(node[:deploycode][:configuration][:general])).nil?) && (not "#
     end
 
     spec.each do | template_file,path |
-      template "#{basedir}#{appname}_configuration/#{template_file}" do
+      template "#{FULLPATH}/#{template_file}" do
         source template_file
         #Common config file setting
         mode "0644"

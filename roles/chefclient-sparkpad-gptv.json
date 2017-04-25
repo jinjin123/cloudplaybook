@@ -15,6 +15,11 @@
       "deploycode":{
         "basedirectory":"/home/sparkpad/code/sparkpad/",
         "configuration": {
+          "general": {
+            "bootproxy":{
+              "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+            }
+          },
           "drupal" : {
             "sparkpad_tvbackend_drupal": {
               "folders": {
@@ -132,6 +137,7 @@
       "recipe[build-essential]",
       "recipe[basicservice]",
       "recipe[deploycode]",
+      "recipe[configs]",
       "recipe[drupalsetting]",
       "recipe[webserver]"
    ],

@@ -16,6 +16,9 @@
         "basedirectory":"/home/sparkpad/code/sparkpad-dev/",
         "configuration": {
           "general": {
+            "bootproxy":{
+              "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+            },
             "de": {
               "spgp_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
             },
