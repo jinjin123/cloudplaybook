@@ -110,6 +110,15 @@
               "mountdocker": "/var/www/html",
               "ports": "7054:80",
               "overridesubdomain": "test3-tv"
+            },
+            "bootproxy":{
+              "tag":"stable-alpine",
+              "image":"daocloud.io/library/nginx",
+              "mountlocal":"localdir",
+              "mountdocker":"/etc/nginx/conf.d/",
+              "ports":[
+                "80:80"
+              ]
             }
          }
       }
