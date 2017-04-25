@@ -18,6 +18,15 @@
           "general": {
             "bootproxy":{
               "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+            },
+            "sparkpad_tvbackend_drupal":{
+              "tv-php.ini":"/usr/local/php/etc/php.ini"
+            },
+            "sparkpad_tvbackend_drupal_2_0":{
+              "tv-php.ini":"/usr/local/php/etc/php.ini"
+            },
+            "sparkpad_tvbackend_drupal_3_0":{
+              "tv-php.ini":"/usr/local/php/etc/php.ini"
             }
           },
           "drupal" : {
