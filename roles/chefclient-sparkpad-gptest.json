@@ -103,7 +103,7 @@
               "branch": "master"
             },
             "oc":{
-              "giturl": "git@gitlab.com:insready/spark-oc.git",
+              "giturl": "git@gitlab.com:Sparkpad/spark-oc.git",
               "branch": "master"
             },
             "couchdb": "nodownload",
