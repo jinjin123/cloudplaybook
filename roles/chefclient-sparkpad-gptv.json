@@ -18,6 +18,9 @@
           "general" : {
             "sparkpad_tvbackend_drupal": {
               "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+            "sparkpad_tvbackend_drupal01": {
+              "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
             }
           },
           "drupal" : {
@@ -34,6 +37,20 @@
                 "dbuser": "root",
                 "dbpass": "thomas123"
               }
+            },
+            "sparkpad_tvbackend_drupal01": {
+              "folders": {
+                "sites/default/files": "777",
+                "sites/default/privates": "777"
+              },
+              "settings": {
+                "general.settings.php": "sites/default/settings.php"
+              },
+              "variables": {
+                "dbhost": "sparkpad_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
             }
           }
         },
@@ -41,8 +58,12 @@
             "mysql":"nodownload",
             "sparkpad_tvbackend_drupal":{
               "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
-              "branch": "master"
+              "branch": "2.0"
             },
+          "sparkpad_tvbackend_drupal01": {
+            "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
+            "branch": "3.0"
+          },
             "bootproxy":"nodownload"
          },
          "runtime":{
@@ -61,7 +82,19 @@
               "mountdocker": "/var/www/html",
               "ports":"7052:80",
               "overridesubdomain":"tv"
-            }
+            },
+           "sparkpad_tvbackend_drupal01": {
+             "tag": "7.1.4_v4",
+             "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+             "env": [
+               "NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da",
+               "NEWRELICAPPNAME=liansuolaTV"
+             ],
+             "mountlocal": "localdir",
+             "mountdocker": "/var/www/html",
+             "ports": "7053:80",
+             "overridesubdomain": "test01"
+           }
          }
       }
    },
