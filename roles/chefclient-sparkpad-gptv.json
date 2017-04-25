@@ -15,6 +15,17 @@
       "deploycode":{
         "basedirectory":"/home/sparkpad/code/sparkpad/",
         "configuration": {
+          "general" : {
+           "sparkpad_tvbackend_drupal":{
+             "tv-php.ini":"/usr/local/php/etc/php.ini"
+           },
+           "sparkpad_tvbackend_drupal_2_0":{
+             "tv2-php.ini":"/usr/local/php/etc/php.ini"
+           },
+           "sparkpad_tvbackend_drupal_3_0":{
+             "tv3-php.ini":"/usr/local/php/etc/php.ini"
+           }
+          },
           "drupal" : {
             "sparkpad_tvbackend_drupal": {
               "folders": {
