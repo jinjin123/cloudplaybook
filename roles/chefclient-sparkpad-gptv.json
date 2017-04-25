@@ -20,10 +20,10 @@
              "tv-php.ini":"/usr/local/php/etc/php.ini"
            },
            "sparkpad_tvbackend_drupal_2_0":{
-             "tv2-php.ini":"/usr/local/php/etc/php.ini"
+             "tv-php.ini":"/usr/local/php/etc/php.ini"
            },
            "sparkpad_tvbackend_drupal_3_0":{
-             "tv3-php.ini":"/usr/local/php/etc/php.ini"
+             "tv-php.ini":"/usr/local/php/etc/php.ini"
            }
           },
           "drupal" : {
@@ -143,6 +143,7 @@
       "recipe[build-essential]",
       "recipe[basicservice]",
       "recipe[deploycode]",
+      "recipe[configs]",
       "recipe[drupalsetting]",
       "recipe[webserver]"
    ],
