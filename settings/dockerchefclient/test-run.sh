@@ -13,6 +13,7 @@
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "azure": {
+          "action": "upgrade",
           "credentials": {
             "env": "AzureChinaCloud",
             "username": "jacky.chan@kycloud.partner.onmschina.cn",

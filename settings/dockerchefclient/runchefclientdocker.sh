@@ -7,8 +7,8 @@ DATFILEDIR=/root/tools/code/azure
 # Ensuring path exists
 mkdir -p $DATFILEDIR/$IDENTIFIER
 
-/bin/knife node delete $IDENTIFIER -y;
-/bin/knife client delete $IDENTIFIER -y
+/bin/knife node delete $IDENTIFIER -y || true
+/bin/knife client delete $IDENTIFIER -y || true
 
 cp /etc/chef/client.rb /root/tools/code/azure/$IDENTIFIER/client.rb
 sed -i "s/CHEFCLIENTNAME/$IDENTIFIER/" /root/tools/code/azure/$IDENTIFIER/client.rb
