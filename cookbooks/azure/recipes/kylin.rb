@@ -224,26 +224,31 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif azureaction.eql?("removehdi")
     execute 'removehdi_resources_group' do
-      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{kylin[:appType]} >> /dev/stdout"
+      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{kylin[:appType]} >> /root/.azure/azure.details.log"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
     execute 'removehdi_hdinsight' do
-      command "azure hdinsight cluster delete #{clusterName} -g #{identifier} >> /dev/stdout"
+      command "azure hdinsight cluster delete #{clusterName} -g #{identifier} >> /root/.azure/azure.details.log"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
   elsif azureaction.eql?("removeall")
     execute 'remove_resources_group' do
-      command "sh -c \"echo \\\"y\\\" |azure group delete #{identifier}\" >> /dev/stdout"
+      command "sh -c \"echo \\\"y\\\" |azure group delete #{identifier}\" >> /root/.azure/azure.details.log"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
   elsif azureaction.eql?("resize")
     execute 'resize_resources_group' do
-      command "azure hdinsight cluster resize #{clusterName} -g #{identifier} #{kylin[:clusterWorkerNodeCount]} >> /dev/stdout"
+      command "azure hdinsight cluster resize #{clusterName} -g #{identifier} #{kylin[:clusterWorkerNodeCount]} >> /root/.azure/azure.details.log"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
+  elsif azureaction.eql?("upgrade") do
+    execute 'upgradekap' do
+      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{kylin[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> /root/.azure/azure.details.log"
+    end
+  end
   end
 end
