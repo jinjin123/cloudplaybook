@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./runchefclientdocker.sh 20170424000001 '
+./runchefclientdocker.sh 20170426000000 '
 {
     "deployuser": "root",
     "projectname": "kyligence",
@@ -13,13 +13,14 @@
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "azure": {
+          "action": "upgrade",
           "credentials": {
             "env": "AzureChinaCloud",
             "username": "jacky.chan@kycloud.partner.onmschina.cn",
             "password": "Kyligence2016@"
           },
           "kylin": {
-            "identifier": "20170424000001",
+            "identifier": "20170426000000",
             "region": "chinaeast",
             "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
@@ -34,7 +35,7 @@
             "metastoreName": "default",
             "sshUserName": "admintest",
             "sshPassword": "Kyligence2016",
-            "storageAccount": "20170424000001sa"
+            "storageAccount": "20170426000000sa"
           }
         }
       },
