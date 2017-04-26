@@ -1,0 +1,89 @@
+{
+  "name": "chefclient-yedian-testnode",
+  "description": "Role json file for starting and maintaining for yedian backend",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser": "azureuser",
+    "projectname": "staging-yedian",
+    "externalmode": "bootproxy",
+    "domainname": "chinacloudapp.cn",
+    "docker": {
+      "privaterepo": "dockerpriv.kybot.io:5002",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
+    "deploycode": {
+      "basedirectory": "/home/azureuser/web",
+      "configuration":{
+        "general" : {
+          "staging_web" : {
+            "yd-staging-web": "/etc/nginx/nginx.conf"
+          },
+          "staging_api" : {
+            "yd-staging-api": "/etc/nginx/nginx.conf"
+          }
+        }
+      },
+      "localfolder": {
+        "cms_web": {
+          "giturl":"git@github.com:ab-inbev/APAC_Yedian_CMS_frontend.git",
+          "branch": "master"
+        },
+        "operator_web": {
+          "giturl":"git@github.com:ab-inbev/APAC_Yedian_Operator_frontend.git",
+          "branch": "master"
+        },
+        "Merchant_web": {
+          "giturl":"git@github.com:ab-inbev/APAC_Yedian_Merchant_WebApp_Frontend.git",
+          "branch": "master"
+        },
+        "cms_api": {
+          "giturl":"git@github.com:ab-inbev/APAC_Yedian_CMS_backend.git",
+          "branch": "master"
+        },
+        "ktv_api": {
+          "giturl":"git@github.com:ab-inbev/APAC_Yedian_KTV_Core_Backend.git",
+          "branch": "master"
+        },
+        "redis":"nodownload",
+        "bootproxy":"nodownload"
+      },
+      "runtime": {
+        "redis": {
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5002/keithyau/redis"
+        },
+        "staging_web": {
+          "tag": "stable-alpine",
+          "image": "daocloud.io/library/nginx",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web:/var/www/html"
+          ],
+          "ports": "90:90",
+          "network_mode":"host"
+        },
+        "staging_api": {
+          "tag": "stable-alpine",
+          "image": "daocloud.io/library/nginx",
+          "mountlocal": "localdir",
+          "mountdocker": "/etc/nginx/",
+          "ports": "100:100",
+          "network_mode":"host"
+        }
+        }
+      }
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[deploycode]",
+    "recipe[configs]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists": {}
+}
