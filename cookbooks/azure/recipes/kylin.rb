@@ -245,7 +245,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
-  elsif azureaction.eql?("upgrade") do
+  elsif azureaction.eql?("upgrade")
     execute 'upgradekap' do
       command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{kylin[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> /root/.azure/azure.err"
       ignore_failure true
