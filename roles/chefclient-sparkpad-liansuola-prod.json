@@ -26,7 +26,7 @@
             },
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-              "dbuser": "root",
+              "dbuser": "keithyau",
               "dbpass": "thomas123"
             }
           },
@@ -40,7 +40,7 @@
             },
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-              "dbuser": "root",
+              "dbuser": "keithyau",
               "dbpass": "thomas123"
             }
           },
@@ -54,7 +54,7 @@
             },
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-              "dbuser": "root",
+              "dbuser": "keithyau",
               "dbpass": "thomas123"
             }
           },
@@ -68,7 +68,7 @@
             },
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-              "dbuser": "root",
+              "dbuser": "keithyau",
               "dbpass": "thomas123"
             }
           },
@@ -82,7 +82,7 @@
             },
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-              "dbuser": "root",
+              "dbuser": "keithyau",
               "dbpass": "thomas123"
             }
           }
