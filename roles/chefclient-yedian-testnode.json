@@ -69,6 +69,19 @@
           "mountdocker": "/etc/nginx/",
           "ports": "100:100",
           "network_mode": "host"
+        },
+        "staging_pm2": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnodepm2",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web:/var/www/"
+          ],
+          "ports":[
+           "3000:3000",
+           "3008:3008"
+          ],
+          "network_mode": "host"
         }
       }
   },
