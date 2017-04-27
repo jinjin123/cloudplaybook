@@ -2,7 +2,6 @@
   "name": "chefclient-yedian-testnode",
   "description": "Role json file for starting and maintaining for yedian backend",
   "json_class": "Chef::Role",
-  "default_attributes": {
     "deployuser": "azureuser",
     "projectname": "staging-yedian",
     "externalmode": "bootproxy",
@@ -50,8 +49,8 @@
       },
       "runtime": {
         "redis": {
-          "tag":"latest",
-          "image":"dockerpriv.kybot.io:5002/keithyau/redis"
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/redis"
         },
         "staging_web": {
           "tag": "stable-alpine",
@@ -61,7 +60,7 @@
             "/home/azureuser/web:/var/www/html"
           ],
           "ports": "90:90",
-          "network_mode":"host"
+          "network_mode": "host"
         },
         "staging_api": {
           "tag": "stable-alpine",
@@ -69,11 +68,9 @@
           "mountlocal": "localdir",
           "mountdocker": "/etc/nginx/",
           "ports": "100:100",
-          "network_mode":"host"
-        }
+          "network_mode": "host"
         }
       }
-    }
   },
   "override_attributes": {},
   "chef_type": "role",
