@@ -44,7 +44,34 @@
           "giturl":"git@github.com:ab-inbev/APAC_Yedian_KTV_Core_Backend.git",
           "branch": "master"
         },
-        "redis":"nodownload",
+        "operator_api": {
+          "giturl":"git@github.com:ab-inbev/APAC_Yedian_Operator_Core.git",
+          "branch": "master"
+        },
+        "payment_api": {
+          "giturl":"git@github.com-payment:ab-inbev/APAC_Yedian_Payment.git",
+          "branch": "master"
+        },
+        "message_api": {
+          "giturl":"git@github.com:airplake/message-distributing-center.git",
+          "branch": "master"
+        },
+        "auditing_api": {
+          "giturl":"git@github.com-auditing:ab-inbev/APAC_Yedian_Auditing.git",
+          "branch": "master"
+        },
+        "venues_api": {
+          "giturl":"git@github.com:ab-inbev/APAC_Yedian_Venues_Core.git",
+          "branch": "master"
+        },
+        "user_api": {
+          "giturl":"git@github.com:ab-inbev/APAC_Yedian_User_Core.git",
+          "branch": "master"
+        },
+        "compliance_api": {
+          "giturl":"git@github.com:ab-inbev/APAC-Yedian-Compliance-Center.git",
+          "branch": "master"
+        },
         "bootproxy":"nodownload"
       },
       "runtime": {
@@ -53,7 +80,7 @@
           "image": "daocloud.io/library/nginx",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/azureuser/web:/var/www/html"
+            "/home/azureuser/web:/var/www"
           ],
           "ports": "90:90",
           "network_mode": "host"
@@ -62,21 +89,28 @@
           "tag": "stable-alpine",
           "image": "daocloud.io/library/nginx",
           "mountlocal": "localdir",
-          "mountdocker": "/etc/nginx/",
+          "mountdocker": "/etc/nginx",
           "ports": "100:100",
           "network_mode": "host"
         },
-        "staging_pm2": {
+        "staging_ktv": {
           "tag": "latest",
-          "image": "dockerpriv.shadowdock.com/keithyau/ydnodepm2",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/azureuser/web:/var/www/"
+            "/home/azureuser/web/ktv_api:/var/www"
           ],
-          "ports":[
-           "3000:3000",
-           "3008:3008"
+          "ports": "3000:3000",
+          "network_mode": "host"
+        },
+        "staging_cms": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web/cms_api:/var/www"
           ],
+          "ports": "3008:3008",
           "network_mode": "host"
         }
       }
