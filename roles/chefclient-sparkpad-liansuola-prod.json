@@ -91,23 +91,23 @@
       "localfolder": {
         "de": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
-          "branch": "master"
+          "branch": "liansuola"
         },
         "erp": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-erp.git",
-          "branch": "master"
+          "branch": "liansuola"
         },
         "crm": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
-          "branch": "master"
+          "branch": "liansuola"
         },
         "pmt": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
-          "branch": "master"
+          "branch": "liansuola"
         },
         "mkt": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-mkt.git",
-          "branch": "master"
+          "branch": "liansuola"
         },
         "oc": {
           "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
