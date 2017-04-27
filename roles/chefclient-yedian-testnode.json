@@ -7,7 +7,7 @@
     "externalmode": "bootproxy",
     "domainname": "chinacloudapp.cn",
     "docker": {
-      "privaterepo": "dockerpriv.kybot.io:5002",
+      "privaterepo": "dockerpriv.shadowdock.com",
       "username": "keithyau",
       "password": "thomas123"
     },
@@ -48,10 +48,6 @@
         "bootproxy":"nodownload"
       },
       "runtime": {
-        "redis": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/redis"
-        },
         "staging_web": {
           "tag": "stable-alpine",
           "image": "daocloud.io/library/nginx",
@@ -68,6 +64,19 @@
           "mountlocal": "localdir",
           "mountdocker": "/etc/nginx/",
           "ports": "100:100",
+          "network_mode": "host"
+        },
+        "staging_pm2": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnodepm2",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web:/var/www/"
+          ],
+          "ports":[
+           "3000:3000",
+           "3008:3008"
+          ],
           "network_mode": "host"
         }
       }
