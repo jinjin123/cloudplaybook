@@ -7,7 +7,7 @@
     "externalmode": "bootproxy",
     "domainname": "chinacloudapp.cn",
     "docker": {
-      "privaterepo": "dockerpriv.kybot.io:5002",
+      "privaterepo": "dockerpriv.shadowdock.com",
       "username": "keithyau",
       "password": "thomas123"
     },
@@ -48,10 +48,6 @@
         "bootproxy":"nodownload"
       },
       "runtime": {
-        "redis": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/redis"
-        },
         "staging_web": {
           "tag": "stable-alpine",
           "image": "daocloud.io/library/nginx",
