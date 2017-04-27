@@ -127,7 +127,7 @@
         },
         "reportingsys": {
           "giturl": "git@git.coding.net:chankongching/reports.git",
-          "branch": "general"
+          "branch": "liansuola"
         },
         "syncoc": {
           "giturl": "git@git.coding.net:keithyau/syncoc.git",
@@ -216,7 +216,8 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html/",
-          "ports": "9090:80"
+          "ports": "9090:80",
+          "overridesubdomain":"reports"
         },
         "syncoc": {
           "tag": "latest",
