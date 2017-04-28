@@ -36,11 +36,11 @@
           "giturl":"git@github.com:ab-inbev/APAC_Yedian_Merchant_WebApp_Frontend.git",
           "branch": "master"
         },
-        "cms_api": {
+        "cms_backend": {
           "giturl":"git@github.com:ab-inbev/APAC_Yedian_CMS_backend.git",
           "branch": "master"
         },
-        "ktv_api": {
+        "ktv_backend": {
           "giturl":"git@github.com:ab-inbev/APAC_Yedian_KTV_Core_Backend.git",
           "branch": "master"
         },
@@ -85,7 +85,7 @@
           "ports": "90:90",
           "network_mode": "host"
         },
-        "staging_api": {
+        "staging_backend": {
           "tag": "stable-alpine",
           "image": "daocloud.io/library/nginx",
           "mountlocal": "localdir",
@@ -121,6 +121,75 @@
             "/home/azureuser/web/cms_backend:/var/www"
           ],
           "ports": "3008:3008",
+          "network_mode": "host"
+        },
+        "staging_user": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web/user_backend:/var/www"
+          ],
+          "ports": "3009:3009",
+          "network_mode": "host"
+        },
+        "staging_venues": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web/venues_backend:/var/www"
+          ],
+          "ports": "3007:3007",
+          "network_mode": "host"
+        },
+        "staging_auditing": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web/auditing_backend:/var/www"
+          ],
+          "ports": "3019:3019",
+          "network_mode": "host"
+        },
+        "staging_payment": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web/payment_backend:/var/www"
+          ],
+          "ports": "3018:3018",
+          "network_mode": "host"
+        },
+        "staging_operator": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web/operator_backend:/var/www"
+          ],
+          "ports": "4000:4000",
+          "network_mode": "host"
+        },
+        "staging_message_server": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web/message_backend:/var/www"
+          ],
+          "ports": "3001:3001",
+          "network_mode": "host"
+        },
+        "staging_message_consume": {
+          "tag": "latest",
+          "image": "dockerpriv.shadowdock.com/keithyau/ydnode",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/azureuser/web/message_backend:/var/www"
+          ],
           "network_mode": "host"
         }
       }
