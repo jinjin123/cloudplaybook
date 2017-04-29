@@ -163,10 +163,6 @@
         "loadbalancer":"nodownload"
       },
       "runtime": {
-        "redis": {
-          "tag":"latest",
-          "image":"dockerpriv.kybot.io:5002/keithyau/redis"
-        },
         "memcached":{
           "tag":"latest",
           "image":"dockerpriv.kybot.io:5002/keithyau/memcached"
