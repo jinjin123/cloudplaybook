@@ -3,7 +3,7 @@
   "description": "Role json file for starting and maintaining for yedian backend",
   "json_class": "Chef::Role",
     "deployuser": "azureuser",
-    "projectname": "staging-yedian",
+    "projectname": "yedian",
     "externalmode": "bootproxy",
     "domainname": "chinacloudapp.cn",
     "docker": {
@@ -15,11 +15,11 @@
       "basedirectory": "/home/azureuser/web",
       "configuration":{
         "general" : {
-          "staging_web" : {
-            "yd-staging-web": "/etc/nginx/nginx.conf"
+          "yedian_web" : {
+            "yd-web": "/etc/nginx/nginx.conf"
           },
-          "staging_backend" : {
-            "yd-staging-backend": "/etc/nginx/nginx.conf"
+          "yedian_backend" : {
+            "yd-backend": "/etc/nginx/nginx.conf"
           }
         }
       },
@@ -79,7 +79,7 @@
         "bootproxy":"nodownload"
       },
       "runtime": {
-        "staging_web": {
+        "yedian_web": {
           "tag": "stable-alpine",
           "image": "daocloud.io/library/nginx",
           "mountlocal": "multipledir",
@@ -91,7 +91,7 @@
           "ports": "90:90",
           "network_mode": "host"
         },
-        "staging_backend": {
+        "yedian_backend": {
           "tag": "stable-alpine",
           "image": "daocloud.io/library/nginx",
           "mountlocal": "localdir",
@@ -99,7 +99,7 @@
           "ports": "100:100",
           "network_mode": "host"
         },
-        "staging_ktv": {
+        "yedian_ktv": {
           "tag": "v7.8.0",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -109,7 +109,7 @@
           "ports": "3000:3000",
           "network_mode": "host"
         },
-        "staging_compliance": {
+        "yedian_compliance": {
           "tag": "v7.8.0",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -119,7 +119,7 @@
           "ports": "3003:3003",
           "network_mode": "host"
         },
-        "staging_cms": {
+        "yedian_cms": {
           "tag": "v7.8.0",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -129,7 +129,7 @@
           "ports": "3008:3008",
           "network_mode": "host"
         },
-        "staging_user": {
+        "yedian_user": {
           "tag": "v7.8.0",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -139,7 +139,7 @@
           "ports": "3009:3009",
           "network_mode": "host"
         },
-        "staging_venues": {
+        "yedian_venues": {
           "tag": "v7.8.0",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -149,7 +149,7 @@
           "ports": "3007:3007",
           "network_mode": "host"
         },
-        "staging_auditing": {
+        "yedian_auditing": {
           "tag": "v7.8.0",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -159,7 +159,7 @@
           "ports": "3019:3019",
           "network_mode": "host"
         },
-        "staging_payment": {
+        "yedian_payment": {
           "tag": "v7.8.0",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -169,7 +169,7 @@
           "ports": "3018:3018",
           "network_mode": "host"
         },
-        "staging_operator_core": {
+        "yedian_operator_core": {
           "tag": "v7.8.0_v1",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -179,7 +179,7 @@
           "ports": "4000:4000",
           "network_mode": "host"
         },
-        "staging_operator_core_div": {
+        "yedian_operator_core_div": {
           "tag": "v7.8.0",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
@@ -189,7 +189,7 @@
           "ports": "4003:4003",
           "network_mode": "host"
         },
-        "staging_message_server": {
+        "yedian_message_server": {
           "tag": "v7.8.0_v1",
           "image": "dockerpriv.shadowdock.com/keithyau/yediannode",
           "mountlocal": "multipledir",
