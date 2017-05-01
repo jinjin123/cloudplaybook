@@ -2,7 +2,7 @@
   "name": "chefclient-yedian-testnode",
   "description": "Role json file for starting and maintaining for yedian backend",
   "json_class": "Chef::Role",
-    "deployuser": "azureuser",
+    "deployuser": "root",
     "projectname": "yedian",
     "externalmode": "bootproxy",
     "domainname": "chinacloudapp.cn",
