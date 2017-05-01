@@ -212,7 +212,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/wmserver/WMServer:/usr/local/tomcat/webapps",
+            "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9089:8080",
