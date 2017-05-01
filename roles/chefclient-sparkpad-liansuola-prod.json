@@ -215,7 +215,8 @@
             "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
-          "ports": "9089:8080"
+          "ports": "9089:8080",
+          "overridesubdomain": "takeaway-wm"
         },
         "reportingsys": {
           "tag": "latest",
