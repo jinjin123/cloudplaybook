@@ -3,6 +3,7 @@
   "description": "Role json file for starting and maintaining for yedian backend",
   "json_class": "Chef::Role",
     "deployuser": "root",
+    "deploygroup": "root",
     "projectname": "yedian",
     "externalmode": "bootproxy",
     "domainname": "chinacloudapp.cn",

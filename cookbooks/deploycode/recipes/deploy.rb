@@ -32,7 +32,7 @@ template "/root/.ssh/gitkey.pub" do
   retry_delay 30
 end
 
-if node[:deployuser] && not((node[:deployuser]).empty?)
+if (not (defined?(node[:deployuser])).nil?) && (not "#{node[:deployuser]}" == "")
   user = node[:deployuser]
   node.default[:deploycode][:code_owner] = node[:deployuser]
   node.default[:deploycode][:code_group] = node[:deployuser]
@@ -47,14 +47,14 @@ end
 #if user != "root"
 #  code_owner_home="/home/#{node[:deployuser]}"
 
-if defined?(node[:deployuser]) 
+if (not (defined?(node[:deployuser])).nil?) && (not "#{node[:deployuser]}" == "")
   user = node[:deployuser]
 
-if user.include?("root")
-  code_owner_home="/root"
-else
-  code_owner_home="/home/#{user}"
-end
+  if user.include?("root")
+    code_owner_home="/root"
+  else
+    code_owner_home="/home/#{user}"
+  end
 
   file "#{code_owner_home}/.ssh/authorized_keys" do
    backup 5
@@ -161,8 +161,8 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
         enable_checkout true
         action :sync
         destination dir
-      end        
-    else 
+      end
+    else
       execute "clear_directory" do
         command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
         cwd dir
@@ -218,7 +218,7 @@ if (not (defined?(node[:monitoring])).nil?) && (not "#{node[:monitoring]}" == ""
     only_if { ::File.exists?(results) }
     block do
       f = File.open(results)
-      dockerinfo = Hash.new 
+      dockerinfo = Hash.new
       f.each do |line|
         dockerinfo[line.chomp.split(' ')[0]] = line.chomp.split(' ')[1]
       end
