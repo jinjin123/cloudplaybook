@@ -127,6 +127,10 @@
           "giturl": "git@git.coding.net:keithyau/WMServer.git",
           "branch": "master"
         },
+        "takeaway-order":{
+          "giturl": "git@git.coding.net:shiyang1983/VM-Server.git",
+          "branch": "master"
+        },
         "reportingsys": {
           "giturl": "git@git.coding.net:chankongching/reports.git",
           "branch": "liansuola"
@@ -211,7 +215,7 @@
             "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps",
             "/etc/localtime:/etc/localtime:ro"
           ],
-          "ports": "8080:8080"
+          "ports": "9089:8080"
         },
         "reportingsys": {
           "tag": "latest",
@@ -230,6 +234,16 @@
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9091:8080"
+        },
+        "takeaway-order": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/takeaway-order:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9092:8080"
         },
         "bootproxy":{
           "tag":"stable-alpine",
