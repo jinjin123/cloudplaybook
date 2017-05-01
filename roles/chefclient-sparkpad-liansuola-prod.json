@@ -252,7 +252,8 @@
           "mountlocal":"localdir",
           "mountdocker":"/etc/nginx/conf.d/",
           "ports":[
-            "80:80"
+            "80:80",
+            "8080:8080"
           ]
         }
       }
