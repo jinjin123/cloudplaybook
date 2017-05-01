@@ -69,7 +69,8 @@
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "keithyau",
-              "dbpass": "thomas123"
+              "dbpass": "thomas123",
+              "dbname": "payment"
             }
           },
           "mkt": {
@@ -83,7 +84,8 @@
             "variables" : {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "keithyau",
-              "dbpass": "thomas123"
+              "dbpass": "thomas123",
+              "dbname": "marketing"
             }
           }
         }

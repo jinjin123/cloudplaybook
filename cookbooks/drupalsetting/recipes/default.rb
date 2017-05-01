@@ -10,7 +10,7 @@
 basedir = node[:deploycode][:basedirectory]
 
 node[:deploycode][:configuration][:drupal].each do |appname,spec|
-  #create custom directories && set permission 
+  #create custom directories && set permission
   spec[:folders].each do | dir,permission |
     directory basedir + "#{appname}/#{dir}" do
       recursive true
@@ -25,12 +25,18 @@ node[:deploycode][:configuration][:drupal].each do |appname,spec|
   #Create custom conf files from cookbook, override the one provided from git
   spec[:settings].each do | sourcefile,dest |
 
+    if (not (defined?(spec[:variables][:dbname])).nil?) && (not "#{spec[:variables][:dbname]}" == "")
+      dbname = spec[:variables][:dbname]
+    else
+      dbname = appname
+    end
+
     #If not set variables, use default
     if not (defined?(spec[:variables])).nil?
       dbhost = spec[:variables][:dbhost]
       dbuser = spec[:variables][:dbuser]
       dbpass = spec[:variables][:dbpass]
-    else 
+    else
       dbhost = node[:deploycode][:default][:variables][:dbhost]
       dbuser = node[:deploycode][:default][:variables][:dbuser]
       dbpass = node[:deploycode][:default][:variables][:dbpass]
@@ -42,7 +48,7 @@ node[:deploycode][:configuration][:drupal].each do |appname,spec|
         :host => dbhost,
         :username => dbuser,
         :password => dbpass,
-        :dbname => appname
+        :dbname => dbname
       )
         #The filename already in template folder
         source sourcefile
@@ -109,4 +115,3 @@ end
 #  end
 #  end
 #end
-
