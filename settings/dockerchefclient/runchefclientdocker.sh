@@ -14,7 +14,7 @@ cp /etc/chef/client.rb /root/tools/code/azure/$IDENTIFIER/client.rb
 sed -i "s/CHEFCLIENTNAME/$IDENTIFIER/" /root/tools/code/azure/$IDENTIFIER/client.rb
 echo $2 > /root/tools/code/azure/$IDENTIFIER/deploy.json
 #touch /root/tools/code/azure/$IDENTIFIER/azure.log
-echo > /root/tools/code/azure/$IDENTIFIER/azure.log
+echo "" > /root/tools/code/azure/$IDENTIFIER/azure.log
 
 docker run --rm --network=host --name chef-client-$IDENTIFIER \
 -v /etc/chef/kylin.pem:/etc/chef/kylin.pem \
