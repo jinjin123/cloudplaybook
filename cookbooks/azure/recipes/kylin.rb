@@ -36,7 +36,7 @@ end
 identifier = kylin[:identifier]
 
 # Check what scheme, "allinone" or "separated" to be deployed
-if (not (defined?(azure[:scheme])).nil?) && (not "#{azure][:scheme]}" == "")
+if (not (defined?(azure[:scheme])).nil?) && (not "#{azure[:scheme]}" == "")
   scheme = azure[:scheme]
 else
   scheme = "allinone"
