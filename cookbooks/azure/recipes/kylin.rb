@@ -14,13 +14,15 @@
 # 4. remove new container
 # So in any point of time, on host there shld be no container exists but image is upto date
 
-azureaction = node[:deploycode][:configuration][:azure][:action]
+azure = node[:deploycode][:configuration][:azure]
+
+azureaction = azure[:action]
 # storing kylin variables to be called
 if not ((not (defined?(azureaction)).nil?) && (not "#{azureaction}" == ""))
   azureaction = "create"
 end
 
-credentials = node[:deploycode][:configuration][:azure][:credentials]
+credentials = azure[:credentials]
 
 # Setting basedir to store template files
 basedir = node[:deploycode][:basedirectory]
@@ -28,10 +30,17 @@ username = node[:deployuser]
 #runtime = node[:deploycode][:runtime][:azure]
 
 # storing kylin variables to be called
-if (not (defined?(node[:deploycode][:configuration][:azure][:kylin])).nil?) && (not "#{node[:deploycode][:configuration][:azure][:kylin]}" == "")
-  kylin = node[:deploycode][:configuration][:azure][:kylin]
+if (not (defined?(azure[:kylin])).nil?) && (not "#{azure[:kylin]}" == "")
+  kylin = azure[:kylin]
 end
 identifier = kylin[:identifier]
+
+# Check what scheme, "allinone" or "separated" to be deployed
+if (not (defined?(azure[:scheme])).nil?) && (not "#{azure][:scheme]}" == "")
+  scheme = azure[:scheme]
+else
+  scheme = "allinone"
+end
 
 # Name of docker container is not imaport, just make one
 container_name = "#{node[:projectname]}_azure_#{identifier}"
@@ -56,72 +65,125 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
-  # Setting parameters
-  if kylin[:clusterName].eql?("default")
-    clusterName = "cluster#{kylin[:identifier]}"
-  else
-    clusterName = kylin[:clusterName]
-  end
-
-  if kylin[:containerName].eql?("default")
-    containerName = "container#{kylin[:identifier]}"
-  else
-    containerName = kylin[:containerName]
-  end
-
-  if kylin[:metastoreName].eql?("default")
-    metastoreName = "metastore#{kylin[:identifier]}"
-  else
-    metastoreName = kylin[:metastoreName]
-  end
-
   if kylin[:region].downcase.include?("china")
     accountregion = "china"
   else
     accountregion = "global"
   end
-  if (not (defined?(kylin[:storageAccount])).nil?) && (not "#{kylin[:storageAccount]}" == "")
-    storageAccount = kylin[:storageAccount]
-  else
-    storageAccount = "#{kylin[:identifier]}sa"
-  end
 
-  template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
-    source "deploywithcluster.json.erb"
-    variables(
-      :accountregion => accountregion
-    )
-    mode 0644
-    retries 3
-    retry_delay 2
-    owner "root"
-    group "root"
-    action :create
-  end
-  template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
-    source "deploywithcluster.parameters.json.erb"
-    variables(
-      :appType => kylin[:appType],
-      :clusterName  => clusterName,
-      :clusterLoginUserName => kylin[:clusterLoginUserName],
-      :clusterLoginPassword => kylin[:clusterLoginPassword],
-      :clusterType => kylin[:clusterType],
-      :clusterVersion => kylin[:clusterVersion],
-      :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
-      :containerName => containerName,
-      :edgeNodeSize => kylin[:edgeNodeSize],
-      :location => kylin[:region],
-      :metastoreName => metastoreName,
-      :sshUserName => kylin[:sshUserName],
-      :sshPassword => kylin[:sshPassword],
-      :storageAccount => storageAccount
-    )
-    mode 0644
-    retries 3
-    retry_delay 2
-    owner "root"
-    group "root"
-    action :create
+  # Check scheme that to be deployed
+
+  if scheme.eql?("allinone")
+
+    # Setting parameters
+    if kylin[:clusterName].eql?("default")
+      clusterName = "cluster#{kylin[:identifier]}"
+    else
+      clusterName = kylin[:clusterName]
+    end
+
+    if kylin[:containerName].eql?("default")
+      containerName = "container#{kylin[:identifier]}"
+    else
+      containerName = kylin[:containerName]
+    end
+
+    if kylin[:metastoreName].eql?("default")
+      metastoreName = "metastore#{kylin[:identifier]}"
+    else
+      metastoreName = kylin[:metastoreName]
+    end
+
+    if (not (defined?(kylin[:storageAccount])).nil?) && (not "#{kylin[:storageAccount]}" == "")
+      storageAccount = kylin[:storageAccount]
+    else
+      storageAccount = "#{kylin[:identifier]}sa"
+    end
+
+    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
+      source "deploywithcluster.json.erb"
+      variables(
+        :accountregion => accountregion
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
+      source "deploywithcluster.parameters.json.erb"
+      variables(
+        :appType => kylin[:appType],
+        :clusterName  => clusterName,
+        :clusterLoginUserName => kylin[:clusterLoginUserName],
+        :clusterLoginPassword => kylin[:clusterLoginPassword],
+        :clusterType => kylin[:clusterType],
+        :clusterVersion => kylin[:clusterVersion],
+        :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
+        :containerName => containerName,
+        :edgeNodeSize => kylin[:edgeNodeSize],
+        :location => kylin[:region],
+        :metastoreName => metastoreName,
+        :sshUserName => kylin[:sshUserName],
+        :sshPassword => kylin[:sshPassword],
+        :storageAccount => storageAccount
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+  elsif scheme.eql?("separated")
+
+    # Setting vnetName if not set
+    vnetName = "vnet#{kylin[:identifier]}"
+    if (not (defined?(kylin[:vnetName])).nil?) && (not "#{kylin[:vnetName]}" == "")
+      if ! kylin[:vnetName].eql?("default")
+        vnetName = kylin[:vnetName]
+      end
+    end
+    # Setting subnet1Name if not set
+    subnet1Name = "subnet1#{kylin[:identifier]}"
+    if (not (defined?(kylin[:subnet1Name])).nil?) && (not "#{kylin[:subnet1Name]}" == "")
+      if ! kylin[:subnet1Name].eql?("default")
+        subnet1Name = kylin[:subnet1Name]
+      end
+    end
+    # Setting subnet2Name if not set
+    subnet2Name = "subnet2#{kylin[:identifier]}"
+    if (not (defined?(kylin[:subnet2Name])).nil?) && (not "#{kylin[:subnet2Name]}" == "")
+      if ! kylin[:subnet2Name].eql?("default")
+        subnet2Name = kylin[:subnet2Name]
+      end
+    end
+
+    template "#{basedir}azure/#{identifier}/vnet.#{identifier}.json" do
+      source "vnet.json.erb"
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    template "#{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json" do
+      source "vnet.parameters.json.erb"
+      variables(
+        :vnetName => vnetName,
+        :subnet1Name  => subnet1Name,
+        :subnet2Name => subnet2Name
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
   end
 end
 
@@ -187,10 +249,10 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
 end
 
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
-  mapvolume = ""
-  if deploymentmode.eql?("token")
-    mapvolume = "-v #{basedir}azure/#{identifier}/azure:$HOME/.azure"
-  end
+  # mapvolume = ""
+  # if deploymentmode.eql?("token")
+  #   mapvolume = "-v #{basedir}azure/#{identifier}/azure:$HOME/.azure"
+  # end
   execute 'config_arm_mode' do
     # command "docker run --name #{container_name} #{mapvolume} #{image_name} azure config mode arm || true"
     command "azure config mode arm || true"
@@ -208,19 +270,32 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
     # Running deploymentTemplate
-    results = "#{basedir}azure/#{identifier}/#{identifier}_deploy.log"
-    file results do
-      action :delete
-    end
-    cmd = "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json"
-    # cmd = "docker run #{mapvolume} -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure group deployment create -g #{identifier} -n #{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
-    bash cmd do
-      code <<-EOH
-      #{cmd}
-      EOH
-      #{cmd} &> #{results}
-      # notifies :run, 'execute[commit_docker]', :immediately
-      timeout 21600
+    # results = "#{basedir}azure/#{identifier}/#{identifier}_deploy.log"
+    # file results do
+    #   action :delete
+    # end
+    # cmd = "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json"
+    # # cmd = "docker run #{mapvolume} -v #{basedir}azure/#{identifier}:/templates --name #{container_name} #{image_name} azure group deployment create -g #{identifier} -n #{identifier} -f /templates/deploymentTemplate.#{identifier}.json -e /templates/deploymentTemplate.#{identifier}.parameters.json"
+    # bash cmd do
+    #   code <<-EOH
+    #   #{cmd}
+    #   EOH
+    #   #{cmd} &> #{results}
+    #   # notifies :run, 'execute[commit_docker]', :immediately
+    #   timeout 21600
+    # end
+    if scheme.eql?("allinone")
+      execute 'create_deployment' do
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        ignore_failure true
+      end
+    elsif scheme.eql?("separated")
+      execute 'create_vnet' do
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        ignore_failure true
+      end
     end
   elsif azureaction.eql?("removehdi")
     execute 'removehdi_resources_group' do
