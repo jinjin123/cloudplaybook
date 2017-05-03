@@ -153,6 +153,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         subnet1Name = kylin[:subnet1Name]
       end
     end
+    # Setting subnet2Name if not set
+    subnet2Name = "subnet2#{kylin[:identifier]}"
+    if (not (defined?(kylin[:subnet2Name])).nil?) && (not "#{kylin[:subnet2Name]}" == "")
+      if ! kylin[:subnet2Name].eql?("default")
+        subnet2Name = kylin[:subnet2Name]
+      end
+    end
     # Setting storageaccount1 if not set
     storageaccount1 = "storageaccount1#{kylin[:identifier]}"
     if (not (defined?(kylin[:storageaccount1])).nil?) && (not "#{kylin[:storageaccount1]}" == "")
