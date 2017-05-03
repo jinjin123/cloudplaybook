@@ -153,14 +153,23 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         subnet1Name = kylin[:subnet1Name]
       end
     end
-    # Setting subnet2Name if not set
-    subnet2Name = "subnet2#{kylin[:identifier]}"
-    if (not (defined?(kylin[:subnet2Name])).nil?) && (not "#{kylin[:subnet2Name]}" == "")
-      if ! kylin[:subnet2Name].eql?("default")
-        subnet2Name = kylin[:subnet2Name]
+    # Setting storageaccount1 if not set
+    storageaccount1 = "storageaccount1#{kylin[:identifier]}"
+    if (not (defined?(kylin[:storageaccount1])).nil?) && (not "#{kylin[:storageaccount1]}" == "")
+      if ! kylin[:storageaccount1].eql?("default")
+        storageaccount1 = kylin[:storageaccount1]
       end
     end
 
+    # Setting storageaccount2 if not set
+    storageaccount2 = "storageaccount2#{kylin[:identifier]}"
+    if (not (defined?(kylin[:storageaccount2])).nil?) && (not "#{kylin[:storageaccount2]}" == "")
+      if ! kylin[:storageaccount2].eql?("default")
+        storageaccount1 = kylin[:storageaccount2]
+      end
+    end
+
+    # Creating vnet json
     template "#{basedir}azure/#{identifier}/vnet.#{identifier}.json" do
       source "vnet.json.erb"
       mode 0644
@@ -176,6 +185,41 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :vnetName => vnetName,
         :subnet1Name  => subnet1Name,
         :subnet2Name => subnet2Name
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
+    # Create storageAcount templates
+    template "#{basedir}azure/#{identifier}/storageaccount.#{identifier}.json" do
+      source "storageaccount.json.erb"
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    template "#{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json" do
+      source "storageaccount.parameters.json.erb"
+      variables(
+        :storageAccountName => storageaccount1
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    template "#{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json" do
+      source "storageaccount.parameters.json.erb"
+      variables(
+        :storageAccountName => storageaccount2
       )
       mode 0644
       retries 3
@@ -293,6 +337,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     elsif scheme.eql?("separated")
       execute 'create_vnet' do
         command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        ignore_failure true
+      end
+      execute 'create_storageaccount1' do
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        ignore_failure true
+      end
+      execute 'create_storageaccount2' do
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
