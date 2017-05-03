@@ -161,7 +161,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
     # Setting storageaccount1 if not set
-    storageaccount1 = "storageaccount1#{kylin[:identifier]}"
+    storageaccount1 = "sa1#{kylin[:identifier]}"
     if (not (defined?(kylin[:storageaccount1])).nil?) && (not "#{kylin[:storageaccount1]}" == "")
       if ! kylin[:storageaccount1].eql?("default")
         storageaccount1 = kylin[:storageaccount1]
@@ -169,7 +169,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
 
     # Setting storageaccount2 if not set
-    storageaccount2 = "storageaccount2#{kylin[:identifier]}"
+    storageaccount2 = "sa2#{kylin[:identifier]}"
     if (not (defined?(kylin[:storageaccount2])).nil?) && (not "#{kylin[:storageaccount2]}" == "")
       if ! kylin[:storageaccount2].eql?("default")
         storageaccount1 = kylin[:storageaccount2]
