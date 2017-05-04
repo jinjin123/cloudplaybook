@@ -283,7 +283,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :sqlnetworkInterfacesname => sqlnetworkInterfacesname,
         :sqlnetworkSecurityGroupsname => sqlnetworkSecurityGroupsname,
         :sqlpublicIPAddressesipname => sqlpublicIPAddressesipname,
-        :vnetName => vnetname,
+        :vnetName => vnetName,
         :subnet1Name => subnet1Name,
         :subnet2Name => subnet2Name
       )

@@ -18,7 +18,7 @@
       "defaultValue": "sqltest-ip",
       "type": "String"
     },
-    "vnetname": {
+    "vnetName": {
       "defaultValue": "vnet20170503000000",
       "type": "String"
     },
@@ -108,7 +108,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('sqlpublicIPAddressesipname'))]"
               },
               "subnet": {
-                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetname')), '/subnets/',parameters('subnet1Name'))]"
+                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/',parameters('subnet1Name'))]"
               }
             }
           }
@@ -123,7 +123,7 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Network/publicIPAddresses', parameters('sqlpublicIPAddressesipname'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetname'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
         "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('sqlnetworkSecurityGroupsname'))]"
       ]
     },
@@ -164,7 +164,7 @@
     },
     {
       "type": "Microsoft.Network/virtualNetworks",
-      "name": "[parameters('vnetname')]",
+      "name": "[parameters('networkInterfacesname')]",
       "apiVersion": "2016-03-30",
       "location": "[resourceGroup().location]",
       "properties": {
