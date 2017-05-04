@@ -283,7 +283,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :sqlnetworkInterfacesname => sqlnetworkInterfacesname,
         :sqlnetworkSecurityGroupsname => sqlnetworkSecurityGroupsname,
         :sqlpublicIPAddressesipname => sqlpublicIPAddressesipname,
-        :vnetName => vnetName,
+        :vnetName => vnetname,
         :subnet1Name => subnet1Name,
         :subnet2Name => subnet2Name
       )
@@ -418,7 +418,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         ignore_failure true
       end
       execute 'create_sqlserver' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.#{identifier}.parameters.json -vv >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
