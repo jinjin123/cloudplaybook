@@ -173,7 +173,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
 
-    sqlvirtualMachinesname = "sqlserver#{kylin[:identifier]}"
+    sqlvirtualMachinesname = "sqlvm#{kylin[:identifier]}"
     if (not (defined?(kylin[:sqlvirtualMachinesname])).nil?) && (not "#{kylin[:sqlvirtualMachinesname]}" == "")
       if ! kylin[:sqlvirtualMachinesname].eql?("default")
         sqlvirtualMachinesname = kylin[:sqlvirtualMachinesname]
