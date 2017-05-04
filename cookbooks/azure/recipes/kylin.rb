@@ -180,6 +180,26 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
 
+    sqlnetworkInterfacesname = "sqlnetint#{kylin[:identifier]}"
+    if (not (defined?(kylin[:sqlnetworkInterfacesname])).nil?) && (not "#{kylin[:sqlnetworkInterfacesname]}" == "")
+      if ! kylin[:sqlnetworkInterfacesname].eql?("default")
+        sqlnetworkInterfacesname = kylin[:sqlnetworkInterfacesname]
+      end
+    end
+
+    sqlnetworkSecurityGroupsname = "sqlnetsg#{kylin[:identifier]}"
+    if (not (defined?(kylin[:sqlnetworkSecurityGroupsname])).nil?) && (not "#{kylin[:sqlnetworkSecurityGroupsname]}" == "")
+      if ! kylin[:sqlnetworkSecurityGroupsname].eql?("default")
+        sqlnetworkSecurityGroupsname = kylin[:sqlnetworkSecurityGroupsname]
+      end
+    end
+
+    sqlpublicIPAddressesipname = "sqlpublicip#{kylin[:identifier]}"
+    if (not (defined?(kylin[:sqlpublicIPAddressesipname])).nil?) && (not "#{kylin[:sqlpublicIPAddressesipname]}" == "")
+      if ! kylin[:sqlpublicIPAddressesipname].eql?("default")
+        sqlpublicIPAddressesipname = kylin[:sqlpublicIPAddressesipname]
+      end
+    end
 
     # Creating vnet json
     template "#{basedir}azure/#{identifier}/vnet.#{identifier}.json" do
@@ -388,12 +408,17 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         ignore_failure true
       end
       execute 'create_storageaccount1' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json -vv >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       execute 'create_storageaccount2' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json -vv >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        ignore_failure true
+      end
+      execute 'create_sqlserver' do
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.#{identifier}.parameters.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
