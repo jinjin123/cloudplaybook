@@ -29,6 +29,14 @@
     "subnet2Name": {
       "defaultValue": "subnet220170503000000",
       "type": "String"
+    },
+    "adminUsername": {
+      "defaultValue": "admintest",
+      "type": "String"
+    },
+    "adminPassword": {
+      "defaultValue": "adminPassword",
+      "type": "String"
     }
   },
   "variables": {},
@@ -73,7 +81,8 @@
         },
         "osProfile": {
           "computerName": "[parameters('sqlvirtualMachinesname')]",
-          "adminUsername": "admintest",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
             "provisionVMAgent": true,
             "enableAutomaticUpdates": true

@@ -285,7 +285,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :sqlpublicIPAddressesipname => sqlpublicIPAddressesipname,
         :vnetName => vnetName,
         :subnet1Name => subnet1Name,
-        :subnet2Name => subnet2Name
+        :subnet2Name => subnet2Name,
+        :adminUsername => kylin[:sshUserName],
+        :adminPassword => kylin[:sshPassword]
       )
       mode 0644
       retries 3
