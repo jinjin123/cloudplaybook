@@ -235,6 +235,22 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       group "root"
       action :create
     end
+
+    # Creating SQLserver
+    template "#{basedir}azure/#{identifier}/sqlserver.#{identifier}.json" do
+      source "sqlserver.json.erb"
+      variables(
+        :accountregion => accountregion,
+        :storageAccountName => storageaccount1
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
   end
 end
 
