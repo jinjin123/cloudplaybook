@@ -72,9 +72,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 
   # Check scheme that to be deployed
-
   if scheme.eql?("allinone")
-
     # Setting parameters
     if kylin[:clusterName].eql?("default")
       clusterName = "cluster#{kylin[:identifier]}"
@@ -167,7 +165,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         storageaccount1 = kylin[:storageaccount1]
       end
     end
-
     # Setting storageaccount2 if not set
     storageaccount2 = "sa2#{kylin[:identifier]}"
     if (not (defined?(kylin[:storageaccount2])).nil?) && (not "#{kylin[:storageaccount2]}" == "")
@@ -175,6 +172,14 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         storageaccount1 = kylin[:storageaccount2]
       end
     end
+
+    sqlvirtualMachinesname = "sqlserver#{kylin[:identifier]}"
+    if (not (defined?(kylin[:sqlvirtualMachinesname])).nil?) && (not "#{kylin[:sqlvirtualMachinesname]}" == "")
+      if ! kylin[:sqlvirtualMachinesname].eql?("default")
+        sqlvirtualMachinesname = kylin[:sqlvirtualMachinesname]
+      end
+    end
+
 
     # Creating vnet json
     template "#{basedir}azure/#{identifier}/vnet.#{identifier}.json" do
@@ -242,6 +247,25 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       variables(
         :accountregion => accountregion,
         :storageAccountName => storageaccount1
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
+    template "#{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json" do
+      source "sqlserver.parameters.json.erb"
+      variables(
+        :sqlvirtualMachinesname => sqlvirtualMachinesname,
+        :sqlnetworkInterfacesname => sqlnetworkInterfacesname,
+        :sqlnetworkSecurityGroupsname => sqlnetworkSecurityGroupsname,
+        :sqlpublicIPAddressesipname => sqlpublicIPAddressesipname,
+        :vnetname => vnetname,
+        :subnet1Name => subnet1Name,
+        :subnet2Name => subnet2Name
       )
       mode 0644
       retries 3

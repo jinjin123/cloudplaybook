@@ -2,19 +2,19 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "virtualMachinesname": {
+    "sqlvirtualMachinesname": {
       "defaultValue": "sqltest",
       "type": "String"
     },
-    "networkInterfacesname": {
+    "sqlnetworkInterfacesname": {
       "defaultValue": "sqltest116",
       "type": "String"
     },
-    "networkSecurityGroupsname": {
+    "sqlnetworkSecurityGroupsname": {
       "defaultValue": "sqltest-nsg",
       "type": "String"
     },
-    "publicIPAddressesipname": {
+    "sqlpublicIPAddressesipname": {
       "defaultValue": "sqltest-ip",
       "type": "String"
     },
@@ -35,7 +35,7 @@
   "resources": [
     {
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('virtualMachinesname')]",
+      "name": "[parameters('sqlvirtualMachinesname')]",
       "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
       "properties": {
@@ -51,20 +51,20 @@
           },
           "osDisk": {
             "osType": "Windows",
-            "name": "[parameters('virtualMachinesname')]",
+            "name": "[parameters('sqlvirtualMachinesname')]",
             "createOption": "FromImage",
             "vhd": {
-              "uri": "[concat('https://', '<%= @storageAccountName %>', '<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>', '/vhds/', parameters('virtualMachinesname'),'20170503153620.vhd')]"
+              "uri": "[concat('https://', '<%= @storageAccountName %>', '<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>', '/vhds/', parameters('sqlvirtualMachinesname'),'20170503153620.vhd')]"
             },
             "caching": "ReadWrite"
           },
           "dataDisks": [
             {
               "lun": 0,
-              "name": "[concat(parameters('virtualMachinesname'),'-disk-1')]",
+              "name": "[concat(parameters('sqlvirtualMachinesname'),'-disk-1')]",
               "createOption": "Empty",
               "vhd": {
-                "uri": "[concat('https://', '<%= @storageAccountName %>', '<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>', '/vhds/', parameters('virtualMachinesname'),'-disk-1-20170503153620.vhd')]"
+                "uri": "[concat('https://', '<%= @storageAccountName %>', '<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>', '/vhds/', parameters('sqlvirtualMachinesname'),'-disk-1-20170503153620.vhd')]"
               },
               "caching": "ReadOnly",
               "diskSizeGB": 1023
@@ -72,7 +72,7 @@
           ]
         },
         "osProfile": {
-          "computerName": "[parameters('virtualMachinesname')]",
+          "computerName": "[parameters('sqlvirtualMachinesname')]",
           "adminUsername": "admintest",
           "windowsConfiguration": {
             "provisionVMAgent": true,
@@ -83,18 +83,18 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfacesname'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('sqlnetworkInterfacesname'))]"
             }
           ]
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfacesname'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', parameters('sqlnetworkInterfacesname'))]"
       ]
     },
     {
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[parameters('networkInterfacesname')]",
+      "name": "[parameters('sqlnetworkInterfacesname')]",
       "apiVersion": "2016-03-30",
       "location": "[resourceGroup().location]",
       "properties": {
@@ -105,7 +105,7 @@
               "privateIPAddress": "10.0.0.150",
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddressesipname'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('sqlpublicIPAddressesipname'))]"
               },
               "subnet": {
                 "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetname')), '/subnets/',parameters('subnet1Name'))]"
@@ -118,18 +118,18 @@
         },
         "enableIPForwarding": false,
         "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupsname'))]"
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('sqlnetworkSecurityGroupsname'))]"
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddressesipname'))]",
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('sqlpublicIPAddressesipname'))]",
         "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetname'))]",
-        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupsname'))]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('sqlnetworkSecurityGroupsname'))]"
       ]
     },
     {
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[parameters('networkSecurityGroupsname')]",
+      "name": "[parameters('sqlnetworkSecurityGroupsname')]",
       "apiVersion": "2016-03-30",
       "location": "[resourceGroup().location]",
       "properties": {
@@ -153,7 +153,7 @@
     },
     {
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[parameters('publicIPAddressesipname')]",
+      "name": "[parameters('sqlpublicIPAddressesipname')]",
       "apiVersion": "2016-03-30",
       "location": "[resourceGroup().location]",
       "properties": {
