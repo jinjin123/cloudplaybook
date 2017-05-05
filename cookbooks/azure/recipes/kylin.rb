@@ -352,7 +352,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       group "root"
       action :create
     end
-    template "#{basedir}azure/#{identifier}/separatedhdi1.#{identifier}.parameters.json" do
+    template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
       source "separatedhdi1.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
