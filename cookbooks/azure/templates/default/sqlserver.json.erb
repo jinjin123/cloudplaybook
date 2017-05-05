@@ -29,14 +29,6 @@
     "subnet2Name": {
       "defaultValue": "subnet220170503000000",
       "type": "String"
-    },
-    "sshUserName": {
-      "defaultValue": "admintest",
-      "type": "String"
-    },
-    "sshPassword": {
-      "defaultValue": "adminPassword",
-      "type": "String"
     }
   },
   "variables": {},
@@ -52,8 +44,6 @@
         },
         "osProfile": {
           "computerName": "[parameters('sqlvirtualMachinesname')]",
-          "adminUsername": "[parameters('sshUserName')]",
-          "adminPassword": "[parameters('sshPassword')]",
           "WindowsConfiguration": {
             "provisionVMAgent": true,
             "enableAutomaticUpdates": true
