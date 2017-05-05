@@ -225,7 +225,7 @@
               "restAuthCredential.isEnabled": true,
               "restAuthCredential.username": "[parameters('clusterLoginUserName')]",
               "restAuthCredential.password": "[parameters('clusterLoginPassword')]"
-            }
+            },
             "hive-site": {
               "javax.jdo.option.ConnectionDriverName": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
               "javax.jdo.option.ConnectionURL": "[concat('jdbc:sqlserver://', variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>', ';databaseName=', variables('sqlDatabase').databaseName, ';')]",
