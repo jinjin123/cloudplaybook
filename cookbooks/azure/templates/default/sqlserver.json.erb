@@ -80,10 +80,8 @@
           ]
         },
         "osProfile": {
-          "linuxOperatingSystemProfile": {
-            "username": "[parameters('sshUserName')]",
-            "password": "[parameters('sshPassword')]"
-          },          
+          "adminUsername": "[parameters('sshUserName')]",
+          "adminPassword": "[parameters('sshPassword')]"
           "computerName": "[parameters('sqlvirtualMachinesname')]",
           "windowsConfiguration": {
             "provisionVMAgent": true,
