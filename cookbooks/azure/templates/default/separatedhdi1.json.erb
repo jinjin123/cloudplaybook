@@ -306,7 +306,7 @@
                 }
               },
               "virtualNetworkProfile": {
-                "id": "[concat('/subscriptions/',subscription().subscription-id,'/resourceGroups/',resourceGroup().resourceGroupName,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]"
+                "id": "[concat('/subscriptions/',subscription().subscription-id,'/resourceGroups/',resourceGroup().resourceGroupName,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
                 "subnet": "[concat('/subscriptions/',subscription().subscription-id,'/resourceGroups/',resourceGroup().resourceGroupName,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
               },
               "scriptActions": []
@@ -315,7 +315,6 @@
         }
       }
     },
-
     {
       "name": "[concat(parameters('clusterName'),'/', variables('applicationName'))]",
       "type": "Microsoft.HDInsight/clusters/applications",
