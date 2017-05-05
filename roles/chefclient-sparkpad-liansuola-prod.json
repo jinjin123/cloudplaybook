@@ -242,7 +242,8 @@
           "mountlocal": "multipledir",
           "mountdocker": [
             "/home/ec2-user/tools/drupal_dir/takeaway-order:/usr/local/tomcat/webapps",
-            "/etc/localtime:/etc/localtime:ro"
+            "/etc/localtime:/etc/localtime:ro",
+            "/bin/vi:/bin/vi"
           ],
           "ports": "9092:8080"
         },
