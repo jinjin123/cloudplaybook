@@ -50,6 +50,16 @@
         "hardwareProfile": {
           "vmSize": "Standard_DS13_v2"
         },
+        "osProfile": {
+          "computerName": "[parameters('sqlvirtualMachinesname')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "WindowsConfiguration": {
+            "provisionVMAgent": true,
+            "enableAutomaticUpdates": true
+          },
+          "secrets": []
+        },
         "storageProfile": {
           "imageReference": {
             "publisher": "MicrosoftSQLServer",
@@ -78,14 +88,6 @@
               "diskSizeGB": 1023
             }
           ]
-        },
-        "osProfile": {
-          "ComputerName": "[parameters('sqlvirtualMachinesname')]",
-          "WindowsConfiguration": {
-            "provisionVMAgent": true,
-            "enableAutomaticUpdates": true
-          },
-          "secrets": []
         },
         "networkProfile": {
           "networkInterfaces": [
