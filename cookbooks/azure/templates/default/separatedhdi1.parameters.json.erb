@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appType": {
+      "value": "<%= @appType %>"
+    },
+    "clusterName": {
+      "value": "<%= @clusterName %>"
+    },
+    "clusterLoginUserName": {
+      "value": "<%= @clusterLoginUserName %>"
+    },
+    "clusterLoginPassword": {
+      "value": "<%= @clusterLoginPassword %>"
+    },
+    "location": {
+      "value": "<%= @location %>"
+    },
+    "clusterWorkerNodeCount": {
+      "value": <%= @clusterWorkerNodeCount %>
+    },
+    "clusterType": {
+      "value": "<%= @clusterType %>"
+    },
+    "clusterVersion": {
+      "value": "<%= @clusterVersion %>"
+    },
+    "sshUserName": {
+      "value": "<%= @sshUserName %>"
+    },
+    "sshPassword": {
+      "value": "<%= @sshPassword %>"
+    },
+    "sqlvirtualMachinesname": {
+      "value": "<%= @sqlvirtualMachinesname %>"
+    },
+    "vnetName": {
+      "value": "<%= @vnetName %>"
+    },
+    "subnet1Name": {
+      "value": "<%= @subnet1Name %>"
+    }
+  }
+}

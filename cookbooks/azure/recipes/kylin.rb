@@ -74,28 +74,44 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   # Check scheme that to be deployed
   if scheme.eql?("allinone")
     # Setting parameters
-    if kylin[:clusterName].eql?("default")
-      clusterName = "cluster#{kylin[:identifier]}"
-    else
-      clusterName = kylin[:clusterName]
+    clusterName = "cluster#{kylin[:identifier]}"
+    if (not (defined?(kylin[:clusterName])).nil?) && (not "#{kylin[:clusterName]}" == "")
+      if ! kylin[:clusterName].eql?("default")
+        clusterName = kylin[:clusterName]
+      end
     end
 
-    if kylin[:containerName].eql?("default")
-      containerName = "container#{kylin[:identifier]}"
-    else
-      containerName = kylin[:containerName]
+    containerName = "container#{kylin[:identifier]}"
+    if (not (defined?(kylin[:containerName])).nil?) && (not "#{kylin[:containerName]}" == "")
+      if ! kylin[:containerName].eql?("default")
+        containerName = kylin[:containerName]
+      end
     end
 
-    if kylin[:metastoreName].eql?("default")
-      metastoreName = "metastore#{kylin[:identifier]}"
-    else
-      metastoreName = kylin[:metastoreName]
+    metastoreName = "metastore#{kylin[:identifier]}"
+    if (not (defined?(kylin[:metastoreName])).nil?) && (not "#{kylin[:metastoreName]}" == "")
+      if ! kylin[:metastoreName].eql?("default")
+        metastoreName = kylin[:metastoreName]
+      end
     end
 
     if (not (defined?(kylin[:storageAccount])).nil?) && (not "#{kylin[:storageAccount]}" == "")
       storageAccount = kylin[:storageAccount]
     else
       storageAccount = "#{kylin[:identifier]}sa"
+    end
+
+    sshUserName = "admintest"
+    if (not (defined?(kylin[:sshUserName])).nil?) && (not "#{kylin[:sshUserName]}" == "")
+      if ! kylin[:sshUserName].eql?("default")
+        sshUserName = kylin[:sshUserName]
+      end
+    end
+    sshPassword = "Kyligence2016"
+    if (not (defined?(kylin[:sshPassword])).nil?) && (not "#{kylin[:sshPassword]}" == "")
+      if ! kylin[:sshPassword].eql?("default")
+        sshUserName = kylin[:sshPassword]
+      end
     end
 
     template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json" do
@@ -124,8 +140,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :edgeNodeSize => kylin[:edgeNodeSize],
         :location => kylin[:region],
         :metastoreName => metastoreName,
-        :sshUserName => kylin[:sshUserName],
-        :sshPassword => kylin[:sshPassword],
+        :sshUserName => sshUserName,
+        :sshPassword => sshPassword,
         :storageAccount => storageAccount
       )
       mode 0644
@@ -198,6 +214,33 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     if (not (defined?(kylin[:sqlpublicIPAddressesipname])).nil?) && (not "#{kylin[:sqlpublicIPAddressesipname]}" == "")
       if ! kylin[:sqlpublicIPAddressesipname].eql?("default")
         sqlpublicIPAddressesipname = kylin[:sqlpublicIPAddressesipname]
+      end
+    end
+
+    sshUserName = "admintest"
+    if (not (defined?(kylin[:sshUserName])).nil?) && (not "#{kylin[:sshUserName]}" == "")
+      if ! kylin[:sshUserName].eql?("default")
+        sshUserName = kylin[:sshUserName]
+      end
+    end
+    sshPassword = "Kyligence2016"
+    if (not (defined?(kylin[:sshPassword])).nil?) && (not "#{kylin[:sshPassword]}" == "")
+      if ! kylin[:sshPassword].eql?("default")
+        sshUserName = kylin[:sshPassword]
+      end
+    end
+
+    clusterName = "cluster#{kylin[:identifier]}"
+    if (not (defined?(kylin[:clusterName])).nil?) && (not "#{kylin[:clusterName]}" == "")
+      if ! kylin[:clusterName].eql?("default")
+        clusterName = kylin[:clusterName]
+      end
+    end
+
+    metastoreName = "metastore#{kylin[:identifier]}"
+    if (not (defined?(kylin[:metastoreName])).nil?) && (not "#{kylin[:metastoreName]}" == "")
+      if ! kylin[:metastoreName].eql?("default")
+        metastoreName = kylin[:metastoreName]
       end
     end
 
@@ -286,8 +329,49 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :vnetName => vnetName,
         :subnet1Name => subnet1Name,
         :subnet2Name => subnet2Name,
-        :adminUsername => kylin[:sshUserName],
-        :adminPassword => kylin[:sshPassword]
+        :sshUserName => sshUserName,
+        :sshPassword => sshPassword
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
+    template "#{basedir}azure/#{identifier}/separatedhdi1.#{identifier}.json" do
+      source "separatedhdi1.json.erb"
+      variables(
+        :accountregion => accountregion
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    template "#{basedir}azure/#{identifier}/separatedhdi1.#{identifier}.parameters.json" do
+      source "separatedhdi1.parameters.json.erb"
+      variables(
+        :appType => kylin[:appType],
+        :clusterName  => clusterName,
+        :clusterLoginUserName => kylin[:clusterLoginUserName],
+        :clusterLoginPassword => kylin[:clusterLoginPassword],
+        :clusterType => kylin[:clusterType],
+        :clusterVersion => kylin[:clusterVersion],
+        :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
+        :containerName => containerName,
+        :edgeNodeSize => kylin[:edgeNodeSize],
+        :location => kylin[:region],
+        :metastoreName => metastoreName,
+        :sshUserName => sshUserName,
+        :sshPassword => sshPassword,
+        :storageAccount => storageAccount,
+        :sqlvirtualMachinesname => sqlvirtualMachinesname,
+        :vnetName => vnetName,
+        :subnet1Name => subnet1Name
       )
       mode 0644
       retries 3
@@ -421,6 +505,11 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
       execute 'create_sqlserver' do
         command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        ignore_failure true
+      end
+      execute 'create_hdi1' do
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/separatedhdi1.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
