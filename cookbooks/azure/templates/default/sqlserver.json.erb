@@ -52,8 +52,8 @@
         },
         "osProfile": {
           "computerName": "[parameters('sqlvirtualMachinesname')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]",
+          "adminUsername": "[parameters('sshUserName')]",
+          "adminPassword": "[parameters('sshPassword')]",
           "WindowsConfiguration": {
             "provisionVMAgent": true,
             "enableAutomaticUpdates": true
