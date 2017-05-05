@@ -30,11 +30,11 @@
       "defaultValue": "subnet220170503000000",
       "type": "String"
     },
-    "adminUsername": {
+    "sshUserName": {
       "defaultValue": "admintest",
       "type": "String"
     },
-    "adminPassword": {
+    "sshPassword": {
       "defaultValue": "adminPassword",
       "type": "String"
     }
@@ -80,9 +80,11 @@
           ]
         },
         "osProfile": {
+          "linuxOperatingSystemProfile": {
+            "username": "[parameters('sshUserName')]",
+            "password": "[parameters('sshPassword')]"
+          },          
           "computerName": "[parameters('sqlvirtualMachinesname')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
             "provisionVMAgent": true,
             "enableAutomaticUpdates": true
