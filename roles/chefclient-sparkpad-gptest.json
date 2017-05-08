@@ -175,7 +175,10 @@
                "tag":"stable-alpine",
                "image":"daocloud.io/library/nginx",
                "mountlocal":"localdir",
-               "mountdocker":"/etc/nginx/conf.d/",
+               "mountdocker": [
+                 "/home/sparkpad/code/bootproxy:/etc/nginx/conf.d/",
+                 "/etc/letsencrypt/archive/:/root"
+               ],
                "ports":[
                   "80:80",
                   "443:443",
