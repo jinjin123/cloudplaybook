@@ -138,7 +138,7 @@
                 "/etc/letsencrypt/archive/de.sparkpad-dev.com/privkey1.pem:/root/site.key",
                 "/etc/letsencrypt/archive/de.sparkpad-dev.com/cert1.pem:/root/site.crt"
               ],
-              "ports":"7081:80"
+              "ports":"7081:443"
             },
             "pmt":{
               "tag":"7.1.4_v3",
@@ -150,7 +150,7 @@
                 "/etc/letsencrypt/archive/pmt.sparkpad-dev.com/privkey1.pem:/root/site.key",
                 "/etc/letsencrypt/archive/pmt.sparkpad-dev.com/cert1.pem:/root/site.crt"
               ],
-              "ports":"7082:80"
+              "ports":"7082:443"
             },
             "crm":{
               "tag":"7.1.4_v3",
@@ -162,7 +162,7 @@
                 "/etc/letsencrypt/archive/crm.sparkpad-dev.com/privkey1.pem:/root/site.key",
                 "/etc/letsencrypt/archive/crm.sparkpad-dev.com/cert1.pem:/root/site.crt"
               ],
-              "ports":"7083:80"
+              "ports":"7083:443"
             },
             "oc":{
               "tag":"7.1.4_v3",
@@ -174,7 +174,7 @@
                 "/etc/letsencrypt/archive/oc.sparkpad-dev.com/privkey1.pem:/root/site.key",
                 "/etc/letsencrypt/archive/oc.sparkpad-dev.com/cert1.pem:/root/site.crt"
               ],
-              "ports":"7084:80"
+              "ports":"7084:443"
             },
             "couchdb": {
               "tag":"latest",
