@@ -134,9 +134,7 @@
               "mountdocker": [
                 "/home/sparkpad/code/sparkpad-dev/de:/var/www/html",
                 "/var/log/nginx/de.access.log:/var/log/nginx.access.log",
-                "/var/log/nginx/de.error.log:/var/log/nginx.error.log",
-                "/etc/letsencrypt/archive/de.sparkpad-dev.com/privkey1.pem:/root/site.key",
-                "/etc/letsencrypt/archive/de.sparkpad-dev.com/cert1.pem:/root/site.crt"
+                "/var/log/nginx/de.error.log:/var/log/nginx.error.log"
               ],
               "ports":"7081:443"
             },
@@ -144,48 +142,32 @@
               "tag":"7.1.4_v3",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-pmt"],
-              "mountlocal":"multipledir",
-              "mountdocker": [
-                "/home/sparkpad/code/sparkpad-dev/pmt:/var/www/html",
-                "/etc/letsencrypt/archive/pmt.sparkpad-dev.com/privkey1.pem:/root/site.key",
-                "/etc/letsencrypt/archive/pmt.sparkpad-dev.com/cert1.pem:/root/site.crt"
-              ],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
               "ports":"7082:443"
             },
             "crm":{
               "tag":"7.1.4_v3",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-crm"],
-              "mountlocal":"multipledir",
-              "mountdocker": [
-                "/home/sparkpad/code/sparkpad-dev/crm:/var/www/html",
-                "/etc/letsencrypt/archive/crm.sparkpad-dev.com/privkey1.pem:/root/site.key",
-                "/etc/letsencrypt/archive/crm.sparkpad-dev.com/cert1.pem:/root/site.crt"
-              ],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
               "ports":"7083:443"
             },
             "oc":{
               "tag":"7.1.4_v3",
               "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
               "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-oc"],
-              "mountlocal":"multipledir",
-              "mountdocker": [
-                "/home/sparkpad/code/sparkpad-dev/oc:/var/www/html",
-                "/etc/letsencrypt/archive/oc.sparkpad-dev.com/privkey1.pem:/root/site.key",
-                "/etc/letsencrypt/archive/oc.sparkpad-dev.com/cert1.pem:/root/site.crt"
-              ],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
               "ports":"7084:443"
             },
             "couchdb": {
               "tag":"latest",
               "image":"klaemo/couchdb",
               "env":["PATH=/opt/couchdb/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:$PATH","COUCHDB_USER=admin","COUCHDB_PASSWORD=thomas123"],
-              "mountlocal":"multipledir",
-              "mountdocker": [
-                "/home/sparkpad/code/sparkpad-dev/couchdb:/opt/couchdb/data",
-                "/etc/letsencrypt/archive/couchdb-cloud.sparkpad-dev.com/privkey1.pem:/root/site.key",
-                "/etc/letsencrypt/archive/couchdb-cloud.sparkpad-dev.com/cert1.pem:/root/site.crt"
-              ],
+              "mountlocal":"localdir",
+              "mountdocker": "/opt/couchdb/data",
               "ports":"7085:5984",
               "overridesubdomain":"couchdb-cloud"
             },
