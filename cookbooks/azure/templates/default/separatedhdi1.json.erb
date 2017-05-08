@@ -274,8 +274,8 @@
                 }
               },
               "virtualNetworkProfile": {
-                "id": "[concat(resourceGroup().id,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
-                "subnet": "[concat(resourceGroup().id,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
+                "id": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
+                "subnet": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
               },
               "scriptActions": []
             },
@@ -293,8 +293,8 @@
                 }
               },
               "virtualNetworkProfile": {
-                "id": "[concat(resourceGroup().id,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
-                "subnet": "[concat(resourceGroup().id,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
+                "id": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
+                "subnet": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
               },
               "scriptActions": []
             },
@@ -312,8 +312,8 @@
                 }
               },
               "virtualNetworkProfile": {
-                "id": "[concat(resourceGroup().id,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
-                "subnet": "[concat(resourceGroup().id,'providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
+                "id": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
+                "subnet": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
               },
               "scriptActions": []
             }
