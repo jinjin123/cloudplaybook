@@ -207,17 +207,6 @@
           ],
           "ports": "9088:8080"
         },
-        "wmserver": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps/ROOT",
-            "/etc/localtime:/etc/localtime:ro"
-          ],
-          "ports": "9089:8080",
-          "overridesubdomain": "takeaway-wm"
-        },
         "reportingsys": {
           "tag": "latest",
           "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
@@ -245,7 +234,8 @@
             "/etc/localtime:/etc/localtime:ro",
             "/bin/vi:/bin/vi"
           ],
-          "ports": "9092:8080"
+          "ports": "9092:8080",
+          "overridesubdomain": "takeaway-wm"
         },
         "bootproxy":{
           "tag":"stable-alpine",
