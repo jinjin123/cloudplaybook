@@ -174,7 +174,7 @@
             "bootproxy":{
                "tag":"stable-alpine",
                "image":"daocloud.io/library/nginx",
-               "mountlocal":"localdir",
+               "mountlocal":"multipledir",
                "mountdocker": [
                  "/home/sparkpad/code/bootproxy:/etc/nginx/conf.d/",
                  "/etc/letsencrypt/archive/:/root"
