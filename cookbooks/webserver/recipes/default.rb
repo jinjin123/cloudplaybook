@@ -112,8 +112,12 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
     if (not (defined?(docker[:mountlocal])).nil?) && (not "#{docker[:mountlocal]}" == "")
       # Preparing directory
       if localfolder.eql?("bootproxy")
-        dir_name = "#{node[:deploycode][:basedirectory]}../bootproxy"
-        node.default["bindvolume"] = [ "#{node[:deploycode][:basedirectory]}../bootproxy:#{docker[:mountdocker]}" ]
+        if docker[:mountlocal].eql?("multipledir")
+          node.default["bindvolume"] = docker[:mountdocker]
+        else
+          dir_name = "#{node[:deploycode][:basedirectory]}../bootproxy"
+          node.default["bindvolume"] = [ "#{node[:deploycode][:basedirectory]}../bootproxy:#{docker[:mountdocker]}" ]
+        end
       elsif docker[:mountlocal].eql?("localdir")
         #Override dir to custom url
         dir_name = "#{node[:deploycode][:basedirectory]}#{localfolder}"
