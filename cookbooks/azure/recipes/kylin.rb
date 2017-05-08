@@ -237,6 +237,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
 
+    containerName = "container#{kylin[:identifier]}"
+    if (not (defined?(kylin[:containerName])).nil?) && (not "#{kylin[:containerName]}" == "")
+      if ! kylin[:containerName].eql?("default")
+        containerName = kylin[:containerName]
+      end
+    end
+
     metastoreName = "metastore#{kylin[:identifier]}"
     if (not (defined?(kylin[:metastoreName])).nil?) && (not "#{kylin[:metastoreName]}" == "")
       if ! kylin[:metastoreName].eql?("default")
