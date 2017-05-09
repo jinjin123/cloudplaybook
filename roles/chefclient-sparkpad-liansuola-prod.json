@@ -120,15 +120,11 @@
           "branch": "master"
         },
         "orderserver": {
-          "giturl": "git@git.coding.net:keithyau/orderserver.git",
+          "giturl": "git@git.coding.net:shiyang1983/orderserver.git",
           "branch": "master"
         },
         "wmserver": {
-          "giturl": "git@git.coding.net:keithyau/WMServer.git",
-          "branch": "master"
-        },
-        "takeaway-order":{
-          "giturl": "git@git.coding.net:shiyang1983/VM-Server.git",
+          "giturl": "git@git.coding.net:shiyang1983/wmserver.git",
           "branch": "master"
         },
         "reportingsys": {
@@ -225,17 +221,16 @@
           ],
           "ports": "9091:8080"
         },
-        "takeaway-order": {
+        "wmserver": {
           "tag": "latest",
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/takeaway-order:/usr/local/tomcat/webapps/ROOT",
+            "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps/ROOT",
             "/etc/localtime:/etc/localtime:ro",
             "/bin/vi:/bin/vi"
           ],
-          "ports": "9092:8080",
-          "overridesubdomain": "takeaway-wm"
+          "ports": "9092:8080"
         },
         "bootproxy":{
           "tag":"stable-alpine",
