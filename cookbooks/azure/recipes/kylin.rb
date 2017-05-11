@@ -153,6 +153,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif scheme.eql?("separated")
 
+    clusterType1 = "hbase"
+    clusterType2 = "hadoop"
+
     # Setting vnetName if not set
     vnetName = "vnet#{kylin[:identifier]}"
     if (not (defined?(kylin[:vnetName])).nil?) && (not "#{kylin[:vnetName]}" == "")
@@ -518,6 +521,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       execute 'create_hdi1' do
         command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/separatedhdi1.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
+        ignore_failure true
+      end
+      execute 'config_hdi1' do
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode -p \"#{kylin[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> /root/.azure/azure.err"
         ignore_failure true
       end
     end
