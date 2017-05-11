@@ -167,7 +167,7 @@
           "mountdocker":"/var/lib/mysql"
         },
         "de": {
-          "tag":"7.0.17_v4",
+          "tag":"7.1.4_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-de"],
           "mountlocal":"localdir",
@@ -175,7 +175,7 @@
           "ports": "9081:80"
         },
         "erp": {
-          "tag":"7.0.17_v4",
+          "tag":"7.1.4_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-erp"],
           "mountlocal":"localdir",
@@ -183,7 +183,7 @@
           "ports": "9082:80"
         },
         "crm": {
-          "tag":"7.0.17_v4",
+          "tag":"7.1.4_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-crm"],
           "mountlocal":"localdir",
@@ -191,7 +191,7 @@
           "ports": "9083:80"
         },
         "pmt": {
-          "tag":"7.0.17_v4",
+          "tag":"7.1.4_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-pmt"],
           "mountlocal":"localdir",
@@ -199,7 +199,7 @@
           "ports": "9084:80"
         },
         "pmt2": {
-          "tag":"7.0.17_v4",
+          "tag":"7.1.4_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-pmt2"],
           "mountlocal":"localdir",
@@ -207,7 +207,7 @@
           "ports": "9089:80"
         },
         "mkt": {
-          "tag":"7.0.17_v4",
+          "tag":"7.1.4_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-mkt"],
           "mountlocal":"localdir",
