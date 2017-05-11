@@ -250,6 +250,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
 
+    clusterName2 = "#{clusterName}write"
+    if (not (defined?(kylin[:clusterName2])).nil?) && (not "#{kylin[:clusterName2]}" == "")
+      if ! kylin[:clusterName2].eql?("default")
+        clusterName2 = kylin[:clusterName2]
+      end
+    end
+
     containerName = "container#{kylin[:identifier]}"
     if (not (defined?(kylin[:containerName])).nil?) && (not "#{kylin[:containerName]}" == "")
       if ! kylin[:containerName].eql?("default")
@@ -406,7 +413,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       source "separatedhdi.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
-        :clusterName  => "#{clusterName}_write",
+        :clusterName  => clusterName2,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
         :clusterType => clusterType2,
