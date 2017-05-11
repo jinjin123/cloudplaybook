@@ -178,17 +178,27 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
     # Setting storageaccount1 if not set
-    storageaccount1 = "sa1#{kylin[:identifier]}"
+    storageaccount1 = "#{kylin[:identifier]}sa"
+    if (not (defined?(kylin[:storageaccount])).nil?) && (not "#{kylin[:storageaccount]}" == "")
+      if ! kylin[:storageaccount].eql?("default")
+        storageaccount1 = kylin[:storageaccount]
+      end
+    end
     if (not (defined?(kylin[:storageaccount1])).nil?) && (not "#{kylin[:storageaccount1]}" == "")
       if ! kylin[:storageaccount1].eql?("default")
         storageaccount1 = kylin[:storageaccount1]
       end
     end
     # Setting storageaccount2 if not set
-    storageaccount2 = "sa2#{kylin[:identifier]}"
+    storageaccount2 = "#{kylin[:identifier]}saw"
+    if (not (defined?(kylin[:storageaccount])).nil?) && (not "#{kylin[:storageaccount]}" == "")
+      if ! kylin[:storageaccount].eql?("default")
+        storageaccount2 = kylin[:storageaccount]
+      end
+    end
     if (not (defined?(kylin[:storageaccount2])).nil?) && (not "#{kylin[:storageaccount2]}" == "")
       if ! kylin[:storageaccount2].eql?("default")
-        storageaccount1 = kylin[:storageaccount2]
+        storageaccount2 = kylin[:storageaccount2]
       end
     end
 
@@ -350,8 +360,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
 
-    template "#{basedir}azure/#{identifier}/separatedhdi1.#{identifier}.json" do
-      source "separatedhdi1.json.erb"
+    template "#{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json" do
+      source "separatedhdi.json.erb"
       variables(
         :accountregion => accountregion
       )
@@ -362,14 +372,15 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       group "root"
       action :create
     end
-    template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
+    # Creating first cluster, hbase HDI node
+    template "#{basedir}azure/#{identifier}/separatedhdi.parameters.#{identifier}.json" do
       source "separatedhdi1.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
         :clusterName  => clusterName,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
-        :clusterType => kylin[:clusterType],
+        :clusterType => clusterType1,
         :clusterVersion => kylin[:clusterVersion],
         :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
         :containerName => containerName,
@@ -390,7 +401,35 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       group "root"
       action :create
     end
-
+    # Creating second cluster, hadoop HDI node
+    template "#{basedir}azure/#{identifier}/separatedhdi.parameters.#{identifier}.json" do
+      source "separatedhdi2.parameters.json.erb"
+      variables(
+        :appType => kylin[:appType],
+        :clusterName  => "#{clusterName}_write",
+        :clusterLoginUserName => kylin[:clusterLoginUserName],
+        :clusterLoginPassword => kylin[:clusterLoginPassword],
+        :clusterType => clusterType2,
+        :clusterVersion => kylin[:clusterVersion],
+        :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
+        :containerName => containerName,
+        :edgeNodeSize => kylin[:edgeNodeSize],
+        :location => kylin[:region],
+        :metastoreName => metastoreName,
+        :sshUserName => sshUserName,
+        :sshPassword => sshPassword,
+        :storageAccount => storageaccount2,
+        :sqlvirtualMachinesname => sqlvirtualMachinesname,
+        :vnetName => vnetName,
+        :subnet1Name => subnet1Name
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
   end
 end
 
@@ -519,12 +558,17 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         ignore_failure true
       end
       execute 'create_hdi1' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/separatedhdi1.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       execute 'config_hdi1' do
         command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode -p \"#{kylin[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> /root/.azure/azure.err"
+        ignore_failure true
+      end
+      execute 'create_hdi2' do
+        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
     end
