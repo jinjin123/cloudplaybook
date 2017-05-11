@@ -373,8 +373,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
     # Creating first cluster, hbase HDI node
-    template "#{basedir}azure/#{identifier}/separatedhdi.parameters.#{identifier}.json" do
-      source "separatedhdi1.parameters.json.erb"
+    template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
+      source "separatedhdi.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
         :clusterName  => clusterName,
@@ -402,8 +402,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
     # Creating second cluster, hadoop HDI node
-    template "#{basedir}azure/#{identifier}/separatedhdi.parameters.#{identifier}.json" do
-      source "separatedhdi2.parameters.json.erb"
+    template "#{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json" do
+      source "separatedhdi.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
         :clusterName  => "#{clusterName}_write",
