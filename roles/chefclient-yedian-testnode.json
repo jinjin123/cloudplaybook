@@ -103,9 +103,10 @@
       "yedian_ktv":{
         "tag":"v7.8.0",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_KTV_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/ktv_backend:/var/www/ktv_backend"
+          "/home/azureuser/web/ktv_backend:/var/www/html"
         ],
         "ports":"3000:3000",
         "network_mode":"host"
@@ -113,9 +114,10 @@
       "yedian_compliance":{
         "tag":"v7.8.0",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_compliance_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/compliance_backend:/var/www/compliance_backend"
+          "/home/azureuser/web/compliance_backend:/var/www/html"
         ],
         "ports":"3003:3003",
         "network_mode":"host"
@@ -123,9 +125,10 @@
       "yedian_cms":{
         "tag":"v7.8.0",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_cms_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/cms_backend:/var/www/cms_backend"
+          "/home/azureuser/web/cms_backend:/var/www/html"
         ],
         "ports":"3008:3008",
         "network_mode":"host"
@@ -133,9 +136,10 @@
       "yedian_user":{
         "tag":"v7.8.0",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_user_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/user_backend:/var/www/user_backend"
+          "/home/azureuser/web/user_backend:/var/www/html"
         ],
         "ports":"3009:3009",
         "network_mode":"host"
@@ -143,9 +147,10 @@
       "yedian_venues":{
         "tag":"v7.8.0",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_venues_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/venues_backend:/var/www/venues_backend"
+          "/home/azureuser/web/venues_backend:/var/www/html"
         ],
         "ports":"3007:3007",
         "network_mode":"host"
@@ -153,9 +158,10 @@
       "yedian_auditing":{
         "tag":"v7.8.0",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_auditing_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/auditing_backend:/var/www/auditing_backend"
+          "/home/azureuser/web/auditing_backend:/var/www/html"
         ],
         "ports":"3019:3019",
         "network_mode":"host"
@@ -163,9 +169,10 @@
       "yedian_payment":{
         "tag":"v7.8.0",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_payment_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/payment_backend:/var/www/payment_backend"
+          "/home/azureuser/web/payment_backend:/var/www/html"
         ],
         "ports":"3018:3018",
         "network_mode":"host"
@@ -173,9 +180,10 @@
       "yedian_operator_core":{
         "tag":"v7.8.0_v1",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_operator_core_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/operator_backend:/var/www/operator_backend"
+          "/home/azureuser/web/operator_backend:/var/www/html"
         ],
         "ports":"4000:4000",
         "network_mode":"host"
@@ -183,9 +191,10 @@
       "yedian_operator_core_div":{
         "tag":"v7.8.0",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_operator_core_div_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/operator_backend:/var/www/operator_backend"
+          "/home/azureuser/web/operator_backend:/var/www/html"
         ],
         "ports":"4003:4003",
         "network_mode":"host"
@@ -193,9 +202,10 @@
       "yedian_message_server":{
         "tag":"v7.8.0_v1",
         "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_message_server_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/message_backend:/var/www/message_backend"
+          "/home/azureuser/web/message_backend:/var/www/html"
         ],
         "ports":"3001:3001",
         "network_mode":"host"

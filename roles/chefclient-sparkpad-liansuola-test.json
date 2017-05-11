@@ -76,6 +76,20 @@
               "dbpass": "thomas123"
             }
           },
+          "pmt2": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "liansuola_mysql",
+              "dbuser": "root",
+              "dbpass": "thomas123"
+            }
+          },
           "mkt": {
             "folders": {
               "sites/default/files" : "777",
@@ -108,6 +122,10 @@
         },
         "pmt": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
+          "branch": "master"
+        },
+        "pmt2": {
+          "giturl": "git@git.coding.net:wenxing/payment.git",
           "branch": "master"
         },
         "mkt": {
@@ -179,6 +197,14 @@
           "mountlocal":"localdir",
           "mountdocker": "/var/www/html",
           "ports": "9084:80"
+        },
+        "pmt2": {
+          "tag":"7.0.17_v2",
+          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-pmt2"],
+          "mountlocal":"localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9089:80"
         },
         "mkt": {
           "tag":"7.0.17_v2",
