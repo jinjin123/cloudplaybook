@@ -177,7 +177,6 @@
     "recipe[build-essential]",
     "recipe[basicservice]",
     "recipe[deploycode]",
-    "recipe[configs]",
     "recipe[webserver]"
   ],
   "env_run_lists":{
