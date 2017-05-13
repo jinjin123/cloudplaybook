@@ -169,9 +169,6 @@
         }
       }
     },
-    "override_attributes":{
-
-    },
     "chef_type":"role",
     "run_list":[
       "recipe[git]",
@@ -182,6 +179,6 @@
     ],
     "env_run_lists":{
 
-    }  
+    }
   }
 }
