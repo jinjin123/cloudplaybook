@@ -184,13 +184,13 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
     end
   end
 
-  file dir + "/ping.html" do
-    content '<html></html>'
-    mode 0600
-    owner node[:deploycode][:code_owner]
-    group node[:deploycode][:code_group]
-    action :create
-  end
+  # file dir + "/ping.html" do
+  #   content '<html></html>'
+  #   mode 0600
+  #   owner node[:deploycode][:code_owner]
+  #   group node[:deploycode][:code_group]
+  #   action :create
+  # end
 
   #update changes to docker
   docker_container "#{node[:projectname]}_" + localfolder do
