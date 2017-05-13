@@ -340,6 +340,12 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
       if (not (defined?(docker[:customdomainprefix])).nil?) && (not "#{docker[:customdomainprefix]}" == "")
         domainprefixset = docker[:customdomainprefix]
       end
+
+      domainsuffixset = node[:domainsuffix]
+      if (not (defined?(docker[:customdomainsuffix])).nil?) && (not "#{docker[:customdomainsuffix]}" == "")
+        domainsuffixset = docker[:customdomainsuffix]
+      end
+
       if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
         if docker[:overridesubdomain].eql?("www")
           domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]} #{node[:domainname]}"
@@ -347,7 +353,11 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]}"
         end
       else
-        domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
+        if (not (defined?(domainprefixset)).nil?) && (not "#{domainprefixset}" == "")
+          domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
+        elsif (not (defined?(domainsuffixset)).nil?) && (not "#{domainsuffixset}" == "")
+          domainstring = "#{node[:domainname]}.#{domainsuffixset}#{localfolder}"
+        end
       end
       if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
         next if docker[:network_mode].eql?("host")
