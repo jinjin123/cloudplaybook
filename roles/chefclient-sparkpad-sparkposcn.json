@@ -1,0 +1,62 @@
+{
+   "name":"chefclient-sparkpad-sparkposcn",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"sparkpad",
+      "externalmode":"bootproxy",
+      "domainname":"sparkpos.cn",
+      "deploycode":{
+        "basedirectory":"/home/sparkpad/code/sparkpad/",
+        "configuration": {
+          "general": {
+            "bootproxy":{
+              "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+            }
+          }
+        },
+        "localfolder":{
+            "sparkposcn":{
+              "giturl": "git@git.coding.net:chankongching/sparkpos.cn.git",
+              "branch": "master"
+            },
+            "bootproxy":"nodownload"
+         },
+         "runtime":{
+            "sparkposcn":{
+                "tag":"stable-alpine",
+                "image":"daocloud.io/library/nginx",
+                "mountlocal":"localdir",
+                "mountdocker":"/usr/share/nginx/html",
+                "overridesubdomain":"www",
+                "ports":"7051:80"
+            },
+            "bootproxy":{
+               "tag":"stable-alpine",
+               "image":"daocloud.io/library/nginx",
+               "mountlocal":"localdir",
+               "mountdocker":"/etc/nginx/conf.d/",
+               "ports":[
+                  "80:80"
+               ]
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[deploycode]",
+      "recipe[configs]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}
