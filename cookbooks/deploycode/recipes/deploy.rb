@@ -201,6 +201,9 @@ if (not (defined?(node[:deploycode][:localfolder])).nil?) && (not "#{[:deploycod
       ignore_failure true
     end
   end
+else
+  Chef::Log.fatal('localfolder variable is empty')
+  raise
 end
 
 if (not (defined?(node[:monitoring])).nil?) && (not "#{node[:monitoring]}" == "")
