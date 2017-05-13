@@ -1,5 +1,5 @@
 {
-  "name":"chefclient-yedian-testnode",
+  "name":"chefclient-yedian-dev",
   "description":"Role json file for starting and maintaining for yedian backend",
   "json_class":"Chef::Role",
   "deployuser":"root",
@@ -14,197 +14,154 @@
   },
   "deploycode":{
     "basedirectory":"/home/azureuser/web",
-    "configuration":{
-      "general":{
-        "yedian_web":{
-          "yd-web":"/etc/nginx/nginx.conf"
-        },
-        "yedian_backend":{
-          "yd-backend":"/etc/nginx/nginx.conf"
-        }
-      }
-    },
     "localfolder":{
-      "cms_web":{
-        "giturl":"git@github.com:ab-inbev/APAC_Yedian_CMS_frontend.git",
-        "branch":"master"
-      },
-      "operator_web":{
-        "giturl":"git@github.com:ab-inbev/APAC_Yedian_Operator_frontend.git",
-        "branch":"master"
-      },
-      "Merchant_web":{
-        "giturl":"git@github.com:ab-inbev/APAC_Yedian_Merchant_WebApp_Frontend.git",
-        "branch":"master"
-      },
-      "cms_backend":{
+      "dev_cms_backend":{
         "giturl":"git@github.com:ab-inbev/APAC_Yedian_CMS_backend.git",
         "branch":"master"
       },
-      "ktv_backend":{
+      "dev_ktv_backend":{
         "giturl":"git@github.com:ab-inbev/APAC_Yedian_KTV_Core_Backend.git",
         "branch":"master"
       },
-      "operator_backend":{
+      "dev_operator_core_backend":{
         "giturl":"git@github.com:ab-inbev/APAC_Yedian_Operator_Core.git",
         "branch":"master"
       },
-      "operator_div_backend":{
+      "dev_operator_core_div_backend":{
         "giturl":"git@github.com:ab-inbev/APAC_Yedian_Operator_Core.git",
         "branch":"development_new"
       },
-      "payment_backend":{
+      "dev_payment_backend":{
         "giturl":"git@github.com-payment:ab-inbev/APAC_Yedian_Payment.git",
         "branch":"master"
       },
-      "message_backend":{
+      "dev_message_backend":{
         "giturl":"git@github.com:airplake/message-distributing-center.git",
         "branch":"master"
       },
-      "auditing_backend":{
+      "dev_auditing_backend":{
         "giturl":"git@github.com-auditing:ab-inbev/APAC_Yedian_Auditing.git",
         "branch":"master"
       },
-      "venues_backend":{
+      "dev_venues_backend":{
         "giturl":"git@github.com:ab-inbev/APAC_Yedian_Venues_Core.git",
         "branch":"master"
       },
-      "user_backend":{
+      "dev_user_backend":{
         "giturl":"git@github.com:ab-inbev/APAC_Yedian_User_Core.git",
         "branch":"master"
       },
-      "compliance_backend":{
+      "dev_compliance_backend":{
         "giturl":"git@github.com:ab-inbev/APAC-Yedian-Compliance-Center.git",
         "branch":"master"
-      },
-      "bootproxy":"nodownload"
+      }
     },
     "runtime":{
-      "yedian_web":{
-        "tag":"stable-alpine",
-        "image":"daocloud.io/library/nginx",
-        "mountlocal":"multipledir",
-        "mountdocker":[
-          "/home/azureuser/web/Merchant_web:/var/www/Merchant_web",
-          "/home/azureuser/web/operator_web:/var/www/operator_web",
-          "/home/azureuser/web/cms_web:/var/www/cms_web"
-        ],
-        "ports":"90:90",
-        "network_mode":"host"
-      },
-      "yedian_backend":{
-        "tag":"stable-alpine",
-        "image":"daocloud.io/library/nginx",
-        "mountlocal":"localdir",
-        "mountdocker":"/etc/nginx",
-        "ports":"100:100",
-        "network_mode":"host"
-      },
-      "yedian_ktv":{
+      "dev_ktv_backend":{
         "tag":"v7.8.0",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_KTV_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/ktv_backend:/var/www/html"
+          "/home/azureuser/web/dev_ktv_backend:/var/www/html"
         ],
         "ports":"3000:3000",
         "network_mode":"host"
       },
-      "yedian_compliance":{
+      "dev_compliance_backend":{
         "tag":"v7.8.0",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_compliance_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/compliance_backend:/var/www/html"
+          "/home/azureuser/web/dev_compliance_backend:/var/www/html"
         ],
         "ports":"3003:3003",
         "network_mode":"host"
       },
-      "yedian_cms":{
+      "dev_cms_backend":{
         "tag":"v7.8.0",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_cms_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/cms_backend:/var/www/html"
+          "/home/azureuser/web/dev_cms_backend:/var/www/html"
         ],
         "ports":"3008:3008",
         "network_mode":"host"
       },
-      "yedian_user":{
+      "dev_user_backend":{
         "tag":"v7.8.0",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_user_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/user_backend:/var/www/html"
+          "/home/azureuser/web/dev_user_backend:/var/www/html"
         ],
         "ports":"3009:3009",
         "network_mode":"host"
       },
-      "yedian_venues":{
+      "dev_venues_backend":{
         "tag":"v7.8.0",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_venues_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/venues_backend:/var/www/html"
+          "/home/azureuser/web/dev_venues_backend:/var/www/html"
         ],
         "ports":"3007:3007",
         "network_mode":"host"
       },
-      "yedian_auditing":{
+      "dev_auditing_backend":{
         "tag":"v7.8.0",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_auditing_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/auditing_backend:/var/www/html"
+          "/home/azureuser/web/dev_auditing_backend:/var/www/html"
         ],
         "ports":"3019:3019",
         "network_mode":"host"
       },
-      "yedian_payment":{
+      "dev_payment_backend":{
         "tag":"v7.8.0",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_payment_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/payment_backend:/var/www/html"
+          "/home/azureuser/web/dev_payment_backend:/var/www/html"
         ],
         "ports":"3018:3018",
         "network_mode":"host"
       },
-      "yedian_operator_core":{
+      "dev_operator_core_backend":{
         "tag":"v7.8.0_v1",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_operator_core_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/operator_backend:/var/www/html"
+          "/home/azureuser/web/dev_operator_core_backend:/var/www/html"
         ],
         "ports":"4000:4000",
         "network_mode":"host"
       },
-      "yedian_operator_core_div":{
+      "dev_operator_core_div_backend":{
         "tag":"v7.8.0",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "env":["NEWRELICKEY=aa05b4ba9e64f4663a6222910990c1652ecb1af1","NEWRELICAPPNAME=YD_operator_core_div_Testing"],
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/operator_backend:/var/www/html"
+          "/home/azureuser/web/dev_operator_core_div_backend:/var/www/html"
         ],
         "ports":"4003:4003",
         "network_mode":"host"
       },
-      "yedian_message_server":{
+      "dev_message_backend":{
         "tag":"v7.8.0_v1",
-        "image":"dockerpriv.shadowdock.com/keithyau/yediannode",
+        "image":"dockerpriv.shadowdock.com/keithyau/ydnode",
         "mountlocal":"multipledir",
         "mountdocker":[
-          "/home/azureuser/web/message_backend:/var/www/html"
+          "/home/azureuser/web/dev_message_backend:/var/www/html"
         ],
         "ports":"3001:3001",
         "network_mode":"host"
@@ -219,9 +176,7 @@
     "recipe[git]",
     "recipe[build-essential]",
     "recipe[basicservice]",
-    "recipe[deploycode]",
-    "recipe[configs]",
-    "recipe[webserver]"
+    "recipe[deploycode]"
   ],
   "env_run_lists":{
 
