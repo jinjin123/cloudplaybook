@@ -2,7 +2,7 @@
   "name":"chefclient-yedian-dev",
   "description":"Role json file for starting and maintaining for yedian backend",
   "json_class":"Chef::Role",
-    "default_attributes": {
+  "default_attributes": {
     "deployuser":"root",
     "deploygroup":"root",
     "projectname":"yedian",
@@ -168,17 +168,18 @@
           "network_mode":"host"
         }
       }
-    },
-    "chef_type":"role",
-    "run_list":[
-      "recipe[git]",
-      "recipe[build-essential]",
-      "recipe[basicservice]",
-      "recipe[deploycode]",
-      "recipe[webserver]"
-    ],
-    "env_run_lists":{
-
     }
+  },
+  "override_attributes": {},
+  "chef_type":"role",
+  "run_list":[
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[deploycode]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists":{
+
   }
 }
