@@ -111,32 +111,64 @@ end
 basedir = node[:deploycode][:basedirectory]
 
 #Create directory
-
-if (not (defined?(node[:deploycode][:localfolder])).nil?) && (not "#{[:deploycode][:localfolder]}" == "")
-  node[:deploycode][:localfolder].each do |localfolder,giturl|
-    next if localfolder.include?("nocreatefolder")
-    directory basedir + localfolder do
-      recursive true
-      owner node[:deploycode][:code_owner]
-      group node[:deploycode][:code_group]
-      mode '0777'
-      action :create
-    end
+node[:deploycode][:localfolder].each do |localfolder,giturl|
+  next if localfolder.include?("nocreatefolder")
+  directory basedir + localfolder do
+    recursive true
+    owner node[:deploycode][:code_owner]
+    group node[:deploycode][:code_group]
+    mode '0777'
+    action :create
   end
+end
 
-  #include_recipe 'deploycode::clone_repo'
+#include_recipe 'deploycode::clone_repo'
 
-  node[:deploycode][:localfolder].each do |localfolder,gitinfo|
-    dir = basedir + localfolder
-      #Dont git pull if it is not a git project
-      next if gitinfo.include?("nodownload")
-    if ! Dir.exist? dir + "/.git"
+node[:deploycode][:localfolder].each do |localfolder,gitinfo|
+  dir = basedir + localfolder
+    #Dont git pull if it is not a git project
+    next if gitinfo.include?("nodownload")
+  if ! Dir.exist? dir + "/.git"
+    execute "clear_directory" do
+      command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
+      cwd dir
+      #notifies :sync, "git[clone_repo_local]", :immediately
+    end
+    git "clone_repo_new" do
+      user node[:deploycode][:code_owner]
+      group node[:deploycode][:code_group]
+      repository gitinfo[:giturl]
+      depth 10
+      retries 1
+      retry_delay 10
+      action :sync
+      destination dir
+      revision gitinfo[:branch]
+      checkout_branch gitinfo[:branch] #The name of the checkouted branch
+      enable_checkout true
+    end
+  else
+    #contents = File.read( dir + "/.git/config")
+    if File.readlines(dir + "/.git/config").grep(/#{gitinfo[:giturl]}/).any?
+      git "pull_repo" do
+        user node[:deploycode][:code_owner]
+        group node[:deploycode][:code_group]
+        retries 3
+        retry_delay 10
+        repository gitinfo[:giturl]
+        revision gitinfo[:branch]
+        checkout_branch gitinfo[:branch] #The name of the checkouted branch
+        enable_checkout true
+        action :sync
+        destination dir
+      end
+    else
       execute "clear_directory" do
         command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
         cwd dir
         #notifies :sync, "git[clone_repo_local]", :immediately
       end
-      git "clone_repo_new" do
+      git "clone_repo_remove_existing" do
         user node[:deploycode][:code_owner]
         group node[:deploycode][:code_group]
         repository gitinfo[:giturl]
@@ -149,61 +181,23 @@ if (not (defined?(node[:deploycode][:localfolder])).nil?) && (not "#{[:deploycod
         checkout_branch gitinfo[:branch] #The name of the checkouted branch
         enable_checkout true
       end
-    else
-      #contents = File.read( dir + "/.git/config")
-      if File.readlines(dir + "/.git/config").grep(/#{gitinfo[:giturl]}/).any?
-        git "pull_repo" do
-          user node[:deploycode][:code_owner]
-          group node[:deploycode][:code_group]
-          retries 3
-          retry_delay 10
-          repository gitinfo[:giturl]
-          revision gitinfo[:branch]
-          checkout_branch gitinfo[:branch] #The name of the checkouted branch
-          enable_checkout true
-          action :sync
-          destination dir
-        end
-      else
-        execute "clear_directory" do
-          command 'for x in `ls -a`;do if [ $x != "." ] && [ $x != ".." ];then rm -rf $x;fi; done'
-          cwd dir
-          #notifies :sync, "git[clone_repo_local]", :immediately
-        end
-        git "clone_repo_remove_existing" do
-          user node[:deploycode][:code_owner]
-          group node[:deploycode][:code_group]
-          repository gitinfo[:giturl]
-          depth 10
-          retries 1
-          retry_delay 10
-          action :sync
-          destination dir
-          revision gitinfo[:branch]
-          checkout_branch gitinfo[:branch] #The name of the checkouted branch
-          enable_checkout true
-        end
-      end
-    end
-
-    # file dir + "/ping.html" do
-    #   content '<html></html>'
-    #   mode 0600
-    #   owner node[:deploycode][:code_owner]
-    #   group node[:deploycode][:code_group]
-    #   action :create
-    # end
-
-    #update changes to docker
-    docker_container "#{node[:projectname]}_" + localfolder do
-      action :restart
-      kill_after 5
-      ignore_failure true
     end
   end
-else
-  Chef::Log.fatal('localfolder variable is empty')
-  raise
+
+  # file dir + "/ping.html" do
+  #   content '<html></html>'
+  #   mode 0600
+  #   owner node[:deploycode][:code_owner]
+  #   group node[:deploycode][:code_group]
+  #   action :create
+  # end
+
+  #update changes to docker
+  docker_container "#{node[:projectname]}_" + localfolder do
+    action :restart
+    kill_after 5
+    ignore_failure true
+  end
 end
 
 if (not (defined?(node[:monitoring])).nil?) && (not "#{node[:monitoring]}" == "")
