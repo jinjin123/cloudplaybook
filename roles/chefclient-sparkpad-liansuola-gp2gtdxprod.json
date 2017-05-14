@@ -38,6 +38,14 @@
           "giturl": "git@gitlab.com:Sparkpad/SparkPos-GP-Kindee.git",
           "branch": "gp"
         },
+        "oc": {
+          "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
+          "branch": "master"
+        },
+        "reportingsys": {
+          "giturl": "git@git.coding.net:chankongching/reports.git",
+          "branch": "liansuola"
+        },
         "bootproxy":"nodownload"
       },
       "runtime": {
@@ -48,6 +56,25 @@
           "mountdocker": "/var/www/html",
           "ports": "9082:80",
           "customdomainsuffix": ".gtdx"
+        },
+        "oc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/oc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9086:8080",
+          "customdomainsuffix": ".gtdx"
+        },
+        "reportingsys": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html/",
+          "ports": "9090:80",
+          "overridesubdomain":"reports"
         },
         "bootproxy":{
           "tag":"stable-alpine",
