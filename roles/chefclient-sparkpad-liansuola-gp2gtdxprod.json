@@ -30,6 +30,21 @@
               "dbpass": "thomas123",
               "dbname": "gtdxerp"
             }
+          },
+          "oc": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123",
+              "dbname": "gtdxoc"
+            }
           }
         }
       },
@@ -38,8 +53,8 @@
           "giturl": "git@gitlab.com:Sparkpad/SparkPos-GP-Kindee.git",
           "branch": "gp"
         },
-        "oc": {
-          "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
+        "oc":{
+          "giturl": "git@gitlab.com:Sparkpad/spark-oc.git",
           "branch": "master"
         },
         "reportingsys": {
@@ -59,13 +74,11 @@
           "customdomainsuffix": ".gtdx"
         },
         "oc": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/oc:/usr/local/tomcat/webapps",
-            "/etc/localtime:/etc/localtime:ro"
-          ],
+          "tag": "7.0.17_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=GTDX_OC_GP2"],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
           "ports": "9086:8080",
           "customdomainsuffix": ".gtdx"
         },
