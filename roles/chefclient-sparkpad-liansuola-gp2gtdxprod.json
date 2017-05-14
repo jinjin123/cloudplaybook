@@ -47,7 +47,7 @@
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9082:80",
-          "customdomainsuffix": "gtdx"
+          "customdomainsuffix": ".gtdx"
         },
         "bootproxy":{
           "tag":"stable-alpine",
