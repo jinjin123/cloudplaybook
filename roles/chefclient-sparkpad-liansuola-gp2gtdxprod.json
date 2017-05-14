@@ -79,7 +79,7 @@
           "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=GTDX_OC_GP2"],
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
-          "ports": "9086:8080",
+          "ports": "9086:80",
           "customdomainsuffix": ".gtdx"
         },
         "reportingsys": {
