@@ -250,7 +250,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
 
-    clusterName2 = "write#{clusterName}write"
+    clusterName2 = "write#{clusterName}"
     if (not (defined?(kylin[:clusterName2])).nil?) && (not "#{kylin[:clusterName2]}" == "")
       if ! kylin[:clusterName2].eql?("default")
         clusterName2 = kylin[:clusterName2]
