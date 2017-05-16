@@ -396,7 +396,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :metastoreName => metastoreName,
         :sshUserName => sshUserName,
         :sshPassword => sshPassword,
-        :storageAccount => storageaccount1,
+        :storageAccount1 => storageaccount1,
+        :storageAccount2 => storageaccount2,
         :sqlvirtualMachinesname => sqlvirtualMachinesname,
         :vnetName => vnetName,
         :subnet1Name => subnet1Name
@@ -425,7 +426,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :metastoreName => metastoreName,
         :sshUserName => sshUserName,
         :sshPassword => sshPassword,
-        :storageAccount => storageaccount2,
+        :storageAccount1 => storageaccount2,
+        :storageAccount2 => storageaccount1,
         :sqlvirtualMachinesname => sqlvirtualMachinesname,
         :vnetName => vnetName,
         :subnet1Name => subnet1Name

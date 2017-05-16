@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./runchefclientdocker.sh 20170515000001 '
+./runchefclientdocker.sh 20170516000000 '
 {
     "deployuser": "root",
     "projectname": "kyligence",
@@ -20,7 +20,7 @@
             "password": "Kyligence2016@"
           },
           "kylin": {
-            "identifier": "20170515000001",
+            "identifier": "20170516000000",
             "region": "chinaeast",
             "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
@@ -35,7 +35,7 @@
             "metastoreName": "default",
             "sshUserName": "admintest",
             "sshPassword": "Kyligence2016",
-            "storageAccount": "20170515000001sa"
+            "storageAccount": "20170516000000sa"
           }
         }
       },
