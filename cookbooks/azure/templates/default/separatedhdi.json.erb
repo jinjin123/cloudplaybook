@@ -8,10 +8,16 @@
         "description": "The name of the HDInsight cluster to create."
       }
     },
-    "storageAccount": {
+    "storageAccount1": {
       "type": "string",
       "metadata": {
-        "description": "The name of StorageAccount."
+        "description": "The name of StorageAccount1."
+      }
+    },
+    "storageAccount2": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of StorageAccount2."
       }
     },
     "clusterLoginUserName": {
@@ -167,7 +173,7 @@
   "variables": {
     "defaultApiVersion": "2015-05-01-preview",
     "clusterApiVersion": "2015-03-01-preview",
-    "clusterStorageAccountName": "[parameters('storageAccount')]",
+    "clusterStorageAccountName": "[parameters('storageAccount1')]",
     "applicationName": "KAP",
     "galleryPackageIdentity": "Kyligence",
     "sqlDatabase": {
@@ -177,7 +183,18 @@
   },
   "resources": [
     {
-      "name": "[parameters('storageAccount')]",
+      "name": "[parameters('storageAccount1')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[parameters('location')]",
+      "apiVersion": "[variables('defaultApiVersion')]",
+      "dependsOn": [],
+      "tags": {},
+      "properties": {
+        "accountType": "Standard_LRS"
+      }
+    },
+    {
+      "name": "[parameters('storageAccount2')]",
       "type": "Microsoft.Storage/storageAccounts",
       "location": "[parameters('location')]",
       "apiVersion": "[variables('defaultApiVersion')]",
@@ -241,7 +258,8 @@
       "type": "Microsoft.HDInsight/clusters",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount'))]",
+        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount1'))]",
+        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount2'))]",
         "[concat('Microsoft.Sql/servers/', variables('sqlDatabase').serverName)]",
         "[variables('sqlDatabase').databaseName]",
         "AllowAllAzureIps"
@@ -277,10 +295,16 @@
         "storageProfile": {
           "storageaccounts": [
             {
-              "name": "[concat(parameters('storageAccount'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
+              "name": "[concat(parameters('storageAccount1'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
               "isDefault": true,
               "container": "[parameters('containerName')]",
-              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount')), variables('defaultApiVersion')).key1]"
+              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount1')), variables('defaultApiVersion')).key1]"
+            },
+            {
+              "name": "[concat(parameters('storageAccount2'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
+              "isDefault": true,
+              "container": "[parameters('containerName')]",
+              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount2')), variables('defaultApiVersion')).key1]"
             }
           ]
         },
@@ -329,7 +353,7 @@
               "minInstanceCount": 1,
               "targetInstanceCount": 3,
               "hardwareProfile": {
-                "vmSize": "Large"
+                "vmSize": "Standard_D3_V2"
               },
               "osProfile": {
                 "linuxOperatingSystemProfile": {
