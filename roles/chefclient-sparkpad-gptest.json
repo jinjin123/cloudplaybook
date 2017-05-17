@@ -1,0 +1,207 @@
+{
+   "name":"chefclient-sparkpad-gptest",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"sparkpadgp",
+      "externalmode":"bootproxy",
+      "domainname":"sparkpad-dev.com",
+      "docker": {
+          "privaterepo":"dockerpriv.kybot.io:5002",
+          "username":"keithyau",
+          "password":"thomas123"
+      },
+      "deploycode":{
+        "basedirectory":"/home/sparkpad/code/sparkpad-dev/",
+        "configuration": {
+          "general": {
+            "bootproxy":{
+              "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+            },
+            "de": {
+              "spgp_de.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+            "pmt": {
+              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+            "crm": {
+              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            },
+            "oc": {
+              "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+            }
+          },
+          "drupal" : {
+            "de": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" : "777"
+              },
+              "settings": {
+                "sparkpad-dev-de.settings.php" : "sites/default/settings.php"
+              },
+              "variables" : {
+                "dbhost": "sparkpadgp_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            },
+            "pmt": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" : "777"
+              },
+              "settings": {
+                "general.settings.php" : "sites/default/settings.php"
+              },
+              "variables" : {
+                "dbhost": "sparkpadgp_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            },
+            "crm": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" : "777"
+              },
+              "settings": {
+                "general.settings.php" : "sites/default/settings.php"
+              },
+              "variables" : {
+                "dbhost": "sparkpadgp_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            },
+            "oc": {
+              "folders": {
+                "sites/default/files" : "777",
+                "sites/default/privates" : "777"
+              },
+              "settings": {
+                "general.settings.php" : "sites/default/settings.php"
+              },
+              "variables" : {
+                "dbhost": "sparkpadgp_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            }
+          }
+        },
+        "localfolder":{
+            "mysql":"nodownload",
+            "de":{
+              "giturl": "git@gitlab.com:Sparkpad/spark-de.git",
+              "branch": "master"
+            },
+            "pmt":{
+              "giturl": "git@gitlab.com:Sparkpad/spark-payment-d8.git",
+              "branch": "master"
+            },
+            "crm":{
+              "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
+              "branch": "master"
+            },
+            "oc":{
+              "giturl": "git@gitlab.com:Sparkpad/spark-oc.git",
+              "branch": "master"
+            },
+            "couchdb": "nodownload",
+            "redis": "nodownload",
+            "bootproxy":"nodownload"
+         },
+         "runtime":{
+            "mysql":{
+              "tag":"5.7",
+              "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
+              "env":["MYSQL_ROOT_PASSWORD=thomas123"],
+              "mountlocal":"/home/sparkpad/mysqlsparkpadgp",
+              "mountdocker":"/var/lib/mysql",
+              "ports":"3306:3306"
+            },
+            "redis":{
+              "tag":"latest",
+              "image":"redis"
+            },
+            "de":{
+              "tag":"7.1.4_v3",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-de"],
+              "mountlocal":"multipledir",
+              "mountdocker": [
+                "/home/sparkpad/code/sparkpad-dev/de:/var/www/html",
+                "/var/log/nginx/de.access.log:/var/log/nginx.access.log",
+                "/var/log/nginx/de.error.log:/var/log/nginx.error.log"
+              ],
+              "ports":"7081:443"
+            },
+            "pmt":{
+              "tag":"7.1.4_v3",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-pmt"],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
+              "ports":"7082:443"
+            },
+            "crm":{
+              "tag":"7.1.4_v3",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-crm"],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
+              "ports":"7083:443"
+            },
+            "oc":{
+              "tag":"7.1.4_v3",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=sparkpad-dev-oc"],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
+              "ports":"7084:443"
+            },
+            "couchdb": {
+              "tag":"latest",
+              "image":"klaemo/couchdb",
+              "env":["PATH=/opt/couchdb/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:$PATH","COUCHDB_USER=admin","COUCHDB_PASSWORD=thomas123"],
+              "mountlocal":"localdir",
+              "mountdocker": "/opt/couchdb/data",
+              "ports":"7085:5984",
+              "overridesubdomain":"couchdb-cloud"
+            },
+            "bootproxy":{
+               "tag":"stable-alpine",
+               "image":"daocloud.io/library/nginx",
+               "mountlocal":"multipledir",
+               "mountdocker": [
+                 "/home/sparkpad/code/bootproxy:/etc/nginx/conf.d/",
+                 "/etc/letsencrypt/archive/:/root"
+               ],
+               "ports":[
+                  "80:80",
+                  "443:443",
+                  "5000:5000"
+               ]
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[deploycode]",
+      "recipe[configs]",
+      "recipe[drupalsetting]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}

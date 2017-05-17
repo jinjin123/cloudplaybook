@@ -1,0 +1,156 @@
+{
+   "name":"chefclient-sparkpad-gptv",
+   "description":"",
+   "json_class":"Chef::Role",
+   "default_attributes":{
+      "deployuser":"root",
+      "projectname":"sparkpad",
+      "externalmode":"bootproxy",
+      "domainname":"liansuola.com",
+      "docker": {
+          "privaterepo":"dockerpriv.kybot.io:5002",
+          "username":"keithyau",
+          "password":"thomas123"
+      },
+      "deploycode":{
+        "basedirectory":"/home/sparkpad/code/sparkpad/",
+        "configuration": {
+          "general": {
+            "bootproxy":{
+              "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+            },
+            "sparkpad_tvbackend_drupal":{
+              "tv-php.ini":"/usr/local/php/etc/php.ini"
+            },
+            "sparkpad_tvbackend_drupal_2_0":{
+              "tv-php.ini":"/usr/local/php/etc/php.ini"
+            },
+            "sparkpad_tvbackend_drupal_3_0":{
+              "tv-php.ini":"/usr/local/php/etc/php.ini"
+            }
+          },
+          "drupal" : {
+            "sparkpad_tvbackend_drupal": {
+              "folders": {
+                "sites/default/files": "777",
+                "sites/default/privates": "777"
+              },
+              "settings": {
+                "general.settings.php": "sites/default/settings.php"
+              },
+              "variables": {
+                "dbhost": "sparkpad_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            },
+            "sparkpad_tvbackend_drupal_2_0": {
+              "folders": {
+                "sites/default/files": "777",
+                "sites/default/privates": "777"
+              },
+              "settings": {
+                "general.settings.php": "sites/default/settings.php"
+              },
+              "variables": {
+                "dbhost": "sparkpad_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            },
+            "sparkpad_tvbackend_drupal_3_0": {
+              "folders": {
+                "sites/default/files": "777",
+                "sites/default/privates": "777"
+              },
+              "settings": {
+                "general.settings.php": "sites/default/settings.php"
+              },
+              "variables": {
+                "dbhost": "sparkpad_mysql",
+                "dbuser": "root",
+                "dbpass": "thomas123"
+              }
+            }
+          }
+        },
+        "localfolder": {
+          "mysql": "nodownload",
+          "sparkpad_tvbackend_drupal": {
+            "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
+            "branch": "master"
+          },
+          "sparkpad_tvbackend_drupal_2_0": {
+            "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
+            "branch": "2.0"
+          },
+          "sparkpad_tvbackend_drupal_3_0": {
+            "giturl": "git@git.coding.net:chankongching/sparkpad_tvbackend_drupal.git",
+            "branch": "3.0"
+          },
+          "bootproxy": "nodownload"
+        },
+         "runtime":{
+            "mysql":{
+              "tag":"5.7",
+              "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
+              "env":["MYSQL_ROOT_PASSWORD=thomas123"],
+              "mountlocal":"/home/sparkpad/sparkpadmysql",
+              "mountdocker":"/var/lib/mysql"
+            },
+            "sparkpad_tvbackend_drupal": {
+              "tag": "7.1.4_v4",
+              "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=tv_liansuolaTV"],
+              "mountlocal": "localdir",
+              "mountdocker": "/var/www/html",
+              "ports": "7052:80",
+              "overridesubdomain": "tv"
+            },
+            "sparkpad_tvbackend_drupal_2_0":{
+              "tag":"7.1.4_v4",
+              "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=test2_tv_liansuolaTV"],
+              "mountlocal":"localdir",
+              "mountdocker": "/var/www/html",
+              "ports":"7053:80",
+              "overridesubdomain":"test2-tv"
+            },
+            "sparkpad_tvbackend_drupal_3_0":{
+              "tag": "7.1.4_v4",
+              "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+              "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=test3_tv_liansuolaTV"],
+              "mountlocal": "localdir",
+              "mountdocker": "/var/www/html",
+              "ports": "7054:80",
+              "overridesubdomain": "test3-tv"
+            },
+            "bootproxy":{
+              "tag":"stable-alpine",
+              "image":"daocloud.io/library/nginx",
+              "mountlocal":"localdir",
+              "mountdocker":"/etc/nginx/conf.d/",
+              "ports":[
+                "80:80"
+              ]
+            }
+         }
+      }
+   },
+   "override_attributes":{
+
+   },
+   "chef_type":"role",
+   "run_list":[
+      "recipe[git]",
+      "recipe[build-essential]",
+      "recipe[basicservice]",
+      "recipe[deploycode]",
+      "recipe[configs]",
+      "recipe[drupalsetting]",
+      "recipe[webserver]"
+   ],
+   "env_run_lists":{
+
+   }
+}
