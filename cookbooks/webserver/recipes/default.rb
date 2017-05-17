@@ -336,29 +336,34 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 
       #Skip template create for bootdev proxy
       next if localfolder.eql?("bootproxy")
-      domainprefixset = node[:domainprefix]
-      if (not (defined?(docker[:customdomainprefix])).nil?) && (not "#{docker[:customdomainprefix]}" == "")
-        domainprefixset = docker[:customdomainprefix]
-      end
-
-      domainsuffixset = node[:domainsuffix]
-      if (not (defined?(docker[:customdomainsuffix])).nil?) && (not "#{docker[:customdomainsuffix]}" == "")
-        domainsuffixset = docker[:customdomainsuffix]
-      end
-
-      if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
-        if docker[:overridesubdomain].eql?("www")
-          domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]} #{node[:domainname]}"
-        else
-          domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]}"
-        end
+      if (not (defined?(docker[:customdomainstring])).nil?) && (not "#{docker[:customdomainstring]}" == "")
+        domainstring = docker[:customdomainstring]
       else
-        if (not (defined?(domainprefixset)).nil?) && (not "#{domainprefixset}" == "")
-          domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
-        elsif (not (defined?(domainsuffixset)).nil?) && (not "#{domainsuffixset}" == "")
-          domainstring = "#{localfolder}#{domainsuffixset}.#{node[:domainname]}"
+        domainprefixset = node[:domainprefix]
+        if (not (defined?(docker[:customdomainprefix])).nil?) && (not "#{docker[:customdomainprefix]}" == "")
+          domainprefixset = docker[:customdomainprefix]
+        end
+
+        domainsuffixset = node[:domainsuffix]
+        if (not (defined?(docker[:customdomainsuffix])).nil?) && (not "#{docker[:customdomainsuffix]}" == "")
+          domainsuffixset = docker[:customdomainsuffix]
+        end
+
+        if (not (defined?(docker[:overridesubdomain])).nil?) && (not "#{docker[:overridesubdomain]}" == "")
+          if docker[:overridesubdomain].eql?("www")
+            domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]} #{node[:domainname]}"
+          else
+            domainstring = "#{docker[:overridesubdomain]}.#{node[:domainname]}"
+          end
+        else
+          if (not (defined?(domainprefixset)).nil?) && (not "#{domainprefixset}" == "")
+            domainstring = "#{domainprefixset}#{localfolder}.#{node[:domainname]}"
+          elsif (not (defined?(domainsuffixset)).nil?) && (not "#{domainsuffixset}" == "")
+            domainstring = "#{localfolder}#{domainsuffixset}.#{node[:domainname]}"
+          end
         end
       end
+
       if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
         next if docker[:network_mode].eql?("host")
       end
