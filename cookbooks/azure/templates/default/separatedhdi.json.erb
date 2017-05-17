@@ -302,7 +302,7 @@
             },
             {
               "name": "[concat(parameters('storageAccount2'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
-              "isDefault": true,
+              "isDefault": false,
               "container": "[parameters('containerName')]",
               "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount2')), variables('defaultApiVersion')).key1]"
             }
