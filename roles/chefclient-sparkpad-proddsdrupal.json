@@ -221,8 +221,7 @@
           "mountdocker": [
             "/app/web/erp:/var/www/html"
           ],
-          "ports": "9085:80",
-          "customdomainprefix": "store-"
+          "ports": "9085:80"
         },
         "cc": {
           "tag": "7.1.4_v4",

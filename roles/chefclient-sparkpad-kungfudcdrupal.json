@@ -52,8 +52,8 @@
             },
             "variables" : {
               "dbhost": "172.16.104.95",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           },
           "pmt": {
@@ -66,8 +66,8 @@
             },
             "variables" : {
               "dbhost": "172.16.104.95",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           },
           "crm": {
@@ -80,8 +80,8 @@
             },
             "variables" : {
               "dbhost": "172.16.104.95",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           },
           "mkt": {
@@ -94,8 +94,8 @@
             },
             "variables" : {
               "dbhost": "172.16.104.95",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           },
           "erp": {
@@ -108,8 +108,8 @@
             },
             "variables" : {
               "dbhost": "172.16.104.95",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           },
           "cc": {
@@ -122,8 +122,8 @@
             },
             "variables" : {
               "dbhost": "172.16.104.95",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           }
         }
@@ -221,7 +221,7 @@
           "mountdocker": [
             "/app/web/erp:/var/www/html"
           ],
-          "ports": "9085:80",
+          "ports": "9085:80"
         },
         "cc": {
           "tag": "7.1.4_v4",
@@ -231,7 +231,7 @@
           "mountdocker": [
             "/app/web/cc:/var/www/html"
           ],
-          "ports": "9087:80"
+          "ports": "9086:80"
         },
         "loadbalancer":{
           "tag":"stable-alpine",
