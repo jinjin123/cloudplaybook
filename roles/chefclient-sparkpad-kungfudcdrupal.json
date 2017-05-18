@@ -222,17 +222,6 @@
             "/app/web/erp:/var/www/html"
           ],
           "ports": "9085:80",
-          "customdomainprefix": "store-"
-        },
-        "crmtc": {
-          "tag": "7.1.4_v4",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=KungfuDc_CRMTC_Testing"],
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/app/web/crmtc:/var/www/html"
-          ],
-          "ports": "9086:80"
         },
         "cc": {
           "tag": "7.1.4_v4",
