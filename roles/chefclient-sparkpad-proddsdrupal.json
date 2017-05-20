@@ -135,7 +135,7 @@
         },
         "cc": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-cc.git",
-          "branch": "dianshan-dev"
+          "branch": "dianshang-dev"
         },
         "de": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",

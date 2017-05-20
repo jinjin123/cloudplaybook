@@ -3,9 +3,9 @@ $databases = array (
   'default' => array (
      'default' => array (
         'database' => 'cc',
-        'username' => 'cc',
-        'password' => 'hcbc75921OcWGbn',
-        'host' => '172.16.104.95',
+        'username' => "<%= @username %>",
+        'password' => "<%= @password %>",
+        'host' => "<%= @host %>",
         'port' => '',
         'driver' => 'mysql',
         'prefix' => '',

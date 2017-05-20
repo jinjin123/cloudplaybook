@@ -3,9 +3,9 @@ $databases = array (
   'default' => array (
     'default' => array (
       'database' => 'de',
-      'username' => 'de',
-      'password' => 'sjZv8MBjwg0B',
-      'host' => '172.16.103.127',
+      'username' => "<%= @username %>",
+      'password' => "<%= @password %>",
+      'host' => "<%= @host %>",
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
@@ -14,9 +14,9 @@ $databases = array (
   'erp' => array (
     'default' => array (
       'database' => 'erp',
-      'username' => 'de',
-      'password' => '1nBA2Qt9krXQwl35dyyB',
-      'host' => '172.16.104.95',
+      'username' => "<%= @username %>",
+      'password' => "<%= @password %>",
+      'host' => "<%= @host %>",
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',

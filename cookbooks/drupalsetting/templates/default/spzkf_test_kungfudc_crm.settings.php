@@ -3,9 +3,9 @@ $databases = array (
   'default' => array (
     'default' => array (
       'database' => 'crm',
-      'username' => 'crm',
-      'password' => '8Yoii33D7AHy',
-      'host' => '172.16.103.127',
+      'username' => "<%= @username %>",
+      'password' => "<%= @password %>",
+      'host' => "<%= @host %>",
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',

@@ -14,9 +14,9 @@
     },
     "deploycode": {
       "basedirectory": "/app/web/",
-      "configuration":{
-        "general" : {
-          "bootproxy" : {
+      "configuration": {
+        "general": {
+          "bootproxy": {
             "spzkf_enablenginxlog": "/etc/nginx/nginx.conf"
           },
           "de": {
@@ -44,13 +44,13 @@
         "drupal": {
           "de": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "spzkf_test_kungfudc_de.settings.php" : "sites/default/settings.php"
+              "spzkf_test_kungfudc_de.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "172.16.104.95",
               "dbuser": "root",
               "dbpass": "rofiTKEhk6+d"
@@ -58,13 +58,13 @@
           },
           "pmt": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "spzkf_test_kungfudc_pmt.settings.php" : "sites/default/settings.php"
+              "spzkf_test_kungfudc_pmt.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "172.16.104.95",
               "dbuser": "root",
               "dbpass": "rofiTKEhk6+d"
@@ -72,13 +72,13 @@
           },
           "crm": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "spzkf_test_kungfudc_crm.settings.php" : "sites/default/settings.php"
+              "spzkf_test_kungfudc_crm.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "172.16.104.95",
               "dbuser": "root",
               "dbpass": "rofiTKEhk6+d"
@@ -86,13 +86,13 @@
           },
           "mkt": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "spzkf_test_kungfudc_mkt.settings.php" : "sites/default/settings.php"
+              "spzkf_test_kungfudc_mkt.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "172.16.104.95",
               "dbuser": "root",
               "dbpass": "rofiTKEhk6+d"
@@ -100,13 +100,13 @@
           },
           "erp": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "spzkf_test_kungfudc_erp.settings.php" : "sites/default/settings.php"
+              "spzkf_test_kungfudc_erp.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "172.16.104.95",
               "dbuser": "root",
               "dbpass": "rofiTKEhk6+d"
@@ -114,13 +114,13 @@
           },
           "cc": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "spzkf_test_kungfudc_cc.settings.php" : "sites/default/settings.php"
+              "spzkf_test_kungfudc_cc.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "172.16.104.95",
               "dbuser": "root",
               "dbpass": "rofiTKEhk6+d"
@@ -129,54 +129,54 @@
         }
       },
       "localfolder": {
-        "welcome":{
+        "welcome": {
           "giturl": "git@bitbucket.org:chankongching/bootdev_welcome.git",
           "branch": "master"
         },
         "cc": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-cc.git",
-          "branch": "dianshan-dev"
+          "branch": "dianshang-dev"
         },
         "de": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
           "branch": "commerce"
         },
         "pmt": {
-          "giturl":"git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
           "branch": "dianshang"
         },
         "crm": {
-          "giturl":"git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
           "branch": "dianshang"
         },
         "erp": {
-          "giturl":"git@git.coding.net:keithyau/sparkpad-drupal-backend-erp.git",
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-erp.git",
           "branch": "dev"
         },
         "mkt": {
-          "giturl":"git@git.coding.net:keithyau/sparkpad-drupal-backend-mkt.git",
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-mkt.git",
           "branch": "dianshang"
         },
-        "memcached":"nodownload",
-        "bootproxy":"nodownload",
-        "loadbalancer":"nodownload"
+        "memcached": "nodownload",
+        "bootproxy": "nodownload",
+        "loadbalancer": "nodownload"
       },
       "runtime": {
-        "memcached":{
-          "tag":"latest",
-          "image":"dockerpriv.kybot.io:5002/keithyau/memcached"
+        "memcached": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/memcached"
         },
         "welcome": {
-          "tag":"7.1.4_v4",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "mountlocal":"localdir",
-          "mountdocker":"/var/www/html",
-          "ports":"9080:80"
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9080:80"
         },
         "de": {
           "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=KungfuDc_DE_Testing"],
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=KungfuDc_DE_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/de:/var/www/html"
@@ -186,7 +186,7 @@
         "pmt": {
           "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=KungfuDc_PMT_Testing"],
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=KungfuDc_PMT_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/pmt:/var/www/html"
@@ -196,7 +196,7 @@
         "crm": {
           "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=KungfuDc_CRM_Testing"],
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=KungfuDc_CRM_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/crm:/var/www/html"
@@ -206,7 +206,7 @@
         "mkt": {
           "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=KungfuDc_MKT_Testing"],
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=KungfuDc_MKT_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/mkt:/var/www/html"
@@ -216,7 +216,7 @@
         "erp": {
           "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=KungfuDc_ERP_Testing"],
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=KungfuDc_ERP_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/erp:/var/www/html"
@@ -226,30 +226,30 @@
         "cc": {
           "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=KungfuDc_CC_Testing"],
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=KungfuDc_CC_Testing"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/cc:/var/www/html"
           ],
           "ports": "9086:80"
         },
-        "loadbalancer":{
-          "tag":"stable-alpine",
-          "image":"daocloud.io/library/nginx",
+        "loadbalancer": {
+          "tag": "stable-alpine",
+          "image": "daocloud.io/library/nginx",
           "mountlocal": "multipledir",
           "mountdocker": [
             "/etc/hosts:/etc/hosts",
             "/usr/bin/curl:/usr/bin/curl"
           ],
           "ports": "80:80",
-          "network_mode":"host"
+          "network_mode": "host"
         },
-        "bootproxy":{
-          "tag":"stable-alpine",
-          "image":"daocloud.io/library/nginx",
-          "mountlocal":"localdir",
-          "mountdocker":"/etc/nginx/conf.d/",
-          "ports":[
+        "bootproxy": {
+          "tag": "stable-alpine",
+          "image": "daocloud.io/library/nginx",
+          "mountlocal": "localdir",
+          "mountdocker": "/etc/nginx/conf.d/",
+          "ports": [
             "8888:80"
           ]
         }
