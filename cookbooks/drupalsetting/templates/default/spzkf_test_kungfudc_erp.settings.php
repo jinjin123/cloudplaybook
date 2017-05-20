@@ -40,7 +40,7 @@ $conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
 $conf['memcache_storage_key_prefix'] = 'erp';
 $conf['memcache_storage_debug'] = FALSE;
 $conf['memcache_storage_wildcard_invalidate'] = 60 * 60 * 24 * 1; // 5 days.
-$conf['memcache_servers'] = array('127.0.0.1:11211' => 'default');
+$conf['memcache_servers'] = array('kungfudingcan_memcached:11211' => 'default');
 $conf['memcache_extension'] = 'Memcache';
 /*$conf['memcache_options'] = array(
   Memcached::OPT_TCP_NODELAY => TRUE,
