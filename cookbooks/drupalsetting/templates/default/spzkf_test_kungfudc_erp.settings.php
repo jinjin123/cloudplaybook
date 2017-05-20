@@ -33,20 +33,20 @@ $conf['404_fast_paths_exclude'] = '/\/(?:styles)|(?:system\/files)\//';
 $conf['404_fast_paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';
 $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
 /**/
-$conf['cache_backends'][] = 'sites/all/modules/memcache_storage/memcache_storage.inc';
-$conf['cache_default_class'] = 'MemcacheStorage';
-$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
-$conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
-$conf['memcache_storage_key_prefix'] = 'erp';
-$conf['memcache_storage_debug'] = FALSE;
-$conf['memcache_storage_wildcard_invalidate'] = 60 * 60 * 24 * 1; // 5 days.
-$conf['memcache_servers'] = array('127.0.0.1:11211' => 'default');
-$conf['memcache_extension'] = 'Memcache';
+#$conf['cache_backends'][] = 'sites/all/modules/memcache_storage/memcache_storage.inc';
+#$conf['cache_default_class'] = 'MemcacheStorage';
+#$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
+#$conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
+#$conf['memcache_storage_key_prefix'] = 'erp';
+#$conf['memcache_storage_debug'] = FALSE;
+#$conf['memcache_storage_wildcard_invalidate'] = 60 * 60 * 24 * 1; // 5 days.
+#$conf['memcache_servers'] = array('127.0.0.1:11211' => 'default');
+#$conf['memcache_extension'] = 'Memcache';
 /*$conf['memcache_options'] = array(
   Memcached::OPT_TCP_NODELAY => TRUE,
   Memcached::OPT_NO_BLOCK => TRUE,
   Memcached::OPT_BINARY_PROTOCOL => TRUE,
 );*/
-$conf['lock_inc'] = 'sites/all/modules/memcache_storage/includes/lock.inc';
+#$conf['lock_inc'] = 'sites/all/modules/memcache_storage/includes/lock.inc';
 #$conf['session_inc'] = 'sites/all/modules/memcache_storage/includes/session.inc';
 /**/
