@@ -336,6 +336,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 
       #Skip template create for bootdev proxy
       next if localfolder.eql?("bootproxy")
+      domainstring = localfolder
       if (not (defined?(docker[:customdomainstring])).nil?) && (not "#{docker[:customdomainstring]}" == "")
         domainstring = docker[:customdomainstring]
       else
