@@ -173,7 +173,7 @@
         },
         "redis":{
           "tag":"latest",
-          "image":"dockerpriv.kybot.io:5002/keithyau/redis:latest"
+          "image":"dockerpriv.kybot.io:5002/keithyau/redis"
         },
         "welcome": {
           "tag":"7.1.4_v4",
