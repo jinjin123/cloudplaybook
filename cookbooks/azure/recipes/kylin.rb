@@ -413,7 +413,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     template "#{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json" do
       source "separatedhdi.parameters.json.erb"
       variables(
-        :appType => kylin[:appType],
+        :appType => 'KAP',
         :clusterName  => clusterName2,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
