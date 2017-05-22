@@ -32,5 +32,10 @@
     <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
     -->
     <Loader loaderClass="org.apache.catalina.loader.ParallelWebappClassLoader"/>
-
+    <Valve className="com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve" />
+    <Manager className="com.orangefunction.tomcat.redissessions.RedisSessionManager"
+       host="kyl-ca-7zifmgxniklk.nrxdey.0001.cnn1.cache.amazonaws.com.cn"
+       port="6379"
+       database="0"
+       maxInactiveInterval="60" />
 </Context>
