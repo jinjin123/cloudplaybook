@@ -28,6 +28,9 @@
           "crm": {
             "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
+          "crmtc": {
+            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
           "mkt": {
             "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
@@ -79,6 +82,20 @@
               "spzkf_test_kungfudc_crm.settings.php": "sites/default/settings.php"
             },
             "variables": {
+              "dbhost": "172.16.104.95",
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
+            }
+          },
+          "crmtc": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "spzkf_test_kungfudc_crmtc.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
               "dbhost": "172.16.104.95",
               "dbuser": "root",
               "dbpass": "rofiTKEhk6+d"
@@ -149,6 +166,10 @@
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
           "branch": "dianshang"
         },
+        "crmtc": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
+          "branch": "dianshang"
+        },
         "erp": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-erp.git",
           "branch": "dev"
@@ -202,6 +223,16 @@
             "/app/web/crm:/var/www/html"
           ],
           "ports": "9083:80"
+        },
+        "crmtc": {
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=KungfuDc_CRMTC_Testing"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/crmtc:/var/www/html"
+          ],
+          "ports": "9087:80"
         },
         "mkt": {
           "tag": "7.1.4_v4",

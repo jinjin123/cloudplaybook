@@ -32,4 +32,4 @@ $conf['memcache_key_prefix'] = 'crm';
 //TZX 测试环境
 #$conf['tzx_domain'] = 'http://172.16.104.102:9081';
 //TZX正是环境
-$conf['tzx_domain'] = 'http://172.16.103.182:9081';
+#$conf['tzx_domain'] = 'http://172.16.103.182:9081';
