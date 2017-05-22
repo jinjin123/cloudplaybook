@@ -171,6 +171,10 @@
           "tag":"latest",
           "image":"dockerpriv.kybot.io:5002/keithyau/memcached"
         },
+        "redis":{
+          "tag":"latest",
+          "image":"dockerpriv.kybot.io:5002/keithyau/redis:latest"
+        },
         "welcome": {
           "tag":"7.1.4_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
