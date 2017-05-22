@@ -37,6 +37,9 @@
           "crmtc": {
             "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
+          "8086": {
+            "8086.proxy.conf": "/etc/nginx/nginx.conf"
+          },
           "loadbalancer": {
             "loadbalancer-test.conf": "/etc/nginx/conf.d/default.conf"
           }
@@ -159,6 +162,7 @@
         },
         "redis":"nodownload",
         "memcached":"nodownload",
+        "8086":"nodownload",
         "bootproxy":"nodownload",
         "loadbalancer":"nodownload"
       },
@@ -245,6 +249,15 @@
           ],
           "ports": "80:80",
           "network_mode":"host"
+        },
+        "8086":{
+          "tag":"stable-alpine",
+          "image":"daocloud.io/library/nginx",
+          "mountlocal":"localdir",
+          "mountdocker":"/etc/nginx/conf.d/",
+          "ports":[
+            "8086:8086"
+          ]
         },
         "bootproxy":{
           "tag":"stable-alpine",
