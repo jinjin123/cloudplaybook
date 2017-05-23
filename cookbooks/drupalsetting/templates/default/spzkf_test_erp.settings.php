@@ -20,9 +20,9 @@ $databases['nc_tmp']['default'] = array(
 $databases['gfs']['default'] = array(
   'driver' => 'mysql',
   'database' => 'oc',
-  'username' => 'ocselect',
+  'username' => 'readonly',
   'password' => 'AZTfjuCFoppEC6wR',
-  'host' => '172.16.103.186',
+  'host' => '172.16.104.118',
   'prefix' => '',
 );
 $databases['oc']['default'] = array(
