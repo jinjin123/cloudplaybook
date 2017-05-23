@@ -168,7 +168,13 @@
       "metadata": {
         "description": "The name of metadata store for KAP"
       }
-    }
+    },
+    "databaseName": {
+      "type": "string",
+      "metadata": {
+        "description": "Putting database name."
+      }
+    },
   },
   "variables": {
     "defaultApiVersion": "2015-05-01-preview",
@@ -178,7 +184,7 @@
     "galleryPackageIdentity": "Kyligence",
     "sqlDatabase": {
       "serverName": "[parameters('sqlvirtualMachinesname')]",
-      "databaseName": "[concat(parameters('clusterName'),'db')]"
+      "databaseName": "[concat(parameters('databaseName'),'db')]"
     }
   },
   "resources": [

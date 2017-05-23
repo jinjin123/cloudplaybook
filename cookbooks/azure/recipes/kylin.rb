@@ -400,7 +400,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :storageAccount2 => storageaccount2,
         :sqlvirtualMachinesname => sqlvirtualMachinesname,
         :vnetName => vnetName,
-        :subnet1Name => subnet1Name
+        :subnet1Name => subnet1Name,
+        :databaseName => clusterName
       )
       mode 0644
       retries 3
@@ -430,7 +431,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :storageAccount2 => storageaccount1,
         :sqlvirtualMachinesname => sqlvirtualMachinesname,
         :vnetName => vnetName,
-        :subnet1Name => subnet1Name
+        :subnet1Name => subnet1Name,
+        :databaseName => clusterName
       )
       mode 0644
       retries 3
