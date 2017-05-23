@@ -9,20 +9,36 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
   'prefix' => '',
 );
-$databases['slave']['default'] = array(
+$databases['nc_tmp']['default'] = array(
   'driver' => 'mysql',
-  'database' => 'test1',
-  'username' => 'test1',
-  'password' => 'Abcd1234',
-  'host' => 'rdsntd5fyuojodv4hj4xy.mysql.rds.aliyuncs.com',
+  'database' => 'nc_order_tmp',
+  'username' => 'root',
+  'password' => 'Abcd@1234~',
+  'host' => 'docs.sparkpos.cn',
+  'prefix' => '',
+);
+$databases['gfs']['default'] = array(
+  'driver' => 'mysql',
+  'database' => 'oc',
+  'username' => 'ocselect',
+  'password' => 'AZTfjuCFoppEC6wR',
+  'host' => '172.16.103.186',
   'prefix' => '',
 );
 $databases['oc']['default'] = array(
   'driver' => 'mysql',
   'database' => 'oc',
-  'username' => 'test',
-  'password' => 'test',
-  'host' => '172.16.103.203',
+  'username' => 'readonly',
+  'password' => 'AZTfjuCFoppEC6wR',
+  'host' => '172.16.104.118',
+  'prefix' => '',
+);
+$databases['report']['default'] = array(
+  'driver' => 'mysql',
+  'database' => 'oc',
+  'username' => 'readonly',
+  'password' => 'AZTfjuCFoppEC6wR',
+  'host' => '172.16.104.118',
   'prefix' => '',
 );
 $update_free_access = FALSE;

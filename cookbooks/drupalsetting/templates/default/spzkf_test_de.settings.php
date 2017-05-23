@@ -24,6 +24,14 @@ $databases = array (
     ),
   ),
 );
+  $databases['nc_tmp']['default'] = array(
+   'driver' => 'mysql',
+   'database' => 'nc_order_tmp',
+   'username' => 'root',
+   'password' => 'Abcd@1234~',
+   'host' => 'docs.sparkpos.cn',
+   'prefix' => '',
+);
 $update_free_access = FALSE;
 $drupal_hash_salt = '';
 ini_set('session.gc_probability', 1);
