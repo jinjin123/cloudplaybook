@@ -161,6 +161,7 @@ node[:deploycode][:localfolder].each do |localfolder,gitinfo|
         enable_checkout true
         action :sync
         destination dir
+        ignore_failure true
       end
     else
       execute "clear_directory" do
