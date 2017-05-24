@@ -22,7 +22,6 @@
           "kylin": {
             "identifier": "20170516000000",
             "region": "chinaeast",
-            "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
             "clusterLoginUserName": "admintest",
             "clusterLoginPassword": "Kyligence2016",
