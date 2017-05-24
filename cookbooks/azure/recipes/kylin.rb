@@ -110,7 +110,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     sshPassword = "Kyligence2016"
     if (not (defined?(kylin[:sshPassword])).nil?) && (not "#{kylin[:sshPassword]}" == "")
       if ! kylin[:sshPassword].eql?("default")
-        sshUserName = kylin[:sshPassword]
+        sshPassword = kylin[:sshPassword]
       end
     end
 
