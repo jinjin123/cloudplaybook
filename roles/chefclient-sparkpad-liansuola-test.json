@@ -15,20 +15,20 @@
     },
     "deploycode": {
       "basedirectory": "/home/sparkpad/code/liansuola/",
-      "configuration":{
-        "bootproxy":{
+      "configuration": {
+        "bootproxy": {
           "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
         },
         "drupal": {
           "de": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php" : "sites/default/settings.php"
+              "general.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "liansuola_mysql",
               "dbuser": "root",
               "dbpass": "thomas123"
@@ -36,13 +36,13 @@
           },
           "erp": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php" : "sites/default/settings.php"
+              "general.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "liansuola_mysql",
               "dbuser": "root",
               "dbpass": "thomas123"
@@ -50,13 +50,13 @@
           },
           "crm": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php" : "sites/default/settings.php"
+              "general.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "liansuola_mysql",
               "dbuser": "root",
               "dbpass": "thomas123"
@@ -64,13 +64,13 @@
           },
           "pmt": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php" : "sites/default/settings.php"
+              "general.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "liansuola_mysql",
               "dbuser": "root",
               "dbpass": "thomas123"
@@ -78,13 +78,13 @@
           },
           "pmt2": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php" : "sites/default/settings.php"
+              "general.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "liansuola_mysql",
               "dbuser": "root",
               "dbpass": "thomas123"
@@ -92,13 +92,13 @@
           },
           "mkt": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php" : "sites/default/settings.php"
+              "general.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "liansuola_mysql",
               "dbuser": "root",
               "dbpass": "thomas123"
@@ -107,7 +107,7 @@
         }
       },
       "localfolder": {
-        "mysql":"nodownload",
+        "mysql": "nodownload",
         "de": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
           "branch": "master"
@@ -156,61 +156,61 @@
           "giturl": "git@git.coding.net:keithyau/syncoc.git",
           "branch": "master"
         },
-        "bootproxy":"nodownload"
+        "bootproxy": "nodownload"
       },
       "runtime": {
-        "mysql":{
-          "tag":"5.7",
-          "image":"dockerpriv.kybot.io:5002/keithyau/mysql",
-          "env":["MYSQL_ROOT_PASSWORD=thomas123"],
-          "mountlocal":"/home/sparkpad/mysql_liansuola",
-          "mountdocker":"/var/lib/mysql"
+        "mysql": {
+          "tag": "5.7",
+          "image": "dockerpriv.kybot.io:5002/keithyau/mysql",
+          "env": ["MYSQL_ROOT_PASSWORD=thomas123"],
+          "mountlocal": "/home/sparkpad/mysql_liansuola",
+          "mountdocker": "/var/lib/mysql"
         },
         "de": {
-          "tag":"7.1.4_v4",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-de"],
-          "mountlocal":"localdir",
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=liansuola-de"],
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9081:80"
         },
         "erp": {
-          "tag":"7.1.4_v4",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-erp"],
-          "mountlocal":"localdir",
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=liansuola-erp"],
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9082:80"
         },
         "crm": {
-          "tag":"7.1.4_v4",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-crm"],
-          "mountlocal":"localdir",
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=liansuola-crm"],
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9083:80"
         },
         "pmt": {
-          "tag":"7.1.4_v4",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-pmt"],
-          "mountlocal":"localdir",
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=liansuola-pmt"],
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9084:80"
         },
         "pmt2": {
-          "tag":"7.1.4_v4",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-pmt2"],
-          "mountlocal":"localdir",
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=liansuola-pmt2"],
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9089:80"
         },
         "mkt": {
-          "tag":"7.1.4_v4",
-          "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da","NEWRELICAPPNAME=liansuola-mkt"],
-          "mountlocal":"localdir",
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=44d69e5dd03a38d50a94161137ad0e44f33761da", "NEWRELICAPPNAME=liansuola-mkt"],
+          "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9085:80"
         },
@@ -260,7 +260,7 @@
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html/",
           "ports": "9090:80",
-          "overridesubdomain":"reporting"
+          "overridesubdomain": "reporting"
         },
         "syncoc": {
           "tag": "latest",
@@ -272,12 +272,12 @@
           ],
           "ports": "9091:8080"
         },
-        "bootproxy":{
-          "tag":"stable-alpine",
-          "image":"daocloud.io/library/nginx",
-          "mountlocal":"localdir",
-          "mountdocker":"/etc/nginx/conf.d/",
-          "ports":[
+        "bootproxy": {
+          "tag": "stable-alpine",
+          "image": "daocloud.io/library/nginx",
+          "mountlocal": "localdir",
+          "mountdocker": "/etc/nginx/conf.d/",
+          "ports": [
             "80:80"
           ]
         }
