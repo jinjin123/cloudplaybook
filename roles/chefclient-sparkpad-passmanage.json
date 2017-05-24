@@ -34,6 +34,7 @@
           "mountdocker": [
             "/home/sparkpad/code/credentials/credentials:/var/www/html"
           ],
+          "exec": "mkdir -p /var/lib/simplevault;ln -s /var/www/html/simplevault/simplevault.txt /var/lib/simplevault/simplevault.txt;  chown www. -R /var/lib/simplevault",
           "ports": "6089:80"
         }
       },
