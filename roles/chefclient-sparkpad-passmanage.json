@@ -32,9 +32,10 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/home/sparkpad/code/credentials/credentials:/var/www/html"
+            "/home/sparkpad/code/credentials/credentials:/var/www/html",
+            "/home/sparkpad/code/credentials/credentials/simplevault:/var/lib/simplevault"
           ],
-          "exec": "mkdir -p /var/lib/simplevault;ln -s /var/www/html/simplevault/simplevault.txt /var/lib/simplevault/simplevault.txt;  chown www. -R /var/lib/simplevault",
+          "exec": "touch /var/lib/simplevault/simplevault.txt;  chown www. -R /var/lib/simplevault",
           "ports": "6089:80"
         }
       },
