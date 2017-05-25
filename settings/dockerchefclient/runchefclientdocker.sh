@@ -37,8 +37,18 @@ docker run --rm --network=host --name chef-client-$IDENTIFIER \
 dockerpriv.kybot.io:5002/keithyau/chefclient:0.2 \
 chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json
 
+export RETURNCODE=$?
+
 # -v /root/tools/code/azure/$IDENTIFIER/deploy.json:/etc/chef/deploy.json \
 # -o 'role[chefclient-kyligence-azure]'
 
 /bin/knife node delete $IDENTIFIER -y || :
 /bin/knife client delete $IDENTIFIER -y || :
+
+# Setting return code of script
+if [ "$RETURNCODE" -eq 0 ]
+then
+  true
+else
+  false
+fi
