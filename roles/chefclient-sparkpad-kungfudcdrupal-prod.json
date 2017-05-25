@@ -19,24 +19,6 @@
           "bootproxy": {
             "spzkf_enablenginxlog": "/etc/nginx/nginx.conf"
           },
-          "de": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-          },
-          "pmt": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-          },
-          "crm": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-          },
-          "mkt": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-          },
-          "erp": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-          },
-          "cc": {
-            "spzkf.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-          },
           "loadbalancer": {
             "loadbalancer.conf": "/etc/nginx/conf.d/default.conf"
           }
