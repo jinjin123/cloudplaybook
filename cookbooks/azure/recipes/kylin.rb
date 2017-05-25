@@ -577,7 +577,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode >> /root/.azure/azure.err"
         ignore_failure true
       end
-      if azureaction.include?("read")
+      if ! azureaction.include?("read")
         execute 'create_hdi2' do
           command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
           # notifies :run, 'execute[commit_docker]', :immediately
