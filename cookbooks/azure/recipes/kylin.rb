@@ -518,7 +518,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 
   # case when azureaction
-  if azureaction.eql?("create")
+  if azureaction.include?("create")
     # Create resources group
     execute 'create_resources_group' do
       # command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
@@ -577,14 +577,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode >> /root/.azure/azure.err"
         ignore_failure true
       end
-      execute 'create_hdi2' do
-        command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
-        # notifies :run, 'execute[commit_docker]', :immediately
-        ignore_failure true
-      end
-      execute 'config_hdi2' do
-        command "azure hdinsight script-action create #{clusterName2} -g #{identifier} -n KAP-hdi2-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0_writecluster.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{accountregion}\" >> /root/.azure/azure.err"
-        ignore_failure true
+      if azureaction.include?("read")
+        execute 'create_hdi2' do
+          command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+          # notifies :run, 'execute[commit_docker]', :immediately
+          ignore_failure true
+        end
+        execute 'config_hdi2' do
+          command "azure hdinsight script-action create #{clusterName2} -g #{identifier} -n KAP-hdi2-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0_writecluster.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{accountregion}\" >> /root/.azure/azure.err"
+          ignore_failure true
+        end
       end
     end
   elsif azureaction.eql?("removehdi")
