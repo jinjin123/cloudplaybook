@@ -1,5 +1,5 @@
 {
-  "name": "chefclient-sparkpad-proddsdrupal",
+  "name": "chefclient-sparkpad-kungfudcdrupal-prod",
   "description": "Role json file for starting and maintaining Sparkpad ZKF drupal backend",
   "json_class": "Chef::Role",
   "default_attributes": {
