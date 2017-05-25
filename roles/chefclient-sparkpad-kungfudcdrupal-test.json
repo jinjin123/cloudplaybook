@@ -18,7 +18,7 @@
         "general": {
           "bootproxy": {
             "spzkf_enablenginxlog": "/etc/nginx/nginx.conf",
-            "dstest.proxy.conf": "/etc/nginx/conf.d/ip.proxy.conf"
+            "dstest.proxy.conf": "/etc/nginx/ip.proxy.conf"
           },
           "loadbalancer": {
             "loadbalancer-test.conf": "/etc/nginx/conf.d/default.conf"
