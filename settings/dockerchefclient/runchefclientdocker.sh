@@ -7,8 +7,8 @@ DATFILEDIR=/root/tools/code/azure
 # Ensuring path exists
 mkdir -p $DATFILEDIR/$IDENTIFIER
 
-/bin/knife node delete $IDENTIFIER -y || :
-/bin/knife client delete $IDENTIFIER -y || :
+cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
+cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
 
 cp /etc/chef/client.rb /root/tools/code/azure/$IDENTIFIER/client.rb
 sed -i "s/CHEFCLIENTNAME/$IDENTIFIER/" /root/tools/code/azure/$IDENTIFIER/client.rb
@@ -42,8 +42,8 @@ export RETURNCODE=$?
 # -v /root/tools/code/azure/$IDENTIFIER/deploy.json:/etc/chef/deploy.json \
 # -o 'role[chefclient-kyligence-azure]'
 
-/bin/knife node delete $IDENTIFIER -y || :
-/bin/knife client delete $IDENTIFIER -y || :
+cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
+cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
 
 # Setting return code of script
 if [ "$RETURNCODE" -eq 0 ]
