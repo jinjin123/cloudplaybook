@@ -7,16 +7,16 @@ DATFILEDIR=/root/tools/code/azure
 # Ensuring path exists
 mkdir -p $DATFILEDIR/$IDENTIFIER
 
-/bin/knife node delete $IDENTIFIER -y || true
-/bin/knife client delete $IDENTIFIER -y || true
+/bin/knife node delete $IDENTIFIER -y || :
+/bin/knife client delete $IDENTIFIER -y || :
 
 cp /etc/chef/client.rb /root/tools/code/azure/$IDENTIFIER/client.rb
 sed -i "s/CHEFCLIENTNAME/$IDENTIFIER/" /root/tools/code/azure/$IDENTIFIER/client.rb
 
 mkdir -p /root/tools/code/azure/$IDENTIFIER/data
 echo $DEPLOYJSON > /root/tools/code/azure/$IDENTIFIER/deploy.json
-# if [ ! -z ${var+x} ]; 
-# then 
+# if [ ! -z ${var+x} ];
+# then
   # echo $DEPLOYJSON > /root/tools/code/azure/$IDENTIFIER/deploy.json
   # mkdir -p /root/tools/code/azure/$IDENTIFIER/data
   # cp /root/tools/code/azure/$IDENTIFIER/deploy.json /data/$IDENTIFIER/deploy.json
@@ -40,5 +40,5 @@ chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json
 # -v /root/tools/code/azure/$IDENTIFIER/deploy.json:/etc/chef/deploy.json \
 # -o 'role[chefclient-kyligence-azure]'
 
-/bin/knife node delete $IDENTIFIER -y;
-/bin/knife client delete $IDENTIFIER -y
+/bin/knife node delete $IDENTIFIER -y || :
+/bin/knife client delete $IDENTIFIER -y || :
