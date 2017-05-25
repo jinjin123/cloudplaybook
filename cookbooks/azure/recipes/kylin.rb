@@ -543,33 +543,33 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     # end
     if scheme.eql?("allinone")
       execute 'create_deployment' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n create_deployment -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
     elsif scheme.eql?("separated")
       execute 'create_vnet' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       execute 'create_storageaccount1' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n create_storageaccount1 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       execute 'create_storageaccount2' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n create_storageaccount2 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       execute 'create_sqlserver' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n create_sqlserver -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       execute 'create_hdi1' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
@@ -578,7 +578,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         ignore_failure true
       end
       execute 'create_hdi2' do
-        command "azure group deployment create -g #{identifier} -n #{identifier} -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
