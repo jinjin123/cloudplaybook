@@ -1,7 +1,6 @@
 ---
 driver:
   name: dokken
-  chef_version: latest
   privileged: true # because Docker and SystemD/Upstart
   volumes: [
   '/var/lib/docker', '/var/lib/docker-one', '/var/lib/docker-two'
