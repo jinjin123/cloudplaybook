@@ -163,7 +163,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/db-convert:/var/www/html"
+            "/app/code/db-convert:/var/www/html"
           ],
           "ports": "9086:80"
         },
@@ -172,7 +172,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/de:/var/www/html"
+            "/app/code/de:/var/www/html"
           ],
           "ports": "9081:80"
         },
@@ -181,7 +181,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/pmt:/var/www/html"
+            "/app/code/pmt:/var/www/html"
           ],
           "ports": "9082:80"
         },
@@ -190,7 +190,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/crm:/var/www/html"
+            "/app/code/crm:/var/www/html"
           ],
           "ports": "9083:80"
         },
@@ -199,7 +199,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/mkt:/var/www/html"
+            "/app/code/mkt:/var/www/html"
           ],
           "ports": "9084:80"
         },
@@ -208,7 +208,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/erp:/var/www/html"
+            "/app/code/erp:/var/www/html"
           ],
           "ports": "9085:80"
         },
