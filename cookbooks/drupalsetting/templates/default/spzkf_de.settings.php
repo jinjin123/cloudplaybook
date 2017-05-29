@@ -15,16 +15,22 @@ $databases = array (
       'database' => 'erp',
       'username' => 'erp',
       'password' => 's5BBRsQ9m8L6OPmU6q',
-      'host' => '172.16.103.122',
+      'host' => '172.16.103.125',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
     ),
   ),
 );
-
+$databases['tmp']['default'] = array(
+  'driver' => 'mysql',
+  'database' => 'nc_order_tmp',
+  'username' => 'root',
+  'password' => 'Abcd@1234~',
+  'host' => 'docs.sparkpos.cn',
+  'prefix' => '',
+);
 $update_free_access = FALSE;
-$drupal_hash_salt = '';
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
 ini_set('session.gc_maxlifetime', 200000);
@@ -40,27 +46,16 @@ $conf['reverse_proxy_addresses'] = array(
   '172.16.102.111',
   '172.16.102.109',
 );
-
-#### memcached config ###
-/*
-$conf['memcache_servers'] = array('172.16.102.111:11211' => 'default');
-$conf['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
-$conf['lock_inc'] = 'sites/all/modules/contrib/memcache/memcache-lock.inc';
-//$conf['memcache_stampede_protection'] = TRUE;
-$conf['cache_default_class'] = 'MemCacheDrupal';
-$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
-$conf['memcache_key_prefix'] = 'de';
-*/
-if (extension_loaded('memcachedx')) {
+if (extension_loaded('memcached')) {
   $conf['cache_backends'][] = 'sites/all/modules/contrib/memcache_storage/memcache_storage.inc';
-  $conf['cache_default_class'] = 'MemcacheStorage';
-  $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
-  $conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
-  $conf['memcache_storage_key_prefix'] = 'de-new';
+  #$conf['cache_default_class'] = 'MemcacheStorage';
+  #$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
+  #$conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
+  $conf['memcache_storage_key_prefix'] = 'de';
   $conf['memcache_storage_debug'] = FALSE;
   $conf['memcache_storage_wildcard_invalidate'] = 60 * 60 * 24 * 1; // 5 days.
   $conf['memcache_servers'] = array(
-    '172.16.102.107:11211' => 'default',
+    '172.16.102.107:11212' => 'default',
     #'172.16.102.112:11222' => 'default',
     #'172.16.102.113:11222' => 'default',
   );
@@ -70,22 +65,30 @@ if (extension_loaded('memcachedx')) {
     Memcached::OPT_NO_BLOCK => TRUE,
     Memcached::OPT_BINARY_PROTOCOL => TRUE,
   );
+  $conf['cache_class_cache_field'] = 'MemcacheStorage';
   #$conf['lock_inc'] = 'sites/all/modules/contrib/memcache_storage/includes/lock.inc';
 }
 if (extension_loaded('redis')) {
-  $document_array = explode('/', $_SERVER['DOCUMENT_ROOT']);
-  $conf['cache_prefix'] = end($document_array);
+  //$document_array = explode('/', $_SERVER['DOCUMENT_ROOT']);
+  $conf['cache_prefix'] = 'de';//end($document_array);
 
   $conf['redis_client_interface'] = 'Predis'; // Can be "Predis".
   $conf['redis_client_host'] = '172.16.102.107';  // Your Redis instance hostname.
-  #$conf['lock_inc'] = 'sites/all/modules/contrib/redis/redis.lock.inc';
-  #$conf['path_inc'] = 'sites/all/modules/redis/redis.path.inc';
+  $conf['redis_client_port'] = 6380;
+  $conf['lock_inc'] = 'sites/all/modules/contrib/redis/redis.lock.inc';
+  #$conf['path_inc'] = 'sites/all/modules/contrib/redis/redis.path.inc';
   $conf['cache_backends'][] = 'sites/all/modules/contrib/redis/redis.autoload.inc';
   $conf['cache_default_class'] = 'Redis_Cache';
   $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
   $conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
+  #$conf['cache_class_cache_field'] = 'DrupalDatabaseCache';
 }
-$conf['commerce_entitycache_cache_products'] = TRUE;
+
+$drupal_hash_salt = 'HEkZqDY6Egh#bPsKY7ziWwQ8*V6TTtzw';
+$conf['drupal_private_key'] = '^*9@Qc&18iREpthJRA8^SdfDHvlK7rUc';
+
+#$conf['commerce_entitycache_cache_products'] = TRUE;
+
 ini_set('display_errors', TRUE);
 
 $conf['zkf_api'] = array(
