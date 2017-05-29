@@ -32,15 +32,15 @@ node[:deploycode][:configuration][:drupal].each do |appname,spec|
     end
 
     #If not set variables, use default
-    if (not (defined?(spec[:variables][:dbhost])).nil?) && (not "#{spec[:variables][:dbhost]}" == "")
-      dbhost = spec[:variables][:dbhost]
-      dbuser = spec[:variables][:dbuser]
-      dbpass = spec[:variables][:dbpass]
-    else
-      dbhost = node[:deploycode][:default][:variables][:dbhost]
-      dbuser = node[:deploycode][:default][:variables][:dbuser]
-      dbpass = node[:deploycode][:default][:variables][:dbpass]
-    end
+    #if (not (defined?(spec[:variables][:dbhost])).nil?) && (not "#{spec[:variables][:dbhost]}" == "")
+    dbhost = spec[:variables][:dbhost]
+    dbuser = spec[:variables][:dbuser]
+    dbpass = spec[:variables][:dbpass]
+    #else
+    #  dbhost = node[:deploycode][:default][:variables][:dbhost]
+    #   dbuser = node[:deploycode][:default][:variables][:dbuser]
+    #  dbpass = node[:deploycode][:default][:variables][:dbpass]
+    #end
 
     template "#{basedir}/#{appname}/#{dest}" do
       #Only support DBvariables for now; todo: support more kinds of variables
