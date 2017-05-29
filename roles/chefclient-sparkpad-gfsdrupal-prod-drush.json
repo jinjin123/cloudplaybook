@@ -163,7 +163,7 @@
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
           "mountdocker": [
-            "/app/web/de:/var/www/html"
+            "/app/web/db-convert:/var/www/html"
           ],
           "ports": "9086:80"
         },
