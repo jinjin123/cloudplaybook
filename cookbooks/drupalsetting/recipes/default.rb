@@ -32,7 +32,7 @@ node[:deploycode][:configuration][:drupal].each do |appname,spec|
     end
 
     #If not set variables, use default
-    if not (defined?(spec[:variables])).nil?
+    if (not (defined?(spec[:variables][:dbhost])).nil?) && (not "#{spec[:variables][:dbhost]}" == "")
       dbhost = spec[:variables][:dbhost]
       dbuser = spec[:variables][:dbuser]
       dbpass = spec[:variables][:dbpass]
