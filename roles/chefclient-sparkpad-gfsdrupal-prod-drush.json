@@ -158,6 +158,15 @@
         "loadbalancer":"nodownload"
       },
       "runtime": {
+        "db-convert": {
+          "tag": "7.0.17_v4_oci8",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/app/web/de:/var/www/html"
+          ],
+          "ports": "9086:80"
+        },
         "de": {
           "tag": "7.0.17_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
