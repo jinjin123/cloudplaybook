@@ -48,7 +48,7 @@
               "sites/default/privates" : "777"
             },
             "settings": {
-              "spzkf_de.settings.php" : "sites/default/settings.php"
+              "spzkf_db-convert.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
               "dbhost": "172.16.103.203",
