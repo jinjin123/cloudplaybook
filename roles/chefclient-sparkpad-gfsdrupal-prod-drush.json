@@ -48,9 +48,9 @@
               "spzkf_de.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "172.16.103.188",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbhost": "172.16.103.189",
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           },
           "pmt": {
@@ -62,9 +62,9 @@
               "spzkf_pmt.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "172.16.103.188",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbhost": "172.16.103.189",
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           },
           "crm": {
@@ -76,9 +76,9 @@
               "spzkf_crm.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "172.16.103.188",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbhost": "172.16.103.121",
+              "dbuser": "root",
+              "dbpass": "tp8p91OoW8m"
             }
           },
           "mkt": {
@@ -90,9 +90,9 @@
               "spzkf_mkt.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "172.16.103.188",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbhost": "172.16.103.189",
+              "dbuser": "root",
+              "dbpass": "rofiTKEhk6+d"
             }
           },
           "erp": {
@@ -104,9 +104,9 @@
               "spzkf_erp.settings.php" : "sites/default/settings.php"
             },
             "variables" : {
-              "dbhost": "172.16.103.188",
-              "dbuser": "de",
-              "dbpass": "1nBA2Qt9krXQwl35dyyB"
+              "dbhost": "172.16.103.125",
+              "dbuser": "root",
+              "dbpass": "tp8p91OoW8m"
             }
           }
         }

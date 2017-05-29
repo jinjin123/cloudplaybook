@@ -4,9 +4,9 @@ $databases = array (
   'default' => array (
     'default' => array (
       'database' => 'payment',
-      'username' => 'payment',
-      'password' => 'HXuj3pZP8EM4kbY7t6mY',
-      'host' => '172.16.103.188',
+      'username' => "<%= @dbuser %>",
+      'password' => "<%= @dbpass %>",
+      'host' => "<%= @dbhost %>",
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',

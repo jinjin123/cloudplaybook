@@ -5,9 +5,9 @@ $databases = array (
   'default' => array (
     'default' => array (
       'database' => 'marketing',
-      'username' => 'marketing',
-      'password' => 'ySreXduUERzTsx0b1twY',
-      'host' => '172.16.103.188',
+      'username' => "<%= @dbuser %>",
+      'password' => "<%= @password %>",
+      'host' => "<%= @dbhost %>",
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',

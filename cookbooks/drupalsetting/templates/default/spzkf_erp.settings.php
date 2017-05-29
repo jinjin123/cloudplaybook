@@ -1,10 +1,10 @@
 <?php
 $databases['default']['default'] = array (
   'database' => 'erp',
-  'username' => 'erp',
-  'password' => 's5BBRsQ9m8L6OPmU6q',
+  'username' => "<%= @dbuser %>",
+  'password' => "<%= @dbpass %>",
   #'host' => '172.16.103.189',
-  'host' => '172.16.103.123',
+  'host' => "<%= @dbhost %",
   'port' => '',
   'driver' => 'mysql',
   'prefix' => '',

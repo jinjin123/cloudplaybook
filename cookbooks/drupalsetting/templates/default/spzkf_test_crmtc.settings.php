@@ -4,9 +4,9 @@ $databases = array (
     'default' => array (
         'default' => array (
             'database' => 'crmtc',
-            'username' => 'crm',
-            'password' => 'crm',
-            'host' => '172.16.104.122',
+            'username' => "<%= @dbuser %>",
+            'password' => "<%= @dbpass %>",
+            'host' => "<%= @dbhost %>",
             'port' => '',
             'driver' => 'mysql',
             'prefix' => '',
