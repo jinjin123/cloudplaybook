@@ -1,0 +1,23 @@
+{
+      "deployuser":"root",
+      "externalmode":"normal",
+      "projectname":"kylin",
+      "domainname":"kyligence.com",
+      "domain_type":"A",
+      "domainprefix":"clientname",
+      "thiscloud":"aws",
+      "deploykylin":{
+         "basedirectory":"/usr/local/kap",
+         "runtime":{  
+            "bootkylin":{  
+               "tag":"latest",
+               "emr_master_ip":"ec2-54-244-61-12.us-west-2.compute.amazonaws.com",
+               "env":[  
+                  "DUMMY"
+               ],
+               "emr_master_user":"hadoop",
+               "emr_master_pem":"/root/kylindeploy/pem/clientemr.pem"
+            }
+        }
+      }
+}
