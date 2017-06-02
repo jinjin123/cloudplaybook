@@ -79,7 +79,7 @@
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9082:443",
-          "customdomainsuffix": "gtdx"
+          "customdomainsuffix": ".gtdx"
         },
         "oc": {
           "tag": "7.0.17_v4",
@@ -88,7 +88,7 @@
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9086:443",
-          "customdomainsuffix": "gtdx"
+          "customdomainsuffix": ".gtdx"
         },
         "reportingsys": {
           "tag": "latest",
@@ -107,7 +107,7 @@
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9088:443",
-          "customdomainsuffix": "gtdx"
+          "customdomainsuffix": ".gtdx"
         },
         "wmserver": {
           "tag": "latest",
