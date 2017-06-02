@@ -61,6 +61,14 @@
           "giturl": "git@git.coding.net:chankongching/reports.git",
           "branch": "liansuola"
         },
+        "orderserver": {
+          "giturl": "git@git.coding.net:shiyang1983/orderserver.git",
+          "branch": "master"
+        },
+        "wmserver": {
+          "giturl": "git@git.coding.net:shiyang1983/wmserver.git",
+          "branch": "master"
+        },
         "bootproxy":"nodownload"
       },
       "runtime": {
@@ -70,8 +78,8 @@
           "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=GTDX_ERP_GP2"],
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
-          "ports": "9082:80",
-          "customdomainsuffix": ".gtdx"
+          "ports": "9082:443",
+          "customdomainsuffix": "gtdx"
         },
         "oc": {
           "tag": "7.0.17_v4",
@@ -79,8 +87,8 @@
           "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=GTDX_OC_GP2"],
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
-          "ports": "9086:80",
-          "customdomainsuffix": ".gtdx"
+          "ports": "9086:443",
+          "customdomainsuffix": "gtdx"
         },
         "reportingsys": {
           "tag": "latest",
@@ -89,6 +97,29 @@
           "mountdocker": "/var/www/html/",
           "ports": "9090:80",
           "overridesubdomain":"reports.gtdx"
+        },
+        "orderserver": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/orderserver:/usr/local/tomcat/webapps/ROOT",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9088:443",
+          "customdomainsuffix": "gtdx"
+        },
+        "wmserver": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps/ROOT",
+            "/etc/localtime:/etc/localtime:ro",
+            "/bin/vi:/bin/vi"
+          ],
+          "ports": "9092:443",
+          "overridesubdomain": "takeaway-wm.gtdx"
         },
         "bootproxy":{
           "tag":"stable-alpine",
