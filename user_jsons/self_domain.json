@@ -4,7 +4,7 @@
       "projectname":"shadowdock",
       "domainname":"shadowdock.com",
       "domain_type":"A",
-      "domainprefix":"7d8339976a76926d1612e5d0815153e2",
+      "domainprefix":"d41d8cd98f00b204e9800998ecf8427e",
       "thisserver":"",
       "deploycode":{
          "basedirectory":"/home/keithyau/bootdev/shadowdock/",
