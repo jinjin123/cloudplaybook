@@ -124,8 +124,11 @@
         "bootproxy":{
           "tag":"stable-alpine",
           "image":"daocloud.io/library/nginx",
-          "mountlocal":"localdir",
-          "mountdocker":"/etc/nginx/conf.d/",
+          "mountlocal":"multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/bootproxy:/etc/nginx/conf.d/",
+            "/etc/letsencrypt/archive/:/root"
+          ],
           "ports":[
             "80:80",
             "443:443",
