@@ -46,16 +46,16 @@ execute "yum_update" do
     ignore_failure true
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm" do
-    source "https://s3.cn-north-1.amazonaws.com.cn/bootdevcn/jdk-7u71-linux-x64.rpm"
-    action :create
-    ignore_failure true
-end
+#remote_file "#{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm" do
+#    source "https://s3.cn-north-1.amazonaws.com.cn/bootdevcn/jdk-7u71-linux-x64.rpm"
+#    action :create
+#    ignore_failure true
+#end
 
-rpm_package "jdk-7u71" do
-    source "#{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm"
-    action :install
-end
+#rpm_package "jdk-7u71" do
+#    source "#{Chef::Config[:file_cache_path]}/jdk-7u71-linux-x64.rpm"
+#    action :install
+#end
 
 pkgs_lib = %w{
     usr/lib/jvm
@@ -78,7 +78,7 @@ pkgs_lib = %w{
 
 pkgs_lib.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i /root/keys/kylin.pem -o StrictHostKeyChecking=no ec2-user@#{node[:hadoop_files][:chef_serverip]}:/mnt/#{pkg} /usr/lib/"
+        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/mnt/#{pkg} /usr/lib/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -97,9 +97,9 @@ pkgs_etc = %w{
     etc/tez
 }
 
-pkgs_etc.flatten.each do |pkg|
+pkgs_lib.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i /root/keys/kylin.pem -o StrictHostKeyChecking=no ec2-user@#{node[:hadoop_files][:chef_serverip]}:/mnt/#{pkg} /etc/"
+        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/mnt/#{pkg} /etc/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -114,9 +114,9 @@ pkgs_bin = %w{
     usr/bin/emrfs
 }
 
-pkgs_bin.flatten.each do |pkg|
+pkgs_lib.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i /root/keys/kylin.pem -o StrictHostKeyChecking=no ec2-user@#{node[:hadoop_files][:chef_serverip]}:/mnt/#{pkg} /usr/bin/"
+        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/mnt/#{pkg} /usr/bin/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -129,7 +129,7 @@ pkgs_single = %w{
 
 pkgs_single.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i /root/keys/kylin.pem -o StrictHostKeyChecking=no ec2-user@#{node[:hadoop_files][:chef_serverip]}:/mnt/#{pkg} /#{pkg}"
+        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/mnt/#{pkg} /#{pkg}"
         user 'root'
         group 'root'
         ignore_failure true
