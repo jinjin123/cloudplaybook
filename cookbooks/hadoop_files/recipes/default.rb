@@ -78,7 +78,7 @@ pkgs_lib = %w{
 
 pkgs_lib.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/mnt/#{pkg} /usr/lib/"
+        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /usr/lib/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -99,7 +99,7 @@ pkgs_etc = %w{
 
 pkgs_lib.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/mnt/#{pkg} /etc/"
+        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /etc/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -116,7 +116,7 @@ pkgs_bin = %w{
 
 pkgs_lib.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/mnt/#{pkg} /usr/bin/"
+        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /usr/bin/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -129,7 +129,7 @@ pkgs_single = %w{
 
 pkgs_single.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/mnt/#{pkg} /#{pkg}"
+        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /#{pkg}"
         user 'root'
         group 'root'
         ignore_failure true
