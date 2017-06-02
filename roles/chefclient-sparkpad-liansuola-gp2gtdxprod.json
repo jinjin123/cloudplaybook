@@ -62,7 +62,7 @@
           "branch": "gp"
         },
         "oc":{
-          "giturl": "git@gitlab.com:Sparkpad/spark-oc.git",
+          "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
           "branch": "master"
         },
         "reportingsys": {
@@ -81,7 +81,7 @@
       },
       "runtime": {
         "erp": {
-          "tag": "7.0.17_v4",
+          "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=GTDX_ERP_GP2"],
           "mountlocal": "localdir",
@@ -90,12 +90,11 @@
           "customdomainsuffix": ".gtdx"
         },
         "oc": {
-          "tag": "7.0.17_v4",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=GTDX_OC_GP2"],
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
-          "ports": "9086:443",
+          "ports": "9086:8080",
           "customdomainsuffix": ".gtdx"
         },
         "reportingsys": {
@@ -114,7 +113,7 @@
             "/home/ec2-user/tools/drupal_dir/orderserver:/usr/local/tomcat/webapps/ROOT",
             "/etc/localtime:/etc/localtime:ro"
           ],
-          "ports": "9088:443",
+          "ports": "9088:8080",
           "customdomainsuffix": ".gtdx"
         },
         "wmserver": {
@@ -126,7 +125,7 @@
             "/etc/localtime:/etc/localtime:ro",
             "/bin/vi:/bin/vi"
           ],
-          "ports": "9092:443",
+          "ports": "9092:8080",
           "overridesubdomain": "takeaway-wm.gtdx"
         },
         "bootproxy":{
