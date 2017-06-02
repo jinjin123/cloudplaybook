@@ -16,6 +16,9 @@
       "basedirectory": "/home/ec2-user/tools/drupal_dir/",
       "configuration":{
         "general": {
+          "bootproxy":{
+            "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+          },
           "erp": {
             "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           }
