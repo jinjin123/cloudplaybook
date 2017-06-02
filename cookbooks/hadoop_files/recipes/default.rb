@@ -97,7 +97,7 @@ pkgs_etc = %w{
     etc/tez
 }
 
-pkgs_lib.flatten.each do |pkg|
+pkgs_etc.flatten.each do |pkg|
     execute "copy_#{pkg}" do
         command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /etc/"
         user 'root'
@@ -114,7 +114,7 @@ pkgs_bin = %w{
     usr/bin/emrfs
 }
 
-pkgs_lib.flatten.each do |pkg|
+pkgs_bin.flatten.each do |pkg|
     execute "copy_#{pkg}" do
         command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /usr/bin/"
         user 'root'
