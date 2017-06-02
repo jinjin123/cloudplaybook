@@ -150,6 +150,7 @@
     "recipe[build-essential]",
     "recipe[basicservice]",
     "recipe[deploycode]",
+    "recipe[configs]",
     "recipe[drupalsetting]",
     "recipe[webserver]"
   ],
