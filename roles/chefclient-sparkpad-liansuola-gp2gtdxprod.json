@@ -128,6 +128,7 @@
           "mountdocker":"/etc/nginx/conf.d/",
           "ports":[
             "80:80",
+            "443:443",
             "8080:8080"
           ]
         }
