@@ -16,7 +16,7 @@
                   "DUMMY"
                ],
                "emr_master_user":"hadoop",
-               "emr_master_pem":"/root/kylindeploy/pem/clientemr.pem"
+               "emr_master_pem":"/root/kylin/chef/chef-repo/pem/clientemr.pem"
             }
         }
       }
