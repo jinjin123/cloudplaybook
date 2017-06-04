@@ -60,6 +60,11 @@ mkdir -p logs
 chef-solo -c ./settings/solo.rb -o "recipe[hadoop_files]" -j user_jsons/kap_emr_conf.json
 
 #start kap
+su hdfs
 cd /usr/local/kap/kap-2.3.7-GA-hbase1.x
 bin/kylin.sh start
 
+
+#OR 
+#hadoop fs -mkdir /kylin
+#hadoop fs -chown root:hadoop /kylin

@@ -41,6 +41,17 @@ template "/etc/init.d/kylin" do
   mode  '0744'
 end
 
+#AWS ONLY
+template "/usr/local/kap/kap-2.3.7-GA-hbase1.x/conf/kylin_job_conf.xml" do
+  variables lazy { {metahostname: shell_out!('curl http://169.254.169.254/latest/meta-data/hostname').stdout} }
+  source "kylin_job_conf.xml.erb"
+  mode 0644
+  owner "hadoop"
+  group "hadoop"
+  retries 3
+  retry_delay 30
+end
+
 execute "yum_update" do
     command 'yum update -y'
     ignore_failure true
