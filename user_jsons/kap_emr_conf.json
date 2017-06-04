@@ -11,7 +11,7 @@
          "runtime":{  
             "bootkylin":{  
                "tag":"latest",
-               "emr_master_ip":"ec2-54-244-61-12.us-west-2.compute.amazonaws.com",
+               "emr_master_ip":"ec2-54-202-58-103.us-west-2.compute.amazonaws.com",
                "env":[  
                   "DUMMY"
                ],
