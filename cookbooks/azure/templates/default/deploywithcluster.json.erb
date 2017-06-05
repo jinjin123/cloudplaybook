@@ -153,6 +153,13 @@
       "metadata": {
         "description": "The name of metadata store for KAP"
       }
+    },
+    "kaptoken": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "kap token to be put into installation script"
+      }
     }
   },
   "variables": {
@@ -331,7 +338,7 @@
           {
             "name": "[concat('KAP-install-v0','-' ,uniquestring(variables('applicationName')))]",
             "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh",
-            "parameters": "[concat(parameters('clusterLoginUserName'), ' ', parameters('clusterLoginPassword'), ' ', parameters('metastoreName'), ' ', parameters('appType'), ' ', parameters('clusterName'))]",
+            "parameters": "[concat(parameters('clusterLoginUserName'), ' ', parameters('clusterLoginPassword'), ' ', parameters('metastoreName'), ' ', parameters('appType'), ' ', parameters('clusterName'), ' ', parameters('kaptoken'))]",
             "roles": [
               "edgenode"
             ]

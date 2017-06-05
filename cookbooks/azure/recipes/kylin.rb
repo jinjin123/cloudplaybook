@@ -71,6 +71,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     accountregion = "global"
   end
 
+  ## Setting of variables
+  kaptoken = ''
+  if (not (defined?(kylin[:kaptoken])).nil?) && (not "#{kylin[:kaptoken]}" == "")
+    kaptoken = kylin[:kaptoken]
+  end
+
   # Check scheme that to be deployed
   if scheme.eql?("allinone")
     # Setting parameters
@@ -142,7 +148,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :metastoreName => metastoreName,
         :sshUserName => sshUserName,
         :sshPassword => sshPassword,
-        :storageAccount => storageAccount
+        :storageAccount => storageAccount,
+        :kaptoken => kaptoken
       )
       mode 0644
       retries 3
@@ -401,7 +408,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :sqlvirtualMachinesname => sqlvirtualMachinesname,
         :vnetName => vnetName,
         :subnet1Name => subnet1Name,
-        :databaseName => clusterName
+        :databaseName => clusterName,
+        :kaptoken => kaptoken
       )
       mode 0644
       retries 3
@@ -432,7 +440,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :sqlvirtualMachinesname => sqlvirtualMachinesname,
         :vnetName => vnetName,
         :subnet1Name => subnet1Name,
-        :databaseName => clusterName
+        :databaseName => clusterName,
+        :kaptoken => kaptoken
       )
       mode 0644
       retries 3
