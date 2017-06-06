@@ -523,7 +523,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     # command "docker run --name #{container_name} #{mapvolume} #{image_name} azure config mode arm || true"
     command "azure config mode arm || true"
     # notifies :run, 'execute[commit_docker]', :immediately
-    ignore_failure true
+    #ignore_failure true
   end
 
   # case when azureaction
@@ -533,7 +533,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       # command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
       command "azure group create -n #{identifier} -l #{kylin[:region]} || :"
       # notifies :run, 'execute[commit_docker]', :immediately
-      ignore_failure true
+      #ignore_failure true
     end
     # Running deploymentTemplate
     # results = "#{basedir}azure/#{identifier}/#{identifier}_deploy.log"
@@ -554,47 +554,47 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       execute 'create_deployment' do
         command "azure group deployment create -g #{identifier} -n create_deployment -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
-        ignore_failure true
+        #ignore_failure true
       end
     elsif scheme.eql?("separated")
       execute 'create_vnet' do
         command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
-        ignore_failure true
+        #ignore_failure true
       end
       execute 'create_storageaccount1' do
         command "azure group deployment create -g #{identifier} -n create_storageaccount1 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
-        ignore_failure true
+        #ignore_failure true
       end
       execute 'create_storageaccount2' do
         command "azure group deployment create -g #{identifier} -n create_storageaccount2 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
-        ignore_failure true
+        #ignore_failure true
       end
       execute 'create_sqlserver' do
         command "azure group deployment create -g #{identifier} -n create_sqlserver -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
-        ignore_failure true
+        #ignore_failure true
       end
       execute 'create_hdi1' do
         command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
-        ignore_failure true
+        #ignore_failure true
       end
       execute 'config_hdi1' do
         command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode >> /root/.azure/azure.err"
-        ignore_failure true
+        #ignore_failure true
       end
       if ! azureaction.include?("read")
         execute 'create_hdi2' do
           command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
           # notifies :run, 'execute[commit_docker]', :immediately
-          ignore_failure true
+          #ignore_failure true
         end
         execute 'config_hdi2' do
           command "azure hdinsight script-action create #{clusterName2} -g #{identifier} -n KAP-hdi2-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0_writecluster.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{accountregion}\" >> /root/.azure/azure.err"
-          ignore_failure true
+          #ignore_failure true
         end
       end
     end
@@ -602,29 +602,29 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute 'removehdi_resources_group' do
       command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{kylin[:appType]} >> /root/.azure/azure.err"
       # notifies :run, 'execute[commit_docker]', :immediately
-      ignore_failure true
+      #ignore_failure true
     end
     execute 'removehdi_hdinsight' do
       command "azure hdinsight cluster delete #{clusterName} -g #{identifier} >> /root/.azure/azure.err"
       # notifies :run, 'execute[commit_docker]', :immediately
-      ignore_failure true
+      #ignore_failure true
     end
   elsif azureaction.eql?("removeall")
     execute 'remove_resources_group' do
       command "sh -c \"echo \\\"y\\\" |azure group delete #{identifier}\" >> /root/.azure/azure.err"
       # notifies :run, 'execute[commit_docker]', :immediately
-      ignore_failure true
+      #ignore_failure true
     end
   elsif azureaction.eql?("resize")
     execute 'resize_resources_group' do
       command "azure hdinsight cluster resize #{clusterName} -g #{identifier} #{kylin[:clusterWorkerNodeCount]} >> /root/.azure/azure.err"
       # notifies :run, 'execute[commit_docker]', :immediately
-      ignore_failure true
+      #ignore_failure true
     end
   elsif azureaction.eql?("upgrade")
     execute 'upgradekap' do
       command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{kylin[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> /root/.azure/azure.err"
-      ignore_failure true
+      #ignore_failure true
     end
   end
 end
