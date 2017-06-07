@@ -162,6 +162,7 @@
           "tag": "7.0.17_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
+          "memory_limit": 2147483648,
           "mountdocker": [
             "/app/code/db-convert:/var/www/html"
           ],
@@ -171,6 +172,7 @@
           "tag": "7.0.17_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
+          "memory_limit": 2147483648,
           "mountdocker": [
             "/app/code/de:/var/www/html"
           ],
@@ -180,6 +182,7 @@
           "tag": "7.0.17_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
+          "memory_limit": 2147483648,
           "mountdocker": [
             "/app/code/pmt:/var/www/html"
           ],
@@ -189,6 +192,7 @@
           "tag": "7.0.17_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
+          "memory_limit": 2147483648,
           "mountdocker": [
             "/app/code/crm:/var/www/html"
           ],
@@ -198,6 +202,7 @@
           "tag": "7.0.17_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
+          "memory_limit": 2147483648,
           "mountdocker": [
             "/app/code/mkt:/var/www/html"
           ],
@@ -207,6 +212,7 @@
           "tag": "7.0.17_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
+          "memory_limit": 2147483648,
           "mountdocker": [
             "/app/code/erp:/var/www/html"
           ],
