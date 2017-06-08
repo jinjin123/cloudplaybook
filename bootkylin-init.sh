@@ -11,6 +11,13 @@ echo "releasever=latest" >> /etc/yum.conf
 rm -rf /var/cache
 mkdir /var/cache
 
+#curl upgrade
+yum -y update
+yum -y install git
+
+#Must install
+yum -y install curl wget bind-utils
+
 # Sync time
 CHECKING_NTPDATE=`command -v ntpdate|wc -l`
 if [ "$CHECKING_NTPDATE" != "0" ]; then
@@ -29,7 +36,7 @@ if [ "$CHECKING_CHEFSOLO" != "0" ]; then
     echo "Chef Solo exists"
 else
     echo "Installing Chef Solo"
-    /usr/bin/curl -L https://www.opscode.com/chef/install.sh | sh
+    /usr/bin/curl -L https://www.opscode.com/chef/install.sh | bash
 fi
 
 #Create Chef-repo
@@ -37,19 +44,6 @@ mkdir -p /root/kylin/chef/chef-repo
 #just in case
 #mkdir -p /home/keithyau/bootdev/shadowdock/
 cd /root/kylin/chef/chef-repo
-
-#curl upgrade
-yum -y update
-yum -y install git
-#CHECKING_GIT=`command -v git|wc -l`
-#if [ "$CHECKING_GIT" != "0" ]; then
-#    echo "GIT exists"
-#else
-#    yum -y install git
-#fi
-
-#Must install
-yum -y install curl wget bind-utils
 
 #checkout working branch
 git clone -b docker-general-kyligence https://keithyau:thomas123@github.com/Kyligence/kylindeploy.git .
