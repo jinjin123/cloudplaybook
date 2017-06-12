@@ -15,10 +15,12 @@
     "deploycode": {
       "basedirectory": "/home/ec2-user/tools/drupal_dir/",
       "configuration": {
-        "reportingsys": {
-          "aws-reporttest.env": "/var/www/html/.env",
-          "aws-report-connect": "/var/www/html/config/externa_connection_db.php",
-          "aws-report-redis": "/var/www/html/config/database.php"
+        "general": {
+          "reportingsys": {
+            "aws-reporttest.env": "/var/www/html/.env",
+            "aws-report-connect": "/var/www/html/config/externa_connection_db.php",
+            "aws-report-redis": "/var/www/html/config/database.php"
+          }
         }
       },
       "localfolder": {
