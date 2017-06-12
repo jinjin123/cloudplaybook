@@ -48,16 +48,15 @@
         ]
       }
     }
-  }
-},
-"override_attributes": {},
-"chef_type": "role",
-"run_list": [
-  "recipe[git]",
-  "recipe[build-essential]",
-  "recipe[basicservice]",
-  "recipe[deploycode]",
-  "recipe[webserver]"
-],
-"env_run_lists": {}
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[deploycode]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists": {}
 }
