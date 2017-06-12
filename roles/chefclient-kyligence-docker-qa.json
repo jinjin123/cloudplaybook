@@ -42,9 +42,6 @@
           "mountlocal":"multipledir",
           "mountdocker":[
             "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
-            "/data/jarfile/commons-pool2-2.2.jar:/usr/local/tomcat/lib/commons-pool2-2.2.jar" ,
-            "/data/jarfile/jedis-2.5.2.jar:/usr/local/tomcat/lib/jedis-2.5.2.jar",
-            "/data/jarfile/tomcat-redis-session-manager-2.0.0.jar:/usr/local/tomcat/lib/",
             "/data:/data"
           ],
           "ports":"8081:8080",
