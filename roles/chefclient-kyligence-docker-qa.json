@@ -24,7 +24,9 @@
             "qa_web.xml": "/usr/local/tomcat/conf/web.xml",
             "qa_logging.properties": "/usr/local/tomcat/conf/logging.properties",
             "qa_context.xml": "/usr/local/tomcat/conf/context.xml",
-            "setenv.sh": "/usr/local/tomcat/bin/setenv.sh"
+            "setenv.sh": "/usr/local/tomcat/bin/setenv.sh",
+            "jasper.jar": "/usr/local/tomcat/lib/jasper.jar",
+            "jasper-el.jar": "/usr/local/tomcat/lib/jasper-el.jar"
           }
         }
       },
