@@ -1,0 +1,63 @@
+{
+  "name": "chefclient-sparkpad-liansuola-aws-gptest",
+  "description": "Role json file for starting and maintaining Sparkpad Generic Platform",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser": "ec2-user",
+    "projectname": "sparkpadgp",
+    "externalmode": "bootproxy",
+    "domainname": "liansuola.com",
+    "docker": {
+      "privaterepo": "dockerpriv.kybot.io:5002",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
+    "deploycode": {
+      "basedirectory": "/home/ec2-user/tools/drupal_dir/",
+      "configuration": {
+        "reportingsys": {
+          "aws-reporttest.env": "/var/www/html/.env",
+          "aws-report-connect": "/var/www/html/config/externa_connection_db.php"
+        }
+      }
+    },
+    "localfolder": {
+      "reportingsys": {
+        "giturl": "git@git.coding.net:chankongching/reports.git",
+        "branch": "liansuola"
+      },
+      "bootproxy": "nodownload"
+    },
+    "runtime": {
+      "reportingsys": {
+        "tag": "latest",
+        "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
+        "mountlocal": "localdir",
+        "mountdocker": "/var/www/html/",
+        "ports": "9090:80",
+        "overridesubdomain": "awsreports"
+      },
+      "bootproxy": {
+        "tag": "stable-alpine",
+        "image": "daocloud.io/library/nginx",
+        "mountlocal": "localdir",
+        "mountdocker": "/etc/nginx/conf.d/",
+        "ports": [
+          "80:80",
+          "8080:8080"
+        ]
+      }
+    }
+  }
+},
+"override_attributes": {},
+"chef_type": "role",
+"run_list": [
+  "recipe[git]",
+  "recipe[build-essential]",
+  "recipe[basicservice]",
+  "recipe[deploycode]",
+  "recipe[webserver]"
+],
+"env_run_lists": {}
+}
