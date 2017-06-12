@@ -24,9 +24,7 @@
             "qa_web.xml": "/usr/local/tomcat/conf/web.xml",
             "qa_logging.properties": "/usr/local/tomcat/conf/logging.properties",
             "qa_context.xml": "/usr/local/tomcat/conf/context.xml",
-            "setenv.sh": "/usr/local/tomcat/bin/setenv.sh",
-            "jasper.jar": "/usr/local/tomcat/lib/jasper.jar",
-            "jasper-el.jar": "/usr/local/tomcat/lib/jasper-el.jar"
+            "setenv.sh": "/usr/local/tomcat/bin/setenv.sh"
           }
         }
       },
@@ -44,6 +42,8 @@
           "mountlocal":"multipledir",
           "mountdocker":[
             "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
+            "/data/lib/jasper.jar:/usr/local/tomcat/lib/jasper.jar",
+            "/data/lib/jasper-el.jar:/usr/local/tomcat/lib/jasper-el.jar",
             "/data:/data"
           ],
           "ports":"8081:8080",
