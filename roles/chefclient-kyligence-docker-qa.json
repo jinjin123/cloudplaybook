@@ -42,8 +42,6 @@
           "mountlocal":"multipledir",
           "mountdocker":[
             "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
-            "/data/lib/jasper.jar:/usr/local/tomcat/lib/jasper.jar",
-            "/data/lib/jasper-el.jar:/usr/local/tomcat/lib/jasper-el.jar",
             "/data:/data"
           ],
           "ports":"8081:8080",
