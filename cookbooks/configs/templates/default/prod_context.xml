@@ -38,4 +38,7 @@
        port="6379"
        database="0"
        maxInactiveInterval="60" />
+    <Valve className="org.apache.catalina.valves.StuckThreadDetectionValve"
+       threshold="800"
+       interruptThreadThreshold="800" />
 </Context>
