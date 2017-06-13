@@ -38,7 +38,7 @@
         "qa":{
           "tag":"20170612",
           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
-          "env":["NEWRELICKEY=7b594fa2067ea81aa489d399aab50b5385b27624","NEWRELICAPPNAME=KYBOT_PROD","GLUSTERSERVERIP=10.0.0.191","GLUSTERMOUNTFOLDER=/data"],
+          "env":["NEWRELICKEY=7b594fa2067ea81aa489d399aab50b5385b27624","NEWRELICAPPNAME=KYBOT_QA"],
           "mountlocal":"multipledir",
           "mountdocker":[
             "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
