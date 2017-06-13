@@ -59,7 +59,7 @@
           "branch": "master"
         },
         "wmserver": {
-          "giturl": "git@git.coding.net:shiyang1983/wmserver.git",
+          "giturl": "git@git.coding.net:shiyang1983/gtdx_wmserver.git",
           "branch": "master"
         },
         "bootproxy":"nodownload"
