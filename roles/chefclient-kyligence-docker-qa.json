@@ -36,7 +36,7 @@
       },
       "runtime": {
         "qa":{
-          "tag":"20170612",
+          "tag":"latest",
           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
           "env":["NEWRELICKEY=7b594fa2067ea81aa489d399aab50b5385b27624","NEWRELICAPPNAME=KYBOT_QA"],
           "mountlocal":"multipledir",

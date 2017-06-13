@@ -38,12 +38,17 @@
         "prod":{
           "tag":"latest",
           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+          "env":["NEWRELICKEY=7b594fa2067ea81aa489d399aab50b5385b27624","NEWRELICAPPNAME=KYBOT_PROD"],
           "mountlocal":"multipledir",
           "mountdocker":[
-             "/home/ec2-user/tools/tomcat_dir/prod:/usr/local/tomcat/webapps",
-             "/data:/data"
-           ],
-          "ports":"8082:8080"
+            "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
+            "/data/jarfile/commons-pool2-2.2.jar:/usr/local/tomcat/lib/commons-pool2-2.2.jar",
+            "/data/jarfile/jedis-2.5.2.jar:/usr/local/tomcat/lib/jedis-2.5.2.jar",
+            "/data/jarfile/tomcat-redis-session-manager-2.0.0.jar:/usr/local/tomcat/lib/tomcat-redis-session-manager-2.0.0.jar",
+            "/data/files:/data"
+          ],
+          "ports":"8082:8080",
+          "exec": "/root/entry-point.sh"
         }
       }
     }
