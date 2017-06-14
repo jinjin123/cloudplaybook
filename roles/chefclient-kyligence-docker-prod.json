@@ -42,7 +42,7 @@
           "mountlocal":"multipledir",
           "mountdocker":[
             "/home/ec2-user/tools/tomcat_dir/prod:/usr/local/tomcat/webapps",
-            "/data:/data"
+            "/data/files:/data"
           ],
           "ports":"8082:8080"
         }
