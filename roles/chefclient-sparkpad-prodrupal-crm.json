@@ -66,7 +66,7 @@
         "crm": {
           "tag": "7.0.17_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_CRM_Production"],
+          "env":["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072","NEWRELICAPPNAME=ZKF_CRM_Production"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/app/web/crm:/var/www/html"
