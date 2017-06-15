@@ -5,7 +5,6 @@
   "default_attributes": {
     "deploycode": {
       "basedirectory": "/root/tools/code/"
-      }
     }
   },
   "override_attributes": {},
