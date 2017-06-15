@@ -1,0 +1,266 @@
+{
+  "name": "chefclient-sparkpad-liansuola-prod",
+  "description": "Role json file for starting and maintaining Sparkpad Generic Platform",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser": "ec2-user",
+    "projectname": "sparkpadgp",
+    "externalmode": "bootproxy",
+    "domainname": "liansuola.com",
+    "docker": {
+      "privaterepo": "dockerpriv.kybot.io:5002",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
+    "deploycode": {
+      "basedirectory": "/home/ec2-user/tools/drupal_dir/",
+      "configuration":{
+        "drupal": {
+          "de": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "liansuola-de-1.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpadgpdcopy.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123"
+            }
+          },
+          "erp": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpadgpdcopy.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123"
+            }
+          },
+          "crm": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpadgpdcopy.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123"
+            }
+          },
+          "pmt": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpadgpdcopy.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123",
+              "dbname": "payment"
+            }
+          },
+          "mkt": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpadgpdcopy.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123",
+              "dbname": "marketing"
+            }
+          }
+        }
+      },
+      "localfolder": {
+        "de": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+          "branch": "master"
+        },
+        "erp": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-erp.git",
+          "branch": "master"
+        },
+        "crm": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-crm.git",
+          "branch": "liansuola"
+        },
+        "pmt": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
+          "branch": "master"
+        },
+        "mkt": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-mkt.git",
+          "branch": "master"
+        },
+        "oc": {
+          "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
+          "branch": "master"
+        },
+        "tsoc": {
+          "giturl": "git@git.coding.net:keithyau/deploymenttsoc.git",
+          "branch": "master"
+        },
+        "orderserver": {
+          "giturl": "git@git.coding.net:shiyang1983/orderserver.git",
+          "branch": "master"
+        },
+        "wmserver": {
+          "giturl": "git@git.coding.net:shiyang1983/wmserver.git",
+          "branch": "master"
+        },
+        "reportingsys": {
+          "giturl": "git@git.coding.net:chankongching/reports.git",
+          "branch": "liansuola"
+        },
+        "syncoc": {
+          "giturl": "git@git.coding.net:keithyau/syncoc.git",
+          "branch": "master"
+        },
+        "bootproxy":"nodownload"
+      },
+      "runtime": {
+        "de": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9081:80",
+          "overridesubdomain":"detest"
+        },
+        "erp": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9082:80",
+          "overridesubdomain":"erptest"
+        },
+        "crm": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9083:80",
+          "overridesubdomain":"crmtest"
+        },
+        "pmt": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9084:80",
+          "overridesubdomain":"pmttest"
+        },
+        "mkt": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9085:80",
+          "overridesubdomain":"mkttest"
+        },
+        "oc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/oc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9086:8080",
+          "overridesubdomain":"octest"
+        },
+        "tsoc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/tsoc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9087:8080",
+        },
+        "orderserver": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/orderserver:/usr/local/tomcat/webapps/ROOT",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9088:8080",
+        },
+        "reportingsys": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html/",
+          "ports": "9090:80",
+          "overridesubdomain":"reportstest"
+        },
+        "syncoc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/syncoc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9091:8080"
+        },
+        "wmserver": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps/ROOT",
+            "/etc/localtime:/etc/localtime:ro",
+            "/bin/vi:/bin/vi"
+          ],
+          "ports": "9092:8080",
+          "overridesubdomain": "takeaway-wm-test"
+        },
+        "bootproxy":{
+          "tag":"stable-alpine",
+          "image":"daocloud.io/library/nginx",
+          "mountlocal":"localdir",
+          "mountdocker":"/etc/nginx/conf.d/",
+          "ports":[
+            "80:80",
+            "8080:8080"
+          ]
+        }
+      }
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[deploycode]",
+    "recipe[drupalsetting]",
+    "recipe[webserver]"
+  ],
+  "env_run_lists": {}
+}
