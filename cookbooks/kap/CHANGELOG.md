@@ -1,9 +1,9 @@
-# azure CHANGELOG
+# kap CHANGELOG
 
-This file is used to list changes made in each version of the azure cookbook.
+This file is used to list changes made in each version of the kap cookbook.
 
 ## 0.1.0
-- [your_name] - Initial release of azure
+- [your_name] - Initial release of kap
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.

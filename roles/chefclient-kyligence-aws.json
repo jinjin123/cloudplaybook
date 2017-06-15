@@ -3,15 +3,8 @@
   "description": "",
   "json_class": "Chef::Role",
   "default_attributes": {
-    "deployuser": "root",
-    "projectname": "kyligence",
-    "docker": {
-      "privaterepo": "dockerpriv.kybot.io:5002",
-      "username": "keithyau",
-      "password": "thomas123"
-    },
     "deploycode": {
-      "basedirectory": "/root/tools/code/",
+      "basedirectory": "/root/tools/aws/",
       "configuration": {
         "aws": {
           "credentials": {
@@ -37,29 +30,13 @@
             "sshPassword": "Kyligence2016"
           }
         }
-      },
-      "localfolder": {
-        "azure-cli": "nodownload"
-      },
-      "runtime": {
-        "azure": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/aws-cli",
-          "mountlocal": "localdir",
-          "mountdocker": "/templates"
-        }
       }
     }
   },
   "override_attributes": {},
   "chef_type": "role",
   "run_list": [
-    "recipe[git]",
-    "recipe[build-essential]",
-    "recipe[basicservice]",
-    "recipe[deploycode]",
-    "recipe[webserver]",
-    "recipe[aws]"
+    "recipe[kap]"
   ],
   "env_run_lists": {}
 }

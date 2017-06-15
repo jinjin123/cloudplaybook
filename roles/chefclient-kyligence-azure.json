@@ -4,7 +4,7 @@
   "json_class": "Chef::Role",
   "default_attributes": {
     "deploycode": {
-      "basedirectory": "/root/tools/code/",
+      "basedirectory": "/root/tools/azure/",
       "configuration": {
         "azure": {
           "credentials": {
@@ -37,7 +37,7 @@
   "override_attributes": {},
   "chef_type": "role",
   "run_list": [
-    "recipe[azure]"
+    "recipe[kap]"
   ],
   "env_run_lists": {}
 }

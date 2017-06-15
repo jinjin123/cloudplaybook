@@ -8,5 +8,9 @@
 #
 
 if (not (defined?(node[:deploycode][:configuration][:azure][:kylin])).nil?)
-  include_recipe '::kylin'
+  include_recipe '::azure'
+end
+
+if (not (defined?(node[:deploycode][:configuration][:aws][:kylin])).nil?)
+  include_recipe '::aws'
 end

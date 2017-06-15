@@ -1,4 +1,4 @@
-# azure Cookbook
+# kap Cookbook
 
 TODO: Enter the cookbook description here.
 
@@ -20,14 +20,14 @@ e.g.
 
 ### Cookbooks
 
-- `toaster` - azure needs toaster to brown your bagel.
+- `toaster` - kap needs toaster to brown your bagel.
 
 ## Attributes
 
 TODO: List your cookbook attributes here.
 
 e.g.
-### azure::default
+### kap::default
 
 <table>
   <tr>
@@ -37,7 +37,7 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['azure']['bacon']</tt></td>
+    <td><tt>['kap']['bacon']</tt></td>
     <td>Boolean</td>
     <td>whether to include bacon</td>
     <td><tt>true</tt></td>
@@ -46,18 +46,18 @@ e.g.
 
 ## Usage
 
-### azure::default
+### kap::default
 
 TODO: Write usage instructions for each cookbook.
 
 e.g.
-Just include `azure` in your node's `run_list`:
+Just include `kap` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[azure]"
+    "recipe[kap]"
   ]
 }
 ```
