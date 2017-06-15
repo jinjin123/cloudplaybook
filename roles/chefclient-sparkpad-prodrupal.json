@@ -141,14 +141,14 @@
       },
       "runtime": {
         "welcome": {
-          "tag":"7.0.17_v4",
+          "tag":"7.1.4_v4",
           "image":"dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal":"localdir",
           "mountdocker":"/var/www/html",
           "ports":"9080:80"
         },
         "de": {
-          "tag": "7.0.17_v4_oci8",
+          "tag": "7.1.4_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_DE_Production"],
           "mountlocal": "multipledir",
@@ -158,7 +158,7 @@
           "ports": "9081:80"
         },
         "pmt": {
-          "tag": "7.0.17_v4",
+          "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_PMT_Production"],
           "mountlocal": "multipledir",
@@ -168,7 +168,7 @@
           "ports": "9082:80"
         },
         "crm": {
-          "tag": "7.0.17_v4",
+          "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_CRM_Production"],
           "mountlocal": "multipledir",
@@ -178,7 +178,7 @@
           "ports": "9083:80"
         },
         "mkt": {
-          "tag": "7.0.17_v4",
+          "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_MKT_Production"],
           "mountlocal": "multipledir",
@@ -188,7 +188,7 @@
           "ports": "9084:80"
         },
         "erp": {
-          "tag": "7.0.17_v4_oci8",
+          "tag": "7.1.4_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "env":["NEWRELICKEY=b01487901593e2c9d5691180152c46dd59682599","NEWRELICAPPNAME=ZKF_ERP_Production"],
           "mountlocal": "multipledir",
