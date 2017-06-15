@@ -4,7 +4,7 @@
   "json_class": "Chef::Role",
   "default_attributes": {
     "deploycode": {
-      "basedirectory": "/root/tools/aws/",
+      "basedirectory": "/root/tools/code/",
       "configuration": {
         "aws": {
           "credentials": {
