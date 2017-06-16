@@ -501,7 +501,9 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
     block do
       require 'json'
       File.open("/root/.azure/accessTokens.json","w") do |f|
+        f.puts("[")
         f.puts(credentials[:token].to_json)
+        f.puts("]")
       end
     end
   end
