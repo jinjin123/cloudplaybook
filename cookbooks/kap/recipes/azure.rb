@@ -490,7 +490,7 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
   ## writing json File
   tokenjson = Chef::JSONCompat.to_json_pretty(credentials[:token][0])
   file "/root/.azure/accessTokens.json" do
-    content "[ " + tokenjson + " ]"
+    content "[ " + credentials[:token][0] + " ]"
   end
   # profilejson = Chef::JSONCompat.to_json_pretty(credentials[:profile])
   # file "#{basedir}azure/#{identifier}/azure/azureProfile.json" do
