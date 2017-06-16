@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:7systemd
 MAINTAINER chankongching@gmail.com
 
 COPY ./chef-12.5.1-1.el7.x86_64.rpm /tmp/chef-12.5.1-1.el7.x86_64.rpm
@@ -27,9 +27,3 @@ RUN  set -x && \
      node --version 
 RUN  set -x && \
      npm install azure-cli -g
-
-RUN  azure help
-COPY ./startup.sh /root/startup.sh
-RUN  chmod 744 /root/startup.sh
-
-RUN ["/bin/bash", "-c", "/root/startup.sh"]
