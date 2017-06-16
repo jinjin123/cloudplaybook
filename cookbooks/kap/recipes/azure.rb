@@ -529,12 +529,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   # if deploymentmode.eql?("token")
   #   mapvolume = "-v #{basedir}azure/#{identifier}/azure:$HOME/.azure"
   # end
-  execute 'config_arm_mode' do
-    # command "docker run --name #{container_name} #{mapvolume} #{image_name} azure config mode arm || true"
-    command "azure config mode arm || true"
-    # notifies :run, 'execute[commit_docker]', :immediately
-    #ignore_failure true
-  end
+  # execute 'config_arm_mode' do
+  #   # command "docker run --name #{container_name} #{mapvolume} #{image_name} azure config mode arm || true"
+  #   command "azure config mode arm || true"
+  #   # notifies :run, 'execute[commit_docker]', :immediately
+  #   #ignore_failure true
+  # end
 
   # case when azureaction
   if azureaction.include?("create")
