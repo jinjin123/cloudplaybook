@@ -465,6 +465,15 @@ end
 
 # Reinit azure docker_container
 deploymentmode = ""
+# Prepare credential directory
+directory "#{basedir}azure/#{identifier}/azure" do
+  owner username
+  group username
+  mode '0755'
+  recursive true
+  action :create
+end
+
 if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:username]}" == "")
   deploymentmode = "username"
   if (not (defined?(credentials[:env])).nil?) && (not "#{credentials[:env]}" == "")
@@ -478,13 +487,6 @@ if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:usernam
   end
 elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
   deploymentmode = "token"
-  directory "#{basedir}azure/#{identifier}/azure" do
-    owner username
-    group username
-    mode '0755'
-    recursive true
-    action :create
-  end
   ruby_block "writetokenfile" do
     block do
       require 'json'
