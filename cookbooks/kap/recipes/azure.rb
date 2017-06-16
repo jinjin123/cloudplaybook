@@ -487,32 +487,40 @@ if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:usernam
   end
 elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
   deploymentmode = "token"
+  ## writing json File
+  # tokenjson = Chef::JSONCompat.to_json_pretty(credentials[:token])
+  # file "#{basedir}azure/#{identifier}/azure/accessTokens.json" do
+  #   content tokenjson
+  # end
+  # profilejson = Chef::JSONCompat.to_json_pretty(credentials[:profile])
+  # file "#{basedir}azure/#{identifier}/azure/azureProfile.json" do
+  #   content profilejson
+  # end
+
   ruby_block "writetokenfile" do
     block do
       require 'json'
-      File.open("#{basedir}azure/#{identifier}/azure/accessTokens.json","w") do |f|
+      File.open("/root/.azure/accessTokens.json","w") do |f|
         f.puts(credentials[:token].to_json)
       end
-      #require 'pp'
-      #$stdout = File.open("#{basedir}azure/#{identifier}/azure/accessTokens.json", 'w')
-      #pp credentials[:token]
     end
   end
+
   ruby_block "writeprofilefile" do
     block do
       require 'json'
-      File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json","w") do |f|
+      File.open("/root/.azure/azureProfile.json","w") do |f|
         f.puts(credentials[:profile].to_json)
       end
       #$stdout = File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json", 'w')
       #pp credentials[:profile]
     end
   end
-  # execute "writeconfigjson" do
-  #   command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> #{basedir}azure/#{identifier}/azure/config.json"
-  # end
+  execute "writeconfigjson" do
+    command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> /root/.azure/config.json"
+  end
   execute "writetelemetryjson" do
-    command "echo {\\\"telemetry\\\"\: \\\"false\\\"} >> #{basedir}azure/#{identifier}/azure/telemetry.json"
+    command "echo {\\\"telemetry\\\"\: \\\"false\\\"} >> /root/.azure/telemetry.json"
   end
 end
 
