@@ -488,23 +488,23 @@ if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:usernam
 elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
   deploymentmode = "token"
   ## writing json File
-  # tokenjson = Chef::JSONCompat.to_json_pretty(credentials[:token])
-  # file "#{basedir}azure/#{identifier}/azure/accessTokens.json" do
-  #   content tokenjson
-  # end
+  tokenjson = Chef::JSONCompat.to_json_pretty(credentials[:token])
+  file "/root/.azure/accessTokens.json" do
+    content tokenjson
+  end
   # profilejson = Chef::JSONCompat.to_json_pretty(credentials[:profile])
   # file "#{basedir}azure/#{identifier}/azure/azureProfile.json" do
   #   content profilejson
   # end
 
-  ruby_block "writetokenfile" do
-    block do
-      require 'json'
-      File.open("/root/.azure/accessTokens.json","w") do |f|
-        f.puts(credentials[:token].to_json)
-      end
-    end
-  end
+  # ruby_block "writetokenfile" do
+  #   block do
+  #     require 'json'
+  #     File.open("/root/.azure/accessTokens.json","w") do |f|
+  #       f.puts(credentials[:token].to_json)
+  #     end
+  #   end
+  # end
 
   ruby_block "writeprofilefile" do
     block do
