@@ -73,6 +73,21 @@
               "dbname": "payment"
             }
           },
+          "pmt2": {
+            "folders": {
+              "sites/default/files" : "777",
+              "sites/default/privates" : "777"
+            },
+            "settings": {
+              "general.settings.php" : "sites/default/settings.php"
+            },
+            "variables" : {
+              "dbhost": "sparkpadgpdcopy.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123",
+              "dbname": "payment2"
+            }
+          },
           "mkt": {
             "folders": {
               "sites/default/files" : "777",
@@ -105,6 +120,10 @@
         },
         "pmt": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
+          "branch": "master"
+        },
+        "pmt2": {
+          "giturl": "git@git.coding.net:wenxing/payment.git",
           "branch": "master"
         },
         "mkt": {
@@ -169,6 +188,14 @@
           "mountdocker": "/var/www/html",
           "ports": "9084:80",
           "overridesubdomain":"pmttest"
+        },
+        "pmt2": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9089:80",
+          "overridesubdomain":"pmt2test"
         },
         "mkt": {
           "tag": "latest",
