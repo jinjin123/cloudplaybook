@@ -119,7 +119,7 @@
           "branch": "liansuola"
         },
         "de": {
-          "giturl": "git@gitlab.com:Sparkpad/gutian-de.git",
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
           "branch": "master"
         },
         "oc": {
