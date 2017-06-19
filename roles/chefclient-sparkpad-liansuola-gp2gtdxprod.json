@@ -150,7 +150,9 @@
           "giturl": "git@git.coding.net:shiyang1983/gtdx_wmserver.git",
           "branch": "master"
         },
+        "couchdb": "nodownload",
         "bootproxy": "nodownload",
+        "rabbitmq": "nodownload",
         "redis-report": "nodownload"
       },
       "runtime": {
@@ -159,6 +161,15 @@
           "image": "redis",
           "memory_limit": 547483648,
           "ports": "6379:6379"
+        },
+        "rabbitmq": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/rmq",
+          "exec": "sleep 40;/bin/bash /setup",
+          "ports": [
+            "5672:5672",
+            "15672:15672"
+          ]
         },
         "mkt": {
           "tag": "7.1.4_v4",
@@ -254,6 +265,15 @@
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9089:8080"
+        },
+        "couchdb": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/couchdb",
+          "env": ["PATH=/opt/couchdb/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:$PATH", "COUCHDB_USER=admin", "COUCHDB_PASSWORD=thomas123"],
+          "mountlocal": "localdir",
+          "mountdocker": "/opt/couchdb/data",
+          "ports": "9090:5984",
+          "overridesubdomain": "couchdb-cloud.gtdx"
         },
         "bootproxy": {
           "tag": "stable-alpine",

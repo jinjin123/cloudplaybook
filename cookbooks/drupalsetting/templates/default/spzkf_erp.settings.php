@@ -3,6 +3,7 @@ $databases['default']['default'] = array (
   'database' => 'erp',
   'username' => 'erp',
   'password' => 's5BBRsQ9m8L6OPmU6q',
+  #'host' => '172.16.103.189',
   'host' => '172.16.103.125',
   'port' => '',
   'driver' => 'mysql',
@@ -16,6 +17,7 @@ $databases['nc_tmp']['default'] = array(
   'host' => 'docs.sparkpos.cn',
   'prefix' => '',
 );
+//堂食OC
 $databases['oc']['default'] = array(
   'driver' => 'mysql',
   'database' => 'newposoc',
@@ -24,6 +26,7 @@ $databases['oc']['default'] = array(
   'host' => '172.16.103.191',
   'prefix' => '',
 );
+//GFS OC
 $databases['gfs']['default'] = array(
   'driver' => 'mysql',
   'database' => 'oc',
@@ -32,13 +35,31 @@ $databases['gfs']['default'] = array(
   'host' => '172.16.103.186',
   'prefix' => '',
 );
-//合并后的OC
-$databases['oc_final']['default'] = array(
+//Report DB
+$databases['report']['default'] = array(
   'driver' => 'mysql',
   'database' => 'oc',
   'username' => 'readonly',
   'password' => 'AZTfjuCFoppEC6wR',
   'host' => '172.16.103.203',
+  'prefix' => '',
+);
+//Report DB 207
+$databases['report-207']['default'] = array(
+  'driver' => 'mysql',
+  'database' => 'oc',
+  'username' => 'readonly',
+  'password' => 'readonly',
+  'host' => '172.16.103.207',
+  'prefix' => '',
+);
+//ERP stock
+$databases['stock']['default'] = array(
+  'driver' => 'mysql',
+  'database' => 'erp_stock',
+  'username' => 'erpstock',
+  'password' => 'erpstock!@#',
+  'host' => '172.16.103.189',
   'prefix' => '',
 );
 $conf['oci8'] = array(
