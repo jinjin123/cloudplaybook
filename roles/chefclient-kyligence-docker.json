@@ -5,7 +5,7 @@
   "default_attributes": {
     "diskmount": {
       "localsourcefolder": "/data",
-      "glusterserverip": "10.0.0.61",
+      "glusterserverip": "10.0.0.122",
       "glustervolume": "glt0"
     },
     "deployuser" : "ec2-user",
@@ -23,13 +23,15 @@
             "qa_server.xml" : "/usr/local/tomcat/conf/server.xml",
             "qa_web.xml": "/usr/local/tomcat/conf/web.xml",
             "qa_logging.properties": "/usr/local/tomcat/conf/logging.properties",
-            "qa_context.xml": "/usr/local/tomcat/conf/context.xml"
+            "qa_context.xml": "/usr/local/tomcat/conf/context.xml",
+            "setenv.sh": "/usr/local/tomcat/bin/setenv.sh"
           },
           "prod": {
             "prod_server.xml" : "/usr/local/tomcat/conf/server.xml",
             "prod_web.xml": "/usr/local/tomcat/conf/web.xml",
             "prod_logging.properties": "/usr/local/tomcat/conf/logging.properties",
-            "prod_context.xml": "/usr/local/tomcat/conf/context.xml"
+            "prod_context.xml": "/usr/local/tomcat/conf/context.xml",
+            "setenv.sh": "/usr/local/tomcat/bin/setenv.sh"
           }
         }
       },
@@ -47,23 +49,33 @@
         "qa":{
           "tag":"latest",
           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+          "env":["NEWRELICKEY=7b594fa2067ea81aa489d399aab50b5385b27624","NEWRELICAPPNAME=KYBOT_QA"],
           "mountlocal":"multipledir",
           "mountdocker":[
-             "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
-             "/data:/data"
-           ],
+            "/home/ec2-user/tools/tomcat_dir/qa:/usr/local/tomcat/webapps",
+            "/data/jarfile/commons-pool2-2.2.jar:/usr/local/tomcat/lib/commons-pool2-2.2.jar",
+            "/data/jarfile/jedis-2.5.2.jar:/usr/local/tomcat/lib/jedis-2.5.2.jar",
+            "/data/jarfile/tomcat-redis-session-manager-2.0.0.jar:/usr/local/tomcat/lib/tomcat-redis-session-manager-2.0.0.jar",
+            "/data/files:/data"
+          ],
           "ports":"8081:8080",
-          "memory_limit": 1073741824
+          "memory_limit": 2147483648,
+          "exec": "/root/entry-point.sh"
         },
         "prod":{
           "tag":"latest",
           "image":"dockerpriv.kybot.io:5002/keithyau/tomcatglusternewrelic",
+          "env":["NEWRELICKEY=7b594fa2067ea81aa489d399aab50b5385b27624","NEWRELICAPPNAME=KYBOT_PROD"],
           "mountlocal":"multipledir",
           "mountdocker":[
-             "/home/ec2-user/tools/tomcat_dir/prod:/usr/local/tomcat/webapps",
-             "/data:/data"
-           ],
-          "ports":"8082:8080"
+            "/home/ec2-user/tools/tomcat_dir/prod:/usr/local/tomcat/webapps",
+            "/data/jarfile/commons-pool2-2.2.jar:/usr/local/tomcat/lib/commons-pool2-2.2.jar",
+            "/data/jarfile/jedis-2.5.2.jar:/usr/local/tomcat/lib/jedis-2.5.2.jar",
+            "/data/jarfile/tomcat-redis-session-manager-2.0.0.jar:/usr/local/tomcat/lib/tomcat-redis-session-manager-2.0.0.jar",
+            "/data/files:/data"
+          ],
+          "ports":"8082:8080",
+          "exec": "/root/entry-point.sh"
         }
       }
     }

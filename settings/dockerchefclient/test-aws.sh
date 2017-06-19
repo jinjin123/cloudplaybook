@@ -1,8 +1,7 @@
+#!/bin/bash
+
+./runchefclientdocker.sh 20170615000aws '
 {
-  "name": "chefclient-kyligence-aws",
-  "description": "",
-  "json_class": "Chef::Role",
-  "default_attributes": {
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
@@ -13,9 +12,9 @@
             "region": "cn-north-1"
           },
           "kylin": {
-            "identifier": "20170324095502",
+            "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
+            "identifier": "20170615000aws",
             "region": "chinaeast",
-            "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
             "clusterLoginUserName": "admintest",
             "clusterLoginPassword": "Kyligence2016",
@@ -27,16 +26,11 @@
             "edgeNodeSize": "Standard_D3_V2",
             "metastoreName": "default",
             "sshUserName": "admintest",
-            "sshPassword": "Kyligence2016"
+            "sshPassword": "Kyligence2016",
+            "storageAccount": "20170615000awssa"
           }
         }
       }
     }
-  },
-  "override_attributes": {},
-  "chef_type": "role",
-  "run_list": [
-    "recipe[kap]"
-  ],
-  "env_run_lists": {}
 }
+'

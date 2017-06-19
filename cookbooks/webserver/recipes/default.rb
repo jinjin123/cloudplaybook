@@ -304,7 +304,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 
       if (not (defined?(docker[:exec])).nil?) && (not "#{docker[:exec]}" == "")
         execute 'execute command inside docker' do
-        command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec]}\'"
+        command "docker exec -i #{container_name} /bin/bash -c \'#{docker[:exec]}\';docker restart #{container_name}"
         end
       end
       if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")

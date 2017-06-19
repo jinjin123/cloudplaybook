@@ -7,7 +7,7 @@
       "externalmode":"bootproxy",
       "projectname":"shadowdock",
       "domainname":"shadowdock.com",
-      "thisserver":"7d8339976a76926d1612e5d0815153e2.shadowdock.com",
+      "thisserver":"d41d8cd98f00b204e9800998ecf8427e.shadowdock.com",
       "docker": {
           "privaterepo":"dockerpriv.shadowdock.com",
           "username":"keithyau",
@@ -21,11 +21,11 @@
          "runtime":{
             "shadowsocksinit":{
                "tag":"latest",
-               "image":"mritd/shadowsocks",
+               "image":"keithyau/ss",
                "env":[
                   "DUMMY"
                ],
-               "command":"",
+               "command":"-k thomas123 -w 2 -f",
                "mountlocal":"localdir",
                "mountdocker":"/mnt",
                "proxyport":"444",
