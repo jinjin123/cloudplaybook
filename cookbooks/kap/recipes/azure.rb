@@ -490,7 +490,7 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
   ## writing json File
   # tokenarray = credentials[:token]
   # tokenjson = ''
-  # tokenarray.each { |item| tokenjson = tokenjson + item.to_hash + ',' } 
+  # tokenarray.each { |item| tokenjson = tokenjson + item.to_hash + ',' }
   tokenjson1 = Chef::JSONCompat.to_json_pretty(credentials[:token][0].to_hash)
   tokenjson2 = Chef::JSONCompat.to_json_pretty(credentials[:token][1].to_hash)
   file "/root/.azure/tempTokens.json" do
@@ -500,26 +500,6 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
   execute "modifyformat" do
     command "sed -i 's/^/  /g' /root/.azure/tempTokens.json;echo '[' > /root/.azure/accessTokens.json;cat /root/.azure/tempTokens.json >> /root/.azure/accessTokens.json;echo '' >> /root/.azure/accessTokens.json;echo \"\\\n\"']' >> /root/.azure/accessTokens.json;rm -f /root/.azure/tempTokens.json"
   end
-    
-  # profilejson = Chef::JSONCompat.to_json_pretty(credentials[:profile])
-  # file "#{basedir}azure/#{identifier}/azure/azureProfile.json" do
-  #   content profilejson
-  # end
-
-#  ruby_block "writetokenfile" do
-#    block do
-#      require 'json'
-#      print credentials[:token]
-##      File.open("/root/.azure/temp.json","w") do |f|
-##        f.puts(credentials[:token][0].to_json)
-##      end
-##      $stdout = File.open("/root/.azure/temp.json","w")
-##      puts credentials[:token].to_json
-#      File.open("/root/.azure/temp.json", "w+") do |f|
-#        f.puts(credentials[:token])
-#      end
-#    end
-#  end
 
   ruby_block "writeprofilefile" do
     block do
