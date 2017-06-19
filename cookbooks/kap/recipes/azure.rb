@@ -488,23 +488,38 @@ if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:usernam
 elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
   deploymentmode = "token"
   ## writing json File
-  # tokenjson = Chef::JSONCompat.to_json_pretty(credentials[:token][0].to_hash)
-  # file "/root/.azure/accessTokens.json" do
-  #   content "[ " + tokenjson + " ]"
-  # end
+  # tokenarray = credentials[:token]
+  # tokenjson = ''
+  # tokenarray.each { |item| tokenjson = tokenjson + item.to_hash + ',' } 
+  tokenjson1 = Chef::JSONCompat.to_json_pretty(credentials[:token][0].to_hash)
+  tokenjson2 = Chef::JSONCompat.to_json_pretty(credentials[:token][1].to_hash)
+  file "/root/.azure/tempTokens.json" do
+  #file "/root/.azure/accessTokens.json" do
+    content tokenjson1 + ",\n" + tokenjson2
+  end
+  execute "modifyformat" do
+    command "sed -i 's/^/  /g' /root/.azure/tempTokens.json;echo '[' > /root/.azure/accessTokens.json;cat /root/.azure/tempTokens.json >> /root/.azure/accessTokens.json;echo '' >> /root/.azure/accessTokens.json;echo \"\\\n\"']' >> /root/.azure/accessTokens.json;rm -f /root/.azure/tempTokens.json"
+  end
+    
   # profilejson = Chef::JSONCompat.to_json_pretty(credentials[:profile])
   # file "#{basedir}azure/#{identifier}/azure/azureProfile.json" do
   #   content profilejson
   # end
 
-  ruby_block "writetokenfile" do
-    block do
-      require 'json'
-      File.open("/root/.azure/temp.json","w") do |f|
-        f.puts(credentials[:token].to_json)
-      end
-    end
-  end
+#  ruby_block "writetokenfile" do
+#    block do
+#      require 'json'
+#      print credentials[:token]
+##      File.open("/root/.azure/temp.json","w") do |f|
+##        f.puts(credentials[:token][0].to_json)
+##      end
+##      $stdout = File.open("/root/.azure/temp.json","w")
+##      puts credentials[:token].to_json
+#      File.open("/root/.azure/temp.json", "w+") do |f|
+#        f.puts(credentials[:token])
+#      end
+#    end
+#  end
 
   ruby_block "writeprofilefile" do
     block do
@@ -515,6 +530,9 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
       #$stdout = File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json", 'w')
       #pp credentials[:profile]
     end
+  end
+  execute "chaningpermission" do
+    command "chmod 400 /root/.azure/azureProfile.json;chmod 400 /root/.azure/accessTokens.json"
   end
   execute "writeconfigjson" do
     command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> /root/.azure/config.json"
