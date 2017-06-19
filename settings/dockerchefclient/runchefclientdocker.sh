@@ -7,16 +7,16 @@ DATFILEDIR=/root/tools/code/azure
 # Ensuring path exists
 mkdir -p $DATFILEDIR/$IDENTIFIER
 
-/bin/knife node delete $IDENTIFIER -y || true
-/bin/knife client delete $IDENTIFIER -y || true
+cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
+cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
 
 cp /etc/chef/client.rb /root/tools/code/azure/$IDENTIFIER/client.rb
 sed -i "s/CHEFCLIENTNAME/$IDENTIFIER/" /root/tools/code/azure/$IDENTIFIER/client.rb
 
 mkdir -p /root/tools/code/azure/$IDENTIFIER/data
 echo $DEPLOYJSON > /root/tools/code/azure/$IDENTIFIER/deploy.json
-# if [ ! -z ${var+x} ]; 
-# then 
+# if [ ! -z ${var+x} ];
+# then
   # echo $DEPLOYJSON > /root/tools/code/azure/$IDENTIFIER/deploy.json
   # mkdir -p /root/tools/code/azure/$IDENTIFIER/data
   # cp /root/tools/code/azure/$IDENTIFIER/deploy.json /data/$IDENTIFIER/deploy.json
@@ -33,12 +33,22 @@ docker run --rm --network=host --name chef-client-$IDENTIFIER \
 -v /etc/chef/validator.pem:/etc/chef/validator.pem \
 -v /root/tools/code/azure/$IDENTIFIER/client.rb:/etc/chef/client.rb \
 -v /root/tools/code/azure/$IDENTIFIER/deploy.json:/etc/chef/deploy.json \
--v /root/tools/code/azure/$IDENTIFIER/azure.log:/root/.azure/azure.err \
-dockerpriv.kybot.io:5002/keithyau/chefclient:0.2 \
+-v /root/tools/code/azure/$IDENTIFIER/azure:/root/.azure \
+dockerpriv.kybot.io:5002/keithyau/chefclient:latest \
 chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json
+
+export RETURNCODE=$?
 
 # -v /root/tools/code/azure/$IDENTIFIER/deploy.json:/etc/chef/deploy.json \
 # -o 'role[chefclient-kyligence-azure]'
 
-/bin/knife node delete $IDENTIFIER -y;
-/bin/knife client delete $IDENTIFIER -y
+cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
+cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
+
+# Setting return code of script
+if [ "$RETURNCODE" -eq 0 ]
+then
+  true
+else
+  false
+fi

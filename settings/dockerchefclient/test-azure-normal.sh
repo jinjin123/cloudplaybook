@@ -1,21 +1,27 @@
+#!/bin/bash
+
+./runchefclientdocker.sh 20170615000002 '
 {
-  "name": "chefclient-kyligence-aws",
-  "description": "",
-  "json_class": "Chef::Role",
-  "default_attributes": {
+    "deployuser": "root",
+    "projectname": "kyligence",
+    "docker": {
+      "privaterepo": "dockerpriv.kybot.io:5002",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
-        "aws": {
+        "azure": {
           "credentials": {
-            "awskey": "AKIAOLKR63OA4735DYJA",
-            "awssecret": "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",
-            "region": "cn-north-1"
+            "env": "AzureChinaCloud",
+            "username": "jacky.chan@kycloud.partner.onmschina.cn",
+            "password": "Kyligence2016"
           },
           "kylin": {
-            "identifier": "20170324095502",
+            "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
+            "identifier": "20170615000002",
             "region": "chinaeast",
-            "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
             "clusterLoginUserName": "admintest",
             "clusterLoginPassword": "Kyligence2016",
@@ -27,16 +33,11 @@
             "edgeNodeSize": "Standard_D3_V2",
             "metastoreName": "default",
             "sshUserName": "admintest",
-            "sshPassword": "Kyligence2016"
+            "sshPassword": "Kyligence2016",
+            "storageAccount": "20170615000002sa"
           }
         }
       }
     }
-  },
-  "override_attributes": {},
-  "chef_type": "role",
-  "run_list": [
-    "recipe[kap]"
-  ],
-  "env_run_lists": {}
 }
+'
