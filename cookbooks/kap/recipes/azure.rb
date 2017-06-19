@@ -500,11 +500,13 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
   ruby_block "writetokenfile" do
     block do
       require 'json'
-      File.open("/root/.azure/accessTokens.json","w") do |f|
-        f.puts("[")
+      system("echo '[' > /root/.azure/accessTokens.json")
+      File.open("/root/.azure/temp.json","w") do |f|
         f.puts(credentials[:token].to_json)
-        f.puts("]")
       end
+      system("echo ']' >> /root/.azure/temp.json")
+      system("cat /root/.azure/temp.json >> /root/.azure/accessTokens.json")
+      system("rm -f /root/.azure/temp.json")
     end
   end
 
