@@ -487,27 +487,13 @@ if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:usernam
   end
 elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
   deploymentmode = "token"
-  ## writing json File
-  # tokenjson = Chef::JSONCompat.to_json_pretty(credentials[:token][0].to_hash)
-  # file "/root/.azure/accessTokens.json" do
-  #   content "[ " + tokenjson + " ]"
-  # end
-  # profilejson = Chef::JSONCompat.to_json_pretty(credentials[:profile])
-  # file "#{basedir}azure/#{identifier}/azure/azureProfile.json" do
-  #   content profilejson
-  # end
-
-  ruby_block "writetokenfile" do
-    block do
-      require 'json'
-      # system("echo '[' > /root/.azure/accessTokens.json")
-      File.open("/root/.azure/accessTokens.json","w") do |f|
-        f.puts(credentials[:token].to_json)
-      end
-      # system("echo ']' >> /root/.azure/temp.json")
-      # system("cat /root/.azure/temp.json >> /root/.azure/accessTokens.json")
-      # system("rm -f /root/.azure/temp.json")
-    end
+  tokenjson1 = Chef::JSONCompat.to_json_pretty(credentials[:token][0].to_hash)
+  tokenjson2 = Chef::JSONCompat.to_json_pretty(credentials[:token][1].to_hash)
+  file "/root/.azure/tempTokens.json" do
+    content tokenjson1 + ",\n" + tokenjson2
+  end
+  execute "modifyformat" do
+    command "sed -i 's/^/  /g' /root/.azure/tempTokens.json;echo '[' > /root/.azure/accessTokens.json;cat /root/.azure/tempTokens.json >> /root/.azure/accessTokens.json;echo '' >> /root/.azure/accessTokens.json;echo \"\\\n\"']' >> /root/.azure/accessTokens.json;rm -f /root/.azure/tempTokens.json"
   end
 
   ruby_block "writeprofilefile" do
@@ -519,6 +505,9 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
       #$stdout = File.open("#{basedir}azure/#{identifier}/azure/azureProfile.json", 'w')
       #pp credentials[:profile]
     end
+  end
+  execute "chaningpermission" do
+    command "chmod 400 /root/.azure/azureProfile.json;chmod 400 /root/.azure/accessTokens.json"
   end
   execute "writeconfigjson" do
     command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> /root/.azure/config.json"
