@@ -77,11 +77,21 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     kaptoken = kylin[:kaptoken]
   end
 
+  ## Configuring default variable
+  region = "cn-north-1"
+  if (not (defined?(credentials[:region])).nil?) && (not "#{credentials[:region]}" == "")
+    if ! credentials[:region].eql?("default")
+      region = credentials[:region]
+    end
+  end
+
+  ## Configuring default variable Finished
+
   # Configuring AWS credentials
   template "/root/.aws/config" do
     source "aws.config.erb"
     variables(
-      :region => credentials[:region]
+      :region => region
     )
     mode 0400
     retries 3
@@ -93,7 +103,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   template "/root/.aws/credentials" do
     source "aws.credentials.erb"
     variables(
-      :awskey => credentials[:awskey]
+      :awskey => credentials[:awskey],
       :awssecret => credentials[:awssecret]
     )
     mode 0400
@@ -103,4 +113,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     group "root"
     action :create
   end
+
+
 end
