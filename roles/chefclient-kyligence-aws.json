@@ -4,33 +4,7 @@
   "json_class": "Chef::Role",
   "default_attributes": {
     "deploycode": {
-      "basedirectory": "/root/tools/code/",
-      "configuration": {
-        "aws": {
-          "credentials": {
-            "awskey": "AKIAOLKR63OA4735DYJA",
-            "awssecret": "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",
-            "region": "cn-north-1"
-          },
-          "kylin": {
-            "identifier": "20170324095502",
-            "region": "chinaeast",
-            "cluster": true,
-            "appType": "KAP+KyAnalyzer+Zeppelin",
-            "clusterLoginUserName": "admintest",
-            "clusterLoginPassword": "Kyligence2016",
-            "clusterName": "default",
-            "clusterType": "hbase",
-            "clusterVersion": "3.5",
-            "clusterWorkerNodeCount": 2,
-            "containerName": "default",
-            "edgeNodeSize": "Standard_D3_V2",
-            "metastoreName": "default",
-            "sshUserName": "admintest",
-            "sshPassword": "Kyligence2016"
-          }
-        }
-      }
+      "basedirectory": "/root/tools/code/"
     }
   },
   "override_attributes": {},
