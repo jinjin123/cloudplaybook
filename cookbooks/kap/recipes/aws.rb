@@ -88,6 +88,14 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   ## Configuring default variable Finished
 
   # Configuring AWS credentials
+  directory '/root/.aws' do
+    owner 'root'
+    group 'root'
+    mode 00755
+    recursive true
+    action :create
+  end
+
   template "/root/.aws/config" do
     source "aws.config.erb"
     variables(
@@ -114,5 +122,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
-
+  execute 'listS3' do
+    command 'aws s3 ls'
+    action :run
+  end
 end
