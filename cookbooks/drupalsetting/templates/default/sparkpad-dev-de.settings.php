@@ -29,4 +29,4 @@ $conf['restws_basic_auth_user_regex'] = '/.*/';
 $conf['user_failed_login_ip_limit'] = 1000;
 
 // Fixing https' css and js issue
-$base_url = '';
+$base_url = 'https://de.sparkpad-dev.com';
