@@ -4,9 +4,9 @@ $databases = array (
   'default' => array (
     'default' => array (
       'database' => 'de',
-      'username' => "<%= @dbuser %>",
-      'password' => "<%= @dbpass %>",
-      'host' => "<%= @dbhost %>",
+      'username' => 'de',
+      'password' => '1nBA2Qt9krXQwl35dyyB',
+      'host' => '172.16.103.188',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
@@ -55,7 +55,8 @@ if (extension_loaded('memcached')) {
   $conf['memcache_storage_debug'] = FALSE;
   $conf['memcache_storage_wildcard_invalidate'] = 60 * 60 * 24 * 1; // 5 days.
   $conf['memcache_servers'] = array(
-    '172.16.102.107:11212' => 'default',
+    '172.16.102.225:11212' => 'default',
+    #'172.16.102.107:11212' => 'default',
     #'172.16.102.112:11222' => 'default',
     #'172.16.102.113:11222' => 'default',
   );
@@ -66,6 +67,12 @@ if (extension_loaded('memcached')) {
     Memcached::OPT_BINARY_PROTOCOL => TRUE,
   );
   $conf['cache_class_cache_field'] = 'MemcacheStorage';
+  $conf['cache_class_cache_entity_user']  = 'MemcacheStorage';
+  $conf['cache_class_cache_entity_profile2']  = 'MemcacheStorage';
+  $conf['cache_class_cache_entity_taxonomy_term'] = 'MemcacheStorage';
+  $conf['cache_class_cache_entity_node'] = 'MemcacheStorage';
+  $conf['cache_class_cache_entity_file'] = 'MemcacheStorage';
+  $conf['cache_class_cache_entity_commerce_product'] = 'MemcacheStorage';
   #$conf['lock_inc'] = 'sites/all/modules/contrib/memcache_storage/includes/lock.inc';
 }
 if (extension_loaded('redis')) {
@@ -73,8 +80,8 @@ if (extension_loaded('redis')) {
   $conf['cache_prefix'] = 'de';//end($document_array);
 
   $conf['redis_client_interface'] = 'Predis'; // Can be "Predis".
-  $conf['redis_client_host'] = '172.16.102.107';  // Your Redis instance hostname.
-  $conf['redis_client_port'] = 6380;
+  $conf['redis_client_host'] = '172.16.102.226';  // Your Redis instance hostname.
+  $conf['redis_client_port'] = 6377;
   $conf['lock_inc'] = 'sites/all/modules/contrib/redis/redis.lock.inc';
   #$conf['path_inc'] = 'sites/all/modules/contrib/redis/redis.path.inc';
   $conf['cache_backends'][] = 'sites/all/modules/contrib/redis/redis.autoload.inc';
@@ -88,44 +95,6 @@ $drupal_hash_salt = 'HEkZqDY6Egh#bPsKY7ziWwQ8*V6TTtzw';
 $conf['drupal_private_key'] = '^*9@Qc&18iREpthJRA8^SdfDHvlK7rUc';
 
 #$conf['commerce_entitycache_cache_products'] = TRUE;
-
+$conf['composer_manager_vendor_dir'] = 'sites/all/vendor';
+$conf['composer_manager_file_dir'] = 'sites/default/files/composer';
 ini_set('display_errors', TRUE);
-
-$conf['zkf_api'] = array(
-  'oc' => array(
-    'api_url' => 'http://172.16.104.124:8080/oc/',
-    #'api_url' => 'http://172.16.102.116:8080/',
-    'api_key' => 'CCSERVER',
-    'api_secret' => 'CCSERVER3345',
-    'fixed_access_token' => '481A0y0722G721S5p21853gNNnc583N9DUZ4f90995lQbl6pGw229zA1652P2h56',
-    'enable_log' => 1,
-  ),
-  'de' => array(
-    'api_url' => 'http://zkf_de/',
-    'api_key' => 'bPOf3a52dcWw6vkE7QtgVoRUz',
-    'enable_log' => 0,
-  ),
-  'crm' => array(
-    'api_url' => 'http://zkf_crm/',
-    'api_key' => 'W/bkcCjGNmzjS/l6DTwxDA==',
-    'enable_log' => 1,
-  ),
-  'marketing' => array(
-    'api_url' => 'http://zkf_mkt/',
-    'api_key' => 'zkf_ts',
-    'api_secret' => 'zkf_ts_secret',
-    'discount_id' => 59,
-    'enable_log' => 1,
-  ),
-  'payment' => array(
-    'api_url' => 'http://zkf_pmt/',
-    'api_key' => '8a970a5f2835ad6ba323db0e73aee6f1',
-    'api_security' => '369c9360b966d3a4e4154fbc96efe0f0',
-    'enable_log' => 1,
-  ),
-  'baidu_map' => array(
-    'api_url' => 'http://api.map.baidu.com/',
-    'api_key' => '8c1b6507d5db2db7aca15cd249fdd385',
-    'enable_log' => 1,
-  ),
-);
