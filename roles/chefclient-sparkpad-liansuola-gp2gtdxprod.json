@@ -31,8 +31,11 @@
           "pmt": {
             "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
-          "oc": {
-            "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          "wmserver": {
+            "cert.conf": "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cert"
+          },
+          "orderserver": {
+            "cert.conf": "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cert"
           }
         },
         "drupal": {
@@ -95,21 +98,6 @@
               "dbpass": "thomas123",
               "dbname": "gtdxpayment"
             }
-          },
-          "oc": {
-            "folders": {
-              "sites/default/files": "777",
-              "sites/default/privates": "777"
-            },
-            "settings": {
-              "general.settings.php": "sites/default/settings.php"
-            },
-            "variables": {
-              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-              "dbuser": "keithyau",
-              "dbpass": "thomas123",
-              "dbname": "gtdxoc"
-            }
           }
         }
       },
@@ -123,7 +111,11 @@
           "branch": "master"
         },
         "oc": {
-          "giturl": "git@gitlab.com:Sparkpad/spark-oc.git",
+          "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
+          "branch": "master"
+        },
+        "tsoc": {
+          "giturl": "git@git.coding.net:keithyau/deploymenttsoc.git",
           "branch": "master"
         },
         "pmt": {
@@ -274,6 +266,30 @@
           "mountdocker": "/opt/couchdb/data",
           "ports": "9090:5984",
           "overridesubdomain": "couchdb-cloud.gtdx"
+        },
+        "oc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_TMOC_GP2"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/oc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9091:8080",
+          "customdomainsuffix": ".gtdx"
+        },
+        "tsoc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_TMTSOC_GP2"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/tsoc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9092:8080",
+          "customdomainsuffix": ".gtdx"
         },
         "bootproxy": {
           "tag": "stable-alpine",
