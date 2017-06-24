@@ -261,7 +261,7 @@
         "couchdb": {
           "tag": "latest",
           "image": "dockerpriv.kybot.io:5002/keithyau/couchdb",
-          "env": ["PATH=/opt/couchdb/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:$PATH", "COUCHDB_USER=admin", "COUCHDB_PASSWORD=thomas123"],
+          "env": ["PATH=/opt/couchdb/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:$PATH", "COUCHDB_USER=ymeng", "COUCHDB_PASSWORD=111111"],
           "mountlocal": "localdir",
           "mountdocker": "/opt/couchdb/data",
           "ports": "9090:5984",
