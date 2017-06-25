@@ -35,8 +35,9 @@
             "cert.conf": "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cert"
           },
           "reportingsys":{
-            "liansuolareportingsysgtdxenv": "/var/www/html/.env",
-            "liansuolareportingsysgtdxexterna_connection_db": "/var/www/html/config/externa_connection_db.php"
+            "report-gtdx2.env": "/var/www/html/.env",
+            "report-gtdx2-connect": "/var/www/html/config/externa_connection_db.php",
+            "report-gtdx2-redis": "/var/www/html/config/database.php"
           }
         },
         "drupal": {
@@ -185,13 +186,8 @@
           "tag": "latest",
           "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
           "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_REPORT_GP2"],
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/reportingsys:/var/www/html/",
-            "/home/ec2-user/tools/drupal_dir/reportingsys_configuration/report-gtdx2-connect:/var/www/html/config/externa_connection_db.php",
-            "/home/ec2-user/tools/drupal_dir/reportingsys_configuration/report-gtdx2.env:/var/www/html/.env",
-            "/home/ec2-user/tools/drupal_dir/reportingsys_configuration/report-gtdx2-redis:/var/www/html/config/database.php"
-          ],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html/",
           "ports": "9086:80",
           "overridesubdomain": "reports.gtdx"
         },
