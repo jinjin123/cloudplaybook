@@ -33,6 +33,10 @@
           },
           "orderserver": {
             "cert.conf": "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cert"
+          },
+          "reportingsys":{
+            "liansuolareportingsysgtdxenv": "/var/www/html/.env",
+            "liansuolareportingsysgtdxexterna_connection_db": "/var/www/html/config/externa_connection_db.php"
           }
         },
         "drupal": {
