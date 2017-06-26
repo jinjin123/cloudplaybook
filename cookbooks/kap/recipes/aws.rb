@@ -64,6 +64,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     recursive true
     action :create
   end
+  directory "#{basedir}aws/#{identifier}/scripts" do
+    owner username
+    group username
+    mode '0755'
+    recursive true
+    action :create
+  end
 
   if kylin[:region].downcase.include?("cn")
     accountregion = "china"
@@ -133,4 +140,30 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   execute "checkifkeypairexist" do
     command "aws ec2 describe-key-pairs --key-name #{keypair}"
   end
+
+  template "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh" do
+    source "aws_01_awscheck_zone.sh"
+    mode 0744
+    retries 3
+    retry_delay 2
+    owner "root"
+    group "root"
+    action :create
+  end
+
+  ruby_block "something" do
+    block do
+        #tricky way to load this Chef::Mixin::ShellOut utilities
+        Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+        command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh"
+        command_out = shell_out(command)
+        node.set['ZONE'] = command_out.stdout
+    end
+    action :create
+  end
+
+  file "#{basedir}aws/#{identifier}/testZONE.txt" do
+    content node['ZONE']
+  end
+  
 end

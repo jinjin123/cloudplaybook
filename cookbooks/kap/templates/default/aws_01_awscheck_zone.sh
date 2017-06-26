@@ -2,7 +2,7 @@
 REGION=$1
 
 # Run command
-#/usr/bin/aws ec2 describe-availability-zones --region $REGION 
+#/usr/bin/aws ec2 describe-availability-zones --region $REGION
 case ${REGION} in
  "")
         RESPONSE=`aws ec2 describe-availability-zones`
@@ -12,7 +12,7 @@ case ${REGION} in
         ;;
   *)
         RESPONSE=`aws ec2 describe-availability-zones --region $REGION`
-	AZ1=`echo "$RESPONSE" | grep ZoneName | awk -F" " '{print $2}'| sed 's/\"//g' | head -1`
+	      AZ1=`echo "$RESPONSE" | grep ZoneName | awk -F" " '{print $2}'| sed 's/\"//g' | head -1`
         AZ2=`echo "$RESPONSE" | grep ZoneName | awk -F" " '{print $2}'| sed 's/\"//g' | tail -1`
 	;;
 esac
