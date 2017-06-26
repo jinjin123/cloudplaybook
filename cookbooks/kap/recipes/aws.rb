@@ -124,10 +124,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
-  # execute 'listS3' do
-  #   command 'aws s3 ls'
-  #   action :run
-  # end
+  execute 'listS3' do
+    command 'aws s3 ls'
+    action :run
+  end
 
   # Run checking for key pair
   execute "checkifkeypairexist" do

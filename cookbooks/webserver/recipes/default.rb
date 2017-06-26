@@ -198,7 +198,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           action :delete
         end
 
-        cmd = "docker ps|grep -v CONTAINER|grep -v monitor|grep -v ' rancher/'|grep #{projectname} | awk \'{print $1, $NF}\'"
+        cmd = "docker ps|grep -v CONTAINER|grep -v monitor|grep -v ' rancher/'| awk \'{print $1, $NF}\'"
         bash cmd do
           code <<-EOH
           #{cmd} > #{results}
