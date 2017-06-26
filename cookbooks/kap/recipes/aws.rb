@@ -131,6 +131,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
 
   # Run checking for key pair
   execute "checkifkeypairexist" do
-    command "export EXITCODE=`aws ec2 describe-key-pairs| grep #{keypair} | wc -l | awk {'print $1'}`;if [ \"$EXITCODE\" -eq \"1\" ]; then exit 0; else echo \"Keypair doesnt exist\";exit 1; fi"
+    command "export EXITCODE=`aws ec2 describe-key-pairs| grep #{keypair} | wc -l | awk {\'print $1\'}`;if [ \"$EXITCODE\" -eq \"1\" ]; then exit 0; else echo \"Keypair doesnt exist\";exit 1; fi"
   end
 end
