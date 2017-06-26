@@ -337,6 +337,8 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 
       #Skip template create for bootdev proxy
       next if localfolder.eql?("bootproxy")
+
+      # Setting Domain name for application
       domainstring = "#{localfolder}.#{node[:domainname]}"
       if (not (defined?(docker[:customdomainstring])).nil?) && (not "#{docker[:customdomainstring]}" == "")
         domainstring = docker[:customdomainstring]
@@ -366,18 +368,25 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         end
       end
 
+      # Preparing variables for https
+      https = false
+      if (not (defined?(docker[:https])).nil?)
+        https = docker[:https]
+      end
+
+      # Configuration of network mode of docker
       if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
         next if docker[:network_mode].eql?("host")
       end
       if (not (defined?(docker[:ports]).nil?)) && (not "#{docker[:ports]}" == "")
         if ! docker[:ports].kind_of?(Array)
           portnumber = docker[:ports].chomp.split(':')[1]
-
           template "#{node[:deploycode][:basedirectory]}../bootproxy/#{node[:projectname]}.#{localfolder}.proxy.conf" do
             variables(
               :host => container_name,
               :domain  => domainstring,
-              :proxyport => portnumber
+              :proxyport => portnumber,
+              :https => https
             )
             source "proxy.conf"
             mode 0644
