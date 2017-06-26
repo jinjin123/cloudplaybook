@@ -374,33 +374,43 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         https = docker[:https]
       end
 
+      # Adding domain parameter
+      domain = true
+      if (not (defined?(docker[:domain])).nil?)
+        domain = docker[:domain]
+      end
+
+
       # Configuration of network mode of docker
+
       if (not (defined?(docker[:network_mode])).nil?) && (not "#{docker[:network_mode]}" == "")
         next if docker[:network_mode].eql?("host")
       end
-      if (not (defined?(docker[:ports]).nil?)) && (not "#{docker[:ports]}" == "")
-        if ! docker[:ports].kind_of?(Array)
-          portnumber = docker[:ports].chomp.split(':')[1]
-          template "#{node[:deploycode][:basedirectory]}../bootproxy/#{node[:projectname]}.#{localfolder}.proxy.conf" do
-            variables(
-              :host => container_name,
-              :domain  => domainstring,
-              :proxyport => portnumber,
-              :https => https
-            )
-            source "proxy.conf"
-            mode 0644
-            retries 3
-            retry_delay 2
-            ignore_failure
-            owner "root"
-            group "root"
-            action :create
-        #    ignore_failure true
+
+      if domain
+        if (not (defined?(docker[:ports]).nil?)) && (not "#{docker[:ports]}" == "")
+          if ! docker[:ports].kind_of?(Array)
+            portnumber = docker[:ports].chomp.split(':')[1]
+            template "#{node[:deploycode][:basedirectory]}../bootproxy/#{node[:projectname]}.#{localfolder}.proxy.conf" do
+              variables(
+                :host => container_name,
+                :domain  => domainstring,
+                :proxyport => portnumber,
+                :https => https
+              )
+              source "proxy.conf"
+              mode 0644
+              retries 3
+              retry_delay 2
+              ignore_failure
+              owner "root"
+              group "root"
+              action :create
+          #    ignore_failure true
+            end
           end
         end
       end
-      #end
     end
   end
 end

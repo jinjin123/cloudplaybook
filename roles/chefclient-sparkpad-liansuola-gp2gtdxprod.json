@@ -158,7 +158,8 @@
           "tag": "latest",
           "image": "memcached",
           "memory_limit": 3147483648,
-          "ports": "11211:11211"
+          "ports": "11211:11211",
+          "domain": false
         },
         "redis-report": {
           "tag": "latest",
@@ -173,7 +174,8 @@
           "ports": [
             "5672:5672",
             "15672:15672"
-          ]
+          ],
+          "domain": false
         },
         "pmt": {
           "tag": "7.1.4_v4",
@@ -297,7 +299,7 @@
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9093:80",
-          "customdomainsuffix": ".gtdx"
+          "domain": false
         },
         "bootproxy": {
           "tag": "stable-alpine",
