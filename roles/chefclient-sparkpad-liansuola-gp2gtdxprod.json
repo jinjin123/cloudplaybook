@@ -25,9 +25,6 @@
           "de": {
             "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
-          "mkt": {
-            "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
-          },
           "pmt": {
             "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
@@ -36,6 +33,11 @@
           },
           "orderserver": {
             "cert.conf": "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cert"
+          },
+          "reportingsys":{
+            "report-gtdx2.env": "/var/www/html/.env",
+            "report-gtdx2-connect": "/var/www/html/config/externa_connection_db.php",
+            "report-gtdx2-redis": "/var/www/html/config/database.php"
           }
         },
         "drupal": {
@@ -45,7 +47,7 @@
               "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php": "sites/default/settings.php"
+              "gtdxerp.settings.php": "sites/default/settings.php"
             },
             "variables": {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
@@ -69,21 +71,6 @@
               "dbname": "gtdxde"
             }
           },
-          "mkt": {
-            "folders": {
-              "sites/default/files": "777",
-              "sites/default/privates": "777"
-            },
-            "settings": {
-              "general.settings.php": "sites/default/settings.php"
-            },
-            "variables": {
-              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-              "dbuser": "keithyau",
-              "dbpass": "thomas123",
-              "dbname": "gtdxmarketing"
-            }
-          },
           "pmt": {
             "folders": {
               "sites/default/files": "777",
@@ -102,10 +89,6 @@
         }
       },
       "localfolder": {
-        "mkt": {
-          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-mkt.git",
-          "branch": "master"
-        },
         "de": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
           "branch": "master"
@@ -163,15 +146,6 @@
             "15672:15672"
           ]
         },
-        "mkt": {
-          "tag": "7.1.4_v4",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
-          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_MKT_GP2"],
-          "mountlocal": "localdir",
-          "mountdocker": "/var/www/html",
-          "ports": "9081:80",
-          "customdomainsuffix": ".gtdx"
-        },
         "pmt": {
           "tag": "7.1.4_v4",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
@@ -212,13 +186,8 @@
           "tag": "latest",
           "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
           "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_REPORT_GP2"],
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/reportingsys:/var/www/html/",
-            "/home/ec2-user/tools/drupal_dir/reportingsys_configuration/report-gtdx2-connect:/var/www/html/config/externa_connection_db.php",
-            "/home/ec2-user/tools/drupal_dir/reportingsys_configuration/report-gtdx2.env:/var/www/html/.env",
-            "/home/ec2-user/tools/drupal_dir/reportingsys_configuration/report-gtdx2-redis:/var/www/html/config/database.php"
-          ],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html/",
           "ports": "9086:80",
           "overridesubdomain": "reports.gtdx"
         },
