@@ -71,6 +71,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     recursive true
     action :create
   end
+  directory "#{basedir}aws/#{identifier}/templates" do
+    owner username
+    group username
+    mode '0755'
+    recursive true
+    action :create
+  end
 
   if kylin[:region].downcase.include?("cn")
     accountregion = "china"
@@ -154,6 +161,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
 
   template "#{basedir}aws/#{identifier}/scripts/03_deploy_vpc.sh" do
     source "aws_03_deploy_vpc.sh"
+    mode 0744
+    retries 3
+    retry_delay 2
+    owner "root"
+    group "root"
+    action :create
+  end
+
+  template "#{basedir}aws/#{identifier}/templates/vpc.template" do
+    source "aws_vpc.template"
     mode 0744
     retries 3
     retry_delay 2
