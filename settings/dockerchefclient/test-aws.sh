@@ -16,7 +16,7 @@
             "identifier": "20170615000aws",
             "region": "cn-north-1",
             "appType": "KAP+KyAnalyzer+Zeppelin",
-            "keypair": "kylin"
+            "keypair": "kylin",
             "clusterLoginUserName": "admintest",
             "clusterLoginPassword": "Kyligence2016",
             "clusterName": "default",
