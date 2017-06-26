@@ -234,7 +234,8 @@
           "mountlocal": "localdir",
           "mountdocker": "/opt/couchdb/data",
           "ports": "9090:5984",
-          "overridesubdomain": "couchdb-cloud.gtdx"
+          "overridesubdomain": "couchdb-cloud.gtdx",
+          "https": true
         },
         "oc": {
           "tag": "latest",
