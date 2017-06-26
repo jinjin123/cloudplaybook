@@ -162,19 +162,26 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
-  ruby_block "something" do
+  # Running 01_awscheck_zone
+  ruby_block "checkzone" do
     block do
         #tricky way to load this Chef::Mixin::ShellOut utilities
         Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-        command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh"
+        command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
         command_out = shell_out(command)
-        node.set['ZONE'] = command_out.stdout
     end
     action :create
   end
 
-  file "#{basedir}aws/#{identifier}/testZONE.txt" do
-    content node['ZONE']
+  # Running 03_deploy_vpc
+  ruby_block "createvpc" do
+    block do
+        #tricky way to load this Chef::Mixin::ShellOut utilities
+        Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+        command = "#{basedir}aws/#{identifier}/scripts/03_deploy_vpc.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier} >>  #{basedir}aws/#{identifier}/deploy.log"
+        command_out = shell_out(command)
+    end
+    action :create
   end
 
 end
