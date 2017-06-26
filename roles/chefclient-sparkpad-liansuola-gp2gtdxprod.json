@@ -47,7 +47,7 @@
               "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php": "sites/default/settings.php"
+              "gtdxerp.settings.php": "sites/default/settings.php"
             },
             "variables": {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
