@@ -30,7 +30,7 @@ $conf['user_failed_login_ip_limit'] = 1000;
 //setting for oc
 $settings['hash_salt'] = 'xxx';
 // Setting for https
-$base_url = 'https://erp.gtdx.liansuola.com';
+$base_url = 'https://pmt.gtdx.liansuola.com';
 $conf['drupal_http_request_fails'] = FALSE;
 
 //memcache config

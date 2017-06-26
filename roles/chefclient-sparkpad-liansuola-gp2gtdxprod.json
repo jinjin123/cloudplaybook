@@ -28,6 +28,9 @@
           "pmt": {
             "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
+          "db-convert": {
+            "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
           "wmserver": {
             "cert.conf": "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cert"
           },
@@ -62,7 +65,22 @@
               "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php": "sites/default/settings.php"
+              "gtdxde.settings.php": "sites/default/settings.php"
+            },
+            "variables": {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123",
+              "dbname": "gtdxde"
+            }
+          },
+          "db-convert": {
+            "folders": {
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
+            },
+            "settings": {
+              "gtdxdb-convert.settings.php": "sites/default/settings.php"
             },
             "variables": {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
@@ -77,7 +95,7 @@
               "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php": "sites/default/settings.php"
+              "gtdxpmt.settings.php": "sites/default/settings.php"
             },
             "variables": {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
@@ -91,6 +109,10 @@
       "localfolder": {
         "de": {
           "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+          "branch": "master"
+        },
+        "db-convert": {
+          "giturl": "git@git.coding.net:zterry/db-convert.git",
           "branch": "master"
         },
         "oc": {
@@ -125,12 +147,19 @@
           "giturl": "git@git.coding.net:shiyang1983/gtdx_wmserver.git",
           "branch": "master"
         },
+        "memcached": "nodownload",
         "couchdb": "nodownload",
         "bootproxy": "nodownload",
         "rabbitmq": "nodownload",
         "redis-report": "nodownload"
       },
       "runtime": {
+        "memcached": {
+          "tag": "latest",
+          "image": "memcached",
+          "memory_limit": 3147483648,
+          "ports": "11211:11211"
+        },
         "redis-report": {
           "tag": "latest",
           "image": "redis",
@@ -258,6 +287,15 @@
             "/etc/localtime:/etc/localtime:ro"
           ],
           "ports": "9092:8080",
+          "customdomainsuffix": ".gtdx"
+        },
+        "db-convert": {
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_DBCONVERT_GP2"],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9093:80",
           "customdomainsuffix": ".gtdx"
         },
         "bootproxy": {
