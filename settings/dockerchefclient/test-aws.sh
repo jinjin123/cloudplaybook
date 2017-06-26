@@ -14,8 +14,9 @@
           "kylin": {
             "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
             "identifier": "20170615000aws",
-            "region": "chinaeast",
+            "region": "cn-north-1",
             "appType": "KAP+KyAnalyzer+Zeppelin",
+            "keypair": "kylin"
             "clusterLoginUserName": "admintest",
             "clusterLoginPassword": "Kyligence2016",
             "clusterName": "default",

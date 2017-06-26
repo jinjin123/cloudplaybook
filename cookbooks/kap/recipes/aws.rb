@@ -85,6 +85,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   end
 
+  keypair = kylin[:keypair]
+
   ## Configuring default variable Finished
 
   # Configuring AWS credentials
@@ -122,8 +124,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
-  execute 'listS3' do
-    command 'aws s3 ls'
-    action :run
+  # execute 'listS3' do
+  #   command 'aws s3 ls'
+  #   action :run
+  # end
+
+  # Run checking for key pair
+  execute "checkifkeypairexist" do
+    command "export EXITCODE=`aws ec2 describe-key-pairs| grep #{keypair} | wc -l | awk {'print $1'}`;if [ \"$EXITCODE\" -eq \"1\" ]; then exit 0; else echo \"Keypair doesnt exist\";exit 1; fi"
   end
 end
