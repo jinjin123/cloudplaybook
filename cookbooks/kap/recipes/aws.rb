@@ -92,6 +92,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   end
 
+  identifier = kylin[:identifier]
   keypair = kylin[:keypair]
 
   ## Configuring default variable Finished
@@ -151,6 +152,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
+  template "#{basedir}aws/#{identifier}/scripts/03_deploy_vpc.sh" do
+    source "aws_03_deploy_vpc.sh"
+    mode 0744
+    retries 3
+    retry_delay 2
+    owner "root"
+    group "root"
+    action :create
+  end
+
   ruby_block "something" do
     block do
         #tricky way to load this Chef::Mixin::ShellOut utilities
@@ -165,5 +176,5 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   file "#{basedir}aws/#{identifier}/testZONE.txt" do
     content node['ZONE']
   end
-  
+
 end
