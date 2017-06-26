@@ -52,6 +52,6 @@ $GLOBALS['dbname'] =[
     'erp'=>'gtdxerp',              //设置erp的数据库名称
     'laravel'=> 'gtdxlaravel',
     'de'=>'gtdxde',
-    'crm'=>'gtdxcrm',
+    'crm'=>'crm',
     'datacache'=>'gtdxdatacache'
 ];
