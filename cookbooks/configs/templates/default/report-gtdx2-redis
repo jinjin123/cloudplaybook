@@ -127,7 +127,7 @@ return [
         'cluster' => false,
 
         'default' => [
-            'host'     => 'redis-report',
+            'host'     => 'sparkpadgp_redis-report',
             'port'     => 6379,
             'database' => 0,
         ],
