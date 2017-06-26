@@ -34,6 +34,7 @@ $base_url = 'https://de.gtdx.liansuola.com';
 $conf['drupal_http_request_fails'] = FALSE;
 
 //memcache config
+/*
 if (extension_loaded('memcached')) {
   $conf['cache_backends'][] = 'sites/all/modules/memcache_storage/memcache_storage.inc';
   $conf['cache_default_class'] = 'MemcacheStorage';
@@ -54,3 +55,5 @@ if (extension_loaded('memcached')) {
   );
   $conf['lock_inc'] = 'sites/all/modules/memcache_storage/includes/lock.inc';
 }
+
+*/
