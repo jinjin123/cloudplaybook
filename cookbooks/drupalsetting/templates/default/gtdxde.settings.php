@@ -39,7 +39,7 @@ if (extension_loaded('memcached')) {
   $conf['cache_default_class'] = 'MemcacheStorage';
   $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
   $conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
-  $conf['memcache_storage_key_prefix'] = 'erp';
+  $conf['memcache_storage_key_prefix'] = 'de';
   $conf['memcache_storage_debug'] = FALSE;
   $conf['memcache_storage_wildcard_invalidate'] = 60 * 60 * 24 * 1; // 5 days.
   $conf['memcache_servers'] = array(
