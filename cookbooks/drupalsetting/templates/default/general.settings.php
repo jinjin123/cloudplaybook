@@ -30,4 +30,4 @@ $conf['user_failed_login_ip_limit'] = 1000;
 //setting for oc
 $settings['hash_salt'] = 'xxx';
 // Setting for https
-$base_url = 'https://de.gtdx.liansuola.com';
+$base_url = '';

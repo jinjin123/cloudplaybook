@@ -12,7 +12,7 @@ $GLOBALS['read_link']=[
         'db_host'=>'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
         'db_name'=>'keithyau',
         'db_pass'=>'thomas123',
-        'db_database'=>'gtdxoc',
+        'db_database'=>'oc',
     ]
 ];
 /**
@@ -34,7 +34,7 @@ $GLOBALS['arr'] = [
         'db_host'=>'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
         'db_name'=>'keithyau',
         'db_pass'=>'thomas123',
-        'db_database'=>'gtdxsyncedoc',
+        'db_database'=>'oc',
     ],
     //更新本地laravel用到的数据库，只存在web服务器端
     'datastore_db_connect'=>[
@@ -48,10 +48,10 @@ $GLOBALS['arr'] = [
  * 设置多库联查的库名称
  */
 $GLOBALS['dbname'] =[
-    'oc'=>'gtdxsyncedoc',      //设置oc的数据库名称
+    'oc'=>'oc',      //设置oc的数据库名称
     'erp'=>'gtdxerp',              //设置erp的数据库名称
     'laravel'=> 'gtdxlaravel',
     'de'=>'gtdxde',
-    'crm'=>'gtdxcrm',
+    'crm'=>'crm',
     'datacache'=>'gtdxdatacache'
 ];

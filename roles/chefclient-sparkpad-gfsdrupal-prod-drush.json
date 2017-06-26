@@ -226,7 +226,7 @@
           "tag": "7.0.17_v4_oci8",
           "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
           "mountlocal": "multipledir",
-          "memory_limit": 2147483648,
+          "memory_limit": 3147483648,
           "mountdocker": [
             "/app/code/erp:/var/www/html"
           ],
