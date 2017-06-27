@@ -24,9 +24,9 @@ fi
 #AZ1=`./01_awscheck_zone.sh | head -1`
 #AZ2=`./01_awscheck_zone.sh | tail -1`
 #REGION=`cat ~/.aws/config | grep region | awk -F " " '{print $3}'`
-VpcSecurityGroup=sg-`echo ${STACKOUTPUT#*sg-} | cut -d" " -f1`
-VpcId=vpc-`echo ${STACKOUTPUT#*vpc-} | cut -d" " -f1`
-ScalingSubnet=subnet-`echo ${STACKOUTPUT#*subnet-} | cut -d":" -f1`
+VpcSecurityGroup=sg-`echo ${STACKOUTPUT#*sg-} | cut -d" " -f1| cut -d"," -f1`
+VpcId=vpc-`echo ${STACKOUTPUT#*vpc-} | cut -d" " -f1| cut -d"," -f1`
+ScalingSubnet=subnet-`echo ${STACKOUTPUT#*subnet-} | cut -d":" -f1| cut -d"," -f1`
 KEYPAIR=kylin
 
 if [ x$VpcId == x"vpc-" ]
