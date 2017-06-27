@@ -126,7 +126,7 @@
       },
       "localfolder": {
         "de": {
-          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+          "giturl": "git@gitlab.com:Sparkpad/gutian-de.git",
           "branch": "master"
         },
         "db-convert": {
@@ -285,18 +285,6 @@
           "ports": "9090:5984",
           "overridesubdomain": "couchdb-cloud.gtdx",
           "https": true
-        },
-        "oc": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
-          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_TMOC_GP2"],
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/oc:/usr/local/tomcat/webapps",
-            "/etc/localtime:/etc/localtime:ro"
-          ],
-          "ports": "9091:8080",
-          "customdomainsuffix": ".gtdx"
         },
         "tsoc": {
           "tag": "latest",
