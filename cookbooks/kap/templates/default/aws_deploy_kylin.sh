@@ -19,12 +19,12 @@ then
         exit
     else
         echo "Copied default AWS credential file"
-    fi    
+    fi
   else
     # Anything else pressed, do whatever else.
     # echo [$key] not empty
     exit
-  fi 
+  fi
 echo "---------------------------------------------"
 fi
 
@@ -124,7 +124,7 @@ done
 echo "Running on REGION="$REGION
 # Run check zone
 echo "---------------------------------------------"
-echo "Step 1: Checking availiability zone for specific AWS account" 
+echo "Step 1: Checking availiability zone for specific AWS account"
 ZONE=`./scripts/01_awscheck_zone.sh $REGION`
 echo "Usable availiability zones are: "`echo $ZONE|cut -d',' -f1`","`echo $ZONE|cut -d',' -f2`
 VAR=$ZONE","$STACKNAME

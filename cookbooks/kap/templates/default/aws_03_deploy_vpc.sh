@@ -11,9 +11,12 @@ AZ2=`echo $VAR|cut -d ',' -f2`
 REGION=`echo $VAR|cut -d ',' -f3`
 ID=`echo $VAR|cut -d ',' -f4`
 
+# Trouble shooting
+echo "Current path = "`pwd`
+ls -lrt ./templates/vpc.template
 #####################
 # Create VPC
-aws cloudformation create-stack --stack-name $ID-vpc --template-body file://./templates/vpc.template --parameters ParameterKey=AZ1,ParameterValue=$AZ1 ParameterKey=AZ2,ParameterValue=$AZ2 --region $REGION 
+aws cloudformation create-stack --stack-name $ID-vpc --template-body file://./templates/vpc.template --parameters ParameterKey=AZ1,ParameterValue=$AZ1 ParameterKey=AZ2,ParameterValue=$AZ2 --region $REGION
 
 #####################
 # Check status and return until success or failed
