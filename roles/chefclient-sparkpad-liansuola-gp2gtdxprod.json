@@ -126,7 +126,7 @@
       },
       "localfolder": {
         "de": {
-          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+          "giturl": "git@gitlab.com:Sparkpad/gutian-de.git",
           "branch": "master"
         },
         "db-convert": {
