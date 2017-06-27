@@ -1,14 +1,14 @@
 #!/bin/bash
 
-./runchefclientdocker.sh 20170615000aws '
+./runchefclientdocker.sh kycloud20170627aws '
 {
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "aws": {
           "credentials": {
-            "awskey": "AKIAOLKR63OA4735DYJA",
-            "awssecret": "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",
+            "awskey": "AKIAOAAU6MUOPBRPIGTA",
+            "awssecret": "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",
             "region": "cn-north-1"
           },
           "kylin": {
