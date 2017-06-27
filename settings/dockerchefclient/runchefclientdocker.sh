@@ -49,8 +49,8 @@ else
   # Preparing Credentials
   mkdir -p $DATFILEDIR/$IDENTIFIER/data/credentials
   cp /home/kylin/chef12/cookbooks/deploycode/templates/default/gitkey.erb $DATFILEDIR/$IDENTIFIER/data/credentials/gitkey
-  cp /home/kylin/chef12/cookbooks/deploycode/templates/default/gitkey.pub.erb $DATFILEDIR/$IDENTIFIER/data/credentials/gitkey.pub.erb
-  cp /home/kylin/chef12/cookbooks/deploycode/templates/default/known_hosts.erb $DATFILEDIR/$IDENTIFIER/data/credentials/known_hosts
+  cp /home/kylin/chef12/cookbooks/deploycode/templates/default/gitkey.pub.erb $DATFILEDIR/$IDENTIFIER/data/credentials/gitkey.pub
+  cp /home/kylin/chef12/cookbooks/deploycode/templates/default/known_hosts.erb $DATFILEDIR/$IDENTIFIER/data/credentials/knownhost
   cp /home/kylin/chef12/cookbooks/deploycode/templates/default/kylin.pem $DATFILEDIR/$IDENTIFIER/data/credentials/kylin.pem
 
   docker run --rm --network=host --name chef-client-$IDENTIFIER \
