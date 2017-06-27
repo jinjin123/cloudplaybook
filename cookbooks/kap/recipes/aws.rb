@@ -78,6 +78,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     recursive true
     action :create
   end
+  directory "#{basedir}aws/#{identifier}/credentials" do
+    owner username
+    group username
+    mode '0755'
+    recursive true
+    action :create
+  end
 
   if kylin[:region].downcase.include?("cn")
     accountregion = "china"
@@ -101,7 +108,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
 
   identifier = kylin[:identifier]
   keypair = kylin[:keypair]
+  keypairprivatekey = kylin[:keypairprivatekey]
 
+  file "#{basedir}aws/#{identifier}/credentials/kylin.pem" do
+    content keypairprivatekey
+    owner 'root'
+    group 'root'
+    mode 00400
+    recursive true
+    action :create
+  end
   ## Configuring default variable Finished
 
   # Configuring AWS credentials

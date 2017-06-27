@@ -69,7 +69,7 @@
         "c4.xlarge",
         "c4.2xlarge",
         "c4.4xlarge",
-        "c4.8xlarge"     
+        "c4.8xlarge"
       ],
       "ConstraintDescription": "must be a valid EC2 instance type."
     },
@@ -314,7 +314,7 @@
                     [
                       "{\n  \"vpc_id\": \"",
                       {
-                        "Ref": "ChefVpc" 
+                        "Ref": "ChefVpc"
                       },
                       "\",\n  \"subnet_id\": \"",
                       {
@@ -454,7 +454,7 @@
                 "cwd": "/home/ec2-user/tools"
               },
               "010downloadrpm": {
-                "command": "n=0;until [ $n -ge 5 ];do wget https://s3.cn-north-1.amazonaws.com.cn/bootdevcn/chef-server-core-12.11.0-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
+                "command": "n=0;until [ $n -ge 5 ];do wget https://packages.chef.io/files/stable/chef-server/12.15.8/el/6/chef-server-core-12.15.8-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
                 "cwd": "/home/ec2-user/tools"
               },
               "011installchefS": {
@@ -526,7 +526,7 @@
                 "cwd": "/root"
               },
               "030downloadrpm": {
-                "command": "n=0;until [ $n -ge 5 ];do wget https://s3.cn-north-1.amazonaws.com.cn/bootdevcn/chefdk-1.0.3-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
+                "command": "n=0;until [ $n -ge 5 ];do wget https://packages.chef.io/files/stable/chefdk/1.5.0/el/6/chefdk-1.5.0-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
                 "cwd": "/home/ec2-user/tools"
               },
               "031installchefS": {
@@ -740,7 +740,7 @@
                 },
                 " || error_exit 'Failed to run cfn-init'\n",
                 "/opt/aws/apitools/cfn-init/bin/cfn-signal -e $? --region ",
-                {  
+                {
                   "Ref": "AWS::Region"
                 },
                 " -r 'Chef Server configuration' '",
