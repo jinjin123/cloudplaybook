@@ -30,16 +30,17 @@ $conf['user_failed_login_ip_limit'] = 1000;
 //setting for oc
 $settings['hash_salt'] = 'xxx';
 // Setting for https
-$base_url = 'https://erp.gtdx.liansuola.com';
+$base_url = 'https://de.gtdx.liansuola.com';
 $conf['drupal_http_request_fails'] = FALSE;
 
 //memcache config
+/*
 if (extension_loaded('memcached')) {
   $conf['cache_backends'][] = 'sites/all/modules/memcache_storage/memcache_storage.inc';
   $conf['cache_default_class'] = 'MemcacheStorage';
   $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
   $conf['cache_class_cache_update'] = 'DrupalDatabaseCache';
-  $conf['memcache_storage_key_prefix'] = 'erp';
+  $conf['memcache_storage_key_prefix'] = 'de';
   $conf['memcache_storage_debug'] = FALSE;
   $conf['memcache_storage_wildcard_invalidate'] = 60 * 60 * 24 * 1; // 5 days.
   $conf['memcache_servers'] = array(
@@ -54,3 +55,5 @@ if (extension_loaded('memcached')) {
   );
   $conf['lock_inc'] = 'sites/all/modules/memcache_storage/includes/lock.inc';
 }
+
+*/
