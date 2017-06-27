@@ -39,10 +39,10 @@ fi
 # KEEP DEFAULT UNLESS NECESSARY
 ####################
 # DEFINE FILE LOCATION for bitbucket setup
-SSHKEY=$BOOT_HOME/credentials/bitbucket.pem
-SSHPUB=$BOOT_HOME/credentials/bitbucket.pub
+SSHKEY=$BOOT_HOME/credentials/gitkey
+SSHPUB=$BOOT_HOME/credentials/gitkey.pub
 SSHKNOWNHOSTS=$BOOT_HOME/credentials/knownhost
-EC2KEYPAIR=$BOOT_HOME/ec2key/kylin.pem
+EC2KEYPAIR=$BOOT_HOME/credentials/kylin.pem
 
 ####################
 # Get values from credentials
@@ -100,4 +100,4 @@ done
 
 # Print stack details
 echo "Creation of Chef Server completed"
-aws cloudformation describe-stacks --stack-name $ID-chefserver --region $REGION 
+aws cloudformation describe-stacks --stack-name $ID-chefserver --region $REGION

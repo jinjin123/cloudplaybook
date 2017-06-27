@@ -45,6 +45,14 @@ else
   # Preparing AWS command line and templates
   mkdir -p /root/tools/code/aws/$IDENTIFIER/data
   echo $DEPLOYJSON > /root/tools/code/aws/$IDENTIFIER/deploy.json
+
+  # Preparing Credentials
+  mkdir -p $DATFILEDIR/$IDENTIFIER/data/credentials
+  cp /home/kylin/chef12/cookbooks/deploycode/templates/default/gitkey.erb $DATFILEDIR/$IDENTIFIER/data/credentials/gitkey
+  cp /home/kylin/chef12/cookbooks/deploycode/templates/default/gitkey.pub.erb $DATFILEDIR/$IDENTIFIER/data/credentials/gitkey.pub.erb
+  cp /home/kylin/chef12/cookbooks/deploycode/templates/default/known_hosts.erb $DATFILEDIR/$IDENTIFIER/data/credentials/known_hosts
+  cp /home/kylin/chef12/cookbooks/deploycode/templates/default/kylin.pem $DATFILEDIR/$IDENTIFIER/data/credentials/kylin.pem
+
   docker run --rm --network=host --name chef-client-$IDENTIFIER \
   -v /root/tools/code/aws/$IDENTIFIER/data/:/root/tools/code/aws/$IDENTIFIER/ \
   -v /etc/chef/kylin.pem:/etc/chef/kylin.pem \
