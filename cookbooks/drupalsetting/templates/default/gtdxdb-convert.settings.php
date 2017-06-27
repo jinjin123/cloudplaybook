@@ -2,8 +2,8 @@
 // Database connection to sharing hosts
 $databases['default']['default'] = array (
   'database' => 'gtdxdatacache',
-  'username' => 'db-convert',
-  'password' => 'Xx6VMChtxRHv',
+  'username' => 'keithyau',
+  'password' => 'thomas123',
   'host' => 'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
   'port' => '',
   'driver' => 'mysql',
@@ -11,8 +11,8 @@ $databases['default']['default'] = array (
 );
 $databases['de']['default'] = array (
   'database' => 'gtdxde',
-  'username' => 'de',
-  'password' => '1nBA2Qt9krXQwl35dyyB',
+  'username' => 'keithyau',
+  'password' => 'thomas123',
   'host' => 'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
   'port' => '',
   'driver' => 'mysql',
@@ -20,8 +20,8 @@ $databases['de']['default'] = array (
 );
 $databases['erp']['default'] = array (
   'database' => 'gtdxerp',
-  'username' => 'erp',
-  'password' => 's5BBRsQ9m8L6OPmU6q',
+  'username' => 'keithyau',
+  'password' => 'thomas123',
   'host' => 'sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn',
   'port' => '',
   'driver' => 'mysql',

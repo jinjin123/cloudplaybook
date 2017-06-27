@@ -1,5 +1,5 @@
 {
-  "name": "chefclient-sparkpad-liansuola-gp2gtdx",
+  "name": "chefclient-sparkpad-liansuola-gp2gtdxprod",
   "description": "Role json file for starting and maintaining Sparkpad Generic Platform season2 gtdx",
   "json_class": "Chef::Role",
   "default_attributes": {
@@ -14,83 +14,136 @@
     },
     "deploycode": {
       "basedirectory": "/home/ec2-user/tools/drupal_dir/",
-      "configuration":{
-        "drupal": {
-          "de": {
-            "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
-            },
-            "settings": {
-              "liansuola-de.settings.php" : "sites/default/settings.php"
-            },
-            "variables" : {
-              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
-              "dbuser": "keithyau",
-              "dbpass": "thomas123",
-              "dbname": "gtdxde"
-            }
+      "configuration": {
+        "general": {
+          "bootproxy": {
+            "tv.bootproxy.nginx.conf": "/etc/nginx/nginx.conf"
+          },
+          "oc": {
+            "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
           },
           "erp": {
+            "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "de": {
+            "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "pmt": {
+            "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "db-convert": {
+            "spgp.nginx.conf": "/usr/local/nginx/conf/nginx.conf"
+          },
+          "wmserver": {
+            "cert.conf": "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cert"
+          },
+          "orderserver": {
+            "cert.conf": "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cert"
+          },
+          "reportingsys":{
+            "report-gtdx2.env": "/var/www/html/.env",
+            "report-gtdx2-connect": "/var/www/html/config/externa_connection_db.php",
+            "report-gtdx2-redis": "/var/www/html/config/database.php"
+          }
+        },
+        "drupal": {
+          "erp": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php" : "sites/default/settings.php"
+              "gtdxerp.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "keithyau",
               "dbpass": "thomas123",
               "dbname": "gtdxerp"
             }
           },
-          "pmt": {
+          "de": {
             "folders": {
-              "sites/default/files" : "777",
-              "sites/default/privates" : "777"
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
             },
             "settings": {
-              "general.settings.php" : "sites/default/settings.php"
+              "gtdxde.settings.php": "sites/default/settings.php"
             },
-            "variables" : {
+            "variables": {
               "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
               "dbuser": "keithyau",
               "dbpass": "thomas123",
-              "dbname": "gtdxpmt"
+              "dbname": "gtdxde"
+            }
+          },
+          "db-convert": {
+            "folders": {
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
+            },
+            "settings": {
+              "gtdxdb-convert.settings.php": "sites/default/settings.php"
+            },
+            "variables": {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123",
+              "dbname": "gtdxde"
+            }
+          },
+          "pmt": {
+            "folders": {
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
+            },
+            "settings": {
+              "gtdxpmt.settings.php": "sites/default/settings.php"
+            },
+            "variables": {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123",
+              "dbname": "gtdxpayment"
+            }
+          },
+          "oc": {
+            "folders": {
+              "sites/default/files": "777",
+              "sites/default/privates": "777"
+            },
+            "settings": {
+              "gtdxpmt.settings.php": "sites/default/settings.php"
+            },
+            "variables": {
+              "dbhost": "sm12g5l9d32eyun.cjwa2zciaejp.rds.cn-north-1.amazonaws.com.cn",
+              "dbuser": "keithyau",
+              "dbpass": "thomas123",
+              "dbname": "gtdxoc"
             }
           }
         }
       },
       "localfolder": {
         "de": {
-          "giturl": "git@gitlab.com:Sparkpad/gutian-de.git",
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-de.git",
+          "branch": "master"
+        },
+        "db-convert": {
+          "giturl": "git@git.coding.net:zterry/db-convert.git",
+          "branch": "master"
+        },
+        "oc": {
+          "giturl": "git@gitlab.com:Sparkpad/spark-oc.git",
+          "branch": "master"
+        },
+        "pmt": {
+          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
           "branch": "master"
         },
         "erp": {
           "giturl": "git@gitlab.com:Sparkpad/SparkPos-GP-Kindee.git",
           "branch": "gp"
-        },
-        "pmt": {
-          "giturl": "git@git.coding.net:keithyau/sparkpad-drupal-backend-pmt.git",
-          "branch": "liansuola"
-        },
-        "oc": {
-          "giturl": "git@git.coding.net:keithyau/deploymentoc.git",
-          "branch": "master"
-        },
-        "tsoc": {
-          "giturl": "git@git.coding.net:keithyau/deploymenttsoc.git",
-          "branch": "master"
-        },
-        "orderserver": {
-          "giturl": "git@git.coding.net:shiyang1983/orderserver.git",
-          "branch": "master"
-        },
-        "wmserver": {
-          "giturl": "git@git.coding.net:shiyang1983/wmserver.git",
-          "branch": "master"
         },
         "reportingsys": {
           "giturl": "git@git.coding.net:chankongching/reports.git",
@@ -100,102 +153,153 @@
           "giturl": "git@git.coding.net:keithyau/syncoc.git",
           "branch": "master"
         },
-        "bootproxy":"nodownload"
+        "orderserver": {
+          "giturl": "git@git.coding.net:shiyang1983/orderserver.git",
+          "branch": "master"
+        },
+        "wmserver": {
+          "giturl": "git@git.coding.net:shiyang1983/gtdx_wmserver.git",
+          "branch": "master"
+        },
+        "memcached": "nodownload",
+        "couchdb": "nodownload",
+        "bootproxy": "nodownload",
+        "rabbitmq": "nodownload",
+        "redis-report": "nodownload"
       },
       "runtime": {
-        "de": {
+        "memcached": {
           "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
-          "mountlocal": "localdir",
-          "mountdocker": "/var/www/html",
-          "ports": "9081:80",
-          "customdomainsuffix": "gtdx"
+          "image": "memcached",
+          "memory_limit": 3147483648,
+          "ports": "11211:11211",
+          "domain": false
         },
-        "erp": {
+        "redis-report": {
           "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/drupalshanghaitime",
+          "image": "redis",
+          "memory_limit": 547483648,
+          "ports": "6379:6379"
+        },
+        "rabbitmq": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/rmq",
+          "exec": "sleep 40;/bin/bash /setup",
+          "ports": [
+            "5672:5672",
+            "15672:15672"
+          ],
+          "domain": false
+        },
+        "pmt": {
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_PMT_GP2"],
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9082:80",
-          "customdomainsuffix": "gtdx"
+          "customdomainsuffix": ".gtdx"
         },
-        "pmt": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/php7shanghaitime",
+        "de": {
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_DE_GP2"],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9083:80",
+          "customdomainsuffix": ".gtdx"
+        },
+        "erp": {
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_ERP_GP2"],
           "mountlocal": "localdir",
           "mountdocker": "/var/www/html",
           "ports": "9084:80",
-          "customdomainsuffix": "gtdx"
+          "customdomainsuffix": ".gtdx"
         },
         "oc": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/oc:/usr/local/tomcat/webapps",
-            "/etc/localtime:/etc/localtime:ro"
-          ],
-          "ports": "9086:8080",
-          "customdomainsuffix": "gtdx"
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_OC_GP2"],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9085:80",
+          "customdomainsuffix": ".gtdx"
         },
-        "tsoc": {
+        "reportingsys": {
           "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/tsoc:/usr/local/tomcat/webapps",
-            "/etc/localtime:/etc/localtime:ro"
-          ],
-          "ports": "9087:8080",
-          "customdomainsuffix": "gtdx"
+          "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_REPORT_GP2"],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html/",
+          "ports": "9086:80",
+          "overridesubdomain": "reports.gtdx"
         },
         "orderserver": {
           "tag": "latest",
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_ORDERSERVER_GP2"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/home/ec2-user/tools/drupal_dir/orderserver:/usr/local/tomcat/webapps/ROOT",
             "/etc/localtime:/etc/localtime:ro"
           ],
-          "ports": "9088:8080",
-          "customdomainsuffix": "gtdx"
-        },
-        "reportingsys": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/laravelnewrelic",
-          "mountlocal": "localdir",
-          "mountdocker": "/var/www/html/",
-          "ports": "9090:80",
-          "overridesubdomain":"reports"
-        },
-        "syncoc": {
-          "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
-          "mountlocal": "multipledir",
-          "mountdocker": [
-            "/home/ec2-user/tools/drupal_dir/syncoc:/usr/local/tomcat/webapps",
-            "/etc/localtime:/etc/localtime:ro"
-          ],
-          "ports": "9091:8080"
+          "ports": "9087:8080",
+          "customdomainsuffix": ".gtdx"
         },
         "wmserver": {
           "tag": "latest",
           "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_WMSERVER_GP2"],
           "mountlocal": "multipledir",
           "mountdocker": [
             "/home/ec2-user/tools/drupal_dir/wmserver:/usr/local/tomcat/webapps/ROOT",
             "/etc/localtime:/etc/localtime:ro",
             "/bin/vi:/bin/vi"
           ],
-          "ports": "9092:8080",
-          "overridesubdomain": "takeaway-wm"
+          "ports": "9088:8080",
+          "overridesubdomain": "takeaway-wm.gtdx"
         },
-        "bootproxy":{
-          "tag":"stable-alpine",
-          "image":"daocloud.io/library/nginx",
-          "mountlocal":"localdir",
-          "mountdocker":"/etc/nginx/conf.d/",
-          "ports":[
+        "syncoc": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/tomcatsparkpadglusternewrelic",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_SYNCOC_GP2"],
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/drupal_dir/syncoc:/usr/local/tomcat/webapps",
+            "/etc/localtime:/etc/localtime:ro"
+          ],
+          "ports": "9089:8080"
+        },
+        "couchdb": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/couchdb",
+          "env": ["PATH=/opt/couchdb/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:$PATH", "COUCHDB_USER=ymeng", "COUCHDB_PASSWORD=111111"],
+          "mountlocal": "localdir",
+          "mountdocker": "/opt/couchdb/data",
+          "ports": "9090:5984",
+          "overridesubdomain": "couchdb-cloud.gtdx",
+          "https": true
+        },
+        "db-convert": {
+          "tag": "7.1.4_v4",
+          "image": "dockerpriv.kybot.io:5002/keithyau/drupalnginxphp7shanghai",
+          "env": ["NEWRELICKEY=839e85790a22ffa6ed5818850d8fc3307d92e072", "NEWRELICAPPNAME=GTDX_DBCONVERT_GP2"],
+          "mountlocal": "localdir",
+          "mountdocker": "/var/www/html",
+          "ports": "9091:80",
+          "domain": false
+        },
+        "bootproxy": {
+          "tag": "stable-alpine",
+          "image": "daocloud.io/library/nginx",
+          "mountlocal": "multipledir",
+          "mountdocker": [
+            "/home/ec2-user/tools/bootproxy:/etc/nginx/conf.d/",
+            "/etc/letsencrypt/archive/:/root"
+          ],
+          "ports": [
             "80:80",
             "8080:8080"
           ]
@@ -210,6 +314,7 @@
     "recipe[build-essential]",
     "recipe[basicservice]",
     "recipe[deploycode]",
+    "recipe[configs]",
     "recipe[drupalsetting]",
     "recipe[webserver]"
   ],
