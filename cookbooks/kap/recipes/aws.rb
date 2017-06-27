@@ -169,8 +169,28 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
+  template "#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh" do
+    source "aws_04_deploy_chef.sh"
+    mode 0744
+    retries 3
+    retry_delay 2
+    owner "root"
+    group "root"
+    action :create
+  end
+
   template "#{basedir}aws/#{identifier}/templates/vpc.template" do
     source "aws_vpc.template"
+    mode 0744
+    retries 3
+    retry_delay 2
+    owner "root"
+    group "root"
+    action :create
+  end
+
+  template "#{basedir}aws/#{identifier}/templates/chefServer.template" do
+    source "aws_chefServer.template"
     mode 0744
     retries 3
     retry_delay 2
@@ -196,6 +216,17 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         #tricky way to load this Chef::Mixin::ShellOut utilities
         Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
         command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/03_deploy_vpc.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier} >>  #{basedir}aws/#{identifier}/deploy.log"
+        command_out = shell_out(command)
+    end
+    action :create
+  end
+
+  # Running 04_deploy_chef
+  ruby_block "createchefserver" do
+    block do
+        #tricky way to load this Chef::Mixin::ShellOut utilities
+        Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+        command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier} >>  #{basedir}aws/#{identifier}/deploy.log"
         command_out = shell_out(command)
     end
     action :create
