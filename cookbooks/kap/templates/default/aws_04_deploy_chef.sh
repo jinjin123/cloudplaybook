@@ -59,6 +59,29 @@ BRANCH=kylin-cn-docker-kybot
 
 ####################
 # Create chef server
+echo
+aws cloudformation create-stack \
+--stack-name $ID-chefserver \
+--capabilities CAPABILITY_IAM \
+--template-body file://$BOOT_HOME/templates/chefServer.template \
+--on-failure DO_NOTHING \
+--region $REGION \
+--parameters \
+ParameterKey=BootCloudBranch,ParameterValue=$BRANCH \
+ParameterKey=ChefSubnet,ParameterValue=$ScalingSubnet \
+ParameterKey=ChefVpc,ParameterValue=$VpcId \
+ParameterKey=GlusterMountUrl,ParameterValue='1.2.3.4' \
+ParameterKey=ec2accesskey,ParameterValue="\"$EC2keypair\"" \
+ParameterKey=GlusterVolume,ParameterValue=glt0 \
+ParameterKey=InstanceType,ParameterValue=t2.small \
+ParameterKey=KeyName,ParameterValue=$KEYPAIR \
+ParameterKey=ServerTagName,ParameterValue=$ID-mgmt \
+ParameterKey=StackName,ParameterValue=$ID-chefserver \
+ParameterKey=SSHKey,ParameterValue="\"$SSHKey\"" \
+ParameterKey=SSHPub,ParameterValue="\"$SSHPub\"" \
+ParameterKey=SSHKnownHosts,ParameterValue="\"$SSHKnownHosts\"" \
+ParameterKey=SSHLocation,ParameterValue="0.0.0.0/0" \
+ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup
 
 aws cloudformation create-stack \
 --stack-name $ID-chefserver \
