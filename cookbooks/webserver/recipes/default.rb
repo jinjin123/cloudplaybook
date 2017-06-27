@@ -374,11 +374,11 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         https = docker[:https]
       end
 
-      # Adding domain parameter
-      domain = true
-      if (not (defined?(docker[:domain])).nil?)
-        domain = docker[:domain]
-      end
+      # # Adding domain parameter
+      # domain = true
+      # if (not (defined?(docker[:domain])).nil?)
+      #   domain = docker[:domain]
+      # end
 
 
       # Configuration of network mode of docker
@@ -387,7 +387,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         next if docker[:network_mode].eql?("host")
       end
 
-      if (domain == true)
+      # if (domain == true)
         if (not (defined?(docker[:ports]).nil?)) && (not "#{docker[:ports]}" == "")
           if ! docker[:ports].kind_of?(Array)
             portnumber = docker[:ports].chomp.split(':')[1]
@@ -410,7 +410,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
             end
           end
         end
-      end
+      # end
     end
   end
 end
