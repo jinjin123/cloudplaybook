@@ -59,7 +59,7 @@ BRANCH=kylin-cn-docker-kybot
 
 ####################
 # Create chef server
-echo
+echo \
 aws cloudformation create-stack \
 --stack-name $ID-chefserver \
 --capabilities CAPABILITY_IAM \
