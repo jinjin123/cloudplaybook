@@ -114,8 +114,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     content keypairprivatekey
     owner 'root'
     group 'root'
-    mode 00400
-    recursive true
+    mode '0400'
     action :create
   end
   ## Configuring default variable Finished
