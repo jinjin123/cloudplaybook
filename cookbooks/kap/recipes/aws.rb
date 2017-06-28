@@ -242,7 +242,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         #tricky way to load this Chef::Mixin::ShellOut utilities
         Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
         command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier} >>  #{basedir}aws/#{identifier}/deploy.log"
-        command_out = shell_out(command)
+        command_out = shell_out(command, :timeout => 3600)
     end
     action :create
   end
