@@ -67,6 +67,8 @@ fi
 # Clearing old chef node and client
 cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
 cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
+docker stop chef-client-$IDENTIFIER;
+docker rm chef-client-$IDENTIFIER;
 # Setting return code of script
 if [ "$RETURNCODE" -eq 0 ]
 then
