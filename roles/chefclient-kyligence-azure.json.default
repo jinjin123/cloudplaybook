@@ -1,5 +1,5 @@
 {
-  "name": "chefclient-kyligence-aws",
+  "name": "chefclient-kyligence-azure",
   "description": "",
   "json_class": "Chef::Role",
   "default_attributes": {
@@ -13,28 +13,29 @@
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
-        "aws": {
+        "azure": {
           "credentials": {
-            "awskey": "AKIAOLKR63OA4735DYJA",
-            "awssecret": "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",
-            "region": "cn-north-1"
+            "env": "AzureChinaCloud",
+            "username": "jacky.chan@kycloud.partner.onmschina.cn",
+            "password": "Kyligence2016@"
           },
           "kylin": {
-            "identifier": "20170324095502",
+            "identifier": "20170413000000",
             "region": "chinaeast",
             "cluster": true,
             "appType": "KAP+KyAnalyzer+Zeppelin",
             "clusterLoginUserName": "admintest",
-            "clusterLoginPassword": "Kyligence2016",
+            "clusterLoginPassword": "Trial1234Ky1in@",
             "clusterName": "default",
             "clusterType": "hbase",
             "clusterVersion": "3.5",
-            "clusterWorkerNodeCount": 2,
+            "clusterWorkerNodeCount": 3,
             "containerName": "default",
             "edgeNodeSize": "Standard_D3_V2",
             "metastoreName": "default",
-            "sshUserName": "admintest",
-            "sshPassword": "Kyligence2016"
+            "sshUserName": "kylingence",
+            "sshPassword": "Kyligence2016@",
+            "storageAccount": "20170411000000sa"
           }
         }
       },
@@ -44,7 +45,7 @@
       "runtime": {
         "azure": {
           "tag": "latest",
-          "image": "dockerpriv.kybot.io:5002/keithyau/aws-cli",
+          "image": "dockerpriv.kybot.io:5002/keithyau/azure-cli",
           "mountlocal": "localdir",
           "mountdocker": "/templates"
         }
@@ -54,12 +55,7 @@
   "override_attributes": {},
   "chef_type": "role",
   "run_list": [
-    "recipe[git]",
-    "recipe[build-essential]",
-    "recipe[basicservice]",
-    "recipe[deploycode]",
-    "recipe[webserver]",
-    "recipe[aws]"
+    "recipe[azure]"
   ],
   "env_run_lists": {}
 }

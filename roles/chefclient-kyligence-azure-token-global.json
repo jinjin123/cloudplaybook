@@ -1,0 +1,95 @@
+{
+  "name": "chefclient-kyligence-azure-token-global",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deployuser": "root",
+    "projectname": "kyligence",
+    "docker": {
+      "privaterepo": "dockerpriv.kybot.io:5002",
+      "username": "keithyau",
+      "password": "thomas123"
+    },
+    "deploycode": {
+      "basedirectory": "/root/tools/code/",
+      "configuration": {
+        "azure": {
+          "credentials": {
+            "token": [
+              {
+                "tokenType": "Bearer",
+                "expiresIn": 3599,
+                "expiresOn": "2017-03-31T10:17:27.940Z",
+                "resource": "https://management.core.windows.net/",
+                "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSIsImtpZCI6ImEzUU4wQlpTN3M0bk4tQmRyamJGMFlfTGRNTSJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldC8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9mOGNkZWYzMS1hMzFlLTRiNGEtOTNlNC01ZjU3MWU5MTI1NWEvIiwiaWF0IjoxNDkwOTUxNTQ4LCJuYmYiOjE0OTA5NTE1NDgsImV4cCI6MTQ5MDk1NTQ0OCwiYWNyIjoiMSIsImFpbyI6IlkyWmdZQkJwT2QzRDgvcFhTNkxyRXgzamZ6TksvQndYdUhCSVhGeDJLcGUxb3NMcElDc0EiLCJhbHRzZWNpZCI6IjE6bGl2ZS5jb206MDAwMzdGRkUwMjZDMzEzOCIsImFtciI6WyJwd2QiXSwiYXBwaWQiOiIwNGIwNzc5NS04ZGRiLTQ2MWEtYmJlZS0wMmY5ZTFiZjdiNDYiLCJhcHBpZGFjciI6IjAiLCJlX2V4cCI6MjYyODAwLCJlbWFpbCI6Imt5bGlnZW5jZUBvdXRsb29rLmNvbSIsImZhbWlseV9uYW1lIjoiTGkiLCJnaXZlbl9uYW1lIjoiRG9uZyIsImlkcCI6ImxpdmUuY29tIiwiaXBhZGRyIjoiMTgwLjE2OC4zNC4xOTQiLCJwbGF0ZiI6IjE0Iiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwic3ViIjoiUTh1M01BakhlN3Y0VGVjVU8tME82ZlVMT2ZkSG02NFlNcG4xcVdxcVJPMCIsInRpZCI6ImY4Y2RlZjMxLWEzMWUtNGI0YS05M2U0LTVmNTcxZTkxMjU1YSIsInVuaXF1ZV9uYW1lIjoibGl2ZS5jb20ja3lsaWdlbmNlQG91dGxvb2suY29tIiwidmVyIjoiMS4wIn0.gd2myHb5zTQO2ngqv2ks3gx1ypcTD-hzcvwrCCzHGLaoyGiGT2haiuGCd2fdiHMqmUyT7C5SXRmuXxlZATOQO6PTYMhBlhxSbPAuPwsLSnjFwksNnDn-Bjd8KGfoBVIOfe4X7WRQ9520k3OMcQYkFnTqB9yDj9ChE5eaEmUBcElpFmnrfazkEJ-p7r7m73QwZ52EOyeY_fYZvjKkjkQ4Q0xUGXn1YAyNbo5v0sYhQryCFiqEuPLTUwjd4i3qpAfalhbBTAxVk7u1EFLHIWdoZ3mVzOy98Z1IfS0LnFvjCNcQYL1Vjii332in-SDXaDDv8d6K_g7btyl7UbDX_ZzUtw",
+                "refreshToken": "AQABAAAAAABnfiG-mA6NTae7CdWW7Qfd3HEruo_uC7JOEaXaVS5ufPe5t8q3QbU-WJlV5rE9EijGGxqhB06EG4596lSLqLMP139RDQfGlvYR3ywQ01PNDqgR_jBVwgZHtyG058Q6331I69Vbuf4M4bhpj9uWaW_3D9fs4FmuEbDK3YDQnQGlOUPX35HRwoIzLgy2Qz8YZrjuKEHJwe2i-Pzo8g472xr0PuEI0LLvwn4rRyf7UBmDBbzu1_XgY0pnwQdxgEWswzEWTXXz8S1T2PPO-HQVcb9N9CgUCTM3LjsbsKOhJ39MFVvB4XLdYFaIOfEATl9zVWNJT8oczAnKdtmGc7x-MlBJS7VfkMiAvDPqomg5QrJsxtmDEUaiRL1E9S7HarJYl6VE_8WfX7M4Yp1gY3ZCj8usXagb0VyV4PUd4P5OCeN4XoYdjLJYSPtEETrOwwxpoxzhRcbUhRlOeEebIgCaWCuIj7RDlPjYridBcpIP5PAccnnh-b3OC6hTyD7ELZKzfPpNVKtRer8Qcsdt2Ei2KdMEKy1VKVt4tIxlfqWrUZqeLfqphvxqbgSsBBxOZsbalWfnq-vCI8_PbmUt1wNHYVXQ4VG6K0Qf7BqOp4H0DO-07R-5NNdNuuWSZiBf3mF7RRsoyKimceKK5lsGSVHt_4JogoDhjG8NzKvnICoupj1SoGmxIlUNZ-gW05JiUwH5FECfxhpHNpTElfmF1fu6TwxeKX1VWCz-3xfVIfyt0x6XUbWffBHD4JFuXncss4mHzRRAa533ArLNxZ0N899aR7Gt6OqrYIKV7x4WldsHwCQZ2CAA",
+                "userId": "kyligence@outlook.com",
+                "identityProvider": "live.com",
+                "isMRRT": true,
+                "_clientId": "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+                "_authority": "https://login.microsoftonline.com/common"
+              }
+            ],
+            "profile": {
+              "environments": [],
+              "subscriptions": [
+                {
+                  "id": "bde92c1d-81d5-4566-88aa-9f7177703c92",
+                  "name": "Visual Studio Enterprise: BizSpark",
+                  "user": {
+                    "name": "kyligence@outlook.com",
+                    "type": "user"
+                  },
+                  "tenantId": "9b3afd1e-9454-4d38-a14c-a0670c820d48",
+                  "state": "Enabled",
+                  "isDefault": true,
+                  "registeredProviders": [],
+                  "environmentName": "AzureCloud"
+                }
+              ]
+            }
+          },
+          "kylin": {
+            "identifier": "20170410000001",
+            "region": "eastasia",
+            "cluster": true,
+            "appType": "KAP+KyAnalyzer+Zeppelin",
+            "clusterLoginUserName": "admintest",
+            "clusterLoginPassword": "Kyligence2016",
+            "clusterName": "default",
+            "clusterType": "hbase",
+            "clusterVersion": "3.5",
+            "clusterWorkerNodeCount": 2,
+            "containerName": "default",
+            "edgeNodeSize": "Standard_D3_V2",
+            "metastoreName": "default",
+            "sshUserName": "admintest",
+            "sshPassword": "Kyligence2016"
+          }
+        }
+      },
+      "localfolder": {
+        "azure-cli": "nodownload"
+      },
+      "runtime": {
+        "azure": {
+          "tag": "latest",
+          "image": "dockerpriv.kybot.io:5002/keithyau/azure-cli",
+          "mountlocal": "localdir",
+          "mountdocker": "/templates"
+        }
+      }
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git]",
+    "recipe[build-essential]",
+    "recipe[basicservice]",
+    "recipe[deploycode]",
+    "recipe[webserver]",
+    "recipe[azure]"
+  ],
+  "env_run_lists": {}
+}

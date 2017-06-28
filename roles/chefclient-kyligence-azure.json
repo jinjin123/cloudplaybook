@@ -1,0 +1,43 @@
+{
+  "name": "chefclient-kyligence-azure",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "deploycode": {
+      "basedirectory": "/root/tools/code/",
+      "configuration": {
+        "azure": {
+          "credentials": {
+            "env": "AzureChinaCloud",
+            "username": "jacky.chan@kycloud.partner.onmschina.cn",
+            "password": "Kyligence2016@"
+          },
+          "kylin": {
+            "identifier": "20170413000000",
+            "region": "chinaeast",
+            "cluster": true,
+            "appType": "KAP+KyAnalyzer+Zeppelin",
+            "clusterLoginUserName": "admintest",
+            "clusterLoginPassword": "Kyligence2016",
+            "clusterName": "default",
+            "clusterType": "hbase",
+            "clusterVersion": "3.5",
+            "clusterWorkerNodeCount": 2,
+            "containerName": "default",
+            "edgeNodeSize": "Standard_D3_V2",
+            "metastoreName": "default",
+            "sshUserName": "kylingence",
+            "sshPassword": "Kyligence2016",
+            "storageAccount": "20170411000000sa"
+          }
+        }
+      }
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[azure]"
+  ],
+  "env_run_lists": {}
+}
