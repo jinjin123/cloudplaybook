@@ -6,28 +6,8 @@
       "defaultValue": "sqltest",
       "type": "String"
     },
-    "sqlnetworkInterfacesname": {
-      "defaultValue": "sqltest116",
-      "type": "String"
-    },
-    "sqlnetworkSecurityGroupsname": {
-      "defaultValue": "sqltest-nsg",
-      "type": "String"
-    },
-    "sqlpublicIPAddressesipname": {
-      "defaultValue": "sqltest-ip",
-      "type": "String"
-    },
-    "vnetName": {
-      "defaultValue": "vnet20170503000000",
-      "type": "String"
-    },
-    "subnet1Name": {
-      "defaultValue": "subnet120170503000000",
-      "type": "String"
-    },
-    "subnet2Name": {
-      "defaultValue": "subnet220170503000000",
+    "sqldatabaseName": {
+      "defaultValue": "clustername",
       "type": "String"
     },
     "adminUsername": {
@@ -39,165 +19,60 @@
       "type": "String"
     }
   },
-  "variables": {},
+  "variables": {
+    "sqlDatabase": {
+      "serverName": "[concat(parameters('sqlvirtualMachinesname'))]",
+      "databaseName": "[concat(parameters('sqldatabaseName'))]"
+    }
+  },
   "resources": [
     {
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('sqlvirtualMachinesname')]",
-      "apiVersion": "2016-04-30-preview",
+      "name": "[variables('sqlDatabase').serverName]",
+      "type": "Microsoft.Sql/servers",
       "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "SqlServer"
+      },
+      "apiVersion": "2014-04-01",
+      "dependsOn": [],
       "properties": {
-        "hardwareProfile": {
-          "vmSize": "Standard_DS2_v2"
-        },
-        "osProfile": {
-          "computerName": "[parameters('sqlvirtualMachinesname')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]",
-          "WindowsConfiguration": {
-            "provisionVMAgent": true,
-            "enableAutomaticUpdates": true
+        "administratorLogin": "[parameters('adminUsername')]",
+        "administratorLoginPassword": "[parameters('adminPassword')]",
+        "version": "12.0"
+      },
+      "resources": [
+        {
+          "name": "[variables('sqlDatabase').databaseName]",
+          "type": "databases",
+          "location": "[resourceGroup().location]",
+          "tags": {
+            "displayName": "Database"
           },
-          "secrets": []
+          "apiVersion": "2015-05-01-preview",
+          "dependsOn": [
+            "[variables('sqlDatabase').serverName]"
+          ],
+          "properties": {
+            "edition": "Basic",
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "maxSizeBytes": "1073741824",
+            "requestedServiceObjectiveName": "Basic"
+          }
         },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "MicrosoftSQLServer",
-            "offer": "SQL2012SP3-WS2012R2",
-            "sku": "Enterprise",
-            "version": "latest"
-          },
-          "osDisk": {
-            "osType": "Windows",
-            "name": "[parameters('sqlvirtualMachinesname')]",
-            "createOption": "FromImage",
-            "vhd": {
-              "uri": "[concat('https://', '<%= @storageAccountName %>', '<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>', '/vhds/', parameters('sqlvirtualMachinesname'),'20170503153620.vhd')]"
-            },
-            "caching": "ReadWrite"
-          },
-          "dataDisks": [
-            {
-              "lun": 0,
-              "name": "[concat(parameters('sqlvirtualMachinesname'),'-disk-1')]",
-              "createOption": "Empty",
-              "vhd": {
-                "uri": "[concat('https://', '<%= @storageAccountName %>', '<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>', '/vhds/', parameters('sqlvirtualMachinesname'),'-disk-1-20170503153620.vhd')]"
-              },
-              "caching": "ReadOnly",
-              "diskSizeGB": 1023
-            }
-          ]
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('sqlnetworkInterfacesname'))]"
-            }
-          ]
+        {
+          "name": "AllowAllAzureIps",
+          "type": "firewallrules",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2014-04-01",
+          "dependsOn": [
+            "[variables('sqlDatabase').serverName]"
+          ],
+          "properties": {
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "0.0.0.0"
+          }
         }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', parameters('sqlnetworkInterfacesname'))]"
       ]
-    },
-    {
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[parameters('sqlnetworkInterfacesname')]",
-      "apiVersion": "2016-03-30",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAddress": "10.0.0.150",
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('sqlpublicIPAddressesipname'))]"
-              },
-              "subnet": {
-                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/',parameters('subnet1Name'))]"
-              }
-            }
-          }
-        ],
-        "dnsSettings": {
-          "dnsServers": []
-        },
-        "enableIPForwarding": false,
-        "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('sqlnetworkSecurityGroupsname'))]"
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('sqlpublicIPAddressesipname'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
-        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('sqlnetworkSecurityGroupsname'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[parameters('sqlnetworkSecurityGroupsname')]",
-      "apiVersion": "2016-03-30",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "securityRules": [
-          {
-            "name": "default-allow-rdp",
-            "properties": {
-              "protocol": "TCP",
-              "sourcePortRange": "*",
-              "destinationPortRange": "3389",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 1000,
-              "direction": "Inbound"
-            }
-          }
-        ]
-      },
-      "dependsOn": []
-    },
-    {
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[parameters('sqlpublicIPAddressesipname')]",
-      "apiVersion": "2016-03-30",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "idleTimeoutInMinutes": 4
-      },
-      "dependsOn": []
-    },
-    {
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[parameters('vnetName')]",
-      "apiVersion": "2016-03-30",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "10.0.0.0/16"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[parameters('subnet1Name')]",
-            "properties": {
-              "addressPrefix": "10.0.0.0/24"
-            }
-          },
-          {
-            "name": "[parameters('subnet2Name')]",
-            "properties": {
-              "addressPrefix": "10.0.1.0/24"
-            }
-          }
-        ]
-      },
-      "dependsOn": []
     }
   ]
 }

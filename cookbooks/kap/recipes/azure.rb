@@ -357,12 +357,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       source "sqlserver.parameters.json.erb"
       variables(
         :sqlvirtualMachinesname => sqlvirtualMachinesname,
-        :sqlnetworkInterfacesname => sqlnetworkInterfacesname,
-        :sqlnetworkSecurityGroupsname => sqlnetworkSecurityGroupsname,
-        :sqlpublicIPAddressesipname => sqlpublicIPAddressesipname,
-        :vnetName => vnetName,
-        :subnet1Name => subnet1Name,
-        :subnet2Name => subnet2Name,
+        :sqldatabaseName => clusterName,
         :adminUsername => sshUserName,
         :adminPassword => sshPassword
       )
