@@ -93,6 +93,10 @@
     "StackName":{
       "Description": "Stack name of chef server",
       "Type": "String"
+    },
+    "Action": {
+      "Description": "action to be taken",
+      "Type": "String"
     }
   },
     "Mappings": {
@@ -216,6 +220,9 @@
                 "HVMebs": "ami-7c15c111"
             }
         }
+    },
+    "Conditions" : {
+      "checkaction" : {"Fn::Equals" : [{"Ref" : "Action"}, "create"]}
     },
     "Resources": {
       "ChefEIP": {
@@ -663,6 +670,25 @@
               },
               "240installchefserver": {
                 "command": "chef-solo -o 'recipe[kylin_manage::emr]' -j /etc/chef/parameter_emr.json"
+              },
+              "250runaction":{
+                "command": {
+                  "Fn::If": [
+                    "checkaction",
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "/root/create_emr.sh ",
+                          {
+                            "Ref": "Action"
+                          }
+                        ]
+                      ]
+                    },
+                    "/bin/date"
+                  ]
+                }
               }
             }
           }

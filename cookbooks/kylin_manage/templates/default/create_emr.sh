@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Taking Parameters
+CLUSTERNAME=$1
+if [ -z "$CLUSTERNAME" ];then
+  export CLUSTERNAME=Kyligence_Enterprise_demo_architecture
+fi
+
 ####################
 # Define variables
 ID="KYLIN-"`date +%Y%m%d%H%M%S`
@@ -17,7 +23,7 @@ CLUSTER_ID=`/usr/bin/aws emr create-cluster \
 --enable-debugging \
 --release-label emr-5.0.0 \
 --log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
---name 'Kyligence_Enterprise_demo_architecture' \
+--name $CLUSTERNAME \
 --instance-groups '[{"InstanceCount":2,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
 --region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
 
@@ -40,7 +46,7 @@ echo "Creation of EMR completed, you can run update hadoop file"
 
 # Put cluster master IP into file
 MASTER_IP=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types MASTER|grep PrivateIpAddress|cut -d':' -f2| sed 's/\"\|,\| //g'`
-echo "{  \"EMR_MASTER\": \"$MASTER_IP\"}" > /etc/chef/parameter_hadoop.json 
+echo "{  \"EMR_MASTER\": \"$MASTER_IP\"}" > /etc/chef/parameter_hadoop.json
 # update hadoop file script parameter
 /usr/bin/chef-solo -o 'recipe[kylin_manage::hadoop_files]' -j /etc/chef/parameter_hadoop.json
 
@@ -55,11 +61,11 @@ MASTER_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $MASTER_instanc
 
 # Get slave security group ID
 SLAVE_instance_ID=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types CORE|grep Ec2InstanceId|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1`
-SLAVE_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $SLAVE_instance_ID| grep GroupId|head -1|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1` 
+SLAVE_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $SLAVE_instance_ID| grep GroupId|head -1|cut -d':' -f2|sed 's/\"\|,\| //g'|head -1`
 
 # open port
 /usr/bin/aws ec2 authorize-security-group-ingress --group-id $MASTER_SG_ID --source-group $SourceSecurityGroupID --protocol all --port 0-65535
 /usr/bin/aws ec2 authorize-security-group-ingress --group-id $SLAVE_SG_ID --source-group $SourceSecurityGroupID --protocol all --port 0-65535
 
-# update 
-/root/update_hadoop_files.sh 
+# update
+/root/update_hadoop_files.sh
