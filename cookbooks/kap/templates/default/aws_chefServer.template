@@ -458,7 +458,7 @@
                 "cwd": "/home/ec2-user/tools"
               },
               "011installchefS": {
-                "command": "rpm -Uvh /home/ec2-user/tools/chef-server-core-12.11.0-1.el6.x86_64.rpm",
+                "command": "rpm -Uvh /home/ec2-user/tools/chef-server-core-12.15.8-1.el6.x86_64.rpm",
                 "cwd": "/home/ec2-user/tools"
               },
               "012reosolvehostname": {
@@ -530,7 +530,7 @@
                 "cwd": "/home/ec2-user/tools"
               },
               "031installchefS": {
-                "command": "rpm -Uvh /home/ec2-user/tools/chefdk-1.0.3-1.el6.x86_64.rpm",
+                "command": "rpm -Uvh /home/ec2-user/tools/chefdk-1.5.0-1.el6.x86_64.rpm",
                 "cwd": "/home/ec2-user/tools"
               },
               "100mkdirforchefworkstaiton": {
