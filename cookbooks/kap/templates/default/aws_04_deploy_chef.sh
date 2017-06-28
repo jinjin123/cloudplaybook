@@ -81,7 +81,8 @@ ParameterKey=SSHPub,ParameterValue="\"$SSHPub\"" \
 ParameterKey=SSHKnownHosts,ParameterValue="\"$SSHKnownHosts\"" \
 ParameterKey=SSHLocation,ParameterValue="0.0.0.0/0" \
 ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup\
-ParameterKey=Action,ParameterValue="create"
+ParameterKey=Action,ParameterValue="create" \
+ParameterKey=clustername,ParameterValue=$ID
 
 #####################
 # Check status and return until success or failed

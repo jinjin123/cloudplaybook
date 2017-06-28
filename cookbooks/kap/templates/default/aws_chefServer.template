@@ -97,6 +97,10 @@
     "Action": {
       "Description": "action to be taken",
       "Type": "String"
+    },
+    "clustername": {
+      "Description": "cluster name to be deployed",
+      "Type": "String"
     }
   },
     "Mappings": {
@@ -681,7 +685,7 @@
                         [
                           "/root/create_emr.sh ",
                           {
-                            "Ref": "Action"
+                            "Ref": "clustername"
                           }
                         ]
                       ]
