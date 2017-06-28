@@ -80,7 +80,7 @@ ParameterKey=SSHKey,ParameterValue="\"$SSHKey\"" \
 ParameterKey=SSHPub,ParameterValue="\"$SSHPub\"" \
 ParameterKey=SSHKnownHosts,ParameterValue="\"$SSHKnownHosts\"" \
 ParameterKey=SSHLocation,ParameterValue="0.0.0.0/0" \
-ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup\
+ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup \
 ParameterKey=Action,ParameterValue="create" \
 ParameterKey=clustername,ParameterValue=$ID
 
