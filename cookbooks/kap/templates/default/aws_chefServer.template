@@ -454,7 +454,7 @@
                 "cwd": "/home/ec2-user/tools"
               },
               "010downloadrpm": {
-                "command": "n=0;until [ $n -ge 5 ];do wget https://packages.chef.io/files/stable/chef-server/12.15.8/el/6/chef-server-core-12.15.8-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
+                "command": "n=0;until [ $n -ge 5 ];do wget http://kycloudpackages.cn-sh2.ufileos.com/chef-server-core-12.15.8-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
                 "cwd": "/home/ec2-user/tools"
               },
               "011installchefS": {
@@ -526,7 +526,7 @@
                 "cwd": "/root"
               },
               "030downloadrpm": {
-                "command": "n=0;until [ $n -ge 5 ];do wget https://packages.chef.io/files/stable/chefdk/1.5.0/el/6/chefdk-1.5.0-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
+                "command": "n=0;until [ $n -ge 5 ];do wget http://kycloudpackages.cn-sh2.ufileos.com/chefdk-1.5.0-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
                 "cwd": "/home/ec2-user/tools"
               },
               "031installchefS": {
