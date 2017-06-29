@@ -264,7 +264,7 @@
             "ap-northeast-2": {
                 "PVinstancestore": "ami-d14388bf",
                 "PVebs": "ami-2b408b45",
-                "HVMebs": "ami-2b408b45"                
+                "HVMebs": "ami-2b408b45"
             },
             "ap-southeast-2": {
                 "PVinstancestore": "ami-851856bf",
@@ -456,6 +456,22 @@
                                 "mode": "000644",
                                 "group": "root",
                                 "owner": "root"
+                            },
+                            "/etc/chef/client.json": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "{\n",
+                                            "\"run_list\": \"role[chefclient-base]\"\n",
+                                            "}\n",
+                                            ""
+                                        ]
+                                    ]
+                                },
+                                "mode": "000644",
+                                "group": "root",
+                                "owner": "root"
                             }
                         },
                         "commands": {
@@ -513,7 +529,7 @@
                                 "cwd": "/home/ec2-user"
                             },
                             "09installchefclient": {
-                                "command": "aws s3 cp s3://bootdevcn/chef-12.5.1-1.el6.x86_64.rpm ./chef-12.5.1-1.el6.x86_64.rpm;rpm -ivh /home/ec2-user/tools/chef-12.5.1-1.el6.x86_64.rpm",
+                                "command": "wget -O ./chef-12.21.3-1.el6.x86_64.rpm http://kycloudpackages.cn-sh2.ufileos.com/chef-12.21.3-1.el6.x86_64.rpm;rpm -ivh /home/ec2-user/tools/chef-12.21.3-1.el6.x86_64.rpm",
                                 "cwd": "/home/ec2-user/tools"
                             },
                             "10installec2metadata": {
@@ -523,6 +539,20 @@
                             "11confignodename": {
                                 "command": "tempVar=$( /home/ec2-user/tools/ec2-metadata -i | cut -d' ' -f2 );echo node_name \\'${tempVar}\\' >> /etc/chef/client.rb;echo no_lazy_load true>> /etc/chef/client.rb",
                                 "cwd": "/home/ec2-user/tools"
+                            },
+                            "12writeRoleName": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "echo \"",
+                                            {
+                                                "Ref": "RoleName"
+                                            },
+                                            "\" > /etc/chef/role.txt"
+                                        ]
+                                    ]
+                                }
                             },
                             "20geminstallvault": {
                                 "command": "#aws s3 cp s3://bootdevcn/chef-vault-2.6.1.gem ~/chef-vault-2.6.1.gem;#/usr/bin/gem install --local ~/chef-vault-2.6.1.gem"

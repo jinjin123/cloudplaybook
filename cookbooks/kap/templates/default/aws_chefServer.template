@@ -549,8 +549,19 @@
                 "cwd": "/home/ec2-user"
               },
               "110clonechefrepo": {
-                "command": "n=0;until [ $n -ge 5 ];do git clone git://github.com/opscode/chef-repo.git; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
-                "cwd": "/home/ec2-user/chef11"
+                "command": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "n=0;until [ $n -ge 5 ];do git clone --depth 1 -b ",
+                      {
+                        "Ref": "BootCloudBranch"
+                      },
+                      " https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git /home/ec2-user/chef11/chef-repo; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
+                    ]
+                  ]
+                },
+                "cwd": "/home/ec2-user/tools"
               },
               "120mkconfigrepo": {
                 "command": "mkdir -p /home/ec2-user/chef11/chef-repo/.chef;touch /home/ec2-user/chef11/chef-repo/.chef/knife.rb;mv /home/ec2-user/knifeconfigure.sh /home/ec2-user/chef11/chef-repo/",
@@ -583,23 +594,8 @@
                 "command": "echo {\"\\\"\"secret_key\"\\\"\":\"\\\"\"`cat /home/ec2-user/chef11/chef-repo/.chef/secret_key`\"\\\"\"} >/home/ec2-user/chef11/chef-repo/.chef/secret_key.json",
                 "cwd": "/home/ec2-user"
               },
-              "210downloadrecipe": {
-                "command": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "n=0;until [ $n -ge 5 ];do git clone --depth 1 -b ",
-                      {
-                        "Ref": "BootCloudBranch"
-                      },
-                      " https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
-                    ]
-                  ]
-                },
-                "cwd": "/home/ec2-user/tools"
-              },
               "215mvrecipe2workstation": {
-                "command": "cp -rf /home/ec2-user/tools/bootcloud/resources/chef/cookbooks/* /home/ec2-user/chef11/chef-repo/cookbooks/;cp -rf /home/ec2-user/tools/bootcloud/resources/chef/roles/* /home/ec2-user/chef11/chef-repo/roles/;cp -Rf /home/ec2-user/tools/bootcloud/resources/chef/crontab /home/ec2-user/chef11/chef-repo/",
+                "command": "#cp -rf /home/ec2-user/tools/bootcloud/resources/chef/cookbooks/* /home/ec2-user/chef11/chef-repo/cookbooks/;cp -rf /home/ec2-user/tools/bootcloud/resources/chef/roles/* /home/ec2-user/chef11/chef-repo/roles/;cp -Rf /home/ec2-user/tools/bootcloud/resources/chef/crontab /home/ec2-user/chef11/chef-repo/",
                 "cwd": "/home/ec2-user"
               },
               "220write_knife": {
@@ -611,7 +607,7 @@
                 "cwd": "/home/ec2-user"
               },
               "223copydeploybash": {
-                "command": "mkdir -p /opt/dep;cp /home/ec2-user/tools/bootcloud/resources/scripts/Deploy/* /opt/dep/;chmod +x /opt/dep/*"
+                "command": "#mkdir -p /opt/dep;cp /home/ec2-user/tools/bootcloud/resources/scripts/Deploy/* /opt/dep/;chmod +x /opt/dep/*"
               },
               "224geminstallvault": {
                 "command": "#aws s3 cp s3://bootdevcn/chef-vault-2.6.1.gem ~/chef-vault-2.6.1.gem;/opt/opscode/embedded/bin/gem install --local ~/chef-vault-2.6.1.gem"
@@ -632,7 +628,7 @@
                 "cwd": "/home/ec2-user/chef11/chef-repo"
               },
               "229createcrontab": {
-                "command": "/usr/bin/crontab /opt/dep/cron.txt"
+                "command": "# /usr/bin/crontab /opt/dep/cron.txt"
               },
               "230customconfigchef": {
                 "command": {

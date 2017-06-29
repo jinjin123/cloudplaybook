@@ -53,7 +53,7 @@ EC2keypair=$(cat $EC2KEYPAIR)
 
 ####################
 # BootDev branch name
-BRANCH=kylin-cn-docker-kybot
+BRANCH=docker-general-kyligence
 # keypair name
 #KEYPAIR=kylin
 
