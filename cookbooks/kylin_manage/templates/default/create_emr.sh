@@ -19,18 +19,18 @@ VpcId=<%= node[:vpc_id] %>
 EMRSubet=<%= node[:subnet_id] %>
 KEYPAIR=`/home/ec2-user/tools/ec2-metadata -u|grep keyname|cut -d ':' -f2`
 
-CLUSTER_ID=`/usr/bin/aws emr create-cluster \
---applications Name=Hadoop Name=Hive Name=Pig Name=Hue Name=HBase Name=ZooKeeper Name=Phoenix Name=HCatalog \
---emrfs Consistent=true,RetryCount=5,RetryPeriod=30 \
---tags 'name=kyligence-emr' \
---ec2-attributes KeyName=$KEYPAIR,InstanceProfile=EMR_EC2_DefaultRole,SubnetId=$EMRSubet \
---service-role EMR_DefaultRole \
---enable-debugging \
---release-label emr-5.0.0 \
---log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
---name $CLUSTERNAME \
---instance-groups '[{"InstanceCount":2,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
---region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
+# CLUSTER_ID=`/usr/bin/aws emr create-cluster \
+# --applications Name=Hadoop Name=Hive Name=Pig Name=Hue Name=HBase Name=ZooKeeper Name=Phoenix Name=HCatalog \
+# --emrfs Consistent=true,RetryCount=5,RetryPeriod=30 \
+# --tags 'name=kyligence-emr' \
+# --ec2-attributes KeyName=$KEYPAIR,InstanceProfile=EMR_EC2_DefaultRole,SubnetId=$EMRSubet \
+# --service-role EMR_DefaultRole \
+# --enable-debugging \
+# --release-label emr-5.0.0 \
+# --log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
+# --name $CLUSTERNAME \
+# --instance-groups '[{"InstanceCount":2,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
+# --region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
 
 # Check status and return until success or failed
 STATUS=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types MASTER|grep \"State\"|cut -d':' -f2| sed 's/\"\|,\| //g'`
