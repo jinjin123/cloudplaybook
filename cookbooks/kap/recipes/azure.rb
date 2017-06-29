@@ -607,6 +607,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       # notifies :run, 'execute[commit_docker]', :immediately
       #ignore_failure true
     end
+    if scheme.eql?("separated")
+      execute 'removehdi_hdinsight2' do
+        command "azure hdinsight cluster delete #{clusterName2} -g #{identifier} >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        #ignore_failure true
+      end
+    end
   elsif azureaction.eql?("removeall")
     execute 'remove_resources_group' do
       command "sh -c \"echo \\\"y\\\" |azure group delete #{identifier}\" >> /root/.azure/azure.err"
