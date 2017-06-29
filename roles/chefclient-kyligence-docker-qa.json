@@ -48,8 +48,7 @@
             "/data/files:/data"
           ],
           "ports":"8081:8080",
-          "memory_limit": 2147483648,
-          "exec": "/root/entry-point.sh"
+          "memory_limit": 2147483648
         }
       }
     }

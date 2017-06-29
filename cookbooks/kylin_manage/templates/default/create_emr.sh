@@ -2,7 +2,7 @@
 
 # Taking Parameters
 CLUSTERNAME=$1
-if [ -z "$CLUSTERNAME" ];then
+if [ -z ${CLUSTERNAME+x} ];then
   export CLUSTERNAME=Kyligence_Enterprise_demo_architecture
 fi
 
