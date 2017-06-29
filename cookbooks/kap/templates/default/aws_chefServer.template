@@ -595,7 +595,7 @@
                 "cwd": "/home/ec2-user"
               },
               "215mvrecipe2workstation": {
-                "command": "#cp -rf /home/ec2-user/tools/bootcloud/resources/chef/cookbooks/* /home/ec2-user/chef11/chef-repo/cookbooks/;cp -rf /home/ec2-user/tools/bootcloud/resources/chef/roles/* /home/ec2-user/chef11/chef-repo/roles/;cp -Rf /home/ec2-user/tools/bootcloud/resources/chef/crontab /home/ec2-user/chef11/chef-repo/",
+                "command": "#cp -rf /home/ec2-user/tools/bootcloud/resources/chef/cookbooks/* /home/ec2-user/chef11/chef-repo/cookbooks/;# cp -rf /home/ec2-user/tools/bootcloud/resources/chef/roles/* /home/ec2-user/chef11/chef-repo/roles/;# cp -Rf /home/ec2-user/tools/bootcloud/resources/chef/crontab /home/ec2-user/chef11/chef-repo/",
                 "cwd": "/home/ec2-user"
               },
               "220write_knife": {
@@ -651,7 +651,7 @@
                 "cwd": "/home/ec2-user/chef11/chef-repo"
               },
               "233updatekylinpem": {
-                "command": "cp /root/.ssh/kylin.pem /home/ec2-user/tools/bootcloud/resources/chef/cookbooks/hadoop_files/templates/default/kylin.pem"
+                "command": "cp /root/.ssh/kylin.pem /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/templates/default/kylin.pem"
               },
               "234updatehadoopfilesIP": {
                 "command": "sed -i \"s/chefserverIP/`/home/ec2-user/tools/ec2-metadata --local-ipv4|cut -d' ' -f2`/\" /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/attributes/default.rb"
