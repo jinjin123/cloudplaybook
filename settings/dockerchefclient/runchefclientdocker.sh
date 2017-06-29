@@ -8,9 +8,12 @@ cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
 cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
 
 if [[ $DEPLOYJSON == *"azure"* ]]; then
-# if deployment is on Azure
+  # if deployment is on Azure
   DATFILEDIR=/root/tools/code/azure
   # Ensuring path exists
+  if [[ $DEPLOYJSON == *"resize"* ]]; then
+    export IDENTIFIER=$IDENTIFIER$(( ( RANDOM % 1000 )  + 1 ))
+  fi
   mkdir -p $DATFILEDIR/$IDENTIFIER
 
   # Preparing Chef client
@@ -31,6 +34,12 @@ if [[ $DEPLOYJSON == *"azure"* ]]; then
   -v /root/tools/code/azure/$IDENTIFIER/azure:/root/.azure \
   dockerpriv.kybot.io:5002/keithyau/chefclient:latest \
   chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json
+
+  if [[ $DEPLOYJSON == *"resize"* ]]; then
+    cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
+    cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
+  fi
+
   export RETURNCODE=$?
 else
 # if deployment is on Aws
