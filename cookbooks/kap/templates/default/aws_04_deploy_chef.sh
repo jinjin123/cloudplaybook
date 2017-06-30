@@ -6,7 +6,7 @@ AZ1=`echo $VAR|cut -d ',' -f1`
 AZ2=`echo $VAR|cut -d ',' -f2`
 REGION=`echo $VAR|cut -d ',' -f3`
 ID=`echo $VAR|cut -d ',' -f4`
-
+KEYPAIR=`echo $VAR|cut -d ',' -f5`
 ###Need input VPC id here###
 #VPC_STACKNAME=`cat ./temp_vpc_id.txt`
 VPC_STACKNAME=$ID"-vpc"
@@ -27,7 +27,6 @@ fi
 VpcSecurityGroup=sg-`echo ${STACKOUTPUT#*sg-} | cut -d" " -f1| cut -d"," -f1`
 VpcId=vpc-`echo ${STACKOUTPUT#*vpc-} | cut -d" " -f1| cut -d"," -f1`
 ScalingSubnet=subnet-`echo ${STACKOUTPUT#*subnet-} | cut -d":" -f1| cut -d"," -f1`
-KEYPAIR=kylin
 
 if [ x$VpcId == x"vpc-" ]
 then

@@ -1,15 +1,10 @@
 #!/bin/bash
 
 # Taking Parameters
-echo "Checking of cluster name 1" >> /etc/clustername.txt
 CLUSTERNAME=$1
-echo $CLUSTERNAME >> /etc/clustername.txt
-
 if [ -z ${CLUSTERNAME+x} ];then
   export CLUSTERNAME=Kyligence_Enterprise_demo_architecture
 fi
-echo "Checking of cluster name 2" >> /etc/clustername.txt
-echo $CLUSTERNAME >> /etc/clustername.txt
 
 ####################
 # Define variables
