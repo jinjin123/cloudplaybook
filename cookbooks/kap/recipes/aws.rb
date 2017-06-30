@@ -214,37 +214,43 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
-  # Running 01_awscheck_zone
-  ruby_block "checkzone" do
-    block do
-        #tricky way to load this Chef::Mixin::ShellOut utilities
-        Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-        command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
-        command_out = shell_out(command)
+  if awsaction..include?("create")
+    # Running 01_awscheck_zone
+    ruby_block "checkzone" do
+      block do
+          #tricky way to load this Chef::Mixin::ShellOut utilities
+          Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+          command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
+          command_out = shell_out(command)
+      end
+      action :create
     end
-    action :create
-  end
 
-  # Running 03_deploy_vpc
-  ruby_block "createvpc" do
-    block do
-        #tricky way to load this Chef::Mixin::ShellOut utilities
-        Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-        command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/03_deploy_vpc.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier} >>  #{basedir}aws/#{identifier}/deploy.log"
-        command_out = shell_out(command)
+    # Running 03_deploy_vpc
+    ruby_block "createvpc" do
+      block do
+          #tricky way to load this Chef::Mixin::ShellOut utilities
+          Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/03_deploy_vpc.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier} >>  #{basedir}aws/#{identifier}/deploy.log"
+          command_out = shell_out(command)
+      end
+      action :create
     end
-    action :create
-  end
 
-  # Running 04_deploy_chef
-  ruby_block "createchefserver" do
-    block do
-        #tricky way to load this Chef::Mixin::ShellOut utilities
-        Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-        command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair} >>  #{basedir}aws/#{identifier}/deploy.log"
-        command_out = shell_out(command, :timeout => 3600)
+    # Running 04_deploy_chef
+    ruby_block "createchefserver" do
+      block do
+          #tricky way to load this Chef::Mixin::ShellOut utilities
+          Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair} >>  #{basedir}aws/#{identifier}/deploy.log"
+          command_out = shell_out(command, :timeout => 3600)
+      end
+      action :create
     end
-    action :create
+  elsif awsaction.eql?("resize")
+    execute "checkEMRid" do
+      command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
+    end
   end
 
 end
