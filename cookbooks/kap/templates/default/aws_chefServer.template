@@ -455,6 +455,9 @@
                 "command": "n=0;until [ $n -ge 5 ];do yum install jq git gcc gcc-c++ ruby19 ruby19-devel ruby19-irb uby19-libs ruby-devel rubygems -y; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
                 "cwd": "/home/ec2-user"
               },
+              "001fixsshkey": {
+                "command": "sed -i \"s/-----BEGIN RSA PRIVATE KEY----- //\" /root/.ssh/kylin.pem;sed -i \"s/ -----END RSA PRIVATE KEY-----//\" /root/.ssh/kylin.pem;sed -i \"s/\\s\\+/\n/g\" /root/.ssh/kylin.pem;sed -i '1i -----BEGIN RSA PRIVATE KEY-----' /root/.ssh/kylin.pem;echo '-----END RSA PRIVATE KEY-----' >> /root/.ssh/kylin.pem"
+              },
               "002mkdir": {
                 "command": "mkdir -p /home/ec2-user/tools /home/ec2-user/.pem /var/app",
                 "cwd": "/home/ec2-user",
