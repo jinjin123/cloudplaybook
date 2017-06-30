@@ -214,6 +214,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
+  file "/root/identifier.txt" do
+    content identifier
+  end
+
   if awsaction..include?("create")
     # Running 01_awscheck_zone
     ruby_block "checkzone" do

@@ -40,9 +40,14 @@ do
 done
 
 # Update env script file
-if [ ! `cat $COOKBOOK_PATH/usr/lib/hbase/conf/hbase-env.sh | grep '$HBASE_CLASSPATH'|wc -l` -eq 1 ];then 
+if [ ! `cat $COOKBOOK_PATH/usr/lib/hbase/conf/hbase-env.sh | grep '$HBASE_CLASSPATH'|wc -l` -eq 1 ];then
 sed -i 's/export HBASE_CLASSPATH=.*/export HBASE_CLASSPATH=\$HBASE_CLASSPATH:\/etc\/hadoop\/conf\//' $COOKBOOK_PATH/usr/lib/hbase/conf/hbase-env.sh
 fi
 
 # Generation of chef client creation script
 /usr/bin/chef-solo -o 'recipe[kylin_manage::client]' -j /etc/chef/parameter_emr.json
+
+
+if [ $? -eq 0 ]; then
+  /root/create_client.sh
+fi
