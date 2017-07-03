@@ -262,7 +262,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "export COUNT=`cat #{basedir}aws/#{identifier}/nodecount.txt|awk {'print $2'}`;export INSTANCEGROUPS=`cat #{basedir}aws/#{identifier}/nodecount.txt|awk {'print $1'}`;aws emr modify-instance-groups --instance-groups InstanceGroupId=$INSTANCEGROUPS,InstanceCount=#{kylin[:clusterWorkerNodeCount]}"
     end
     execute "checkrunsize" do
-      command "export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF-1)}');while [ \"#{kylin[:clusterWorkerNodeCount]}\" -ne \"$NEWCOUNT\" ];do sleep 5;echo \"Resize in progress\";export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt| awk {'print $1'}` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF-1)}');echo \"Current Node count = \"$NEWCOUNT >>  #{basedir}aws/#{identifier}/deploy.log;done"
+      command "export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF-1)}');while [ \"#{kylin[:clusterWorkerNodeCount]}\" -ne \"$NEWCOUNT\" ];do sleep 5;echo \"Resize in progress\";export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');echo \"Current Node count = \"$NEWCOUNT >>  #{basedir}aws/#{identifier}/deploy.log;done"
     end
   end
 
