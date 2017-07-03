@@ -633,3 +633,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   end
 end
+
+execute "removecredentials" do
+  command "rm -rf /root/.azure"
+end
