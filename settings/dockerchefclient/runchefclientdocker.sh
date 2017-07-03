@@ -79,9 +79,10 @@ cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
 docker stop chef-client-$IDENTIFIER;
 docker rm chef-client-$IDENTIFIER;
 # Setting return code of script
-if [ "$RETURNCODE" -eq 0 ]
-then
-  true
-else
-  false
-fi
+# if [ "$RETURNCODE" -eq 0 ]
+# then
+#   true
+# else
+#   false
+# fi
+exit $RETURNCODE
