@@ -218,7 +218,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     content identifier
   end
 
-  if awsaction..include?("create")
+  if awsaction.include?("create")
     # Running 01_awscheck_zone
     ruby_block "checkzone" do
       block do
