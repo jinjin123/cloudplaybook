@@ -6,12 +6,14 @@
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "aws": {
+          "action": "resize",
           "credentials": {
             "awskey": "AKIAOAAU6MUOPBRPIGTA",
             "awssecret": "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",
             "region": "cn-north-1"
           },
           "kylin": {
+            "clusterWorkerNodeCount": "4",
             "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
             "identifier": "kycloud20170627aws",
             "region": "cn-north-1",
