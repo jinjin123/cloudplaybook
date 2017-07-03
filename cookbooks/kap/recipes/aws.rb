@@ -266,7 +266,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif awsaction.eql?("removeall")
     execute "remove_cloudformation" do
-      command "for x in -vpc -chefserver -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
+      command "for x in -chefserver -kylinserver -vpc;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
     end
     execute "remove_s3" do
       command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket-`;do aws s3 rb s3://$x --force;done"

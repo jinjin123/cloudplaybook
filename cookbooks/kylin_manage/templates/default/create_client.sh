@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Taking Parameters
+CLUSTERNAME=$1
+if [ -z ${CLUSTERNAME+x} ];then
+  export CLUSTERNAME=Kyligence_Enterprise_demo_architecture
+fi
+
+# Install required packages
+
 ####################
 # Define variables
 ID="KYLIN-"`date +%Y%m%d%H%M%S`
@@ -32,8 +40,31 @@ RoleName="chefclient-kylin"
 Scaling=0
 VpcSecurityGroup=$SecurityGroupID
 
+echo "/usr/bin/aws cloudformation create-stack \
+--stack-name $ID-kylinserver \
+--capabilities CAPABILITY_IAM \
+--template-body file://$TEMPLATE \
+--region $REGION \
+--on-failure DO_NOTHING \
+--parameters \
+ParameterKey=AttachEBSsize,ParameterValue=$AttachEBSsize \
+ParameterKey=AvailabilityZone,ParameterValue=$AvailabilityZone \
+ParameterKey=ChefAutoScaleSubnet,ParameterValue=$ChefAutoScaleSubnet \
+ParameterKey=ChefLoadBalancerSubnet,ParameterValue=$ChefLoadBalancerSubnet \
+ParameterKey=ChefServerURL,ParameterValue=$ChefServerURL \
+ParameterKey=ChefServerIp,ParameterValue=$ChefServerIp \
+ParameterKey=ChefServerPrivateKeyBucket,ParameterValue=$ChefServerPrivateKeyBucket \
+ParameterKey=ChefVpc,ParameterValue=$ChefVpc \
+ParameterKey=InstancePort,ParameterValue=$InstancePort \
+ParameterKey=InstanceType,ParameterValue=$InstanceType \
+ParameterKey=KeyName,ParameterValue=$KeyName \
+ParameterKey=ProjectPrefix,ParameterValue=$ProjectPrefix \
+ParameterKey=Scaling,ParameterValue=$Scaling \
+ParameterKey=RoleName,ParameterValue=$RoleName \
+ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup" >> troubleshootchefclientcreate.txt
+
 /usr/bin/aws cloudformation create-stack \
---stack-name $ID-chefclient \
+--stack-name $ID-kylinserver \
 --capabilities CAPABILITY_IAM \
 --template-body file://$TEMPLATE \
 --region $REGION \

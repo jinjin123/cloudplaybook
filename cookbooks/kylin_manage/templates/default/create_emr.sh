@@ -3,12 +3,12 @@
 # Taking Parameters
 CLUSTERNAME=$1
 if [ -z ${CLUSTERNAME+x} ];then
-  export CLUSTERNAME=Kyligence_Enterprise_demo_architecture
+  export CLUSTERNAME="KYLIN-"`date +%Y%m%d%H%M%S`
 fi
 
 ####################
 # Define variables
-ID="KYLIN-"`date +%Y%m%d%H%M%S`
+ID=$CLUSTERNAME
 REGION=`curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}'`
 VpcId=<%= node[:vpc_id] %>
 EMRSubet=<%= node[:subnet_id] %>
@@ -68,4 +68,4 @@ SLAVE_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $SLAVE_instance_
 /usr/bin/aws ec2 authorize-security-group-ingress --group-id $SLAVE_SG_ID --source-group $SourceSecurityGroupID --protocol all --port 0-65535
 
 # update
-/root/update_hadoop_files.sh
+/root/update_hadoop_files.sh $CLUSTERNAME >> /var/log/cfn-init.log

@@ -1,4 +1,11 @@
 #!/bin/bash
+
+# Taking Parameters
+CLUSTERNAME=$1
+if [ -z ${CLUSTERNAME+x} ];then
+  export CLUSTERNAME=Kyligence_Enterprise_demo_architecture
+fi
+
 export EMR_MASTER=<%= node[:EMR_MASTER] %>
 export COOKBOOK_PATH=/mnt/
 
@@ -49,5 +56,5 @@ fi
 
 
 if [ $? -eq 0 ]; then
-  /root/create_client.sh
+  /root/create_client.sh $CLUSTERNAME  >> /var/log/cfn-init.log
 fi
