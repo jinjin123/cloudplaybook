@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # Taking Parameters
-CLUSTERNAME=$1
-if [ -z ${CLUSTERNAME+x} ];then
-  export CLUSTERNAME=`cat /etc/chef/StackName| cut -d '-' -f1`
+ID=$1
+if [ -z ${ID+x} ];then
+  export ID=`cat /etc/chef/StackName| cut -d '-' -f1`
 fi
 
 # Install required packages
 
 ####################
 # Define variables
-ID="KYLIN-"`date +%Y%m%d%H%M%S`
+# ID="KYLIN-"`date +%Y%m%d%H%M%S`
 REGION=`curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}'`
 VpcId=<%= node[:vpc_id] %>
 ScaleSubnet=<%= node[:subnet_id] %>
