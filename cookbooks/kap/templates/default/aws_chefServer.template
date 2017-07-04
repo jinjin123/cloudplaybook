@@ -560,7 +560,7 @@
                       {
                         "Ref": "BootCloudBranch"
                       },
-                      " https://keithyau:thomas123@bitbucket.org/bootdevsys/bootcloud.git /home/ec2-user/chef11/chef-repo >> /var/log/cfn-init.log; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
+                      " https://chankongching:18521533722@git.coding.net/chankongching/bootcloud.git /home/ec2-user/chef11/chef-repo >> /var/log/cfn-init.log; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;"
                     ]
                   ]
                 },
