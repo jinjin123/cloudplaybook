@@ -472,7 +472,7 @@ end
 
 # Removing token and
 execute "removecredentials" do
-  command "rm -rf /root/.azure/"
+  command "rm -rf /root/.azure/*"
   ignore_failure true
 end
 
