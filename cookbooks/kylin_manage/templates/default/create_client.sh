@@ -3,7 +3,7 @@
 # Taking Parameters
 CLUSTERNAME=$1
 if [ -z ${CLUSTERNAME+x} ];then
-  export CLUSTERNAME=Kyligence_Enterprise_demo_architecture
+  export CLUSTERNAME=`cat /etc/chef/StackName| cut -d '-' -f1`
 fi
 
 # Install required packages
