@@ -55,6 +55,6 @@ fi
 /usr/bin/chef-solo -o 'recipe[kylin_manage::client]' -j /etc/chef/parameter_emr.json
 
 
-if [ $? -eq 0 ]; then
-  /root/create_client.sh $CLUSTERNAME  >> /var/log/cfn-init.log
-fi
+# if [ $? -eq 0 ]; then
+#   /root/create_client.sh $CLUSTERNAME  >> /var/log/cfn-init.log
+# fi
