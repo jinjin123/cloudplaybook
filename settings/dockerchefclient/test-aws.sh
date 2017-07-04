@@ -1,21 +1,21 @@
 #!/bin/bash
 
-./runchefclientdocker.sh kycloud20170627aws '
+./runchefclientdocker.sh kycloud20170705003 '
 {
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "aws": {
-          "action": "resize",
+          "action": "create",
           "credentials": {
             "awskey": "AKIAOAAU6MUOPBRPIGTA",
             "awssecret": "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",
             "region": "cn-north-1"
           },
           "kylin": {
-            "clusterWorkerNodeCount": "4",
+            "clusterWorkerNodeCount": "3",
             "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
-            "identifier": "kycloud20170627aws",
+            "identifier": "kycloud20170705003",
             "region": "cn-north-1",
             "appType": "KAP+KyAnalyzer+Zeppelin",
             "keypair": "kylin",
