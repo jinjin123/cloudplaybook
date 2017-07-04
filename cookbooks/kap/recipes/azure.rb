@@ -469,6 +469,13 @@ directory "#{basedir}azure/#{identifier}/azure" do
   action :create
 end
 
+
+# Removing token and
+execute "removecredentials" do
+  command "rm -rf /root/.azure"
+  ignore_failure true
+end
+
 if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:username]}" == "")
   deploymentmode = "username"
   if (not (defined?(credentials[:env])).nil?) && (not "#{credentials[:env]}" == "")
@@ -632,8 +639,4 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       #ignore_failure true
     end
   end
-end
-
-execute "removecredentials" do
-  command "rm -rf /root/.azure"
 end
