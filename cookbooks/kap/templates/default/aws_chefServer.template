@@ -460,11 +460,12 @@
                       "echo ",
                       {
                         "Ref": "StackName"
-                      }
+                      },
                       " >> /etc/chef/StackName"
                     ]
                   ]
-                }
+                },
+                "cwd": "/home/ec2-user"
               },
               "010downloadrpm": {
                 "command": "n=0;until [ $n -ge 5 ];do wget http://kycloudpackages.cn-sh2.ufileos.com/chef-server-core-12.15.8-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
