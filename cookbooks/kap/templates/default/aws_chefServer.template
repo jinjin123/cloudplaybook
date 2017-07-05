@@ -433,21 +433,6 @@
                 "mode": "000400",
                 "owner": "root",
                 "group": "root"
-              },
-              "/etc/chef/StackName": {
-                "content": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Ref": "StackName"
-                      }
-                    ]
-                  ]
-                },
-                "mode": "000744",
-                "owner": "root",
-                "group": "root"
               }
             },
             "commands": {
@@ -466,6 +451,20 @@
               "003oinstallec2metadata": {
                 "command": "n=0;until [ $n -ge 5 ];do wget http://s3.amazonaws.com/ec2metadata/ec2-metadata; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;chmod u+x ./ec2-metadata",
                 "cwd": "/home/ec2-user/tools"
+              },
+              "004writingstacknametofile":{
+                "command": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "echo ",
+                      {
+                        "Ref": "StackName"
+                      }
+                      " >> /etc/chef/StackName"
+                    ]
+                  ]
+                }
               },
               "010downloadrpm": {
                 "command": "n=0;until [ $n -ge 5 ];do wget http://kycloudpackages.cn-sh2.ufileos.com/chef-server-core-12.15.8-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
