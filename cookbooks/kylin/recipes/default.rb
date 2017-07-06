@@ -14,27 +14,42 @@ user 'hdfs' do
   shell '/bin/bash'
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/kylin.tar.gz" do
-    source node[:kylin][:kylin_tarball]
-    action :create
-end
-
-execute "installkylin" do
-    cwd "#{Chef::Config[:file_cache_path]}"
-    command "export DIRECTORY=`echo #{node[:kylin][:kylin_tarball]}|cut -f5 -d'/'| awk -F'-' '{print $3}'`;if [ ! -d '/usr/local/kylin' ]; then tar -xvf ./kylin.tar.gz;mv ./apache-kylin-$DIRECTORY-hbase1.x-bin /usr/local/kylin; fi"
-#    user 'hdfs'
-#    group 'root'
-end
+# remote_file "#{Chef::Config[:file_cache_path]}/kylin.tar.gz" do
+#     # source node[:kylin][:kylin_tarball]
+#     source "#{node[:kylin][:KAP_DOWNLOAD_URI]}#{node[:kylin][:KAP_TARFILE]}
+#     action :create
+# end
+#
+# execute "installkylin" do
+#     cwd "#{Chef::Config[:file_cache_path]}"
+#     command "export DIRECTORY=`echo #{node[:kylin][:kylin_tarball]}|cut -f5 -d'/'| awk -F'-' '{print $3}'`;if [ ! -d '/usr/local/kylin' ]; then tar -xvf ./kylin.tar.gz;mv ./apache-kylin-$DIRECTORY-hbase1.x-bin /usr/local/kylin; fi"
+# #    user 'hdfs'
+# #    group 'root'
+# end
 
 #env "KYLIN_HOME" do
 #    value "/usr/local/kylin"
 #end
 
-template "/etc/bootstrap.sh" do
-    source 'bootstrap.sh'
-    owner 'root'
-    group 'root'
-    mode '0744'
+# template "/etc/bootstrap.sh" do
+#     source 'bootstrap.sh'
+#     owner 'root'
+#     group 'root'
+#     mode '0744'
+# end
+
+# Download and execute installation script
+remote_file "#{Chef::Config[:file_cache_path]}/install.sh" do
+    # source node[:kylin][:kylin_tarball]
+    source default[:kylin][:installscript]
+    action :create
+end
+
+execute "installkylin" do
+    cwd "#{Chef::Config[:file_cache_path]}"
+    command "chmod 744 ./install.sh;./install.sh;"
+#    user 'hdfs'
+#    group 'root'
 end
 
 execute "createkylincredential" do
@@ -44,6 +59,6 @@ execute "createkylincredential" do
     ignore_failure true
 end
 
-execute "Startkylin" do
-    command '/etc/bootstrap.sh'
-end
+# execute "Startkylin" do
+#     command '/etc/bootstrap.sh'
+# end
