@@ -901,7 +901,7 @@
         "Handle": {
           "Ref": "ChefServerWaitHandle"
         },
-        "Timeout": "2400"
+        "Timeout": "3600"
       }
     }
   },
