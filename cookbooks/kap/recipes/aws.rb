@@ -267,6 +267,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
       action :create
     end
+    execute "run_install" do
+      command "ssh -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` /root/create_client.sh"
+    end
   elsif awsaction.eql?("resize")
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
