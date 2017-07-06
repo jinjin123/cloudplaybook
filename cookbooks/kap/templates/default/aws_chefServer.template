@@ -101,7 +101,23 @@
     "clustername": {
       "Description": "cluster name to be deployed",
       "Type": "String"
-    }
+    },
+    "adminuser":{
+      "Description": "cluster admin username to be deployed",
+      "Type": "String"
+    },
+    "adminpassword":{
+      "Description": "cluster admin password to be deployed",
+      "Type": "String"
+    },
+    "apptype":{
+      "Description": "cluster admin username to be deployed",
+      "Type": "String"
+    },
+    "kyaccountToken":{
+      "Description": "cluster admin username to be deployed",
+      "Type": "String"
+    },
   },
     "Mappings": {
         "AWSInstanceType2Arch": {
@@ -652,6 +668,35 @@
                   ]
                 },
                 "cwd": "/home/ec2-user/chef11/chef-repo"
+              },
+              "231updateclusterinfo":{
+                "command": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "sed -i \"s/ADMINUSER/",
+                      {
+                        "Ref": "adminuser"
+                      },
+                      "/g\" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb;",
+                      "sed -i \"s/ADMINPASSWORD/",
+                      {
+                        "Ref": "adminpassword"
+                      },
+                      "/g\" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb",
+                      "sed -i \"s/APPTYPE/",
+                      {
+                        "Ref": "apptype"
+                      },
+                      "/g\" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb",
+                      "sed -i \"s/KYACCOUNTTOKEN/",
+                      {
+                        "Ref": "kyaccountToken"
+                      },
+                      "/g\" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb"
+                    ]
+                  ]
+                }
               },
               "233updatekylinpem": {
                 "command": "cp /root/.ssh/kylin.pem /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/templates/default/kylin.pem"

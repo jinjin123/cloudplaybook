@@ -109,6 +109,22 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   identifier = kylin[:identifier]
   keypair = kylin[:keypair]
   keypairprivatekey = kylin[:keypairprivatekey]
+  clusterLoginUserName = 'kylin'
+  if (not (defined?(kylin[:clusterLoginUserName])).nil?) && (not "#{kylin[:clusterLoginUserName]}" == "")
+    clusterLoginUserName = kylin[:clusterLoginUserName]
+  end
+  clusterLoginPassword = 'Kyligence2016'
+  if (not (defined?(kylin[:clusterLoginPassword])).nil?) && (not "#{kylin[:clusterLoginPassword]}" == "")
+    clusterLoginPassword = kylin[:clusterLoginPassword]
+  end
+  appType = "KAP+KyAnalyzer+Zeppelin"
+  if (not (defined?(kylin[:appType])).nil?) && (not "#{kylin[:appType]}" == "")
+    appType = kylin[:appType]
+  end
+  kaptoken = "dda18812-e57b-47f1-8aae-38adebecde8a"
+  if (not (defined?(kylin[:kaptoken])).nil?) && (not "#{kylin[:kaptoken]}" == "")
+    kaptoken = kylin[:kaptoken]
+  end
 
   file "#{basedir}aws/#{identifier}/credentials/kylin.pem" do
     content keypairprivatekey
@@ -246,7 +262,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       block do
           #tricky way to load this Chef::Mixin::ShellOut utilities
           Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair} >>  #{basedir}aws/#{identifier}/deploy.log"
+          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken} >>  #{basedir}aws/#{identifier}/deploy.log"
           command_out = shell_out(command, :timeout => 3600)
       end
       action :create

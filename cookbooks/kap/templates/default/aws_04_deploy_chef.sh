@@ -7,6 +7,11 @@ AZ2=`echo $VAR|cut -d ',' -f2`
 REGION=`echo $VAR|cut -d ',' -f3`
 ID=`echo $VAR|cut -d ',' -f4`
 KEYPAIR=`echo $VAR|cut -d ',' -f5`
+ADMINUSER=`echo $VAR|cut -d ',' -f6`
+ADMINPASSWORD=`echo $VAR|cut -d ',' -f7`
+APPTYPE=`echo $VAR|cut -d ',' -f8`
+KYACCOUNTTOKEN=`echo $VAR|cut -d ',' -f9`
+
 ###Need input VPC id here###
 #VPC_STACKNAME=`cat ./temp_vpc_id.txt`
 VPC_STACKNAME=$ID"-vpc"
@@ -81,7 +86,11 @@ ParameterKey=SSHKnownHosts,ParameterValue="\"$SSHKnownHosts\"" \
 ParameterKey=SSHLocation,ParameterValue="0.0.0.0/0" \
 ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup \
 ParameterKey=Action,ParameterValue="create" \
-ParameterKey=clustername,ParameterValue=$ID
+ParameterKey=clustername,ParameterValue=$ID \
+ParameterKey=adminuser,ParameterValue=$ADMINUSER \
+ParameterKey=adminpassword,ParameterValue=$ADMINPASSWORD \
+ParameterKey=apptype,ParameterValue=$APPTYPE \
+ParameterKey=kyaccountToken,ParameterValue=$KYACCOUNTTOKEN \
 
 #####################
 # Check status and return until success or failed

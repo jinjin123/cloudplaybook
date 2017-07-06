@@ -2,6 +2,11 @@
 default[:kylin][:code_owner] = "hdfs"
 default[:kylin][:code_group] = "hdfs"
 default[:kylin][:installscript] = 'https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install-aws_v0.sh'
+default[:kylin][:var_adminuser] = "ADMINUSER"
+default[:kylin][:var_adminpassword] = "ADMINPASSWORD"
+default[:kylin][:var_apptype] = "APPTYPE"
+default[:kylin][:var_kyaccountToken] = "KYACCOUNTTOKEN"
+
 # default[:kylin][:kylin_tarball]='https://s3.cn-north-1.amazonaws.com.cn/bootdevcn/apache-kylin-1.5.4.1-hbase1.x-bin.tar.gz'
 # default[:kylin][:KAP_DOWNLOAD_URI]='https://kyhub.blob.core.chinacloudapi.cn/packages/kap/'
 # default[:kylin][:KAP_TARFILE]='kap-2.3.7-GA-hbase1.x.tar.gz'

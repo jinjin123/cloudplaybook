@@ -47,7 +47,7 @@ end
 
 execute "installkylin" do
     cwd "#{Chef::Config[:file_cache_path]}"
-    command "chmod 744 ./install.sh;./install.sh;"
+    command "chmod 744 ./install.sh;./install.sh #{node[:kylin][:var_adminuser]} #{node[:kylin][:var_adminpassword]} #{node[:kylin][:var_apptype]} #{node[:kylin][:var_kyaccountToken]};"
 #    user 'hdfs'
 #    group 'root'
 end
