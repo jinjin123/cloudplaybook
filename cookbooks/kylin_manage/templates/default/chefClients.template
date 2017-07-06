@@ -569,7 +569,7 @@
                                             {
                                               "Ref":"ChefServerURL"
                                             },
-                                            "/organizations/admin -r 'role[ ",
+                                            "/organizations/admin -r 'role[",
                                             {
                                                 "Ref": "RoleName"
                                             },
