@@ -35,6 +35,12 @@ if (not (defined?(azure[:kylin])).nil?) && (not "#{azure[:kylin]}" == "")
 end
 identifier = kylin[:identifier]
 
+# Removing token and
+execute "removecredentials" do
+  command "rm -rf /root/.azure/*"
+  ignore_failure true
+end
+
 # Check what scheme, "allinone" or "separated" to be deployed
 if (not (defined?(azure[:scheme])).nil?) && (not "#{azure[:scheme]}" == "")
   scheme = azure[:scheme]
@@ -469,13 +475,6 @@ directory "#{basedir}azure/#{identifier}/azure" do
   action :create
 end
 
-
-# Removing token and
-execute "removecredentials" do
-  command "rm -rf /root/.azure/*"
-  ignore_failure true
-end
-
 if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:username]}" == "")
   deploymentmode = "username"
   if (not (defined?(credentials[:env])).nil?) && (not "#{credentials[:env]}" == "")
@@ -555,9 +554,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     #   # notifies :run, 'execute[commit_docker]', :immediately
     #   timeout 21600
     # end
-    execute "settelemetry" do
-      command "azure telemetry --enable"
-    end
 
     if scheme.eql?("allinone")
       execute 'create_deployment' do
