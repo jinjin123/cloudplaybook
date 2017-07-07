@@ -558,6 +558,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     #   timeout 21600
     # end
 
+    execute 'disabletelemetry' do
+      command "sh -c \"echo \\\"y\\\" |azure telemetry --disable \" >> /root/.azure/azure.err"
+      # notifies :run, 'execute[commit_docker]', :immediately
+      #ignore_failure true
+    end
+
     if scheme.eql?("allinone")
       execute 'create_deployment' do
         command "azure group deployment create -g #{identifier} -n create_deployment -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> /root/.azure/azure.err"
