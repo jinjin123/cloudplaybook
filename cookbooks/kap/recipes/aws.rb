@@ -273,7 +273,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
     execute "run_install" do
-      command "ssh -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` /root/create_client.sh"
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh\""
     end
   elsif awsaction.eql?("resize")
     execute "checkEMRid" do
