@@ -516,9 +516,9 @@ end
 execute "writeconfigjson" do
   command "echo {\\\"mode\\\"\: \\\"arm\\\"} > /root/.azure/config.json"
 end
-execute "writetelemetryjson" do
-  command "echo {\\\"telemetry\\\"\: \\\"false\\\"} > /root/.azure/telemetry.json"
-end
+# execute "writetelemetryjson" do
+#   command "echo {\\\"telemetry\\\"\: \\\"false\\\"} > /root/.azure/telemetry.json"
+# end
 
 
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
@@ -559,7 +559,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     # end
 
     execute 'disabletelemetry' do
-      command "sh -c \"echo \\\"y\\\" |azure telemetry --disable \" >> /root/.azure/azure.err"
+      command "sh -c \"echo \\\"y\\\" |azure telemetry --enable \" >> /root/.azure/azure.err"
       # notifies :run, 'execute[commit_docker]', :immediately
       #ignore_failure true
     end
