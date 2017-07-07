@@ -41,7 +41,7 @@ end
 # Download and execute installation script
 remote_file "#{Chef::Config[:file_cache_path]}/install.sh" do
     # source node[:kylin][:kylin_tarball]
-    source default[:kylin][:installscript]
+    source node[:kylin][:installscript]
     action :create
 end
 
