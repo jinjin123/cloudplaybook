@@ -510,13 +510,16 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
   execute "chaningpermission" do
     command "chmod 400 /root/.azure/azureProfile.json;chmod 400 /root/.azure/accessTokens.json"
   end
-  execute "writeconfigjson" do
-    command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> /root/.azure/config.json"
-  end
-  execute "writetelemetryjson" do
-    command "echo {\\\"telemetry\\\"\: \\\"false\\\"} >> /root/.azure/telemetry.json"
-  end
 end
+
+# Setting basic config for azure
+execute "writeconfigjson" do
+  command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> /root/.azure/config.json"
+end
+execute "writetelemetryjson" do
+  command "echo {\\\"telemetry\\\"\: \\\"false\\\"} >> /root/.azure/telemetry.json"
+end
+
 
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   # mapvolume = ""
