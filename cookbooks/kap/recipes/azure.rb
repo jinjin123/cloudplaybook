@@ -514,10 +514,10 @@ end
 
 # Setting basic config for azure
 execute "writeconfigjson" do
-  command "echo {\\\"mode\\\"\: \\\"arm\\\"} >> /root/.azure/config.json"
+  command "echo {\\\"mode\\\"\: \\\"arm\\\"} > /root/.azure/config.json"
 end
 execute "writetelemetryjson" do
-  command "echo {\\\"telemetry\\\"\: \\\"false\\\"} >> /root/.azure/telemetry.json"
+  command "echo {\\\"telemetry\\\"\: \\\"false\\\"} > /root/.azure/telemetry.json"
 end
 
 
