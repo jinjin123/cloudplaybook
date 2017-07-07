@@ -12,6 +12,6 @@ template '/root/create_client.sh' do
     mode '0744'
 end
 
-execute "runchefclientcreation" do
-  command "/root/create_client.sh"
-end
+# execute "runchefclientcreation" do
+#   command "/root/create_client.sh"
+# end
