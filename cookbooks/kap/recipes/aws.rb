@@ -135,6 +135,11 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
   ## Configuring default variable Finished
 
+  # Fixing kylin.pem format
+  execute "fixingpem" do
+    command "sed -i \"s/-----BEGIN RSA PRIVATE KEY----- //\" #{basedir}aws/#{identifier}/credentials/kylin.pem;sed -i \"s/ -----END RSA PRIVATE KEY-----//\" #{basedir}aws/#{identifier}/credentials/kylin.pem;cat #{basedir}aws/#{identifier}/credentials/kylin.pem | tr \" \" \"\n\" > #{basedir}aws/#{identifier}/credentials/kylin.pem.tmp;mv #{basedir}aws/#{identifier}/credentials/kylin.pem.tmp #{basedir}aws/#{identifier}/credentials/kylin.pem;sed -i '1i -----BEGIN RSA PRIVATE KEY-----' #{basedir}aws/#{identifier}/credentials/kylin.pem;echo >>#{basedir}aws/#{identifier}/credentials/kylin.pem;echo '-----END RSA PRIVATE KEY-----' >> #{basedir}aws/#{identifier}/credentials/kylin.pem;chmod 400 #{basedir}aws/#{identifier}/credentials/kylin.pem"
+  end
+
   # Configuring AWS credentials
   directory '/root/.aws' do
     owner 'root'
