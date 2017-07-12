@@ -6,6 +6,15 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+user 'hdfs' do
+  comment 'Hadoop filesystem user'
+  uid '501'
+  gid 'root'
+  home '/home/hdfs'
+  shell '/bin/bash'
+end
+
 template "/etc/yum.repos.d/HDP.repo" do
   source 'HDP.repo'
   owner 'root'

@@ -7,14 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-user 'hdfs' do
-  comment 'Hadoop filesystem user'
-  uid '501'
-  gid 'root'
-  home '/home/hdfs'
-  shell '/bin/bash'
-end
-
 # remote_file "#{Chef::Config[:file_cache_path]}/kylin.tar.gz" do
 #     # source node[:kylin][:kylin_tarball]
 #     source "#{node[:kylin][:KAP_DOWNLOAD_URI]}#{node[:kylin][:KAP_TARFILE]}
