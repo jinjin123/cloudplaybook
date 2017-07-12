@@ -88,6 +88,10 @@
             "Type": "Number",
             "Default": "8",
             "Description": "specify size of EBS"
+        },
+        "StackName":{
+          "Description": "Stack name of chef server",
+          "Type": "String"
         }
     },
     "Conditions": {
@@ -479,6 +483,21 @@
                                 "command": "mkdir -p /home/ec2-user/tools;mkdir -p /var/app",
                                 "cwd": "/home/ec2-user",
                                 "ignoreErrors": "true"
+                            },
+                            "02writingstacknametofile":{
+                              "command": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "echo ",
+                                    {
+                                      "Ref": "StackName"
+                                    },
+                                    " >> /etc/chef/StackName"
+                                  ]
+                                ]
+                              },
+                              "cwd": "/home/ec2-user"
                             },
                             "03downloaduserpem": {
                                 "command": {

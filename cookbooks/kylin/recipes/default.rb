@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
 user 'hdfs' do
   comment 'Hadoop filesystem user'
   uid '501'

@@ -61,4 +61,5 @@ ParameterKey=KeyName,ParameterValue=$KeyName \
 ParameterKey=ProjectPrefix,ParameterValue=$ProjectPrefix \
 ParameterKey=Scaling,ParameterValue=$Scaling \
 ParameterKey=RoleName,ParameterValue=$RoleName \
-ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup
+ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup\
+ParameterKey=StackName,ParameterValue=$ID-kylinserver

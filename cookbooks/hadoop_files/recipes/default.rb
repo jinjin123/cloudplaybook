@@ -27,9 +27,8 @@ directory "/root/keys" do
   action :create
 end
 
-template "/root/keys/kylin.pem" do
-  source 'kylin.pem'
-  owner 'root'
+template "/root/.ssh/kylin.pem" do
+  user "root"
   group 'root'
   mode '0400'
 end
@@ -72,7 +71,7 @@ end
 pkgs_lib = %w{
     usr/lib/jvm
     usr/lib/phoenix
-    usr/lib/hadoop 
+    usr/lib/hadoop
     usr/lib/hadoop-hdfs
     usr/lib/hadoop-httpfs
     usr/lib/hadoop-kms
@@ -85,16 +84,16 @@ pkgs_lib = %w{
     usr/lib/hive
     usr/lib/hive-hcatalog
     usr/lib/hbase
-    usr/lib/tez    
+    usr/lib/tez
 }
 
 pkgs_lib.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /usr/lib/"
+        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:/#{pkg} /usr/lib/"
         user 'root'
         group 'root'
         ignore_failure true
-    end 
+    end
 end
 
 pkgs_etc = %w{
@@ -111,7 +110,7 @@ pkgs_etc = %w{
 
 pkgs_etc.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /etc/"
+        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:/#{pkg} /etc/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -128,7 +127,7 @@ pkgs_bin = %w{
 
 pkgs_bin.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /usr/bin/"
+        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:/#{pkg} /usr/bin/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -136,15 +135,14 @@ pkgs_bin.flatten.each do |pkg|
 end
 
 pkgs_single = %w{
-    usr/share/aws 
+    usr/share/aws
 }
 
 pkgs_single.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i #{node[:deploykylin][:runtime][:bootkylin][:emr_master_pem]} -o StrictHostKeyChecking=no #{node[:deploykylin][:runtime][:bootkylin][:emr_master_user]}@#{node[:deploykylin][:runtime][:bootkylin][:emr_master_ip]}:/#{pkg} /#{pkg}"
+        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:/#{pkg} /#{pkg}"
         user 'root'
         group 'root'
         ignore_failure true
     end
 end
-
