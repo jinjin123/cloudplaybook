@@ -559,7 +559,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     # end
 
     execute 'disabletelemetry' do
-      command "sh -c \"echo \\\"y\\\" |azure telemetry --enable \" >> /root/.azure/azure.err"
+      command "azure telemetry --enable >> /root/.azure/azure.err"
       # notifies :run, 'execute[commit_docker]', :immediately
       #ignore_failure true
     end
@@ -632,7 +632,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif azureaction.eql?("removeall")
     execute 'remove_resources_group' do
-      command "sh -c \"echo \\\"y\\\" |azure group delete #{identifier}\" >> /root/.azure/azure.err"
+      command "y |azure group delete #{identifier} >> /root/.azure/azure.err"
       # notifies :run, 'execute[commit_docker]', :immediately
       #ignore_failure true
     end
