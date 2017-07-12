@@ -64,7 +64,7 @@ execute "installkylin" do
 end
 
 #AWS ONLY
-template "/usr/local/kap/kap-2.3.7-GA-hbase1.x/conf/kylin_job_conf.xml" do
+template "/usr/local/kap/conf/kylin_job_conf.xml" do
   #variables lazy { {metahostname: shell_out!('curl http://169.254.169.254/latest/meta-data/hostname').stdout} }
   variables lazy { {metahostname: node[:kylin][:emrserver] } }
   source "kylin_job_conf.xml.erb"
