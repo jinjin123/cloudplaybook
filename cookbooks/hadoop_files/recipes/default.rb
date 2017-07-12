@@ -56,8 +56,8 @@ template "/usr/local/kap/kap-2.3.7-GA-hbase1.x/conf/kylin_job_conf.xml" do
   variables lazy { {metahostname: node[:hadoop_files][:emrserver] } }
   source "kylin_job_conf.xml.erb"
   mode 0644
-  owner "hadoop"
-  group "hadoop"
+  owner "ec2-user"
+  group "ec2-user"
   retries 3
   retry_delay 30
 end
