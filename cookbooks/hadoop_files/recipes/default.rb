@@ -28,6 +28,7 @@ directory "/root/keys" do
 end
 
 template "/root/.ssh/kylin.pem" do
+  source "kylin.pem"
   user "root"
   group 'root'
   mode '0400'
