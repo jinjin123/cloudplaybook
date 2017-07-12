@@ -63,6 +63,18 @@ execute "installkylin" do
 #    group 'root'
 end
 
+#AWS ONLY
+template "/usr/local/kap/kap-2.3.7-GA-hbase1.x/conf/kylin_job_conf.xml" do
+  #variables lazy { {metahostname: shell_out!('curl http://169.254.169.254/latest/meta-data/hostname').stdout} }
+  variables lazy { {metahostname: node[:kylin][:emrserver] } }
+  source "kylin_job_conf.xml.erb"
+  mode 0644
+  owner "ec2-user"
+  group "ec2-user"
+  retries 3
+  retry_delay 30
+end
+
 execute "createkylincredential" do
     command 'sudo -u hdfs hadoop fs -mkdir /kylin;sudo -u hdfs hadoop fs -chown -R root:hadoop /kylin'
     user 'root'
