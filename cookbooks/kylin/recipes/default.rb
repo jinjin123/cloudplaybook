@@ -37,6 +37,7 @@ user 'hdfs' do
   gid 'root'
   home '/home/hdfs'
   shell '/bin/bash'
+  ignore_failure true
 end
 
 user 'hadoop' do
@@ -45,6 +46,7 @@ user 'hadoop' do
   gid 'root'
   home '/home/hadoop'
   shell '/bin/bash'
+  ignore_failure true
 end
 
 # Download and execute installation script
