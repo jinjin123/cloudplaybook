@@ -632,7 +632,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif azureaction.eql?("removeall")
     execute 'remove_resources_group' do
-      command "y |azure group delete #{identifier} >> /root/.azure/azure.err"
+      command "azure group delete #{identifier} -q >> /root/.azure/azure.err"
       # notifies :run, 'execute[commit_docker]', :immediately
       #ignore_failure true
     end
