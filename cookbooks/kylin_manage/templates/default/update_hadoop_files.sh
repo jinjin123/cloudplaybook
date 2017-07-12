@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Running update_hadoop_files.sh"
+
 # Taking Parameters
 CLUSTERNAME=$1
 if [ -z ${CLUSTERNAME+x} ];then

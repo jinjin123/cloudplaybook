@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Running create_emr.sh"
+
 # Taking Parameters
 CLUSTERNAME=$1
 if [ -z ${CLUSTERNAME+x} ];then
@@ -75,4 +77,5 @@ sed -i "s/EMRSERVER/$MASTER_IP/" /home/ec2-user/chef11/chef-repo/cookbooks/kylin
 sed -i "s/EMRSERVER/$MASTER_IP/" /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/attributes/default.rb
 
 # Update cookbooks
+cd /home/ec2-user/chef11/chef-repo
 /usr/bin/knife cookbook upload -a

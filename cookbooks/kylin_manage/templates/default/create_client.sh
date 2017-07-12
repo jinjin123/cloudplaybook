@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Running create_client.sh"
+
 # Taking Parameters
 ID=$1
 if [ ! -z ${ID+x} ];then
