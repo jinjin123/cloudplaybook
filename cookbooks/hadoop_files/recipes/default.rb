@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+COOKBOOK_PATH="/mnt"
 
 user 'hadoop' do
   comment 'Hadoop user'
@@ -88,7 +89,7 @@ pkgs_lib = %w{
 
 pkgs_lib.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:/#{pkg} /usr/lib/"
+        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:#{COOKBOOK_PATH}/#{pkg} /usr/lib/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -109,7 +110,7 @@ pkgs_etc = %w{
 
 pkgs_etc.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:/#{pkg} /etc/"
+        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:#{COOKBOOK_PATH}/#{pkg} /etc/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -126,7 +127,7 @@ pkgs_bin = %w{
 
 pkgs_bin.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:/#{pkg} /usr/bin/"
+        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:#{COOKBOOK_PATH}/#{pkg} /usr/bin/"
         user 'root'
         group 'root'
         ignore_failure true
@@ -139,7 +140,7 @@ pkgs_single = %w{
 
 pkgs_single.flatten.each do |pkg|
     execute "copy_#{pkg}" do
-        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:/#{pkg} /#{pkg}"
+        command "scp -r -i /root/.ssh/kylin.pem -o StrictHostKeyChecking=no ec2-user@`cat /etc/chef/client.rb | grep chef_server_url| cut -d'/' -f3| cut -d':' -f1`:#{COOKBOOK_PATH}/#{pkg} /#{pkg}"
         user 'root'
         group 'root'
         ignore_failure true
