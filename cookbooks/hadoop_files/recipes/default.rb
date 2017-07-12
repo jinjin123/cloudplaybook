@@ -7,8 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-user 'hdfs' do
-  comment 'Hadoop filesystem user'
+user 'hadoop' do
+  comment 'Hadoop user'
   uid '501'
   gid 'root'
   home '/home/hdfs'
@@ -53,7 +53,7 @@ end
 #AWS ONLY
 template "/usr/local/kap/kap-2.3.7-GA-hbase1.x/conf/kylin_job_conf.xml" do
   #variables lazy { {metahostname: shell_out!('curl http://169.254.169.254/latest/meta-data/hostname').stdout} }
-  variables lazy { {metahostname: node[:deploykylin][:runtime][:bootkylin][:emr_master_ip] } }
+  variables lazy { {metahostname: node[:hadoop_files][:emrserver] } }
   source "kylin_job_conf.xml.erb"
   mode 0644
   owner "hadoop"

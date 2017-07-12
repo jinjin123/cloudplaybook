@@ -31,6 +31,22 @@
 #     mode '0744'
 # end
 
+user 'hdfs' do
+  comment 'Hadoop filesystem user'
+  uid '501'
+  gid 'root'
+  home '/home/hdfs'
+  shell '/bin/bash'
+end
+
+user 'hadoop' do
+  comment 'Hadoop user'
+  uid '502'
+  gid 'root'
+  home '/home/hadoop'
+  shell '/bin/bash'
+end
+
 # Download and execute installation script
 remote_file "#{Chef::Config[:file_cache_path]}/install.sh" do
     # source node[:kylin][:kylin_tarball]
