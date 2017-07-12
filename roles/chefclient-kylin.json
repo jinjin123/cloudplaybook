@@ -10,8 +10,8 @@
   "run_list": [
     "recipe[basicservice]",
     "recipe[git]",
-    "recipe[kylin]",
-    "recipe[hadoop_files]"
+    "recipe[hadoop_files]",
+    "recipe[kylin]"
   ],
   "env_run_lists": {
   }
