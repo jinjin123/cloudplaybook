@@ -9,10 +9,11 @@
 
 user 'hadoop' do
   comment 'Hadoop user'
-  uid '501'
+  uid '502'
   gid 'root'
   home '/home/hdfs'
   shell '/bin/bash'
+  ignore_failure true
 end
 
 template "/etc/yum.repos.d/HDP.repo" do
