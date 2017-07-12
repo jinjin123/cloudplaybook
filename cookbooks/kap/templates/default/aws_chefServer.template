@@ -457,7 +457,7 @@
                 "cwd": "/home/ec2-user"
               },
               "001fixsshkey": {
-                "command": "sed -i \"/RSA PRIVATE KEY/d\" /root/.ssh/kylin.pem;cat /root/.ssh/kylin.pem | tr \" \" \"\n\" > /root/.ssh/kylin.pem.tmp;mv /root/.ssh/kylin.pem.tmp /root/.ssh/kylin.pem;sed -i '1i -----BEGIN RSA PRIVATE KEY-----' /root/.ssh/kylin.pem;echo >>/root/.ssh/kylin.pem;echo '-----END RSA PRIVATE KEY-----' >> /root/.ssh/kylin.pem;chmod 400 /root/.ssh/kylin.pem"
+                "command": "sed -i \"/RSA PRIVATE KEY/d\" /root/.ssh/kylin.pem;cat /root/.ssh/kylin.pem | tr \" \" \"\n\" > /root/.ssh/kylin.pem.tmp;mv /root/.ssh/kylin.pem.tmp /root/.ssh/kylin.pem;sed -i '1i -----BEGIN RSA PRIVATE KEY-----' /root/.ssh/kylin.pem;echo '-----END RSA PRIVATE KEY-----' >> /root/.ssh/kylin.pem;chmod 400 /root/.ssh/kylin.pem"
               },
               "002mkdir": {
                 "command": "mkdir -p /home/ec2-user/tools /home/ec2-user/.pem /var/app",
