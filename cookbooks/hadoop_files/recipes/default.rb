@@ -45,12 +45,12 @@ template "/root/.ssh/kylin.pem" do
   mode '0400'
 end
 
-template "/etc/init.d/kylin" do
-  source 'kylin.service'
-  owner 'root'
-  group 'root'
-  mode  '0744'
-end
+# template "/etc/init.d/kylin" do
+#   source 'kylin.service'
+#   owner 'root'
+#   group 'root'
+#   mode  '0744'
+# end
 
 execute "yum_update" do
     command 'yum update -y'

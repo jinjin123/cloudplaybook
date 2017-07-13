@@ -1,14 +1,14 @@
 #!/bin/bash
 # kap daemon
 # chkconfig: 345 20 80
-# description: kap daemon
-# processname: kap
+# description: kylin daemon
+# processname: kylin
 
 DAEMON_PATH=/usr/local/kap/bin
 DAEMON=kylin.sh
 
 # Specify the user name
-USER=hdfs
+USER=root
 
 # Specify an alternate config file).
 #CONFIGFILE="/etc/example.conf"
@@ -16,16 +16,19 @@ USER=hdfs
 # Additional options that are passed to the Daemon.
 #DAEMONOPTS="-c $CONFIGFILE"
 
-NAME=kylin
-DESC=kylin
+NAME=kap
+DESC=kap
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
-COMMAND="su $USER -c '"$DAEMON_PATH"/"$DAEMON start"' > /dev/null 2>&1 &"
+# COMMAND="su $USER -c '"$DAEMON_PATH"/"$DAEMON start"' > /dev/null 2>&1 &"
+COMMAND="$DAEMON_PATH/$DAEMON start"
+STOPCOMMAND="$DAEMON_PATH/$DAEMON stop"
 
 case "$1" in
 start)
 	printf "%-50s" "Starting $NAME..."
-	#cd $DAEMON_PATH
+	cd $DAEMON_PATH
+        pwd
 	echo "Saving PID" $PID " to " $PIDFILE
 
         if [ ! -z "LC_CTYPE" ]; then
@@ -33,9 +36,10 @@ start)
         fi
 
         eval $COMMAND
-        PID=$!
+        # PID=$(ps ax | grep kap | grep -v grep | awk {'print $1'});
+        PID=$(ps aux| grep kap| grep -v grep | awk {'print $2'})
 
-        if [ -z $PID ]; then
+        if [[ -z ${PID+x} ]]; then
             printf "%s\n" "Fail"
         else
             echo $PID > $PIDFILE
@@ -60,7 +64,8 @@ stop)
             PID=`cat $PIDFILE`
             cd $DAEMON_PATH
         if [ -f $PIDFILE ]; then
-            kill -TERM $PID
+            # kill -TERM $PID
+            eval $STOPCOMMAND
             printf "%s\n" "Ok"
             rm -f $PIDFILE
         else

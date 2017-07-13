@@ -24,12 +24,12 @@
 #    value "/usr/local/kylin"
 #end
 
-# template "/etc/bootstrap.sh" do
-#     source 'bootstrap.sh'
-#     owner 'root'
-#     group 'root'
-#     mode '0744'
-# end
+template "/etc/bootstrap.sh" do
+    source 'bootstrap.sh'
+    owner 'root'
+    group 'root'
+    mode '0744'
+end
 
 user 'hdfs' do
   comment 'Hadoop filesystem user'
@@ -82,6 +82,13 @@ execute "createkylincredential" do
     ignore_failure true
 end
 
-# execute "Startkylin" do
-#     command '/etc/bootstrap.sh'
-# end
+template "/etc/init.d/kap" do
+  source 'kap.service'
+  owner 'root'
+  group 'root'
+  mode  '0755'
+end
+
+execute "Startkylin" do
+    command 'chkconfig --level 345 kap;service kap start'
+end
