@@ -275,6 +275,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "run_install" do
       command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh\""
     end
+    execute "create_sample_cube" do
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo (cd /home/ec2-user/chef11/chef-repo;knife ssh 'name:*'' '/usr/local/kap/bin/sample.sh')\""
+    end
   elsif awsaction.eql?("resize")
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
