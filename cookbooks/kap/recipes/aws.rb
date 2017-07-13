@@ -304,6 +304,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "remove_emr" do
       command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt`"
     end
+    execute "runningwaitloop" do
+      command "STATUS='00';while [ \"$STATUS\" != '11' ]; do echo 'ChefServer status'; aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].StackStatus' --output text || true; if [ $? -eq 0 ]; then STATUSchefserver='0'; else  STATUSchefserver='1'; fi; echo 'KylinServer status'; aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver --query 'Stacks[*].StackStatus' --output text || true; if [ $? -eq 0 ]; then STATUSkylinserver='0'; else  STATUSkylinserver='0'; fi; STATUS=$STATUSchefserver$STATUSkylinserver; sleep 10; done"
+    end
+    execute "removingVPC" do
+      command "aws cloudformation delete-stack --stack-name #{identifier}-vpc"
+    end
   end
 
 end
