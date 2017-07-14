@@ -27,7 +27,7 @@ CLUSTER_ID=`/usr/bin/aws emr create-cluster \
 --release-label emr-5.0.0 \
 --log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
 --name $CLUSTERNAME \
---instance-groups \'[{"InstanceCount":$INSTANCECOUNT,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]\' \
+--instance-groups '[{"InstanceCount":<%= node[:INSTANCECOUNT] %>,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
 --region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
 
 # Check status and return until success or failed
