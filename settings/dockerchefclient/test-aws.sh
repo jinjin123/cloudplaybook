@@ -1,12 +1,12 @@
 #!/bin/bash
 
-./runchefclientdocker.sh kycloud20170705003 '
+./runchefclientdocker.sh kycloud20170713000 '
 {
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "aws": {
-          "action": "create",
+          "action": "removeall",
           "credentials": {
             "awskey": "AKIAOAAU6MUOPBRPIGTA",
             "awssecret": "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",
@@ -15,8 +15,11 @@
           "kylin": {
             "clusterWorkerNodeCount": "3",
             "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
-            "identifier": "kycloud20170705003",
+            "identifier": "kycloud20170713000",
             "region": "cn-north-1",
+            "instancetype": "m4.large",
+            "clusterLoginUserName": "admintest",
+            "clusterLoginPassword": "Kyligence2016",
             "appType": "KAP+KyAnalyzer+Zeppelin",
             "keypair": "kylin",
             "keypairprivatekey": "-----BEGIN RSA PRIVATE KEY-----
@@ -41,8 +44,7 @@ JucjCB4gzjzjfK+elLgQq0fQLa2+SuHC3tzelNSRKM9khQ8pivEXaTHK7/563niv5YZLnpTKnMp1
 f6yDO29Z2jZp/YTbW5vxvQi7KhhksY7fijiu+SX83/pMWKECgYAtV6iAPkWQYkexklKZLGNOGgFn
 3W1cMAMJA/UXjx/oYlg3wPeziTEHlNbzm4oDYN1h8BP+sRMVv1AwGvkjd+/QK64JYHQ2pkVxv1jT
 XFy/2fQLYOkmVgTuklRlLkEd4m+tAnkHOhP0KHe9cEAq8DqufEsCh26I3rT2vJihKaCKCw==
------END RSA PRIVATE KEY-----",
-            "edgeNodeSize": "Standard_D3_V2"
+-----END RSA PRIVATE KEY-----"
           }
         }
       }
