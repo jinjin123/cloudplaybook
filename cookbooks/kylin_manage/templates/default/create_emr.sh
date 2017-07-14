@@ -14,6 +14,7 @@ ID=$CLUSTERNAME
 REGION=`curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}'`
 VpcId=<%= node[:vpc_id] %>
 EMRSubet=<%= node[:subnet_id] %>
+INSTANCECOUNT=<%= node[:INSTANCECOUNT] %>
 KEYPAIR=`/home/ec2-user/tools/ec2-metadata -u|grep keyname|cut -d ':' -f2`
 
 CLUSTER_ID=`/usr/bin/aws emr create-cluster \
