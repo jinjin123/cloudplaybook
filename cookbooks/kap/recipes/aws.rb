@@ -92,6 +92,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     accountregion = "global"
   end
 
+  identifier = kylin[:identifier]
+  keypair = kylin[:keypair]
+  keypairprivatekey = kylin[:keypairprivatekey]
+
   ## Setting of variables
   kaptoken = ''
   if (not (defined?(kylin[:kaptoken])).nil?) && (not "#{kylin[:kaptoken]}" == "")
@@ -106,10 +110,15 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   end
 
-  identifier = kylin[:identifier]
-  keypair = kylin[:keypair]
-  keypairprivatekey = kylin[:keypairprivatekey]
+  instancetype = "m4.xlarge"
+  if (not (defined?(kylin[:instancetype])).nil?) && (not "#{kylin[:instancetype]}" == "")
+    instancetype = kylin[:instancetype]
+  end
+
   clusterLoginUserName = 'kylin'
+  if (not (defined?(kylin[:clusterLoginUserName])).nil?) && (not "#{kylin[:clusterLoginUserName]}" == "")
+    clusterLoginUserName = kylin[:clusterLoginUserName]
+  end
   if (not (defined?(kylin[:clusterLoginUserName])).nil?) && (not "#{kylin[:clusterLoginUserName]}" == "")
     clusterLoginUserName = kylin[:clusterLoginUserName]
   end
@@ -273,7 +282,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
     execute "run_install" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh\""
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype}\""
     end
     execute "create_sample_cube" do
       command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo (cd /home/ec2-user/chef11/chef-repo;knife ssh 'name:*'' '/usr/local/kap/bin/sample.sh')\""

@@ -8,6 +8,11 @@ if [ ! -z ${ID+x} ];then
   export ID=`cat /etc/chef/StackName| cut -d '-' -f1`
 fi
 
+INSTANCETYPE=$2
+if [ ! -z ${INSTANCETYPE+x} ];then
+  export INSTANCETYPE=m4.xlarge
+fi
+
 # Install required packages
 
 ####################
@@ -35,7 +40,7 @@ ChefServerIp=`/usr/bin/aws cloudformation describe-stacks --stack-name $StackNam
 ChefServerPrivateKeyBucket=`/usr/bin/aws cloudformation describe-stacks --stack-name $StackName | jq .Stacks[].Outputs[].OutputValue|grep privatekeybucket|sed 's/\"//g'`
 ChefVpc=$VpcId
 InstancePort=7070
-InstanceType=m4.xlarge
+#InstanceType=m4.xlarge
 KeyName=$KEYPAIR
 ProjectPrefix="chefclient-kylin"
 RoleName="chefclient-kylin"
@@ -58,7 +63,7 @@ ParameterKey=ChefServerIp,ParameterValue=$ChefServerIp \
 ParameterKey=ChefServerPrivateKeyBucket,ParameterValue=$ChefServerPrivateKeyBucket \
 ParameterKey=ChefVpc,ParameterValue=$ChefVpc \
 ParameterKey=InstancePort,ParameterValue=$InstancePort \
-ParameterKey=InstanceType,ParameterValue=$InstanceType \
+ParameterKey=InstanceType,ParameterValue=$INSTANCETYPE \
 ParameterKey=KeyName,ParameterValue=$KeyName \
 ParameterKey=ProjectPrefix,ParameterValue=$ProjectPrefix \
 ParameterKey=Scaling,ParameterValue=$Scaling \
