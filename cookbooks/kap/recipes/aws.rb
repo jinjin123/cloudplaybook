@@ -313,11 +313,14 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "remove_emr" do
       command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt`"
     end
-    execute "runningwaitloop" do
+    execute "runningwaitloop_forServers" do
       command "STATUS='00';while [ \"$STATUS\" != '11' ]; do echo 'ChefServer status' >>  #{basedir}aws/#{identifier}/deploy.log; aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].StackStatus' --output text >>  #{basedir}aws/#{identifier}/deploy.log; if [ $? -eq 0 ]; then STATUSchefserver='0'; else  STATUSchefserver='1'; fi; echo 'KylinServer status'>>  #{basedir}aws/#{identifier}/deploy.log; aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver --query 'Stacks[*].StackStatus' --output text >>  #{basedir}aws/#{identifier}/deploy.log; if [ $? -eq 0 ]; then STATUSkylinserver='0'; else  STATUSkylinserver='1'; fi; STATUS=$STATUSchefserver$STATUSkylinserver;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log; sleep 10; done"
     end
     execute "removingVPC" do
       command "aws cloudformation delete-stack --stack-name #{identifier}-vpc"
+    end
+    execute "runningwaitloop_forVPC" do
+      command "STATUS='0';while [ \"$STATUS\" != '1' ]; do echo 'VPC status' >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation describe-stacks --stack-name #{identifier}-vpc --query 'Stacks[*].StackStatus' --output text;if [ $? -eq 0 ]; then STATUS='0'; else  STATUS='1'; fi;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log;done"
     end
   end
 
