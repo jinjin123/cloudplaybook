@@ -11,6 +11,7 @@ ADMINUSER=`echo $VAR|cut -d ',' -f6`
 ADMINPASSWORD=`echo $VAR|cut -d ',' -f7`
 APPTYPE=`echo $VAR|cut -d ',' -f8`
 KYACCOUNTTOKEN=`echo $VAR|cut -d ',' -f9`
+INSTANCECOUNT=`echo $VAR|cut -d ',' -f10`
 
 ###Need input VPC id here###
 #VPC_STACKNAME=`cat ./temp_vpc_id.txt`
@@ -91,6 +92,7 @@ ParameterKey=adminuser,ParameterValue=$ADMINUSER \
 ParameterKey=adminpassword,ParameterValue=$ADMINPASSWORD \
 ParameterKey=apptype,ParameterValue=$APPTYPE \
 ParameterKey=kyaccountToken,ParameterValue=$KYACCOUNTTOKEN \
+ParameterKey=InstanceCount,ParameterValue=$INSTANCECOUNT \
 
 #####################
 # Check status and return until success or failed

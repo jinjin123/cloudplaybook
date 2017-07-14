@@ -118,6 +118,10 @@
       "Description": "cluster admin username to be deployed",
       "Type": "String"
     },
+    "InstanceCount":{
+      "Description": "cluster admin username to be deployed",
+      "Type": "String"
+    }
   },
     "Mappings": {
         "AWSInstanceType2Arch": {
@@ -346,6 +350,10 @@
                       "\",\n  \"subnet_id\": \"",
                       {
                         "Ref": "ChefSubnet"
+                      },
+                      "\",\n  \"INSTANCECOUNT\": \"",
+                      {
+                        "Ref": "InstanceCount"
                       },
                       "\"\n",
                       "}"
