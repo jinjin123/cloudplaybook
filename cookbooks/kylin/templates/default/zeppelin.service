@@ -1,11 +1,11 @@
 #!/bin/bash
 # kap daemon
 # chkconfig: 345 20 80
-# description: kylin daemon
-# processname: kylin
+# description: zeppelin daemon
+# processname: zeppelin
 
-DAEMON_PATH=/usr/local/kap/bin
-DAEMON=kylin.sh
+DAEMON_PATH=/usr/local/zeppelin/zeppelin/bin
+DAEMON=zeppelin.sh
 
 # Specify the user name
 USER=root
@@ -16,8 +16,8 @@ USER=root
 # Additional options that are passed to the Daemon.
 #DAEMONOPTS="-c $CONFIGFILE"
 
-NAME=kap
-DESC=kap
+NAME=zeppelin
+DESC=zeppelin
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 # COMMAND="su $USER -c '"$DAEMON_PATH"/"$DAEMON start"' > /dev/null 2>&1 &"
@@ -37,7 +37,7 @@ start)
 
         eval $COMMAND
         # PID=$(ps ax | grep kap | grep -v grep | awk {'print $1'});
-        PID=$(ps aux| grep kap| grep -v grep | awk {'print $2'})
+        PID=$(ps aux| grep $NAME| grep -v grep | awk {'print $2'})
 
         if [[ -z ${PID+x} ]]; then
             printf "%s\n" "Fail"

@@ -1,11 +1,10 @@
 #!/bin/bash
 # kap daemon
 # chkconfig: 345 20 80
-# description: kylin daemon
-# processname: kylin
+# description: kyanalyzer daemon
+# processname: kyanalyzer
 
-DAEMON_PATH=/usr/local/kap/bin
-DAEMON=kylin.sh
+DAEMON_PATH=/usr/local/kyanalyzer
 
 # Specify the user name
 USER=root
@@ -16,13 +15,12 @@ USER=root
 # Additional options that are passed to the Daemon.
 #DAEMONOPTS="-c $CONFIGFILE"
 
-NAME=kap
-DESC=kap
+NAME=kyanalyzer
+DESC=kyanalyzer
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
-# COMMAND="su $USER -c '"$DAEMON_PATH"/"$DAEMON start"' > /dev/null 2>&1 &"
-COMMAND="$DAEMON_PATH/$DAEMON start"
-STOPCOMMAND="$DAEMON_PATH/$DAEMON stop"
+COMMAND=$DAEMON_PATH/start-analyzer.sh
+STOPCOMMAND=$DAEMON_PATH/stop-analyzer.sh
 
 case "$1" in
 start)
@@ -36,8 +34,7 @@ start)
         fi
 
         eval $COMMAND
-        # PID=$(ps ax | grep kap | grep -v grep | awk {'print $1'});
-        PID=$(ps aux| grep kap| grep -v grep | awk {'print $2'})
+        PID=$(ps aux| grep kyanalyzer| grep -v grep | awk {'print $2'})
 
         if [[ -z ${PID+x} ]]; then
             printf "%s\n" "Fail"
@@ -50,13 +47,13 @@ status)
         printf "%-50s" "Checking $NAME..."
         if [ -f $PIDFILE ]; then
             PID=`cat $PIDFILE`
-						CHECK=0
-						for x in $PID
-						do
-							if [ -z "`ps axf | grep ${PID} | grep -v grep`" ];then
-								CHECK=1
-							fi
-						done
+            CHECK=0
+            for x in $PID
+            do
+              if [ -z "`ps axf | grep ${PID} | grep -v grep`" ];then
+                CHECK=1
+              fi
+            done
             if [ "$CHECK" -eq 0 ]; then
                 printf "%s\n" "Process dead but pidfile exists"
             else
