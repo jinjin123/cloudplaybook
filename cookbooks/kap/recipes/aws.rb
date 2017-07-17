@@ -321,6 +321,15 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "runningwaitloop_forServers" do
       command "STATUS='00';while [ \"$STATUS\" != '11' ]; do echo 'ChefServer status' >>  #{basedir}aws/#{identifier}/deploy.log; aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].StackStatus' --output text >>  #{basedir}aws/#{identifier}/deploy.log; if [ $? -eq 0 ]; then STATUSchefserver='0'; else  STATUSchefserver='1'; fi; echo 'KylinServer status'>>  #{basedir}aws/#{identifier}/deploy.log; aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver --query 'Stacks[*].StackStatus' --output text >>  #{basedir}aws/#{identifier}/deploy.log; if [ $? -eq 0 ]; then STATUSkylinserver='0'; else  STATUSkylinserver='1'; fi; STATUS=$STATUSchefserver$STATUSkylinserver;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log; sleep 10; done"
     end
+    template "#{basedir}aws/#{identifier}/clearvpc.sh" do
+      source 'clearvpc.sh'
+      owner 'root'
+      group 'root'
+      mode '0755'
+    end
+    execute "clearvpc" do
+      command "#{basedir}aws/#{identifier}/clearvpc.sh #{identifier}-vpc"
+    end
     execute "removingVPC" do
       command "aws cloudformation delete-stack --stack-name #{identifier}-vpc"
     end
