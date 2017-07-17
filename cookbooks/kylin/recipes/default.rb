@@ -89,26 +89,30 @@ template "/etc/init.d/kap" do
   mode  '0755'
 end
 
-template "/etc/init.d/kyanalyzer" do
-  source 'kyanalyzer.service'
-  owner 'root'
-  group 'root'
-  mode  '0755'
-end
-
-template "/etc/init.d/zeppelin" do
-  source 'zeppelin.service'
-  owner 'root'
-  group 'root'
-  mode  '0755'
-end
-
 execute "Startkylin" do
     command 'chkconfig --level 345 kap;service kap start'
 end
-execute "Startkyanalyzer" do
-    command 'chkconfig --level 345 kyanalyzer;service kyanalyzer start'
+
+if kylin[:appType].downcase.include?("kyanalyzer")
+  template "/etc/init.d/kyanalyzer" do
+    source 'kyanalyzer.service'
+    owner 'root'
+    group 'root'
+    mode  '0755'
+  end
+  execute "Startkyanalyzer" do
+      command 'chkconfig --level 345 kyanalyzer;service kyanalyzer start'
+  end
 end
-execute "Startzeppelin" do
-    command 'chkconfig --level 345 zeppelin;service zeppelin start'
+
+if kylin[:appType].downcase.include?("zeppelin")
+  template "/etc/init.d/zeppelin" do
+    source 'zeppelin.service'
+    owner 'root'
+    group 'root'
+    mode  '0755'
+  end
+  execute "Startzeppelin" do
+      command 'chkconfig --level 345 zeppelin;service zeppelin start'
+  end
 end

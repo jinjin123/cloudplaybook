@@ -500,6 +500,35 @@
                                 "mode": "000644",
                                 "group": "root",
                                 "owner": "root"
+                            },
+                            "/etc/chef/emrconfig.json": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "{\n",
+                                            "  \"Classification\": \"hbase-site\",\n",
+                                            "  \"Properties\": {\n",
+                                            "    \"hbase.rootdir\": \"s3://",
+                                            {
+                                                "Ref": "ChefServerPrivateKeyBucket"
+                                            },
+                                            "/EMRROOT\"",
+                                            "  }",
+                                            "},",
+                                            "{\n",
+                                            "  \"Classification\": \"hbase\",\n",
+                                            "  \"Properties\": {\n",
+                                            "    \"hbase.emr.storageMode\": \"s3\"",
+                                            "  }",
+                                            "}\n",
+                                            ""
+                                        ]
+                                    ]
+                                },
+                                "mode": "000644",
+                                "group": "root",
+                                "owner": "root"
                             }
                         },
                         "commands": {
