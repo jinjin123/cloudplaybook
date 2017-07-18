@@ -21,7 +21,7 @@ DESC=zeppelin
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 # COMMAND="su $USER -c '"$DAEMON_PATH"/"$DAEMON start"' > /dev/null 2>&1 &"
-COMMAND="$DAEMON_PATH/$DAEMON start"
+COMMAND="$DAEMON_PATH/$DAEMON start > /var/log/zeppelin.log"
 STOPCOMMAND="$DAEMON_PATH/$DAEMON stop"
 
 case "$1" in
