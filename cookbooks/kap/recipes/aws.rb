@@ -331,6 +331,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     execute "clearvpc" do
       command "#{basedir}aws/#{identifier}/clearvpc.sh #{identifier}-vpc"
+      ignore_failure true
     end
     execute "removingVPC" do
       command "aws cloudformation delete-stack --stack-name #{identifier}-vpc"
