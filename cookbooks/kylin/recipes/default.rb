@@ -93,26 +93,30 @@ execute "Startkylin" do
     command 'chkconfig --level 345 kap;service kap start'
 end
 
-if kylin[:appType].downcase.include?("kyanalyzer")
-  template "/etc/init.d/kyanalyzer" do
-    source 'kyanalyzer.service'
-    owner 'root'
-    group 'root'
-    mode  '0755'
-  end
-  execute "Startkyanalyzer" do
-      command 'chkconfig --level 345 kyanalyzer;service kyanalyzer start'
+if (not (defined?(node[:kylin][:var_apptype])).nil?) && (not "#{node[:kylin][:var_apptype]}" == "")
+  if node[:kylin][:var_apptype].downcase.include?("kyanalyzer")
+    template "/etc/init.d/kyanalyzer" do
+      source 'kyanalyzer.service'
+      owner 'root'
+      group 'root'
+      mode  '0755'
+    end
+    execute "Startkyanalyzer" do
+        command 'chkconfig --level 345 kyanalyzer;service kyanalyzer start'
+    end
   end
 end
 
-if kylin[:appType].downcase.include?("zeppelin")
-  template "/etc/init.d/zeppelin" do
-    source 'zeppelin.service'
-    owner 'root'
-    group 'root'
-    mode  '0755'
-  end
-  execute "Startzeppelin" do
-      command 'chkconfig --level 345 zeppelin;service zeppelin start'
+if (not (defined?(node[:kylin][:var_apptype])).nil?) && (not "#{node[:kylin][:var_apptype]}" == "")
+  if node[:kylin][:var_apptype].downcase.include?("zeppelin")
+    template "/etc/init.d/zeppelin" do
+      source 'zeppelin.service'
+      owner 'root'
+      group 'root'
+      mode  '0755'
+    end
+    execute "Startzeppelin" do
+        command 'chkconfig --level 345 zeppelin;service zeppelin start'
+    end
   end
 end
