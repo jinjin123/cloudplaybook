@@ -463,22 +463,24 @@
                       "Fn::Join": [
                           "",
                           [
-                              "{\n",
-                              "  \"Classification\": \"hbase-site\",\n",
-                              "  \"Properties\": {\n",
-                              "    \"hbase.rootdir\": \"s3://",
+                              "[",
+                              "  {\n",
+                              "    \"Classification\": \"hbase-site\",\n",
+                              "    \"Properties\": {\n",
+                              "      \"hbase.rootdir\": \"s3://",
                               {
                                   "Ref": "PrivateKeyBucket"
                               },
-                              "/EMRROOT\"",
-                              "  }",
-                              "},",
-                              "{\n",
-                              "  \"Classification\": \"hbase\",\n",
-                              "  \"Properties\": {\n",
-                              "    \"hbase.emr.storageMode\": \"s3\"",
-                              "  }",
-                              "}\n",
+                              "/EMRROOT\"\n",
+                              "    }\n",
+                              "  },\n",
+                              "  {\n",
+                              "    \"Classification\": \"hbase\",\n",
+                              "    \"Properties\": {\n",
+                              "      \"hbase.emr.storageMode\": \"s3\"\n",
+                              "    }\n",
+                              "  }\n",
+                              "]",
                               ""
                           ]
                       ]

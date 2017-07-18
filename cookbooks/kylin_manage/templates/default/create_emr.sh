@@ -24,10 +24,10 @@ CLUSTER_ID=`/usr/bin/aws emr create-cluster \
 --ec2-attributes KeyName=$KEYPAIR,InstanceProfile=EMR_EC2_DefaultRole,SubnetId=$EMRSubet \
 --service-role EMR_DefaultRole \
 --enable-debugging \
---release-label emr-5.0.0 \
+--release-label emr-5.5.0 \
 --log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
 --name $CLUSTERNAME \
---configurations /etc/chef/emrconfig.json \
+--configurations file:///etc/chef/emrconfig.json \
 --instance-groups '[{"InstanceCount":<%= node[:INSTANCECOUNT] %>,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
 --region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
 
