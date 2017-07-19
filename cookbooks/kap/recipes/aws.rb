@@ -330,7 +330,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       mode '0755'
     end
     execute "clearvpc" do
-      command "#{basedir}aws/#{identifier}/clearvpc.sh #{identifier}-vpc || true"
+      command "#{basedir}aws/#{identifier}/clearvpc.sh #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log || true"
       ignore_failure true
     end
     execute "removingVPC" do
