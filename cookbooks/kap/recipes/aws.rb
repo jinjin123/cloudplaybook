@@ -337,7 +337,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "runningwaitloop_forVPC" do
-      command "STATUS='0';while [ \"$STATUS\" != '1' ]; do echo 'VPC status' >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation describe-stacks --stack-name #{identifier}-vpc --query 'Stacks[*].StackStatus' --output text;if [ $? -eq 0 ]; then STATUS='0'; else  STATUS='1'; fi;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log;done"
+      command "CURRENSTATUS=\"\";STATUS='0';while [ \"$STATUS\" != '1' ] && [ \"$CURRENSTATUS\" != \"DELETE_FAILED\" ]; do echo 'VPC status' >> #{basedir}aws/#{identifier}/deploy.log;CURRENSTATUS=$(aws cloudformation describe-stacks --stack-name #{identifier}-vpc --query 'Stacks[*].StackStatus' --output text);if [ $? -eq 0 ]; then STATUS='0'; else  STATUS='1'; fi;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log;done"
+    end
+    execute "removingVPCagain" do
+      command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log"
     end
   end
 
