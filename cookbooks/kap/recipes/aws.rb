@@ -334,7 +334,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
     execute "removingVPC" do
-      command "aws cloudformation delete-stack --stack-name #{identifier}-vpc"
+      command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "runningwaitloop_forVPC" do
       command "STATUS='0';while [ \"$STATUS\" != '1' ]; do echo 'VPC status' >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation describe-stacks --stack-name #{identifier}-vpc --query 'Stacks[*].StackStatus' --output text;if [ $? -eq 0 ]; then STATUS='0'; else  STATUS='1'; fi;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log;done"
