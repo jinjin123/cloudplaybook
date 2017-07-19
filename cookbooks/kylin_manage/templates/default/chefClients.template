@@ -785,6 +785,16 @@
                             "Ref": "InstancePort"
                         },
                         "Protocol": "TCP"
+                    },
+                    {
+                        "LoadBalancerPort": 9090,
+                        "InstancePort": 9090,
+                        "Protocol": "TCP"
+                    },
+                    {
+                        "LoadBalancerPort": 8080,
+                        "InstancePort": 8080,
+                        "Protocol": "TCP"
                     }
                 ],
                 "SecurityGroups": [
