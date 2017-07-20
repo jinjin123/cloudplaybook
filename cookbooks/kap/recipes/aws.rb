@@ -292,10 +292,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
     end
-    execute "runningwaitloop_foremr" do
-      command "CURRENSTATUS=\"\";while [ \"$CURRENSTATUS\" != \"WAITING\" ]; do CURRENSTATUS=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep STATUS | head -1| awk {'print $2'});sleep 5;done"
-      ignore_failure true
-    end
+    # execute "runningwaitloop_foremr" do
+    #   command "CURRENSTATUS=\"\";while [ \"$CURRENSTATUS\" != \"WAITING\" ]; do CURRENSTATUS=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep STATUS | head -1| awk {'print $2'});sleep 5;done"
+    #   ignore_failure true
+    # end
     execute "run_install" do
       command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype}\""
     end
