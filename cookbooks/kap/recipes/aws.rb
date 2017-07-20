@@ -290,10 +290,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh #{identifier}\""
     end
     execute "checkEMRid" do
-      command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
+      command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
     end
     # execute "runningwaitloop_foremr" do
-    #   command "CURRENSTATUS=\"\";while [ \"$CURRENSTATUS\" != \"WAITING\" ]; do CURRENSTATUS=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep STATUS | head -1| awk {'print $2'});sleep 5;done"
+    #   command "CURRENSTATUS=\"\";while [ \"$CURRENSTATUS\" != \"RUNNING\" ]; do CURRENSTATUS=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep STATUS | head -1| awk {'print $2'});sleep 5;done"
     #   ignore_failure true
     # end
     execute "run_install" do
@@ -309,7 +309,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif awsaction.eql?("resize")
     execute "checkEMRid" do
-      command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
+      command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
     end
     execute "checkcurrentnodecount" do
       command "aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $3,$(NF-1)}' > #{basedir}aws/#{identifier}/nodecount.txt"
@@ -325,7 +325,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "for x in -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
     end
     execute "checkEMRid" do
-      command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
+      command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
       ignore_failure true
     end
     execute "remove_emr" do
@@ -344,7 +344,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket-`;do aws s3 rb s3://$x --force;done"
     end
     execute "checkEMRid" do
-      command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
+      command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
       ignore_failure true
     end
     execute "remove_emr" do

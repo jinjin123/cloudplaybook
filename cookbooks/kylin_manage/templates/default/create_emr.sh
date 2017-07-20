@@ -17,19 +17,25 @@ EMRSubet=<%= node[:subnet_id] %>
 INSTANCECOUNT=<%= node[:INSTANCECOUNT] %>
 KEYPAIR=`/home/ec2-user/tools/ec2-metadata -u|grep keyname|cut -d ':' -f2`
 
-CLUSTER_ID=`/usr/bin/aws emr create-cluster \
---applications Name=Hadoop Name=Hive Name=Pig Name=Hue Name=HBase Name=ZooKeeper Name=Phoenix Name=HCatalog \
---emrfs Consistent=true,RetryCount=5,RetryPeriod=30 \
---tags 'name=kyligence-emr' \
---ec2-attributes KeyName=$KEYPAIR,InstanceProfile=EMR_EC2_DefaultRole,SubnetId=$EMRSubet \
---service-role EMR_DefaultRole \
---enable-debugging \
---release-label emr-5.5.0 \
---log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
---name $CLUSTERNAME \
---configurations file:///etc/chef/emrconfig.json \
---instance-groups '[{"InstanceCount":<%= node[:INSTANCECOUNT] %>,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
---region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
+CURRENTID=$(aws emr list-clusters --query \'Clusters[? Status.State==`WAITING` && Name==`$ID`]\'| grep Id| cut -d':' -f2|cut -d'"' -f2)
+# If EMR is exists then do not create
+if [ -z ${CURRENTID+x} ];then
+  CLUSTER_ID=`/usr/bin/aws emr create-cluster \
+  --applications Name=Hadoop Name=Hive Name=Pig Name=Hue Name=HBase Name=ZooKeeper Name=Phoenix Name=HCatalog \
+  --emrfs Consistent=true,RetryCount=5,RetryPeriod=30 \
+  --tags 'name=kyligence-emr' \
+  --ec2-attributes KeyName=$KEYPAIR,InstanceProfile=EMR_EC2_DefaultRole,SubnetId=$EMRSubet \
+  --service-role EMR_DefaultRole \
+  --enable-debugging \
+  --release-label emr-5.5.0 \
+  --log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
+  --name $CLUSTERNAME \
+  --configurations file:///etc/chef/emrconfig.json \
+  --instance-groups '[{"InstanceCount":<%= node[:INSTANCECOUNT] %>,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"r3.xlarge","Name":"Master instance group - 1"}]' \
+  --region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
+else
+  CLUSTER_ID=$CURRENTID
+fi
 
 # Check status and return until success or failed
 STATUS=`/usr/bin/aws emr list-instances --cluster-id $CLUSTER_ID --instance-group-types MASTER|grep \"State\"|cut -d':' -f2| sed 's/\"\|,\| //g'`
@@ -75,8 +81,8 @@ SLAVE_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $SLAVE_instance_
 /root/update_hadoop_files.sh $CLUSTERNAME >> /var/log/cfn-init.log
 
 # Update EMR ip into Cookbook
-sed -i "s/EMRSERVER/$MASTER_IP/" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb
-sed -i "s/EMRSERVER/$MASTER_IP/" /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/attributes/default.rb
+sed -i "s/default[:kylin][:emrserver] =.*/default[:kylin][:emrserver] =\"$MASTER_IP\"/" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb
+sed -i "s/default[:hadoop_files][:emrserver] =.*/default[:kylin][:emrserver] =\"$MASTER_IP\"/"  /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/attributes/default.rb
 
 # Update cookbooks
 cd /home/ec2-user/chef11/chef-repo
