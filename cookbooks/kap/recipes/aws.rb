@@ -305,7 +305,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "checkrunsize" do
       command "export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');while [ \"#{kylin[:clusterWorkerNodeCount]}\" -ne \"$NEWCOUNT\" ];do sleep 5;echo \"Resize in progress\";export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');echo \"Current Node count = \"$NEWCOUNT >>  #{basedir}aws/#{identifier}/deploy.log;done"
     end
-  elsif awsaction.eql?("removeemr") do
+  elsif awsaction.eql?("removeemr")
     execute "remove_cloudformation" do
       command "for x in -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
     end
