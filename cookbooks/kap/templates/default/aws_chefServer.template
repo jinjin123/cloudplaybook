@@ -757,26 +757,6 @@
               },
               "240installchefserver": {
                 "command": "chef-solo -o 'recipe[kylin_manage::emr]' -j /etc/chef/parameter_emr.json"
-              },
-              "250runaction":{
-                "command": {
-                  "Fn::If": [
-                    "checkaction",
-                    {
-                      "Fn::Join": [
-                        "",
-                        [
-                          "/root/create_emr.sh ",
-                          {
-                            "Ref": "clustername"
-                          },
-                          ">> /var/log/cfn-init.log"
-                        ]
-                      ]
-                    },
-                    "/bin/date"
-                  ]
-                }
               }
             }
           }
