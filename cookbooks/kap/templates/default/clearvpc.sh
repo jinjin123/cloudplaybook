@@ -25,4 +25,10 @@ do
   rm -f ./temp.txt temp.out1
   aws ec2 delete-security-group --group-id $x
 done
+
+for x in $SECURITYGROUPIDS
+do
+  aws ec2 delete-security-group --group-id $x
+done
+
 aws ec2 delete-vpc --vpc-id `aws cloudformation describe-stacks --stack-name $VPCSTACKNAME --query 'Stacks[*].Outputs[*]' --output text|grep VpcId|  awk {'print $NF'}`
