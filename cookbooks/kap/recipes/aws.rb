@@ -305,6 +305,18 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "checkrunsize" do
       command "export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');while [ \"#{kylin[:clusterWorkerNodeCount]}\" -ne \"$NEWCOUNT\" ];do sleep 5;echo \"Resize in progress\";export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');echo \"Current Node count = \"$NEWCOUNT >>  #{basedir}aws/#{identifier}/deploy.log;done"
     end
+  elsif awsaction.eql?("removeemr") do
+    execute "remove_cloudformation" do
+      command "for x in -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
+    end
+    execute "checkEMRid" do
+      command "aws emr list-clusters --query 'Clusters[?Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
+      ignore_failure true
+    end
+    execute "remove_emr" do
+      command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` || true"
+      ignore_failure true
+    end
   elsif awsaction.eql?("removeall")
     execute "remove_cloudformation" do
       command "for x in -chefserver -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
