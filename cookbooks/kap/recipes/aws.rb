@@ -317,6 +317,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` || true"
       ignore_failure true
     end
+    execute "runningwaitloop_foremr" do
+      command "CURRENSTATUS=\"\";STATUS='0';while [ \"$STATUS\" != '1' ] && [ \"$CURRENSTATUS\" != \"TERMINATED\" ]; do CURRENSTATUS=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep STATUS | head -1| awk {'print $2'});if [ $? -eq 0 ]; then STATUS='0'; else  STATUS='1'; fi;done"
+      ignore_failure true
+    end
   elsif awsaction.eql?("removeall")
     execute "remove_cloudformation" do
       command "for x in -chefserver -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
