@@ -17,7 +17,13 @@ EMRSubet=<%= node[:subnet_id] %>
 INSTANCECOUNT=<%= node[:INSTANCECOUNT] %>
 KEYPAIR=`/home/ec2-user/tools/ec2-metadata -u|grep keyname|cut -d ':' -f2`
 
-CURRENTID=$(aws emr list-clusters --query \'Clusters[? Status.State==`WAITING` && Name==`$ID`]\'| grep Id| cut -d':' -f2|cut -d'"' -f2)
+COMMAND1="aws emr list-clusters --query "
+COMMAND2='Clusters[? Status.State==`WAITING` && Name==`'
+COMMAND3='`]'
+COMMAND4="| grep Id| cut -d':' -f2|cut -d'\"' -f2"
+COMMAND=$COMMAND1\'$COMMAND2$ID$COMMAND3\'$COMMAND4
+CURRENTID=`eval $COMMAND`
+
 # If EMR is exists then do not create
 if [ -z ${CURRENTID+x} ];then
   CLUSTER_ID=`/usr/bin/aws emr create-cluster \
