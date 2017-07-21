@@ -103,7 +103,7 @@ do
   sleep 5
   echo -ne "."
   STATUS=`aws cloudformation describe-stacks --stack-name $ID-chefserver --region $REGION|grep StackStatus|awk {'print $2'}|sed 's/\"\|,//g'`
-  if [ "$STATUS" == "ROLLBACK_COMPLETE" ];then
+  if [ "$STATUS" == "ROLLBACK_COMPLETE" ] || [ "$STATUS" == "CREATE_FAILED" ];then
     echo "Creation failed, Rollback completed"
     exit
   fi
