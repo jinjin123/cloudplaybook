@@ -25,7 +25,7 @@ COMMAND=$COMMAND1\'$COMMAND2$ID$COMMAND3\'$COMMAND4
 CURRENTID=`eval $COMMAND`
 
 # If EMR is exists then do not create
-if [ -z ${CURRENTID+x} ];then
+if [ ! -z ${CURRENTID+x} ];then
   CLUSTER_ID=`/usr/bin/aws emr create-cluster \
   --applications Name=Hadoop Name=Hive Name=Pig Name=Hue Name=HBase Name=ZooKeeper Name=Phoenix Name=HCatalog \
   --emrfs Consistent=true,RetryCount=5,RetryPeriod=30 \
