@@ -89,8 +89,13 @@ template "/etc/init.d/kap" do
   mode  '0755'
 end
 
+execute "updatingkylinpropertiesworkdir" do
+  command "sed -i 's/kylin.env.hdfs-working-dir=.*/kylin.env.hdfs-working-dir=#{node[:kylin][:s3location]}/' /usr/local/kap/conf/kylin.properties"
+  ignore_failure true
+end
+
 execute "Startkylin" do
-    command 'chkconfig --level 345 kap;service kap start'
+    command 'chkconfig --level 345 kap;service kap restart'
 end
 
 if (not (defined?(node[:kylin][:var_apptype])).nil?) && (not "#{node[:kylin][:var_apptype]}" == "")
