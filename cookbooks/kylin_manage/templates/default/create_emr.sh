@@ -87,8 +87,8 @@ SLAVE_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $SLAVE_instance_
 /root/update_hadoop_files.sh $CLUSTERNAME >> /var/log/cfn-init.log
 
 # Update EMR ip into Cookbook
-sed -i "s/default[:kylin][:emrserver] =.*/default[:kylin][:emrserver] =\"$MASTER_IP\"/" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb
-sed -i "s/default[:hadoop_files][:emrserver] =.*/default[:kylin][:emrserver] =\"$MASTER_IP\"/"  /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/attributes/default.rb
+sed -i "s/default\[:kylin\]\[:emrserver\] =.*/default[:kylin][:emrserver] =\"$MASTER_IP\"/" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb
+sed -i "s/default\[:hadoop_files\]\[:emrserver\] =.*/default[:kylin][:emrserver] =\"$MASTER_IP\"/"  /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/attributes/default.rb
 
 # Update cookbooks
 cd /home/ec2-user/chef11/chef-repo
