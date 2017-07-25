@@ -7,7 +7,6 @@ default[:kylin][:var_adminpassword] = "ADMINPASSWORD"
 default[:kylin][:var_apptype] = "APPTYPE"
 default[:kylin][:var_kyaccountToken] = "KYACCOUNTTOKEN"
 default[:kylin][:emrserver] = "EMRSERVER"
-default[:kylin][:s3location] = ""
 
 # default[:kylin][:kylin_tarball]='https://s3.cn-north-1.amazonaws.com.cn/bootdevcn/apache-kylin-1.5.4.1-hbase1.x-bin.tar.gz'
 # default[:kylin][:KAP_DOWNLOAD_URI]='https://kyhub.blob.core.chinacloudapi.cn/packages/kap/'
