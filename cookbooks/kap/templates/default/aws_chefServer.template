@@ -742,7 +742,7 @@
                   "Fn::Join": [
                     "",
                     [
-                      "sed -i 's/default[:kylin][:s3location] =.*/default[:kylin][:s3location] =\"s3:\\\/\\\/",
+                      "sed -i 's/default\[:kylin\]\[:s3location\] =.*/default[:kylin][:s3location] =\"s3:\\\/\\\/",
                       {
                         "Ref": "PrivateKeyBucket"
                       },
