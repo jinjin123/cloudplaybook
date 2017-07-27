@@ -749,11 +749,11 @@
                       "\\[",
                       ":s3location",
                       "\\]",
-                      " =.*/default[:kylin][:s3location] =\"s3:\\\\\/\\\\\/",
+                      " =.*/default[:kylin][:s3location] =\"s3:\\\\\\\/\\\\\\\/",
                       {
                         "Ref": "PrivateKeyBucket"
                       },
-                      "\\\\\/kylin\"/' /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb"
+                      "\\\\\\\/kylin\"/' /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb"
                     ]
                   ]
                 }
