@@ -737,6 +737,20 @@
                   ]
                 }
               },
+              "232puttingprivatekeybucketvalue": {
+                "command": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "sed -i 's/default[:kylin][:s3location] =.*/default[:kylin][:s3location] =\"s3:\\\/\\\/",
+                      {
+                        "Ref": "PrivateKeyBucket"
+                      },
+                      "\\\/EMRROOT\"/' /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb"
+                    ]
+                  ]
+                }
+              },
               "233updatekylinpem": {
                 "command": "cp /root/.ssh/kylin.pem /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/templates/default/kylin.pem"
               },
