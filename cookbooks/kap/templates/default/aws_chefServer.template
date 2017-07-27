@@ -742,11 +742,18 @@
                   "Fn::Join": [
                     "",
                     [
-                      "sed -i 's/default\[:kylin\]\[:s3location\] =.*/default[:kylin][:s3location] =\"s3:\\\/\\\/",
+                      "sed -i 's/default",
+                      "[",
+                      ":kylin",
+                      "]",
+                      "[",
+                      ":s3location",
+                      "]",
+                      " =.*/default[:kylin][:s3location] =\"s3:\\\/\\\/",
                       {
                         "Ref": "PrivateKeyBucket"
                       },
-                      "\\\/EMRROOT\"/' /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb"
+                      "\\\/kylin\"/' /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb"
                     ]
                   ]
                 }
