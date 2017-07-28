@@ -197,8 +197,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   # Run checking for key pair
   execute "checkifkeypairexist" do
     command "aws ec2 describe-key-pairs --key-name #{keypair}"
-    retries 5
-    retry_delay 5
   end
 
   template "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh" do
@@ -290,8 +288,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     execute "create_emr" do
       command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh #{identifier}\""
-      retries 3
-      retry_delay 5
     end
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
