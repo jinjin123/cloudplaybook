@@ -1,12 +1,12 @@
 #!/bin/bash
 
-./runchefclientdocker.sh kycloud20170731001 '
+./runchefclientdocker.sh kycloud20170731000 '
 {
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "aws": {
-          "action": "create",
+          "action": "removeall",
           "credentials": {
             "awskey": "AKIAOAAU6MUOPBRPIGTA",
             "awssecret": "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",
@@ -15,7 +15,7 @@
           "kylin": {
             "clusterWorkerNodeCount": "1",
             "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
-            "identifier": "kycloud20170731001",
+            "identifier": "kycloud20170731000",
             "region": "cn-north-1",
             "instancetype": "m4.large",
             "clusterLoginUserName": "admintest",

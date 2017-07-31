@@ -7,6 +7,8 @@ DEPLOYJSON=$2
 cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y > /dev/null 2>&1 || :
 cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y > /dev/null 2>&1 || :
 
+echo $DEPLOYJSON > /root/tools/code/$IDENTIFIER.deploy.json
+
 if [[ $DEPLOYJSON == *"azure"* ]]; then
   # if deployment is on Azure
   DATFILEDIR=/root/tools/code/azure
