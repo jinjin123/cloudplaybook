@@ -37,11 +37,6 @@ if [[ $DEPLOYJSON == *"azure"* ]]; then
   dockerpriv.kybot.io:5002/keithyau/chefclient:latest \
   chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json
 
-  if [[ $DEPLOYJSON == *"resize"* ]]; then
-    cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
-    cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
-  fi
-
   export RETURNCODE=$?
 else
 # if deployment is on Aws
