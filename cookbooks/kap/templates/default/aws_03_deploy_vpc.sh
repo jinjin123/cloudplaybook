@@ -13,7 +13,12 @@ ID=`echo $VAR|cut -d ',' -f4`
 
 #####################
 # Create VPC
-aws cloudformation create-stack --stack-name $ID-vpc --template-body file://./templates/vpc.template --parameters ParameterKey=AZ1,ParameterValue=$AZ1 ParameterKey=AZ2,ParameterValue=$AZ2 --region $REGION
+aws cloudformation create-stack --stack-name $ID-vpc --template-body file://./templates/vpc.template \
+--region $REGION \
+--parameters \
+ParameterKey=VPCNAME,ParameterValue=$ID"Vpc" \
+ParameterKey=AZ1,ParameterValue=$AZ1 \
+ParameterKey=AZ2,ParameterValue=$AZ2
 
 #####################
 # Check status and return until success or failed

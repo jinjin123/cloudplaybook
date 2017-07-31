@@ -2,6 +2,10 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "AWS CloudFormation Template to bring up a vpc with three public subnet,subnetone and subnettwo are in the same availability zone while subnet three is not, a gateway is attached to the three subnets,a route table with one route is attached to the three subnets",
     "Parameters" : {
+          "VPCNAME" : {
+              "Type": "String",
+              "Description": "Adding customized vpc name"
+          },
           "AZ1" : {
               "Type": "String",
               "Description": "the user available Availability Zone 1"
@@ -16,8 +20,8 @@
             "Type": "AWS::EC2::VPC",
             "Properties": {
                 "CidrBlock": "10.0.0.0/16",
-    	"EnableDnsSupport" : true,
-		"EnableDnsHostnames" : true,
+              	"EnableDnsSupport" : true,
+              	"EnableDnsHostnames" : true,
                 "Tags": [
                     {
                         "Key": "Application",
@@ -31,7 +35,9 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "CustomVpc"
+                        "Value": {
+                            "Ref": "VPCNAME"
+                        }
                     }
                 ]
             }
@@ -58,7 +64,7 @@
                 "GroupId" : {"Ref":"VpcSecurityGroup"},
 				"IpProtocol" : "-1",
 				"SourceSecurityGroupId" : {"Ref": "VpcSecurityGroup"}
-					   
+
             }
         },
 	"SecurityInetGroupRule": {
@@ -67,7 +73,7 @@
             "Properties": {
                 "GroupId" : {"Ref":"VpcSecurityGroup"},
 				"IpProtocol" : "-1",
-				"CidrIp" : "10.0.0.0/16"		   
+				"CidrIp" : "10.0.0.0/16"
             }
         },
         "PublicSubnetOne": {
@@ -356,7 +362,7 @@
 					":",
 					{"Ref" : "AZ1"}
 				]]
-                
+
             }
         },
         "PublicSubnetTwo": {
@@ -367,7 +373,7 @@
 					":",
 					{"Ref" : "AZ1"}
 				]]
-                
+
             }
         },
         "PublicSubnetThree" : {
@@ -378,7 +384,7 @@
 						":",
 						{"Ref" : "AZ2"}
 					]]
-        				
+
         		}
         }
     }
