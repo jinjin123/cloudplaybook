@@ -4,8 +4,8 @@ IDENTIFIER=$1
 DEPLOYJSON=$2
 
 # Clearing old chef node and client
-cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
-cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
+cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y > /dev/null || :
+cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y > /dev/null || :
 
 if [[ $DEPLOYJSON == *"azure"* ]]; then
   # if deployment is on Azure
@@ -74,8 +74,8 @@ else
 fi
 
 # Clearing old chef node and client
-cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y || :
-cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y || :
+cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y > /dev/null || :
+cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y > /dev/null || :
 docker stop chef-client-$IDENTIFIER;
 docker rm chef-client-$IDENTIFIER;
 # Setting return code of script
