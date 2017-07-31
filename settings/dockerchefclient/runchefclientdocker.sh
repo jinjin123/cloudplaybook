@@ -4,8 +4,8 @@ IDENTIFIER=$1
 DEPLOYJSON=$2
 
 # Clearing old chef node and client
-cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y > /dev/null || :
-cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y > /dev/null || :
+cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y > /dev/null 2>&1 || :
+cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y > /dev/null 2>&1 || :
 
 echo $DEPLOYJSON > /root/tools/code/$IDENTIFIER.deploy.json
 
@@ -71,8 +71,8 @@ else
 fi
 
 # Clearing old chef node and client
-cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y > /dev/null || :
-cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y > /dev/null || :
+cd /home/kylin/chef12 && /bin/knife node delete $IDENTIFIER -y > /dev/null 2>&1 || :
+cd /home/kylin/chef12 && /bin/knife client delete $IDENTIFIER -y > /dev/null 2>&1 || :
 docker stop chef-client-$IDENTIFIER;
 docker rm chef-client-$IDENTIFIER;
 # Setting return code of script
