@@ -138,7 +138,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   if (not (defined?(kylin[:clusterWorkerNodeCount])).nil?) && (not "#{kylin[:clusterWorkerNodeCount]}" == "")
     instancecount = kylin[:clusterWorkerNodeCount]
   end
-
+  emrid = ""
+  if (not (defined?(kylin[:emrid])).nil?) && (not "#{kylin[:emrid]}" == "")
+    emrid = kylin[:emrid]
+  end
 
   file "#{basedir}aws/#{identifier}/credentials/kylin.pem" do
     content keypairprivatekey
@@ -377,6 +380,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     # execute "removingVPCagain" do
     #   command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log"
     # end
+  elsif awsaction.eql?("existing")
+    execute "checkemrversion" do
+      command "VERSION=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.ReleaseLabel'  --output text);MAINVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f1);MINORVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f2);if [ \"$MAINVERSION\" -lt '5' ];then echo 'Main version not match prerequisite';exit 1;fi;if [ \"$MINORVERSION\" -lt '5' ];then echo 'Version not match prerequisite, minimum EMR 5.5.0';exit 1;fi"
+    end
   end
 
 end
