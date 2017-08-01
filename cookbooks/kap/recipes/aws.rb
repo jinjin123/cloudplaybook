@@ -297,7 +297,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     #   ignore_failure true
     # end
     execute "run_install" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype}\""
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype}\" >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "runningwaitloop_forchefclient" do
       command "CURRENSTATUS=\"\";while [ \"$CURRENSTATUS\" != \"CREATE_COMPLETE\" ]; do CURRENSTATUS=$(aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver --query 'Stacks[*].StackStatus' --output text);sleep 5;done"
@@ -342,17 +342,17 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif awsaction.eql?("removeall")
     execute "remove_cloudformation" do
-      command "for x in -chefserver -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
+      command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done"
     end
     execute "remove_s3" do
-      command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket-`;do aws s3 rb s3://$x --force;done"
+      command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket-`;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force >> #{basedir}aws/#{identifier}/deploy.log;done"
     end
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
       ignore_failure true
     end
     execute "remove_emr" do
-      command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` || true"
+      command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` >> #{basedir}aws/#{identifier}/deploy.log || true"
       ignore_failure true
     end
     execute "runningwaitloop_forServers" do
@@ -369,7 +369,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
     execute "removingVPC" do
-      command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log"
+      command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "runningwaitloop_forVPC" do
       command "CURRENSTATUS=\"\";STATUS='0';while [ \"$STATUS\" != '1' ] && [ \"$CURRENSTATUS\" != \"DELETE_FAILED\" ]; do echo 'VPC status' >> #{basedir}aws/#{identifier}/deploy.log;CURRENSTATUS=$(aws cloudformation describe-stacks --stack-name #{identifier}-vpc --query 'Stacks[*].StackStatus' --output text);if [ $? -eq 0 ]; then STATUS='0'; else  STATUS='1'; fi;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log;sleep 5;done"
