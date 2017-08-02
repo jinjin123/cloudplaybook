@@ -384,6 +384,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "checkemrversion" do
       command "VERSION=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.ReleaseLabel'  --output text);MAINVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f1);MINORVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f2);if [ \"$MAINVERSION\" -lt '5' ];then echo 'Main version not match prerequisite';exit 1;fi;if [ \"$MINORVERSION\" -lt '5' ];then echo 'Version not match prerequisite, minimum EMR 5.5.0';exit 1;fi"
     end
-  end
+    execute "checkemrapplication" do
+      command "APPLICATIONS=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Applications' --output text);for x in Hadoop Hive Pig Hue ZooKeeper Phoenix HCatalog HBase;do if [[ $APPLICATION != *\"$x\"* ]];then echo \"Application $x did not found\";exit 1;fi; done"
+    end
 
+  end
 end
