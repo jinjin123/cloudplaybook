@@ -881,7 +881,19 @@
         },
         "SubnetId": {
           "Ref": "ChefSubnet"
-        }
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "ServerTagName"
+            }
+          },
+          {
+            "Key": "Environment",
+            "Value": "cloudformationChefenv"
+          }
+        ]
       }
     },
     "ChefServerUser": {
