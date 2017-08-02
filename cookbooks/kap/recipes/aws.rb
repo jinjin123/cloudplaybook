@@ -242,8 +242,11 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     action :create
   end
 
-  template "#{basedir}aws/#{identifier}/templates/chefServer.template" do
+  template "#{basedir}aws/#{identifier}/templates/chefServer.template.erp" do
     source "aws_chefServer.template"
+    variables(
+      :accountregion => accountregion
+    )
     mode 0744
     retries 3
     retry_delay 2

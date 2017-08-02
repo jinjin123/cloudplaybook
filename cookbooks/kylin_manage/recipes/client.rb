@@ -12,6 +12,7 @@ template '/root/create_client.sh' do
     mode '0744'
 end
 
-# execute "runchefclientcreation" do
-#   command "/root/create_client.sh"
-# end
+# Replacement of region
+execute "changingS3Region" do
+  command "if [[ $(/home/ec2-user/tools/ec2-metadata --availability-zone| awk {'print $2'}) != *\"cn-north-1\"* ]];then sed -i 's/aws-cn/aws/' /etc/chef/chefClients.template;fi"
+end
