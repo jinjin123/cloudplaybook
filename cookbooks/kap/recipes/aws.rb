@@ -243,7 +243,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 
   template "#{basedir}aws/#{identifier}/templates/chefServer.template" do
-    source "aws_chefServer.template.erp"
+    source "aws_chefServer.template.erb"
     variables(
       :accountregion => accountregion
     )
