@@ -138,7 +138,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   if (not (defined?(kylin[:clusterWorkerNodeCount])).nil?) && (not "#{kylin[:clusterWorkerNodeCount]}" == "")
     instancecount = kylin[:clusterWorkerNodeCount]
   end
-
+  emrid = ""
+  if (not (defined?(kylin[:emrid])).nil?) && (not "#{kylin[:emrid]}" == "")
+    emrid = kylin[:emrid]
+  end
 
   file "#{basedir}aws/#{identifier}/credentials/kylin.pem" do
     content keypairprivatekey
