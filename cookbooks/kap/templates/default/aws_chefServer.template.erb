@@ -958,13 +958,7 @@
                 "Fn::Join": [
                   "",
                   [
-                    "arn:",
-                    "<% if @accountregion.eql? "china" %>
-                    <%= "aws-cn" %>
-                    <% elsif @accountregion.eql? "global" %>
-                    <%= "aws" %>
-                    <% end %>",
-                    ":s3:::",
+                    "arn:<% if @accountregion.eql? "china" %><%= "aws-cn" %><% elsif @accountregion.eql? "global" %><%= "aws" %><% end %>:s3:::",
                     {
                       "Ref": "PrivateKeyBucket"
                     },
