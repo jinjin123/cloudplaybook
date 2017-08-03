@@ -260,15 +260,18 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 
   if awsaction.include?("create")
-    # Running 01_awscheck_zone
-    ruby_block "checkzone" do
-      block do
-          #tricky way to load this Chef::Mixin::ShellOut utilities
-          Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-          command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
-          command_out = shell_out(command)
-      end
-      action :create
+    # # Running 01_awscheck_zone
+    # ruby_block "checkzone" do
+    #   block do
+    #       #tricky way to load this Chef::Mixin::ShellOut utilities
+    #       Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+    #       command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
+    #       command_out = shell_out(command)
+    #   end
+    #   action :create
+    # end
+    execute "checkzone" do
+      command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
     end
 
     # Running 03_deploy_vpc
@@ -395,6 +398,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       #command "subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;vpcid=$(aws ec2 describe-subnets --query \\\'Subnets[? SubnetId==\\\`$subnetid\\\` ].VpcId\\\' --output text);echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query \'InternetGateways[*].Attachments[? VpcId == \\\`$vpcid\\\`].VpcId\' --output text\";echo \"checkgatewayattachcommand = \"$checkgatewayattachcommand >> #{basedir}aws/#{identifier}/deploy.log;checkgatewayattachcommandgatewayresult=$($checkgatewayattachcommand);echo \"GatewayResult = \"$gatewayresult >> #{basedir}aws/#{identifier}/deploy.log;if [ -z \"$gatewayresult\" ];then exit 1;fi"
       command "
         subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);
+        echo $subnetid >> #{basedir}aws/#{identifier}/subnetid.txt;
         echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;
         VPCCOMMAND=\"aws ec2 describe-subnets --query 'Subnets[? SubnetId==\\\`SUBNETID\\\` ].VpcId' --output text\";
         echo \"VPCCOMMAND = \"$VPCCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
@@ -403,6 +407,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         echo \"This is the command to be ran: \"$RESULTCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
         vpcid=`eval $RESULTCOMMAND`;
         echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;
+        echo $vpcid >> #{basedir}aws/#{identifier}/vpcid.txt;
         checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query 'InternetGateways[*].Attachments[? VpcId == \\\`VPCID\\\`].VpcId' --output text\";
         NEWSTRING=$vpcid;
         RESULTCOMMAND=\"${checkgatewayattachcommand/VPCID/$NEWSTRING}\";
@@ -411,6 +416,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         echo \"gatewayresult = \"$gatewayresult >> #{basedir}aws/#{identifier}/deploy.log;
         if [ -z \"$gatewayresult\" ];then exit 1;fi
       "
+    end
+    execute "checkzone" do
+      command "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
+    end
+    execute "showzonefile" do
+      command "cat #{basedir}aws/#{identifier}/ZONE.txt >> #{basedir}aws/#{identifier}/deploy.log"
     end
   end
 end
