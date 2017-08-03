@@ -397,6 +397,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);
         echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;
         VPCCOMMAND=\"aws ec2 describe-subnets --query 'Subnets[? SubnetId==\`SUBNETID\` ].VpcId' --output text\";
+        echo \"VPCCOMMAND = \"$VPCCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
         OLDSTRING='SUBNETID';
         NEWSTRING=$subnetid;
         RESULTCOMMAND=\"${OLDSTRING/NEWSTRING/$VPCCOMMAND}\";
