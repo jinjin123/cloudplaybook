@@ -403,6 +403,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         echo \"This is the command to be ran: \"$RESULTCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
         vpcid=`eval $RESULTCOMMAND`;
         echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;
+        checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query 'InternetGateways[*].Attachments[? VpcId == \\\`VPCID\\\`].VpcId' --output text\";
+        NEWSTRING=$vpcid;
+        RESULTCOMMAND=\"${checkgatewayattachcommand/VPCID/$NEWSTRING}\";
+        echo \"This is the command to be ran: \"$RESULTCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
+        gatewayresult=`eval $RESULTCOMMAND`;
+        echo \"gatewayresult = \"$gatewayresult
       "
     end
   end
