@@ -400,6 +400,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         OLDSTRING='SUBNETID';
         NEWSTRING=$subnetid;
         RESULTCOMMAND=\"${OLDSTRING/NEWSTRING/$VPCCOMMAND}\";
+        echo \"This is the command to be ran: \"$RESULTCOMMAND;
         vpcid=`eval $RESULTCOMMAND`;
         echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;
       "
