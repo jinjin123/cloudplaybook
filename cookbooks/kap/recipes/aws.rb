@@ -408,7 +408,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         RESULTCOMMAND=\"${checkgatewayattachcommand/VPCID/$NEWSTRING}\";
         echo \"This is the command to be ran: \"$RESULTCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
         gatewayresult=`eval $RESULTCOMMAND`;
-        echo \"gatewayresult = \"$gatewayresult
+        echo \"gatewayresult = \"$gatewayresult >> #{basedir}aws/#{identifier}/deploy.log;
+        if [ -z \"$gatewayresult\" ];then exit 1;fi
       "
     end
   end
