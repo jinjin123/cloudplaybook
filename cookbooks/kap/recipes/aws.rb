@@ -391,7 +391,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "APPLICATIONS=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Applications' --output text);echo \"Application lists = \"$APPLICATIONS >> #{basedir}aws/#{identifier}/deploy.log;for x in Hadoop Hive Pig Hue ZooKeeper Phoenix HCatalog HBase;do if [[ $APPLICATIONS != *\"$x\"* ]];then echo \"Application $x did not found\" >> #{basedir}aws/#{identifier}/deploy.log;exit 1;fi; done"
     end
     execute "checkvpcforgateway" do
-      command "subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId');vpccheckcommand=\"aws ec2 describe-subnets --query \'Subnets[? SubnetId==\`\"$subnetid\"\` ].VpcId\' --output text\";vpcid=eval $vpccheckcommand;checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query \'InternetGateways[*].Attachments[? VpcId == `\"$vpcid\"`].VpcId\' --output text\";gatewayresult=eval $checkgatewayattachcommand;if [ -z \"$gatewayresult\" ];exit 1;fi"
+      command "subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId');vpccheckcommand=\"aws ec2 describe-subnets --query \'Subnets[? SubnetId==\`$subnetid\` ].VpcId\' --output text\";vpcid=eval $vpccheckcommand;checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query \'InternetGateways[*].Attachments[? VpcId == \`$vpcid\`].VpcId\' --output text\";gatewayresult=eval $checkgatewayattachcommand;if [ -z \"$gatewayresult\" ];then exit 1;fi"
     end
   end
 end
