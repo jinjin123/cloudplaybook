@@ -49,6 +49,18 @@ else
   fi
   aws ec2 authorize-security-group-ingress --group-id $VpcSecurityGroup --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]'
   aws ec2 authorize-security-group-egress --group-id $VpcSecurityGroup  --ip-permissions '[{"IpProtocol": "all", "FromPort": 0, "ToPort": 65535, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]'
+  COMMAND="aws ec2 authorize-security-group-ingress --group-id $VpcSecurityGroup --ip-permissions '[{\"IpProtocol\": \"-1\", \"IpRanges\": [], \"UserIdGroupPairs\":[{\"GroupId\": \"$VpcSecurityGroup\"}] }]'"
+  eval $COMMAND
+
+  # Adding ingress into EMR Security Group
+  COMMAND="aws ec2 describe-security-groups --query 'SecurityGroups[? VpcId == \`VPCID\` ].[GroupName, GroupId]' --output text | grep ElasticMapReduce | awk {'print \$2'}"
+  RESULTCOMMAND=\"${COMMAND/VPCID/$VpcId}\";
+  eval GROUPLIST=\$$RESULTCOMMAND
+  for x in $GROUPLIST
+  do
+    COMMAND="aws ec2 authorize-security-group-ingress --group-id $x --ip-permissions '[{\"IpProtocol\": \"-1\", \"IpRanges\": [], \"UserIdGroupPairs\":[{\"GroupId\": \"$VpcSecurityGroup\"}] }]'"
+    eval $COMMAND
+  done
 fi
 
 echo "VpcId = "$VpcId

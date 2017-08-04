@@ -28,7 +28,7 @@ echo "Command to check current cluster = "$COMMAND >> /root/command.txt
 echo "Command result = "$CURRENTID >> /root/commandresult.txt
 
 # If EMR is exists then do not create
-if [ ! -z ${CURRENTID+x} ];then
+if [ -z "$CURRENTID" ];then
   CLUSTER_ID=`/usr/bin/aws emr create-cluster \
   --applications Name=Hadoop Name=Hive Name=Pig Name=Hue Name=HBase Name=ZooKeeper Name=Phoenix Name=HCatalog \
   --emrfs Consistent=true,RetryCount=5,RetryPeriod=30 \
@@ -91,7 +91,7 @@ SLAVE_SG_ID=`/usr/bin/aws ec2 describe-instances --instance-ids $SLAVE_instance_
 
 # Update EMR ip into Cookbook
 sed -i "s/default\[:kylin\]\[:emrserver\] =.*/default[:kylin][:emrserver] =\"$MASTER_IP\"/" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb
-sed -i "s/default\[:hadoop_files\]\[:emrserver\] =.*/default[:kylin][:emrserver] =\"$MASTER_IP\"/"  /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/attributes/default.rb
+sed -i "s/default\[:hadoop_files\]\[:emrserver\] =.*/default[:hadoop_files][:emrserver] =\"$MASTER_IP\"/"  /home/ec2-user/chef11/chef-repo/cookbooks/hadoop_files/attributes/default.rb
 
 # Update cookbooks
 cd /home/ec2-user/chef11/chef-repo
