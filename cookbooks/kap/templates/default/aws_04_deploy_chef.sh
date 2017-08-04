@@ -42,6 +42,11 @@ else
   ScalingSubnet=$SUBNETID
   # Creating new SecurityGroup for deployment
   VpcSecurityGroup=$(aws ec2 create-security-group --description "Open up SSH access and all ports to itself" --group-name "$ID-VpcSecurityGroup" --vpc-id $VpcId --output text)
+  if [ $? -ne 0 ]
+  then
+      echo "Creation of VpcSecurityGroup failed"
+      exit
+  fi
   aws ec2 authorize-security-group-ingress --group-id $VpcSecurityGroup --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]'
   aws ec2 authorize-security-group-egress --group-id $VpcSecurityGroup  --ip-permissions '[{"IpProtocol": "all", "FromPort": 0, "ToPort": 65535, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]'
 fi
