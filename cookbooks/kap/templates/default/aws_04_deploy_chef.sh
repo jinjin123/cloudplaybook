@@ -12,32 +12,38 @@ ADMINPASSWORD=`echo $VAR|cut -d ',' -f7`
 APPTYPE=`echo $VAR|cut -d ',' -f8`
 KYACCOUNTTOKEN=`echo $VAR|cut -d ',' -f9`
 INSTANCECOUNT=`echo $VAR|cut -d ',' -f10`
+VPCTODEPLOY=`echo $VAR|cut -d ',' -f11`
+SUBNETID=`echo $VAR|cut -d ',' -f12`
 
-###Need input VPC id here###
-#VPC_STACKNAME=`cat ./temp_vpc_id.txt`
-VPC_STACKNAME=$ID"-vpc"
-STACKOUTPUT=`aws cloudformation describe-stacks --stack-name $VPC_STACKNAME --region $REGION|grep OutputValue|sed 's/"OutputValue": "//g'| sed 's/ //g'|sed 's/"//g'`
-
-if [ $? -ne 0 ]
+if [ -z "$VPCTODEPLOY" ] && [ -z "$SUBNETID"];
 then
-    echo "Checking VPC status failed"
-    exit
-fi
+  ###Need input VPC id here###
+  #VPC_STACKNAME=`cat ./temp_vpc_id.txt`
+  VPC_STACKNAME=$ID"-vpc"
+  STACKOUTPUT=`aws cloudformation describe-stacks --stack-name $VPC_STACKNAME --region $REGION|grep OutputValue|sed 's/"OutputValue": "//g'| sed 's/ //g'|sed 's/"//g'`
 
-####################
-# DEFINE VARIABLE
-#ID="KYLIN-"`date +%Y%m%d%H%M%S`
-#AZ1=`./01_awscheck_zone.sh | head -1`
-#AZ2=`./01_awscheck_zone.sh | tail -1`
-#REGION=`cat ~/.aws/config | grep region | awk -F " " '{print $3}'`
-VpcSecurityGroup=sg-`echo ${STACKOUTPUT#*sg-} | cut -d" " -f1| cut -d"," -f1`
-VpcId=vpc-`echo ${STACKOUTPUT#*vpc-} | cut -d" " -f1| cut -d"," -f1`
-ScalingSubnet=subnet-`echo ${STACKOUTPUT#*subnet-} | cut -d":" -f1| cut -d"," -f1`
+  if [ $? -ne 0 ]
+  then
+      echo "Checking VPC status failed"
+      exit
+  fi
 
-if [ x$VpcId == x"vpc-" ]
-then
-    echo "Checking VPC status failed"
-    exit
+  VpcSecurityGroup=sg-`echo ${STACKOUTPUT#*sg-} | cut -d" " -f1| cut -d"," -f1`
+  VpcId=vpc-`echo ${STACKOUTPUT#*vpc-} | cut -d" " -f1| cut -d"," -f1`
+  ScalingSubnet=subnet-`echo ${STACKOUTPUT#*subnet-} | cut -d":" -f1| cut -d"," -f1`
+
+  if [ x$VpcId == x"vpc-" ]
+  then
+      echo "Checking VPC status failed"
+      exit
+  fi
+else
+  VpcId=$VPCTODEPLOY
+  ScalingSubnet=$SUBNETID
+  # Creating new SecurityGroup for deployment
+  VpcSecurityGroup=$(aws ec2 create-security-group --description "Open up SSH access and all ports to itself" --group-name "$ID-VpcSecurityGroup" --vpc-id $VpcId --output text)
+  aws ec2 authorize-security-group-ingress --group-id $VpcSecurityGroup --protocol tcp --port 22 --cidr 0.0.0.0/0
+  aws ec2 authorize-security-group-egress --group-id $VpcSecurityGroup  '[{"IpProtocol": "all", "FromPort": 0, "ToPort": 65535, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]'
 fi
 
 ####################
