@@ -24,6 +24,9 @@ COMMAND4="| grep Id| cut -d':' -f2|cut -d'\"' -f2"
 COMMAND=$COMMAND1\'$COMMAND2$ID$COMMAND3\'$COMMAND4
 CURRENTID=`eval $COMMAND`
 
+echo "Command to check current cluster = "$COMMAND >> /root/command.txt
+echo "Command result = "$CURRENTID >> /root/commandresult.txt
+
 # If EMR is exists then do not create
 if [ ! -z ${CURRENTID+x} ];then
   CLUSTER_ID=`/usr/bin/aws emr create-cluster \
