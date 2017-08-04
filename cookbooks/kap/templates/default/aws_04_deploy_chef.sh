@@ -61,6 +61,9 @@ else
     COMMAND="aws ec2 authorize-security-group-ingress --group-id $x --ip-permissions '[{\"IpProtocol\": \"-1\", \"IpRanges\": [], \"UserIdGroupPairs\":[{\"GroupId\": \"$VpcSecurityGroup\"}] }]'"
     eval $COMMAND
   done
+
+  # Putting DNS enable to be true, and forcing command result to be true
+  aws ec2 modify-vpc-attribute --vpc-id $VpcId --enable-dns-support "{\"Value\":true}" || true
 fi
 
 echo "VpcId = "$VpcId
