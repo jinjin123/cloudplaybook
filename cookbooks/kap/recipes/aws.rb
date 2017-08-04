@@ -398,7 +398,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       #command "subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;vpcid=$(aws ec2 describe-subnets --query \\\'Subnets[? SubnetId==\\\`$subnetid\\\` ].VpcId\\\' --output text);echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query \'InternetGateways[*].Attachments[? VpcId == \\\`$vpcid\\\`].VpcId\' --output text\";echo \"checkgatewayattachcommand = \"$checkgatewayattachcommand >> #{basedir}aws/#{identifier}/deploy.log;checkgatewayattachcommandgatewayresult=$($checkgatewayattachcommand);echo \"GatewayResult = \"$gatewayresult >> #{basedir}aws/#{identifier}/deploy.log;if [ -z \"$gatewayresult\" ];then exit 1;fi"
       command "
         subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);
-        echo $subnetid >> #{basedir}aws/#{identifier}/subnetid.txt;
+        echo $subnetid > #{basedir}aws/#{identifier}/subnetid.txt;
         echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;
         VPCCOMMAND=\"aws ec2 describe-subnets --query 'Subnets[? SubnetId==\\\`SUBNETID\\\` ].VpcId' --output text\";
         echo \"VPCCOMMAND = \"$VPCCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
@@ -407,7 +407,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         echo \"This is the command to be ran: \"$RESULTCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
         vpcid=`eval $RESULTCOMMAND`;
         echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;
-        echo $vpcid >> #{basedir}aws/#{identifier}/vpcid.txt;
+        echo $vpcid > #{basedir}aws/#{identifier}/vpcid.txt;
         checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query 'InternetGateways[*].Attachments[? VpcId == \\\`VPCID\\\`].VpcId' --output text\";
         NEWSTRING=$vpcid;
         RESULTCOMMAND=\"${checkgatewayattachcommand/VPCID/$NEWSTRING}\";
