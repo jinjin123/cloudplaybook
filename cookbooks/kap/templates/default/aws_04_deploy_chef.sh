@@ -45,6 +45,10 @@ else
   if [ $? -ne 0 ]
   then
       echo "Creation of VpcSecurityGroup failed"
+      echo "Using current VpcSecurityGroup"
+      COMMAND="aws ec2 describe-security-groups --query 'SecurityGroups[? GroupName == \`SECURITYGROUPNAME\` ].GroupId' --output text"
+      RESULTCOMMAND=\"${COMMAND/SECURITYGROUPNAME/$ID-VpcSecurityGroup}\";
+      VpcSecurityGroup=`eval $RESULTCOMMAND`
       # exit
   fi
   aws ec2 authorize-security-group-ingress --group-id $VpcSecurityGroup --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]' || true
