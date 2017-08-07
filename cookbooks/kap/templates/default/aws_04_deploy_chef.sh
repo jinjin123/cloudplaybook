@@ -45,7 +45,7 @@ else
   if [ $? -ne 0 ]
   then
       echo "Creation of VpcSecurityGroup failed"
-      exit
+      # exit
   fi
   aws ec2 authorize-security-group-ingress --group-id $VpcSecurityGroup --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]' || true
   aws ec2 authorize-security-group-egress --group-id $VpcSecurityGroup  --ip-permissions '[{"IpProtocol": "all", "FromPort": 0, "ToPort": 65535, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]' || true
