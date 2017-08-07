@@ -50,6 +50,7 @@ else
       RESULTCOMMAND=\"${COMMAND/SECURITYGROUPNAME/$ID-VpcSecurityGroup}\";
       echo "Result Command = "$RESULTCOMMAND
       # VpcSecurityGroup=$(eval $RESULTCOMMAND)
+      eval $RESULTCOMMAND 
       eval VpcSecurityGroup=\$$RESULTCOMMAND || true
       echo "VpcSecurityGroupID = "$VpcSecurityGroup
       # exit
