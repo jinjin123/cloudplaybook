@@ -320,6 +320,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap restart')\""
       ignore_failure true
     end
+    execute "startkap" do
+      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap start')\""
+      ignore_failure true
+    end
   elsif awsaction.eql?("resize")
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
@@ -444,5 +448,39 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap restart')\""
       ignore_failure true
     end
+    execute "startkap" do
+      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap start')\""
+      ignore_failure true
+    end
+  elsif awsaction.eql?("removekap")
+    execute "remove_cloudformation" do
+      command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done"
+    end
+    # execute "listandremovesecuritygroups" do
+    #   command "
+    #     subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);
+    #     echo $subnetid > #{basedir}aws/#{identifier}/subnetid.txt;
+    #     echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;
+    #     VPCCOMMAND=\"aws ec2 describe-subnets --query 'Subnets[? SubnetId==\\\`SUBNETID\\\` ].VpcId' --output text\";
+    #     echo \"VPCCOMMAND = \"$VPCCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
+    #     NEWSTRING=$subnetid;
+    #     RESULTCOMMAND=\"${VPCCOMMAND/SUBNETID/$NEWSTRING}\";
+    #     echo \"This is the command to be ran: \"$RESULTCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
+    #     vpcid=`eval $RESULTCOMMAND`;
+    #     echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;
+    #     echo $vpcid > #{basedir}aws/#{identifier}/vpcid.txt;
+    #     CHECKSECURITYGROUP=\'aws ec2 describe-security-groups --query 'SecurityGroups[? VpcId == `VPCID`].[GroupName,GroupId]' --output text\"
+    #     NEWSTRING=$vpcid;
+    #     RESULTCOMMAND=\"${CHECKSECURITYGROUP/VPCID/$NEWSTRING}\";
+    #     SGLIST=`eval $RESULTCOMMAND`;
+    #     for x in `echo $SGLIST| grep -v ElasticMapReduce| grep -v default| awk {'print $2'}`;
+    #       do
+    #         for y in `echo $SGLIST| grep ElasticMapReduce| awk {'print $2'}`;
+    #           do
+    #             aws ec2 revoke-security-group-egress --group-id $y
+    #           done
+    #       done
+    #   "
+    # end
   end
 end
