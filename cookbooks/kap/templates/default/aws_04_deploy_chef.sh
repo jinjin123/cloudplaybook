@@ -48,6 +48,7 @@ else
       echo "Using current VpcSecurityGroup"
       COMMAND="aws ec2 describe-security-groups --query 'SecurityGroups[? GroupName == \`SECURITYGROUPNAME\` ].GroupId' --output text"
       RESULTCOMMAND=\"${COMMAND/SECURITYGROUPNAME/$ID-VpcSecurityGroup}\";
+      echo "Result Command = "$RESULTCOMMAND
       VpcSecurityGroup=`eval $RESULTCOMMAND`
       # exit
   fi
