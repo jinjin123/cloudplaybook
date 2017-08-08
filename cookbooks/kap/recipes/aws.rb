@@ -422,6 +422,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
 
         COMMAND=\"aws ec2 describe-security-groups --query 'SecurityGroups[? GroupName == \`SECURITYGROUPNAME\` ].GroupId' --output text\"
         RESULTCOMMAND=\"${COMMAND/SECURITYGROUPNAME/#{identifier}-VpcSecurityGroup}\";
+        echo \"SecurityGroups checking command = \"$RESULTCOMMAND;
         securitygroupid=`eval $RESULTCOMMAND` || true;
         echo \"Checked security group id = \"$securitygroupid
         echo $securitygroupid > #{basedir}aws/#{identifier}/securitygroupid.txt
