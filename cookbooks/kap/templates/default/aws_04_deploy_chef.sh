@@ -51,7 +51,7 @@ else
       echo "Result Command = "$RESULTCOMMAND
       # VpcSecurityGroup=$(eval $RESULTCOMMAND)
       # eval $RESULTCOMMAND
-      eval VpcSecurityGroup=\$$RESULTCOMMAND
+      eval VpcSecurityGroup=\$"$RESULTCOMMAND"
       echo "VpcSecurityGroupID = "$VpcSecurityGroup
   fi
   aws ec2 authorize-security-group-ingress --group-id $VpcSecurityGroup --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]' || true
