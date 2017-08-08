@@ -260,19 +260,19 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 
   if awsaction.include?("create")
-    # # Running 01_awscheck_zone
-    # ruby_block "checkzone" do
-    #   block do
-    #       #tricky way to load this Chef::Mixin::ShellOut utilities
-    #       Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-    #       command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
-    #       command_out = shell_out(command)
-    #   end
-    #   action :create
-    # end
-    execute "checkzone" do
-      command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
+    # Running 01_awscheck_zone
+    ruby_block "checkzone" do
+      block do
+          #tricky way to load this Chef::Mixin::ShellOut utilities
+          Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+          command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
+          command_out = shell_out(command)
+      end
+      action :create
     end
+    # execute "checkzone" do
+    #   command = "#{basedir}aws/#{identifier}/scripts/01_awscheck_zone.sh #{region} > #{basedir}aws/#{identifier}/ZONE.txt"
+    # end
 
     # Running 03_deploy_vpc
     ruby_block "createvpc" do
