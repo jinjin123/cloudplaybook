@@ -419,7 +419,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         gatewayresult=`eval $RESULTCOMMAND`;
         echo \"gatewayresult = \"$gatewayresult >> #{basedir}aws/#{identifier}/deploy.log;
         echo \"Running of checking of security group id\";
-        COMMAND=\"aws ec2 describe-security-groups --query 'SecurityGroups[? GroupName == \`SECURITYGROUPNAME\` ].GroupId' --output text\";
+        COMMAND=\"aws ec2 describe-security-groups --query 'SecurityGroups[? GroupName == \\\`SECURITYGROUPNAME\\\` ].GroupId' --output text\";
         RESULTCOMMAND=\"${COMMAND/SECURITYGROUPNAME/#{identifier}-VpcSecurityGroup}\";
         echo \"SecurityGroups checking command = \"$RESULTCOMMAND;
         securitygroupid=`eval $RESULTCOMMAND` || true;
