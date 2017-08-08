@@ -14,6 +14,7 @@ KYACCOUNTTOKEN=`echo $VAR|cut -d ',' -f9`
 INSTANCECOUNT=`echo $VAR|cut -d ',' -f10`
 VPCTODEPLOY=`echo $VAR|cut -d ',' -f11`
 SUBNETID=`echo $VAR|cut -d ',' -f12`
+VPCSECURITYGROUP=`echo $VAR|cut -d ',' -f13`
 
 if [ -z "$VPCTODEPLOY" ] && [ -z "$SUBNETID"];
 then
@@ -41,23 +42,11 @@ else
   VpcId=$VPCTODEPLOY
   ScalingSubnet=$SUBNETID
   # Creating new SecurityGroup for deployment
-  VpcSecurityGroup=$(aws ec2 create-security-group --description "Open up SSH access and all ports to itself" --group-name "$ID-VpcSecurityGroup" --vpc-id $VpcId --output text)
-  if [ $? -ne 0 ]
+  if [ ! -z $VPCSECURITYGROUP ]
   then
-      echo "Creation of VpcSecurityGroup failed"
-      echo "Using current VpcSecurityGroup"
-      COMMAND="aws ec2 describe-security-groups --query 'SecurityGroups[? GroupName == \`SECURITYGROUPNAME\` ].GroupId' --output text"
-      RESULTCOMMAND=\"${COMMAND/SECURITYGROUPNAME/$ID-VpcSecurityGroup}\";
-      echo "Result Command = "$RESULTCOMMAND
-      # VpcSecurityGroup=$(eval $RESULTCOMMAND)
-      # eval $RESULTCOMMAND
-      A=${!RESULTCOMMAND}
-      eval VpcSecurityGroup=\$"$RESULTCOMMAND"
-      echo "VpcSecurityGroupID = "$VpcSecurityGroup
-      B=${!VpcSecurityGroup}
-
-      echo "A = "$A
-      echo "B = "$B
+    VpcSecurityGroup=$VPCSECURITYGROUP
+  else
+    VpcSecurityGroup=$(aws ec2 create-security-group --description "Open up SSH access and all ports to itself" --group-name "$ID-VpcSecurityGroup" --vpc-id $VpcId --output text)
   fi
   aws ec2 authorize-security-group-ingress --group-id $VpcSecurityGroup --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]' || true
   aws ec2 authorize-security-group-egress --group-id $VpcSecurityGroup  --ip-permissions '[{"IpProtocol": "all", "FromPort": 0, "ToPort": 65535, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}]' || true
