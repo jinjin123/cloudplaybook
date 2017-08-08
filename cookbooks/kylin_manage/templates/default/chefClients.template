@@ -803,7 +803,7 @@
                     }
                 ],
                 "HealthCheck": {
-                    "Timeout": "900",
+                    "Timeout": "60",
                     "Target": {
                         "Fn::Join": [
                             "",
