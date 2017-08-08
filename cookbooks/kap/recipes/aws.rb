@@ -418,7 +418,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         echo \"This is the command to be ran: \"$RESULTCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
         gatewayresult=`eval $RESULTCOMMAND`;
         echo \"gatewayresult = \"$gatewayresult >> #{basedir}aws/#{identifier}/deploy.log;
-        if [ -z \"$gatewayresult\" ];then exit 1;fi;
         echo \"Running of checking of security group id\";
         COMMAND=\"aws ec2 describe-security-groups --query 'SecurityGroups[? GroupName == \`SECURITYGROUPNAME\` ].GroupId' --output text\";
         RESULTCOMMAND=\"${COMMAND/SECURITYGROUPNAME/#{identifier}-VpcSecurityGroup}\";
