@@ -317,7 +317,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
     execute "restartkap" do
-      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap restart')\""
+      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap stop')\""
       ignore_failure true
     end
     execute "startkap" do
@@ -451,7 +451,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
     execute "restartkap" do
-      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap restart')\""
+      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap stop')\""
       ignore_failure true
     end
     execute "startkap" do
