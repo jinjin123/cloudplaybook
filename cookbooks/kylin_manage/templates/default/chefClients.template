@@ -815,7 +815,7 @@
                             ]
                         ]
                     },
-                    "Interval": "600",
+                    "Interval": "60",
                     "HealthyThreshold": "3",
                     "UnhealthyThreshold": "5"
                 }
