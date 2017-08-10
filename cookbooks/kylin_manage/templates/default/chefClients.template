@@ -816,8 +816,8 @@
                         ]
                     },
                     "Interval": "90",
-                    "HealthyThreshold": "3",
-                    "UnhealthyThreshold": "5"
+                    "HealthyThreshold": "10",
+                    "UnhealthyThreshold": "10"
                 }
             }
         },
