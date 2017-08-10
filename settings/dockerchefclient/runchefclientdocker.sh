@@ -35,7 +35,7 @@ if [[ $DEPLOYJSON == *"azure"* ]]; then
   -v /root/tools/code/azure/$IDENTIFIER/deploy.json:/etc/chef/deploy.json \
   -v /root/tools/code/azure/$IDENTIFIER/azure:/root/.azure \
   dockerpriv.kybot.io:5002/keithyau/chefclient:latest \
-  chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json
+  chef-client -o 'role[chefclient-kyligence-azure]' -j /etc/chef/deploy.json --log_level debug
 
   export RETURNCODE=$?
 else
