@@ -488,5 +488,11 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     #       done
     #   "
     # end
+
+  elsif awsaction.eql?("testing")
+    execute "startkap" do
+      command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap start'\)\"  >> #{basedir}aws/#{identifier}/deploy.log"
+      ignore_failure true
+    end
   end
 end
