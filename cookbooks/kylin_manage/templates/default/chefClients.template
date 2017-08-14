@@ -360,12 +360,12 @@
             "Properties": {
                 "PolicyDocument": {
                     "Version": "2008-10-17",
-                    "Id": "ReadPolicy",
+                    "Id": "BucketPolicyAccess",
                     "Statement": [
                         {
-                            "Sid": "ReadAccess",
+                            "Sid": "AllAccess",
                             "Action": [
-                                "s3:GetObject"
+                                "s3:*"
                             ],
                             "Effect": "Allow",
                             "Resource": {
