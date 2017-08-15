@@ -164,6 +164,226 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       group "root"
       action :create
     end
+  elsif scheme.eql?("allinonevnet")
+    clusterType1 = "hbase"
+    # Setting vnetName if not set
+    vnetName = "vnet#{kylin[:identifier]}"
+    if (not (defined?(kylin[:vnetName])).nil?) && (not "#{kylin[:vnetName]}" == "")
+      if ! kylin[:vnetName].eql?("default")
+        vnetName = kylin[:vnetName]
+      end
+    end
+    # Setting subnet1Name if not set
+    subnet1Name = "subnet1#{kylin[:identifier]}"
+    if (not (defined?(kylin[:subnet1Name])).nil?) && (not "#{kylin[:subnet1Name]}" == "")
+      if ! kylin[:subnet1Name].eql?("default")
+        subnet1Name = kylin[:subnet1Name]
+      end
+    end
+    # Setting subnet2Name if not set
+    subnet2Name = "subnet2#{kylin[:identifier]}"
+    if (not (defined?(kylin[:subnet2Name])).nil?) && (not "#{kylin[:subnet2Name]}" == "")
+      if ! kylin[:subnet2Name].eql?("default")
+        subnet2Name = kylin[:subnet2Name]
+      end
+    end
+    # Setting storageaccount1 if not set
+    storageaccount1 = "#{kylin[:identifier]}sa"
+    if (not (defined?(kylin[:storageaccount])).nil?) && (not "#{kylin[:storageaccount]}" == "")
+      if ! kylin[:storageaccount].eql?("default")
+        storageaccount1 = kylin[:storageaccount]
+      end
+    end
+    if (not (defined?(kylin[:storageaccount1])).nil?) && (not "#{kylin[:storageaccount1]}" == "")
+      if ! kylin[:storageaccount1].eql?("default")
+        storageaccount1 = kylin[:storageaccount1]
+      end
+    end
+    sqlvirtualMachinesname = "sqlvm#{kylin[:identifier][0...10]}"
+    if (not (defined?(kylin[:sqlvirtualMachinesname])).nil?) && (not "#{kylin[:sqlvirtualMachinesname]}" == "")
+      if ! kylin[:sqlvirtualMachinesname].eql?("default")
+        sqlvirtualMachinesname = kylin[:sqlvirtualMachinesname]
+      end
+    end
+
+    sqlnetworkInterfacesname = "sqlnetint#{kylin[:identifier]}"
+    if (not (defined?(kylin[:sqlnetworkInterfacesname])).nil?) && (not "#{kylin[:sqlnetworkInterfacesname]}" == "")
+      if ! kylin[:sqlnetworkInterfacesname].eql?("default")
+        sqlnetworkInterfacesname = kylin[:sqlnetworkInterfacesname]
+      end
+    end
+
+    sqlnetworkSecurityGroupsname = "sqlnetsg#{kylin[:identifier]}"
+    if (not (defined?(kylin[:sqlnetworkSecurityGroupsname])).nil?) && (not "#{kylin[:sqlnetworkSecurityGroupsname]}" == "")
+      if ! kylin[:sqlnetworkSecurityGroupsname].eql?("default")
+        sqlnetworkSecurityGroupsname = kylin[:sqlnetworkSecurityGroupsname]
+      end
+    end
+
+    sqlpublicIPAddressesipname = "sqlpublicip#{kylin[:identifier]}"
+    if (not (defined?(kylin[:sqlpublicIPAddressesipname])).nil?) && (not "#{kylin[:sqlpublicIPAddressesipname]}" == "")
+      if ! kylin[:sqlpublicIPAddressesipname].eql?("default")
+        sqlpublicIPAddressesipname = kylin[:sqlpublicIPAddressesipname]
+      end
+    end
+
+    sshUserName = "admintest"
+    if (not (defined?(kylin[:sshUserName])).nil?) && (not "#{kylin[:sshUserName]}" == "")
+      if ! kylin[:sshUserName].eql?("default")
+        sshUserName = kylin[:sshUserName]
+      end
+    end
+    sshPassword = "Kyligence2016"
+    if (not (defined?(kylin[:sshPassword])).nil?) && (not "#{kylin[:sshPassword]}" == "")
+      if ! kylin[:sshPassword].eql?("default")
+        sshPassword = kylin[:sshPassword]
+      end
+    end
+
+    clusterName = "cluster#{kylin[:identifier]}"
+    if (not (defined?(kylin[:clusterName])).nil?) && (not "#{kylin[:clusterName]}" == "")
+      if ! kylin[:clusterName].eql?("default")
+        clusterName = kylin[:clusterName]
+      end
+    end
+    containerName = "container#{kylin[:identifier]}"
+    if (not (defined?(kylin[:containerName])).nil?) && (not "#{kylin[:containerName]}" == "")
+      if ! kylin[:containerName].eql?("default")
+        containerName = kylin[:containerName]
+      end
+    end
+
+    metastoreName = "metastore#{kylin[:identifier]}"
+    if (not (defined?(kylin[:metastoreName])).nil?) && (not "#{kylin[:metastoreName]}" == "")
+      if ! kylin[:metastoreName].eql?("default")
+        metastoreName = kylin[:metastoreName]
+      end
+    end
+
+    # Creating vnet json
+    template "#{basedir}azure/#{identifier}/vnet.#{identifier}.json" do
+      source "vnet.json.erb"
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    template "#{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json" do
+      source "vnet.parameters.json.erb"
+      variables(
+        :vnetName => vnetName,
+        :subnet1Name  => subnet1Name,
+        :subnet2Name => subnet2Name
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
+    # Create storageAcount templates
+    template "#{basedir}azure/#{identifier}/storageaccount.#{identifier}.json" do
+      source "storageaccount.json.erb"
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    template "#{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json" do
+      source "storageaccount.parameters.json.erb"
+      variables(
+        :storageAccountName => storageaccount1
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    # Creating SQLserver
+    template "#{basedir}azure/#{identifier}/sqlserver.#{identifier}.json" do
+      source "sqlserver.json.erb"
+      variables(
+        :accountregion => accountregion,
+        :storageAccountName => storageaccount1
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
+    template "#{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json" do
+      source "sqlserver.parameters.json.erb"
+      variables(
+        :sqlvirtualMachinesname => sqlvirtualMachinesname,
+        :sqldatabaseName => clusterName,
+        :adminUsername => sshUserName,
+        :adminPassword => sshPassword
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
+    template "#{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json" do
+      source "separatedhdi.json.erb"
+      variables(
+        :accountregion => accountregion
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+    # Creating first cluster, hbase HDI node
+    template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
+      source "separatedhdi.parameters.json.erb"
+      variables(
+        :appType => kylin[:appType],
+        :clusterName  => clusterName,
+        :clusterLoginUserName => kylin[:clusterLoginUserName],
+        :clusterLoginPassword => kylin[:clusterLoginPassword],
+        :clusterType => clusterType1,
+        :clusterVersion => kylin[:clusterVersion],
+        :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
+        :containerName => containerName,
+        :edgeNodeSize => kylin[:edgeNodeSize],
+        :location => kylin[:region],
+        :metastoreName => metastoreName,
+        :sshUserName => sshUserName,
+        :sshPassword => sshPassword,
+        :storageAccount1 => storageaccount1,
+        :storageAccount2 => storageaccount2,
+        :sqlvirtualMachinesname => sqlvirtualMachinesname,
+        :vnetName => vnetName,
+        :subnet1Name => subnet1Name,
+        :databaseName => clusterName,
+        :kaptoken => kaptoken
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
+
   elsif scheme.eql?("separated")
 
     clusterType1 = "hbase"
@@ -570,6 +790,32 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         # notifies :run, 'execute[commit_docker]', :immediately
         #ignore_failure true
       end
+    elsif scheme.eql?("allinonevnet")
+      execute 'create_vnet' do
+        command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        #ignore_failure true
+      end
+      execute 'create_storageaccount1' do
+        command "azure group deployment create -g #{identifier} -n create_storageaccount1 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        #ignore_failure true
+      end
+      execute 'create_sqlserver' do
+        command "azure group deployment create -g #{identifier} -n create_sqlserver -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        #ignore_failure true
+      end
+      execute 'create_hdi1' do
+        command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        # notifies :run, 'execute[commit_docker]', :immediately
+        #ignore_failure true
+      end
+      execute 'config_hdi1' do
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{kylin[:appType]} #{clusterName} #{kaptoken}\" >> /root/.azure/azure.err"
+        #ignore_failure true
+      end
+
     elsif scheme.eql?("separated")
       execute 'create_vnet' do
         command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err"
