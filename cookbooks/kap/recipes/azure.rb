@@ -338,8 +338,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
 
-    template "#{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json" do
-      source "separatedhdi.json.erb"
+    template "#{basedir}azure/#{identifier}/singlehdi.#{identifier}.json" do
+      source "singlehdi.json.erb"
       variables(
         :accountregion => accountregion
       )
@@ -352,8 +352,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     # Creating first cluster, hbase HDI node
     storageaccount2 = ""
-    template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
-      source "separatedhdi.parameters.json.erb"
+    template "#{basedir}azure/#{identifier}/singlehdi.parameters.#{identifier}.json" do
+      source "singlehdi.parameters.json.erb"
       variables(
         :appType => kylin[:appType],
         :clusterName  => clusterName,
@@ -369,7 +369,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :sshUserName => sshUserName,
         :sshPassword => sshPassword,
         :storageAccount1 => storageaccount1,
-        :storageAccount2 => storageaccount2,
         :sqlvirtualMachinesname => sqlvirtualMachinesname,
         :vnetName => vnetName,
         :subnet1Name => subnet1Name,
@@ -808,7 +807,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         #ignore_failure true
       end
       execute 'create_hdi1' do
-        command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
+        command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/singlehdi.#{identifier}.json -e #{basedir}azure/#{identifier}/singlehdi.parameters.#{identifier}.json -vv >> /root/.azure/azure.err"
         # notifies :run, 'execute[commit_docker]', :immediately
         #ignore_failure true
       end
