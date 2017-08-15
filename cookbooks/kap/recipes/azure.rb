@@ -351,6 +351,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
     # Creating first cluster, hbase HDI node
+    storageaccount2 = ""
     template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
       source "separatedhdi.parameters.json.erb"
       variables(
