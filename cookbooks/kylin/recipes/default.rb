@@ -49,6 +49,13 @@ user 'hadoop' do
   ignore_failure true
 end
 
+template "/etc/init.d/kapagent" do
+  source 'kapagent.service'
+  owner 'root'
+  group 'root'
+  mode  '0755'
+end
+
 # Download and execute installation script
 remote_file "#{Chef::Config[:file_cache_path]}/install.sh" do
     # source node[:kylin][:kylin_tarball]
@@ -58,7 +65,7 @@ end
 
 execute "installkylin" do
     cwd "#{Chef::Config[:file_cache_path]}"
-    command "chmod 744 ./install.sh;./install.sh #{node[:kylin][:var_adminuser]} #{node[:kylin][:var_adminpassword]} #{node[:kylin][:var_apptype]} #{node[:kylin][:var_kyaccountToken]};"
+    command "chmod 744 ./install.sh;./install.sh #{node[:kylin][:var_adminuser]} #{node[:kylin][:var_adminpassword]} #{node[:kylin][:var_apptype]} #{node[:kylin][:var_kyaccountToken]} #{node[:kylin][:var_kapagentid]};"
 #    user 'hdfs'
 #    group 'root'
 end
@@ -96,6 +103,10 @@ end
 
 execute "Startkylin" do
     command 'chkconfig --level 345 kap;service kap restart'
+end
+
+execute "Startkapagent" do
+    command 'chkconfig --level 345 kapagent;service kapagent restart'
 end
 
 if (not (defined?(node[:kylin][:var_apptype])).nil?) && (not "#{node[:kylin][:var_apptype]}" == "")

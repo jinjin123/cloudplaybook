@@ -111,10 +111,14 @@
       "Type": "String"
     },
     "apptype":{
-      "Description": "cluster admin username to be deployed",
+      "Description": "Application type to be installed",
       "Type": "String"
     },
     "kyaccountToken":{
+      "Description": "kyaccountToken input",
+      "Type": "String"
+    },
+    "kapagentid": {
       "Description": "cluster admin username to be deployed",
       "Type": "String"
     },
@@ -731,6 +735,11 @@
                       "sed -i \"s/KYACCOUNTTOKEN/",
                       {
                         "Ref": "kyaccountToken"
+                      },
+                      "/g\" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb",
+                      "sed -i \"s/KAPAGENTID/",
+                      {
+                        "Ref": "kapagentid"
                       },
                       "/g\" /home/ec2-user/chef11/chef-repo/cookbooks/kylin/attributes/default.rb"
                     ]

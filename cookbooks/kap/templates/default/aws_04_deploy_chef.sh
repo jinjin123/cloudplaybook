@@ -11,10 +11,11 @@ ADMINUSER=`echo $VAR|cut -d ',' -f6`
 ADMINPASSWORD=`echo $VAR|cut -d ',' -f7`
 APPTYPE=`echo $VAR|cut -d ',' -f8`
 KYACCOUNTTOKEN=`echo $VAR|cut -d ',' -f9`
-INSTANCECOUNT=`echo $VAR|cut -d ',' -f10`
-VPCTODEPLOY=`echo $VAR|cut -d ',' -f11`
-SUBNETID=`echo $VAR|cut -d ',' -f12`
-VPCSECURITYGROUP=`echo $VAR|cut -d ',' -f13`
+KAPAGENTID=`echo $VAR|cut -d ',' -f10`
+INSTANCECOUNT=`echo $VAR|cut -d ',' -f11`
+VPCTODEPLOY=`echo $VAR|cut -d ',' -f12`
+SUBNETID=`echo $VAR|cut -d ',' -f13`
+VPCSECURITYGROUP=`echo $VAR|cut -d ',' -f14`
 
 if [ -z "$VPCTODEPLOY" ] && [ -z "$SUBNETID"];
 then
@@ -123,6 +124,7 @@ ParameterKey=adminuser,ParameterValue=$ADMINUSER \
 ParameterKey=adminpassword,ParameterValue=$ADMINPASSWORD \
 ParameterKey=apptype,ParameterValue=$APPTYPE \
 ParameterKey=kyaccountToken,ParameterValue=$KYACCOUNTTOKEN \
+ParameterKey=kapagentid,ParameterValue=$KAPAGENTID \
 ParameterKey=InstanceCount,ParameterValue=$INSTANCECOUNT \
 
 #####################

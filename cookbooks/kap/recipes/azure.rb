@@ -82,6 +82,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   if (not (defined?(kylin[:kaptoken])).nil?) && (not "#{kylin[:kaptoken]}" == "")
     kaptoken = kylin[:kaptoken]
   end
+  kapagentid = ""
+  if (not (defined?(kylin[:kapagentid])).nil?) && (not "#{kylin[:kapagentid]}" == "")
+    kapagentid = kylin[:kapagentid]
+  end
 
   # Check scheme that to be deployed
   if scheme.eql?("allinone")
@@ -155,7 +159,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :sshUserName => sshUserName,
         :sshPassword => sshPassword,
         :storageAccount => storageAccount,
-        :kaptoken => kaptoken
+        :kaptoken => kaptoken,
+        :kapagentid => kapagentid
       )
       mode 0644
       retries 3
@@ -373,7 +378,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :vnetName => vnetName,
         :subnet1Name => subnet1Name,
         :databaseName => clusterName,
-        :kaptoken => kaptoken
+        :kaptoken => kaptoken,
+        :kapagentid => kapagentid
       )
       mode 0644
       retries 3
@@ -630,7 +636,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :vnetName => vnetName,
         :subnet1Name => subnet1Name,
         :databaseName => clusterName,
-        :kaptoken => kaptoken
+        :kaptoken => kaptoken,
+        :kapagentid => kapagentid
       )
       mode 0644
       retries 3
@@ -662,7 +669,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :vnetName => vnetName,
         :subnet1Name => subnet1Name,
         :databaseName => clusterName,
-        :kaptoken => kaptoken
+        :kaptoken => kaptoken,
+        :kapagentid => kapagentid
       )
       mode 0644
       retries 3
@@ -812,7 +820,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         #ignore_failure true
       end
       execute 'config_hdi1' do
-        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{kylin[:appType]} #{clusterName} #{kaptoken}\" >> /root/.azure/azure.err"
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{kylin[:appType]} #{clusterName} #{kaptoken} #{kapagentid}\" >> /root/.azure/azure.err"
         #ignore_failure true
       end
 

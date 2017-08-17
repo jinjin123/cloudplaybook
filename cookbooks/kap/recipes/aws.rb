@@ -102,6 +102,11 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     kaptoken = kylin[:kaptoken]
   end
 
+  kapagentid = ""
+  if (not (defined?(kylin[:kapagentid])).nil?) && (not "#{kylin[:kapagentid]}" == "")
+    kapagentid = kylin[:kapagentid]
+  end
+
   ## Configuring default variable
   region = "cn-north-1"
   if (not (defined?(credentials[:region])).nil?) && (not "#{credentials[:region]}" == "")
@@ -290,7 +295,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       block do
           #tricky way to load this Chef::Mixin::ShellOut utilities
           Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{instancecount} >>  #{basedir}aws/#{identifier}/deploy.log"
+          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount} >>  #{basedir}aws/#{identifier}/deploy.log"
           command_out = shell_out(command, :timeout => 3600)
       end
       action :create
@@ -440,7 +445,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "cat #{basedir}aws/#{identifier}/ZONE.txt >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "rundeploychef" do
-      command "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{instancecount},`cat #{basedir}aws/#{identifier}/vpcid.txt`,`cat #{basedir}aws/#{identifier}/subnetid.txt`,`cat #{basedir}aws/#{identifier}/securitygroupid.txt` >> #{basedir}aws/#{identifier}/deploy.log"
+      command "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},`cat #{basedir}aws/#{identifier}/vpcid.txt`,`cat #{basedir}aws/#{identifier}/subnetid.txt`,`cat #{basedir}aws/#{identifier}/securitygroupid.txt` >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "checkcurrentemrnamebyidandrunintoemrcreate" do
       command "CLUSTERNAME=$(aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Id==`#{emrid}`].Name' --output text);echo #{emrid} > #{basedir}aws/#{identifier}/clusterID.txt;ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh $CLUSTERNAME\""
