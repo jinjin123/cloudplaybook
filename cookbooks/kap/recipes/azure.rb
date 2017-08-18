@@ -885,8 +885,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
   elsif azureaction.eql?("removeall")
+
     execute 'remove_resources_group' do
-      command "azure group delete #{identifier} -q >> /root/.azure/azure.err"
+      command "azure group show #{identifier} > /root/.azure/check.txt || true;NUM=`cat /root/.azure/check.txt| grep error | wc -l|xargs`;if [ \"$NUM\" -eq \"0\" ];then azure group delete #{identifier} -q >> /root/.azure/azure.err;else echo \"Resource group #{identifier} not exists\">> /root/.azure/azure.err;fi"
       # notifies :run, 'execute[commit_docker]', :immediately
       #ignore_failure true
     end
