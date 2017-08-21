@@ -306,10 +306,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
     end
-    # execute "runningwaitloop_foremr" do
-    #   command "CURRENSTATUS=\"\";while [ \"$CURRENSTATUS\" != \"RUNNING\" ]; do CURRENSTATUS=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep STATUS | head -1| awk {'print $2'});sleep 5;done"
-    #   ignore_failure true
-    # end
     execute "run_install" do
       command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype}\" >> #{basedir}aws/#{identifier}/deploy.log"
     end
@@ -321,20 +317,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "echo \"Start creating sample cube\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo /usr/local/kap/bin/sample.sh'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
       ignore_failure true
     end
-    # execute "stopkap" do
-    #   command "echo \"Stopping KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap stop'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    #   ignore_failure true
-    # end
-    # execute "startkap" do
-    #   #command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo /usr/local/kap/bin/kylin.sh start'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    #   command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap restart'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    # end
-    # execute "startkyanalyzer" do
-    #   command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kyanalyzer restart'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    # end
-    # execute "startzeppelin" do
-    #   command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service zeppelin restart'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    # end
   elsif awsaction.eql?("resize")
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
@@ -357,7 +339,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
     execute "remove_emr" do
-      command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` || true"
+      command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` || :"
       ignore_failure true
     end
     execute "runningwaitloop_foremr" do
@@ -366,7 +348,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif awsaction.eql?("removeall")
     execute "remove_cloudformation" do
-      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/check.txt || true;NUM=`cat #{basedir}aws/#{identifier}/check.txt| grep error | wc -l|xargs`;if [ \"$NUM\" -eq \"0\" ];then;for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi"
+      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/check.txt || :;NUM=`cat #{basedir}aws/#{identifier}/check.txt| grep error | wc -l|xargs`;if [ \"$NUM\" -eq \"0\" ];then;for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi"
     end
     execute "remove_s3" do
       command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket-`;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force >> #{basedir}aws/#{identifier}/deploy.log;done"
@@ -376,7 +358,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
     execute "remove_emr" do
-      command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` >> #{basedir}aws/#{identifier}/deploy.log || true"
+      command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` >> #{basedir}aws/#{identifier}/deploy.log || :"
       ignore_failure true
     end
     execute "runningwaitloop_forServers" do
@@ -389,7 +371,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       mode '0755'
     end
     execute "clearvpc" do
-      command "#{basedir}aws/#{identifier}/clearvpc.sh #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log || true"
+      command "#{basedir}aws/#{identifier}/clearvpc.sh #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log || :"
       ignore_failure true
     end
     execute "removingVPC" do
@@ -398,9 +380,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     execute "runningwaitloop_forVPC" do
       command "CURRENSTATUS=\"\";STATUS='0';while [ \"$STATUS\" != '1' ] && [ \"$CURRENSTATUS\" != \"DELETE_FAILED\" ]; do echo 'VPC status' >> #{basedir}aws/#{identifier}/deploy.log;CURRENSTATUS=$(aws cloudformation describe-stacks --stack-name #{identifier}-vpc --query 'Stacks[*].StackStatus' --output text);if [ $? -eq 0 ]; then STATUS='0'; else  STATUS='1'; fi;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log;sleep 5;done"
     end
-    # execute "removingVPCagain" do
-    #   command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log"
-    # end
   elsif awsaction.eql?("existing")
     execute "checkemrversion" do
       command "VERSION=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.ReleaseLabel'  --output text);echo \"VERSION = \"$VERSION >> #{basedir}aws/#{identifier}/deploy.log;MAINVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f1);MINORVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f2);echo \"MAINVERSION = \"$MAINVERSION >> #{basedir}aws/#{identifier}/deploy.log;echo \"MINORVERSION = \"$MINORVERSION >> #{basedir}aws/#{identifier}/deploy.log;if [ \"$MAINVERSION\" -lt '5' ];then echo 'Main version not match prerequisite';exit 1;fi;if [ \"$MINORVERSION\" -lt '5' ];then echo 'Version not match prerequisite, minimum EMR 5.5.0';exit 1;fi"
@@ -409,8 +388,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "APPLICATIONS=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Applications' --output text);echo \"Application lists = \"$APPLICATIONS >> #{basedir}aws/#{identifier}/deploy.log;for x in Hadoop Hive Pig Hue ZooKeeper Phoenix HCatalog HBase;do if [[ $APPLICATIONS != *\"$x\"* ]];then echo \"Application $x did not found\" >> #{basedir}aws/#{identifier}/deploy.log;exit 1;fi; done"
     end
     execute "checkvpcforgateway" do
-      # command "subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;vpccheckcommand=\"aws ec2 describe-subnets --query \'Subnets[? SubnetId==\\\`$subnetid\\\` ].VpcId\' --output text\";echo \"vpccheckcommand =\"$vpccheckcommand>> #{basedir}aws/#{identifier}/deploy.log;vpcid=$($vpccheckcommand);echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query \'InternetGateways[*].Attachments[? VpcId == \\\`$vpcid\\\`].VpcId\' --output text\";echo \"checkgatewayattachcommand = \"$checkgatewayattachcommand >> #{basedir}aws/#{identifier}/deploy.log;checkgatewayattachcommandgatewayresult=$($checkgatewayattachcommand);echo \"GatewayResult = \"$gatewayresult >> #{basedir}aws/#{identifier}/deploy.log;if [ -z \"$gatewayresult\" ];then exit 1;fi"
-      #command "subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;vpcid=$(aws ec2 describe-subnets --query \\\'Subnets[? SubnetId==\\\`$subnetid\\\` ].VpcId\\\' --output text);echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;checkgatewayattachcommand=\"aws ec2 describe-internet-gateways --query \'InternetGateways[*].Attachments[? VpcId == \\\`$vpcid\\\`].VpcId\' --output text\";echo \"checkgatewayattachcommand = \"$checkgatewayattachcommand >> #{basedir}aws/#{identifier}/deploy.log;checkgatewayattachcommandgatewayresult=$($checkgatewayattachcommand);echo \"GatewayResult = \"$gatewayresult >> #{basedir}aws/#{identifier}/deploy.log;if [ -z \"$gatewayresult\" ];then exit 1;fi"
       command "
         subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);
         echo $subnetid > #{basedir}aws/#{identifier}/subnetid.txt;
@@ -433,7 +410,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         COMMAND=\"aws ec2 describe-security-groups --query 'SecurityGroups[? GroupName == \\\`SECURITYGROUPNAME\\\` ].GroupId' --output text\";
         RESULTCOMMAND=\"${COMMAND/SECURITYGROUPNAME/#{identifier}-VpcSecurityGroup}\";
         echo \"SecurityGroups checking command = \"$RESULTCOMMAND;
-        securitygroupid=`eval $RESULTCOMMAND` || true;
+        securitygroupid=`eval $RESULTCOMMAND` || :;
         echo \"Checked security group id = \"$securitygroupid;
         echo $securitygroupid > #{basedir}aws/#{identifier}/securitygroupid.txt;
       "
@@ -461,54 +438,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "echo \"Start creating sample cube\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo /usr/local/kap/bin/sample.sh'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
       ignore_failure true
     end
-    # execute "stopkap" do
-    #   command "echo \"Stopping KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap stop'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    #   ignore_failure true
-    # end
-    # execute "startkap" do
-    #   #command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo /usr/local/kap/bin/kylin.sh start'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    #   command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap restart'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    # end
-    # execute "startkyanalyzer" do
-    #   command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kyanalyzer restart'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    # end
-    # execute "startzeppelin" do
-    #   command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service zeppelin restart'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
-    # end
   elsif awsaction.eql?("removekap")
     execute "remove_cloudformation" do
       command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done"
     end
-    # execute "listandremovesecuritygroups" do
-    #   command "
-    #     subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);
-    #     echo $subnetid > #{basedir}aws/#{identifier}/subnetid.txt;
-    #     echo \"Subnetid = \"$subnetid >> #{basedir}aws/#{identifier}/deploy.log;
-    #     VPCCOMMAND=\"aws ec2 describe-subnets --query 'Subnets[? SubnetId==\\\`SUBNETID\\\` ].VpcId' --output text\";
-    #     echo \"VPCCOMMAND = \"$VPCCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
-    #     NEWSTRING=$subnetid;
-    #     RESULTCOMMAND=\"${VPCCOMMAND/SUBNETID/$NEWSTRING}\";
-    #     echo \"This is the command to be ran: \"$RESULTCOMMAND >> #{basedir}aws/#{identifier}/deploy.log;
-    #     vpcid=`eval $RESULTCOMMAND`;
-    #     echo \"Vpcid = \"$vpcid >> #{basedir}aws/#{identifier}/deploy.log;
-    #     echo $vpcid > #{basedir}aws/#{identifier}/vpcid.txt;
-    #     CHECKSECURITYGROUP=\'aws ec2 describe-security-groups --query 'SecurityGroups[? VpcId == `VPCID`].[GroupName,GroupId]' --output text\"
-    #     NEWSTRING=$vpcid;
-    #     RESULTCOMMAND=\"${CHECKSECURITYGROUP/VPCID/$NEWSTRING}\";
-    #     SGLIST=`eval $RESULTCOMMAND`;
-    #     for x in `echo $SGLIST| grep -v ElasticMapReduce| grep -v default| awk {'print $2'}`;
-    #       do
-    #         for y in `echo $SGLIST| grep ElasticMapReduce| awk {'print $2'}`;
-    #           do
-    #             aws ec2 revoke-security-group-egress --group-id $y
-    #           done
-    #       done
-    #   "
-    # end
 
   elsif awsaction.eql?("testing")
     execute "startkap" do
-      #command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo /usr/local/kap/bin/kylin.sh start'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
       command "echo \"Starting KAP\" >> #{basedir}aws/#{identifier}/deploy.log;n=0;until [ $n -ge 5 ];do ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo service kap restart'\)\"  >> #{basedir}aws/#{identifier}/deploy.log && break;n=$[$n+1];sleep 15;done"
     end
     execute "startkyanalyzer" do
