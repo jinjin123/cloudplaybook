@@ -1,11 +1,12 @@
 #!/bin/bash
 
-./runchefclientdocker.sh kycloud20170627aws '
+./runchefclientdocker.sh kycloud20170802000 '
 {
     "deploycode": {
       "basedirectory": "/root/tools/code/",
       "configuration": {
         "aws": {
+          "action": "removeall",
           "credentials": {
             "awskey": "AKIAJZXGXX235NVY4QSQ",
             "awssecret": "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",
@@ -13,34 +14,37 @@
           },
           "kylin": {
             "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
-            "identifier": "kycloud20170627awsglobal",
+            "identifier": "kycloud20170802000",
             "region": "ap-southeast-1",
             "appType": "KAP+KyAnalyzer+Zeppelin",
             "keypair": "kylin",
             "keypairprivatekey": "-----BEGIN RSA PRIVATE KEY-----
-MIIEpAIBAAKCAQEAtSiICsAN2TNdi5lBGeF2KdvOR2mwO7fP3JZ3jr2ct7VsqZMvT7lyRiRjEgvC
-tSJWuiXpTVUZsEVie8Kji4PDR0C1y3CdNzp7oP2+/88u6xDnPb9TDk8fIFKv69zVdXuwTQ8mHgkk
-BL9NjnZgfGLBwEXkEBBRdNBKUA7XjMJjlp5NCnJVKTxJO42f5TK3xn8ge8F3QvDF4SyaEoyc98CI
-X7O74zombSQ8cc73/eEhkxfNGguLw6DWmcCeLUVfjaGSTi/yrcERtpLeKObB+DsCmUkzT0SA9k4B
-UnCm1H0YUL3ujA1OXQDHbVgenqSFKgEEzdgo1GaWaaMCSKsIsKSrGwIDAQABAoIBAQCEXUoReMRl
-mCdYkbDEhT0+VnGBMlLnP2XsSjCvJhH1FOWBfZ6LBPffEkUk8Vzh1mZB+uNdcrmjVv8faFbw4GR1
-km2CaRUmPmAIgH7nEG26qY4cSsgX423dwyzxDFkXTznBBDmYppsfsNutJQdYuxvQLgD2T8YEsRAr
-ML0EByCW8nab08F07+4KTEGfeITUcm+AqxHBSmZZjhPTus+AyS9HDdwD0kt06UJCrOaCp8/Z5L9Z
-mvjk9MP+LeyPUz1W5NPCTVSYZVNaQ+LdifDpbjf9kvSERLsTNp4JDRKBDwoGv8wLW4XvXXWfIjmg
-TzWcuVxA8vJzuCvSdY7ZsABvDZeZAoGBANuBGkuHLiYEQlxNwd9sPwG3J+YLnyeXQ2qP5q/IMNae
-VQ6UnNocWKgHf/Q+i8fMBVbb1SGfPphFiRG/hDtgOykcfnbSEcy8ZOA/Iv6c64SeiU/ub27YZUml
-PwDZwbDIR3g54PjdCo+lJd0IYSLrQ7mQIuPJ4pXeLrN6toaQx0DFAoGBANNHSPcgVvfaKwAf7VK1
-uhT9RBMoURSNC6JTOtTTWO2aqF4qHVusiVsuCQ8zgjk3QfjEZiRtxwS9mb900VpE1i3gw07zt0o9
-dEg/vK6ye+fVjobbUmCM5YekqpB+GZInVGMRlrh7+LF3vNnSIrKoIMkleRNJTCHOGOiVwH1cWzpf
-AoGBALqCmlsuw7Gd0N0pXOCA05CblhVMLrGvP6NeHn+iNI1H/7Hh6N0TVOmBZeGc+5yK6MaDCDgH
-XWJ5QxyHhM4G2H34LiS8Hk++jGBWhV+e6ifHpZj7WkfvKzFGbaBFZuTVaJTpaRVMjFq90sxbAF5x
-VRxpMpwmwJbjMP9j94+jmQqZAoGAHkco/cF0tTBe2TW6HRBOCpQBHX25oOhVsn2bAMUJCYQQfO4s
-JucjCB4gzjzjfK+elLgQq0fQLa2+SuHC3tzelNSRKM9khQ8pivEXaTHK7/563niv5YZLnpTKnMp1
-f6yDO29Z2jZp/YTbW5vxvQi7KhhksY7fijiu+SX83/pMWKECgYAtV6iAPkWQYkexklKZLGNOGgFn
-3W1cMAMJA/UXjx/oYlg3wPeziTEHlNbzm4oDYN1h8BP+sRMVv1AwGvkjd+/QK64JYHQ2pkVxv1jT
-XFy/2fQLYOkmVgTuklRlLkEd4m+tAnkHOhP0KHe9cEAq8DqufEsCh26I3rT2vJihKaCKCw==
------END RSA PRIVATE KEY-----",
-            "edgeNodeSize": "Standard_D3_V2"
+MIIEowIBAAKCAQEAqRgw8Sxit/3B/vaCSXlN61DLBaUP3Ifj2BU2doCk5d1zRRkR
+7LY/Q0RoKHyREnad7sUY4BbK2LjXxVMN3H04KFonFefQ2XImPlFlDot+SvXZzZEd
+b3VJxZwBmBu7nWQoQBFSZ1JXMiOBTzyjEbijhluE2MSBs4plu0gncd5nl5XSCwX8
+oQ5MYtEGwyo9bH+CB21SdieM7NupIWu+Sh4V57DMzbztZjAL+pWYPEmoRmynArSp
+A22q0raISj3oxIBJKeS7GRRu8sPYzR3sCrGaz/Yn0CAi0bvcG6/xAAZ5pGO7l0bZ
+LW3I8SR9RINvlQTg4nSy6xXi5HE4XY7UNmmIsQIDAQABAoIBAEQRDdp3QIHJ7yZ/
++nAzGU+JJUBvclQWi3v3BgZrwHUbUIRXFCUSM6MTTU5G3mrtPqPXySyjYCIfPhQb
+W7AO4+UybRtfRm3Ril15jFFvi3YHQxaBvLSaJQkbxHSDbWFs6NrpXh9jQOBY9Ht9
+8DJ4/bJe8roDWCZ6pnreD6rBmTemGu67yktWlLqN4YKdeM0GkQjYZVngpHJg1Qpx
+aBDGqxmPEG2KCYfQDZqm24L6JUMQTeuUEWe7v287MDFB42HE/eNVTTMhpxgZF0/X
+RTiiE5l1u6smeEN3i+qSPHjlSDspKnz0Fg7dAYpe6non0Ei9ZxhO7S5yMHoo/Mqa
+jsKCnTECgYEA1CfHABbTOam9GJnRglwleb3SSwGV9q8sr9bWLWr8KySZguOEHcLe
+8mje0xne/XAydaecPVld3mWbIggvYFvm5wr0nFFMsley4Thdg2FuQ6owU9jyVUOB
+a/gsFq57nLoEJHk2quASZJxyJy2M8dlLS2jCOJ1C8dCT4F6N3/+QX50CgYEAzAo/
+uUVacgO0fcZ0K2He/FQIfOFXIwaU7KAA+Vow3z3ESntKoHprLhiOPCyoXN0QJ8n0
+FtCatYFzPscswSQnTpLtb9BcJZXkbAd3UWvQkcsEpm+LoF/kzAO+KddVTjvm9EO3
++0UCz3B+eFqJ0m8JoibLzOGLLoUHEjqIumg6YyUCgYBY7b+FswuhPRwthrSCbzuq
+Nz5CAI0q1SznHCe07AZ90x6h9dp4Wyn29KyKUmrdUz1jgfmE4cPuKCsJ7eJmAr/c
+EwSLzaxXiVlK/MR+AMYmiN0vGF4kDWLfrixU6ZiZDoQUAdc/cyNilw1mjLpq2gms
+t2HKN2lLUYHa5+eSgF61JQKBgDALmcW+lvWR+cZEHMa6XQ99miINzb7ppdeyNYiB
+vFBU8wu2zHPNX7+S+KsiuOJlC5DS9S8KH+Ptf32g2OEB6l+OKWrS3V/cU9U8TNRX
+Vt19uLKYQYCaE/4WQ4kGs4egg1mxOHlqXqcKDj241AtBKjuMdyDfWy6xFGEud1Ot
+h1IhAoGBAJj0AZ28ELENmK3bYeXrhL6ai3zh6ZnWfj7dO9+OQPGQe+NqugXo3z2B
+f4Td1ScVCq/mpsGtN/rh00q1+l+PTukRpk5ZkfqGb4c4/OUwb6NToznFTPlYqXf7
+n8pQmzUCissZFP2YTsz4D8GmLXDKdz0LnwL7MAR90v1GkG+oQkiJ
+-----END RSA PRIVATE KEY-----"
           }
         }
       }
