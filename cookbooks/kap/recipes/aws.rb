@@ -348,7 +348,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   elsif awsaction.eql?("removeall")
     execute "remove_cloudformation" do
-      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/check.txt || :;NUM=`cat #{basedir}aws/#{identifier}/check.txt| grep error | wc -l|xargs`;if [ \"$NUM\" -eq \"0\" ];then for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi"
+      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/check.txt || :;NUM=`cat #{basedir}aws/#{identifier}/check.txt| grep error | wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi"
     end
     execute "remove_s3" do
       command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket-`;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force >> #{basedir}aws/#{identifier}/deploy.log;done"
