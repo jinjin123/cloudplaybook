@@ -347,22 +347,25 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       ignore_failure true
     end
   elsif awsaction.eql?("removeall")
-    execute "remove_cloudformation" do
-      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/check.txt || :;NUM=`cat #{basedir}aws/#{identifier}/check.txt| grep error | wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;exit 1;fi"
+    execute "remove_chefservercloudformation" do
+      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/checkchefserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkchefserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -chefserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi"
+    end
+    execute "remove_kylinservercloudformation" do
+      command "aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver > #{basedir}aws/#{identifier}/checkkylinserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkkylinserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-kylinserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi"
     end
     execute "remove_s3" do
-      command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket-`;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force >> #{basedir}aws/#{identifier}/deploy.log;done"
+      command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket- || : `;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force >> #{basedir}aws/#{identifier}/deploy.log;done"
     end
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
       ignore_failure true
     end
     execute "remove_emr" do
-      command "aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` >> #{basedir}aws/#{identifier}/deploy.log || :"
+      command "NUM=`cat #{basedir}aws/#{identifier}/clusterID.txt| wc -l`;if [ \"$NUM\" -ne \"0\" ];then aws emr terminate-clusters --cluster-ids `cat #{basedir}aws/#{identifier}/clusterID.txt` >> #{basedir}aws/#{identifier}/deploy.log || :;fi"
       ignore_failure true
     end
     execute "runningwaitloop_forServers" do
-      command "STATUS='00';while [ \"$STATUS\" != '11' ]; do echo 'ChefServer status' >>  #{basedir}aws/#{identifier}/deploy.log; aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].StackStatus' --output text >>  #{basedir}aws/#{identifier}/deploy.log; if [ $? -eq 0 ]; then STATUSchefserver='0'; else  STATUSchefserver='1'; fi; echo 'KylinServer status'>>  #{basedir}aws/#{identifier}/deploy.log; aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver --query 'Stacks[*].StackStatus' --output text >>  #{basedir}aws/#{identifier}/deploy.log; if [ $? -eq 0 ]; then STATUSkylinserver='0'; else  STATUSkylinserver='1'; fi; STATUS=$STATUSchefserver$STATUSkylinserver;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log; sleep 10; done"
+      command "NUM1=`cat #{basedir}aws/#{identifier}/checkchefserver.txt| wc -l|xargs`;if [ \"$NUM1\" -ne \"0\" ];then NUM2=`cat #{basedir}aws/#{identifier}/checkkylinserver.txt| wc -l|xargs`;if [ \"$NUM2\" -ne \"0\" ];then STATUS='00';while [ \"$STATUS\" != '11' ]; do echo 'ChefServer status' >>  #{basedir}aws/#{identifier}/deploy.log; aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].StackStatus' --output text >>  #{basedir}aws/#{identifier}/deploy.log; if [ $? -eq 0 ]; then STATUSchefserver='0'; else  STATUSchefserver='1'; fi; echo 'KylinServer status'>>  #{basedir}aws/#{identifier}/deploy.log; aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver --query 'Stacks[*].StackStatus' --output text >>  #{basedir}aws/#{identifier}/deploy.log; if [ $? -eq 0 ]; then STATUSkylinserver='0'; else  STATUSkylinserver='1'; fi; STATUS=$STATUSchefserver$STATUSkylinserver;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log; sleep 10; done;fi;fi"
     end
     template "#{basedir}aws/#{identifier}/clearvpc.sh" do
       source 'clearvpc.sh'
@@ -374,9 +377,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "#{basedir}aws/#{identifier}/clearvpc.sh #{identifier}-vpc >>  #{basedir}aws/#{identifier}/deploy.log || :"
       ignore_failure true
     end
-    execute "removingVPC" do
-      command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >> #{basedir}aws/#{identifier}/deploy.log"
-    end
+    # execute "removingVPC" do
+    #   command "aws cloudformation delete-stack --stack-name #{identifier}-vpc >> #{basedir}aws/#{identifier}/deploy.log"
+    # end
     execute "runningwaitloop_forVPC" do
       command "CURRENSTATUS=\"\";STATUS='0';while [ \"$STATUS\" != '1' ] && [ \"$CURRENSTATUS\" != \"DELETE_FAILED\" ]; do echo 'VPC status' >> #{basedir}aws/#{identifier}/deploy.log;CURRENSTATUS=$(aws cloudformation describe-stacks --stack-name #{identifier}-vpc --query 'Stacks[*].StackStatus' --output text);if [ $? -eq 0 ]; then STATUS='0'; else  STATUS='1'; fi;echo 'Status = '$STATUS >>  #{basedir}aws/#{identifier}/deploy.log;sleep 5;done"
     end
