@@ -32,3 +32,7 @@ do
 done
 
 aws ec2 delete-vpc --vpc-id `aws cloudformation describe-stacks --stack-name $VPCSTACKNAME --query 'Stacks[*].Outputs[*]' --output text|grep VpcId|  awk {'print $NF'}`
+
+sleep 10
+
+aws cloudformation delete-stack --stack-name $VPCSTACKNAME
