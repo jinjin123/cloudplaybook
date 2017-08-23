@@ -17,18 +17,41 @@
 #         command "yum install -y glusterfs-fuse"
 #         action :nothing
 # end
-execute "installglusterlibs" do
-  command "rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-libs-3.11.3-1.el6.x86_64.rpm"
+
+ruby_block "check_docker" do
+  block do
+  #tricky way to load this Chef::Mixin::ShellOut utilities
+    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+    command = 'yum list installed | grep gluster| wc -l'
+    command_out = shell_out(command)
+    node.set['gluster'] = command_out.stdout
+  end
+  action :create
 end
 
-execute "installgluster" do
-  command "rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-3.11.3-1.el6.x86_64.rpm"
+ruby_block 'checked_gluster_notexists' do
+  block do
+    if not node['gluster'].to_i == 0
+      system("rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-libs-3.11.3-1.el6.x86_64.rpm")
+      system("rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-3.11.3-1.el6.x86_64.rpm")
+      system("rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-client-xlators-3.11.3-1.el6.x86_64.rpm")
+      system("rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-fuse-3.11.3-1.el6.x86_64.rpm")
+    end
+  end
 end
 
-execute 'installglusterfs-client-xlators' do
-  command 'rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-client-xlators-3.11.3-1.el6.x86_64.rpm'
-end
-
-execute "installglusterfuse" do
-  command "rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-fuse-3.11.3-1.el6.x86_64.rpm"
-end
+# execute "installglusterlibs" do
+#   command "rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-libs-3.11.3-1.el6.x86_64.rpm"
+# end
+#
+# execute "installgluster" do
+#   command "rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-3.11.3-1.el6.x86_64.rpm"
+# end
+#
+# execute 'installglusterfs-client-xlators' do
+#   command 'rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-client-xlators-3.11.3-1.el6.x86_64.rpm'
+# end
+#
+# execute "installglusterfuse" do
+#   command "rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-fuse-3.11.3-1.el6.x86_64.rpm"
+# end
