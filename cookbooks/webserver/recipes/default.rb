@@ -37,16 +37,20 @@ ruby_block "check_docker" do
   action :create
 end
 
-ruby_block 'install_docker_iffail' do
-  block do
-    if not node['docker_exists'].to_i > 0
-      resources(:yum_package => "docker").run_action(:install)
-    end
-  end
-end
-
-yum_package 'docker' do
-  action :nothing
+# ruby_block 'install_docker_iffail' do
+#   block do
+#     if not node['docker_exists'].to_i > 0
+#       resources(:yum_package => "docker").run_action(:install)
+#     end
+#   end
+# end
+#
+# yum_package 'docker' do
+#   action :nothing
+# end
+execute 'installdocker' do
+  command 'yum install -y docker'
+  action :run
 end
 
 # Start cgconfig service to meet docker prerequisite
