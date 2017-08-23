@@ -18,7 +18,7 @@
 #         action :nothing
 # end
 
-ruby_block "check_docker" do
+ruby_block "check_gluster" do
   block do
   #tricky way to load this Chef::Mixin::ShellOut utilities
     Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
@@ -31,7 +31,7 @@ end
 
 ruby_block 'checked_gluster_notexists' do
   block do
-    if not node['gluster'].to_i == 0
+    if node['gluster'].to_i == 0
       system("rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-libs-3.11.3-1.el6.x86_64.rpm")
       system("rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-3.11.3-1.el6.x86_64.rpm")
       system("rpm -ivh https://buildlogs.centos.org/centos/6/storage/x86_64/gluster-3.11/glusterfs-client-xlators-3.11.3-1.el6.x86_64.rpm")
