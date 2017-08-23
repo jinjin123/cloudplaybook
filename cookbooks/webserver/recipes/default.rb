@@ -48,10 +48,13 @@ end
 # yum_package 'docker' do
 #   action :nothing
 # end
-execute 'installdocker' do
-  command 'yum install -y docker'
-  action :run
-end
+ruby_block 'install_docker_iffail' do
+    block do
+      if not node['docker_exists'].to_i > 0
+        system("yum install -y docker")
+      end
+    end
+  end
 
 # Start cgconfig service to meet docker prerequisite
 # (only run in amazon) as centos normally dont use systemvinit now
