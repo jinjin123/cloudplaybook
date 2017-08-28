@@ -32,7 +32,7 @@ start)
 	echo "Saving PID" $PID " to " $PIDFILE
 
         if [ ! -z "LC_CTYPE" ]; then
-            echo "Setting LC_CTYPE env variable to be en_US.utf-8";export LC_CTYPE="en_US.utf-8";export KYLIN_HOME="/usr/local/kap/"
+            echo "Setting LC_CTYPE env variable to be en_US.utf-8";export LC_CTYPE="en_US.utf-8";export KYLIN_HOME="/usr/local/kap"
         fi
 
         eval $COMMAND
