@@ -572,7 +572,7 @@
                                 "cwd": "/home/ec2-user"
                             },
                             "09installchefclient": {
-                                "command": "wget -O ./chef-12.21.3-1.el6.x86_64.rpm http://kycloudpackages.cn-sh2.ufileos.com/chef-12.21.3-1.el6.x86_64.rpm;rpm -ivh /home/ec2-user/tools/chef-12.21.3-1.el6.x86_64.rpm",
+                                "command": "wget -O ./chef-12.21.3-1.el6.x86_64.rpm https://kyhub.blob.core.chinacloudapi.cn/packages/chef/chef-12.21.3-1.el6.x86_64.rpm;rpm -ivh /home/ec2-user/tools/chef-12.21.3-1.el6.x86_64.rpm",
                                 "cwd": "/home/ec2-user/tools"
                             },
                             "10installec2metadata": {

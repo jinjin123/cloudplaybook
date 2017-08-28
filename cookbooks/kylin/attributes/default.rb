@@ -2,6 +2,7 @@
 default[:kylin][:code_owner] = "hdfs"
 default[:kylin][:code_group] = "hdfs"
 default[:kylin][:installscript] = 'https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install-aws_v0.sh'
+default[:kylin][:kyanalyzerjarlib] = 'https://kyhub.blob.core.chinacloudapi.cn/packages/jarlib/mondrian-kylin-2.0.jar'
 default[:kylin][:var_adminuser] = "ADMINUSER"
 default[:kylin][:var_adminpassword] = "ADMINPASSWORD"
 default[:kylin][:var_apptype] = "APPTYPE"
