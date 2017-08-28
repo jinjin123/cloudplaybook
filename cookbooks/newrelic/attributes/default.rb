@@ -9,7 +9,7 @@
 # BASIC CONFIG
 ##############
 # license(s), all default to node['newrelic']['license']
-default['newrelic']['license'] = '7b594fa2067ea81aa489d399aab50b5385b27624'
+default['newrelic']['license'] = nil
 default['newrelic']['server_monitoring']['license'] = nil
 default['newrelic']['application_monitoring']['license'] = nil
 default['newrelic']['api_key'] = nil
@@ -32,13 +32,14 @@ default['newrelic']['server_monitoring']['hostname'] = nil
 default['newrelic']['server_monitoring']['pidfile'] = nil
 default['newrelic']['server_monitoring']['collector_host'] = nil
 default['newrelic']['server_monitoring']['timeout'] = nil
+default['newrelic']['server_monitoring']['other_options'] = {}
 
 # application monitoring
 default['newrelic']['application_monitoring']['enabled'] = nil
 default['newrelic']['application_monitoring']['logfile'] = nil
 default['newrelic']['application_monitoring']['logfile_path'] = nil
 default['newrelic']['application_monitoring']['loglevel'] = nil
-default['newrelic']['application_monitoring']['app_name'] = 'kybot'
+default['newrelic']['application_monitoring']['app_name'] = nil
 default['newrelic']['application_monitoring']['high_security'] = nil
 default['newrelic']['application_monitoring']['daemon']['logfile'] = '/var/log/newrelic/newrelic-daemon.log'
 default['newrelic']['application_monitoring']['daemon']['loglevel'] = nil

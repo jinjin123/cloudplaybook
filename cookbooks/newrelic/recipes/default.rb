@@ -6,3 +6,4 @@
 #
 
 include_recipe 'newrelic::server_monitor_agent'
+#include_recipe 'newrelic::server_monitor_agent_uninstall'
