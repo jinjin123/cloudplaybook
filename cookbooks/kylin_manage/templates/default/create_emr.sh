@@ -4,8 +4,14 @@ echo "Running create_emr.sh"
 
 # Taking Parameters
 CLUSTERNAME=$1
-if [ -z ${CLUSTERNAME+x} ];then
+if [ -z ${CLUSTERNAME} ];then
   export CLUSTERNAME="KYLIN-"`date +%Y%m%d%H%M%S`
+fi
+
+#use custom versin if setted, otherwise git it a default value
+EMR_VERSION=$2
+if [ -z ${EMR_VERSION} ];then
+  export EMR_VERSION="emr-5.5.0"
 fi
 
 ####################
@@ -36,7 +42,7 @@ if [ -z "$CURRENTID" ];then
   --ec2-attributes KeyName=$KEYPAIR,InstanceProfile=EMR_EC2_DefaultRole,SubnetId=$EMRSubet \
   --service-role EMR_DefaultRole \
   --enable-debugging \
-  --release-label emr-5.5.0 \
+  --release-label $EMR_VERSION \
   --log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
   --name $CLUSTERNAME \
   --configurations file:///etc/chef/emrconfig.json \
