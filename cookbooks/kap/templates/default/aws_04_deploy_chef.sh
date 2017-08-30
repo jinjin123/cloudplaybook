@@ -75,6 +75,9 @@ echo "VpcSecurityGroup = "$VpcSecurityGroup
 ####################
 # KEEP DEFAULT UNLESS NECESSARY
 ####################
+# Trouble shooting for key
+echo "BootHome = "$BOOT_HOME
+
 # DEFINE FILE LOCATION for bitbucket setup
 SSHKEY=$BOOT_HOME/credentials/gitkey
 SSHPUB=$BOOT_HOME/credentials/gitkey.pub
