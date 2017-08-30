@@ -1,0 +1,16 @@
+{
+  "name": "chefclient-kyligence-docker-glusterfs",
+  "description": "Role json file for starting and maintaining Kybot glusterfs",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "newrelic":{
+        "license":"44e788b6a5afebef5277a3a382ae00db7b915334"
+    },
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[newrelic]"
+  ],
+  "env_run_lists": {}
+}
