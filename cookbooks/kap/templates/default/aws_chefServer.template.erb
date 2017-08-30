@@ -527,7 +527,7 @@
                 "cwd": "/home/ec2-user"
               },
               "010downloadrpm": {
-                "command": "n=0;until [ $n -ge 5 ];do wget https://kyhub.blob.core.chinacloudapi.cn/packages/chef/chef-server-core-12.15.8-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
+                "command": "n=0;until [ $n -ge 5 ];do wget <% if @accountregion.eql? "china" %><%= "https://kyhub.blob.core.chinacloudapi.cn/packages/chef/chef-server-core-12.15.8-1.el6.x86_64.rpm" %><% elsif @accountregion.eql? "global" %><%= "https://s3-ap-northeast-1.amazonaws.com/chefpackages/chef-server-core-12.15.8-1.el6.x86_64.rpm" %><% end %>; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
                 "cwd": "/home/ec2-user/tools"
               },
               "011installchefS": {
@@ -599,7 +599,7 @@
                 "cwd": "/root"
               },
               "030downloadrpm": {
-                "command": "n=0;until [ $n -ge 5 ];do wget https://kyhub.blob.core.chinacloudapi.cn/packages/chef/chefdk-1.5.0-1.el6.x86_64.rpm; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
+                "command": "n=0;until [ $n -ge 5 ];do wget <% if @accountregion.eql? "china" %><%= "https://kyhub.blob.core.chinacloudapi.cn/packages/chef/chefdk-1.5.0-1.el6.x86_64.rpm" %><% elsif @accountregion.eql? "global" %><%= "https://s3-ap-northeast-1.amazonaws.com/chefpackages/chefdk-1.5.0-1.el6.x86_64.rpm" %><% end %>; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done;",
                 "cwd": "/home/ec2-user/tools"
               },
               "031installchefS": {

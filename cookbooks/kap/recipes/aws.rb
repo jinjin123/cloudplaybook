@@ -43,7 +43,7 @@ else
   scheme = "allinone"
 end
 
-# Check emr version if setted
+# Check emr version if set
 if (not (defined?(kylin[:emrversion])).nil?) && (not "#{kylin[:emrversion]}" == "")
   emrversion = kylin[:emrversion]
 else
