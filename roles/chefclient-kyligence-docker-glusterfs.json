@@ -5,7 +5,7 @@
   "default_attributes": {
     "newrelic":{
         "license":"44e788b6a5afebef5277a3a382ae00db7b915334"
-    },
+    }
   },
   "override_attributes": {},
   "chef_type": "role",
