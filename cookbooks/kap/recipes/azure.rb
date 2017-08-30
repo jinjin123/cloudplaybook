@@ -27,6 +27,10 @@ credentials = azure[:credentials]
 # Setting basedir to store template files
 basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
+
+# Adding custom log
+progresslog = "#{basedir}progress.log"
+
 #runtime = node[:deploycode][:runtime][:azure]
 
 # storing kylin variables to be called
@@ -801,7 +805,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     elsif scheme.eql?("allinonevnet")
       execute 'create_vnet' do
         command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err"
-        # notifies :run, 'execute[commit_docker]', :immediately
+        notifies :run, 'execute[progress_vnetcompleted]', :immediately
         #ignore_failure true
       end
       execute 'create_storageaccount1' do
@@ -903,4 +907,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       #ignore_failure true
     end
   end
+end
+
+execute 'progress_vnetcompleted' do
+  command "echo \"Identifier: #{identifier}; Creation of Vnet succeed\" >> #{progresslog}"
+  action :nothing
 end
