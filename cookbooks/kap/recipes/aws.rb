@@ -24,6 +24,7 @@ end
 
 credentials = aws[:credentials]
 
+
 # Setting basedir to store template files
 basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
@@ -37,10 +38,18 @@ identifier = kylin[:identifier]
 
 # Check what scheme, "allinone" or "separated" to be deployed
 if (not (defined?(aws[:scheme])).nil?) && (not "#{aws[:scheme]}" == "")
-  scheme = aws[:scheme]
+  scheme = kylin[:scheme]
 else
   scheme = "allinone"
 end
+
+# Check emr version if setted
+if (not (defined?(kylin[:emrversion])).nil?) && (not "#{kylin[:emrversion]}" == "")
+  emrversion = kylin[:emrversion]
+else
+  emrversion = "emr-5.5.0"
+end
+
 
 # Name of docker container is not imaport, just make one
 container_name = "#{node[:projectname]}_aws_#{identifier}"
@@ -301,7 +310,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       action :create
     end
     execute "create_emr" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh #{identifier}\""
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh #{identifier} #{emrversion}\""
     end
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
