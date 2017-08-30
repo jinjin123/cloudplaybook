@@ -38,7 +38,7 @@ identifier = kylin[:identifier]
 
 # Check what scheme, "allinone" or "separated" to be deployed
 if (not (defined?(aws[:scheme])).nil?) && (not "#{aws[:scheme]}" == "")
-  scheme = kylin[:scheme]
+  scheme = aws[:scheme]
 else
   scheme = "allinone"
 end
