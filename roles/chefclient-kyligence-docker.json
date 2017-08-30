@@ -24,6 +24,7 @@
             "prod_web.xml": "/usr/local/tomcat/conf/web.xml",
             "prod_logging.properties": "/usr/local/tomcat/conf/logging.properties",
             "prod_context.xml": "/usr/local/tomcat/conf/context.xml",
+            "prod_catalina.properties":"/usr/local/tomcat/conf/catalina.properties",
             "setenv.sh": "/usr/local/tomcat/bin/setenv.sh"
           }
         }
