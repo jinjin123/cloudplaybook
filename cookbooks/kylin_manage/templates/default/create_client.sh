@@ -13,6 +13,11 @@ if [ ! -z ${INSTANCETYPE+x} ];then
   export INSTANCETYPE=m4.xlarge
 fi
 
+ ACCOUNTREGION=$3
+ if [ ! -z ${ACCOUNTREGION+x} ];then
+   export ACCOUNTREGION=china
+ fi
+
 # Install required packages
 
 ####################
@@ -69,4 +74,5 @@ ParameterKey=ProjectPrefix,ParameterValue=$ProjectPrefix \
 ParameterKey=Scaling,ParameterValue=$Scaling \
 ParameterKey=RoleName,ParameterValue=$RoleName \
 ParameterKey=VpcSecurityGroup,ParameterValue=$VpcSecurityGroup \
-ParameterKey=StackName,ParameterValue=$ID-kylinserver
+ParameterKey=StackName,ParameterValue=$ID-kylinserver \
+ParameterKey=AccountRegion,ParameterValue=$ACCOUNTREGION

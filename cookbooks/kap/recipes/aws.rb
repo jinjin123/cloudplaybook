@@ -316,7 +316,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
     end
     execute "run_install" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype}\" >> #{basedir}aws/#{identifier}/deploy.log"
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "runningwaitloop_forchefclient" do
       command "CURRENSTATUS=\"\";while [ \"$CURRENSTATUS\" != \"CREATE_COMPLETE\" ]; do CURRENSTATUS=$(aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver --query 'Stacks[*].StackStatus' --output text);sleep 5;done"
@@ -440,7 +440,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "CLUSTERNAME=$(aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Id==`#{emrid}`].Name' --output text);echo #{emrid} > #{basedir}aws/#{identifier}/clusterID.txt;ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh $CLUSTERNAME\""
     end
     execute "run_install" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype}\" >> #{basedir}aws/#{identifier}/deploy.log"
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "runningwaitloop_forchefclient" do
       command "CURRENSTATUS=\"\";while [ \"$CURRENSTATUS\" != \"CREATE_COMPLETE\" ]; do CURRENSTATUS=$(aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver --query 'Stacks[*].StackStatus' --output text);sleep 5;done"
