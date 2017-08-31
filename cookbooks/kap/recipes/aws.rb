@@ -44,8 +44,8 @@ else
 end
 
 # Check emr version if set
-if (not (defined?(aws[:emrversion])).nil?) && (not "#{aws[:emrversion]}" == "")
-  emrversion = aws[:emrversion]
+if (not (defined?(kylin[:emrversion])).nil?) && (not "#{kylin[:emrversion]}" == "")
+  emrversion = kylin[:emrversion]
 else
   emrversion = "emr-5.5.0"
 end
