@@ -591,7 +591,7 @@
                 "command": {
                   "Fn::Join": [
                     "",
-                    "n=0;until [ $n -ge 5 ];do echo \"",
+                    "n=0;until [ $n -ge 5 ];do ",
                     [
                       {
                         "Fn::If": [
@@ -601,7 +601,7 @@
                         ]
                       }
                     ],
-                    "\"; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done"
+                    "; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done"
                   ]
                 },
                 "cwd": "/home/ec2-user/tools"
