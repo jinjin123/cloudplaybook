@@ -4,17 +4,17 @@ echo "Running create_client.sh"
 
 # Taking Parameters
 ID=$1
-if [ ! -z ${ID+x} ];then
+if [ -z ${ID} ];then
   export ID=`cat /etc/chef/StackName| cut -d '-' -f1`
 fi
 
 INSTANCETYPE=$2
-if [ ! -z ${INSTANCETYPE+x} ];then
+if [ -z ${INSTANCETYPE} ];then
   export INSTANCETYPE=m4.xlarge
 fi
 
  ACCOUNTREGION=$3
- if [ ! -z ${ACCOUNTREGION+x} ];then
+ if [ -z ${ACCOUNTREGION} ];then
    export ACCOUNTREGION=china
  fi
 
