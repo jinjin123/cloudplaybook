@@ -65,7 +65,8 @@
     "recipe[diskmount]",
     "recipe[deploycode]",
     "recipe[configs]",
-    "recipe[webserver]"
+    "recipe[webserver]",
+    "recipe[newrelic]"
   ],
   "env_run_lists": {
   }
