@@ -24,6 +24,7 @@
         "general": {
           "qa": {
             "qa_server.xml": "/usr/local/tomcat/conf/server.xml",
+            "qa_catalina.properties": "/usr/local/tomcat/conf/catalina.properties",
             "qa_web.xml": "/usr/local/tomcat/conf/web.xml",
             "qa_logging.properties": "/usr/local/tomcat/conf/logging.properties",
             "qa_context.xml": "/usr/local/tomcat/conf/context.xml",
