@@ -30,6 +30,9 @@ basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
 #runtime = node[:deploycode][:runtime][:azure]
 
+# Adding custom log
+progresslog = "#{basedir}progress.log"
+
 # storing kylin variables to be called
 if (not (defined?(aws[:kylin])).nil?) && (not "#{aws[:kylin]}" == "")
   kylin = aws[:kylin]
