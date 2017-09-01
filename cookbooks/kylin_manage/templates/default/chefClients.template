@@ -1091,7 +1091,7 @@
         "Handle": {
           "Ref": "ChefClientWaitHandle"
         },
-        "Timeout": "1800",
+        "Timeout": "3600",
         "Count": "1"
       }
     }
