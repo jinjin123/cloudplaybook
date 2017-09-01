@@ -808,7 +808,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
 
   # case when azureaction
   if azureaction.include?("create")
-    result_pure_log(identifier, "azure resouces create begin ...")
+    result_pure_log(identifier, "azure resouces create begin ...", processlog)
     # Create resources group
     execute 'create_resources_group' do
       # command "docker run --name #{container_name} #{mapvolume} #{image_name} azure group create -n #{identifier} -l #{kylin[:region]} || true"
@@ -840,7 +840,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     result_log(identifier, "azure enable telemetry", processlog, returnflagfile)
 
     if scheme.eql?("allinone")
-      result_pure_log(identifier, "allinone deployment begin...")
+      result_pure_log(identifier, "allinone deployment begin...", processlog)
       execute 'create_deployment' do
         command "azure group deployment create -g #{identifier} -n create_deployment -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
@@ -848,7 +848,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
       result_log(identifier, "azure group deployment create by scheme allinon", processlog, returnflagfile)
     elsif scheme.eql?("allinonevnet")
-      result_pure_log(identifier, "allinonevnet deployment begin...")
+      result_pure_log(identifier, "allinonevnet deployment begin...", processlog)
       execute 'create_vnet' do
         command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
         #notifies :run, 'execute[progress_vnetcompleted]', :immediately
@@ -880,7 +880,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       result_log(identifier, "azure group deployment config hdi1 with scheme allinonevnet", processlog, returnflagfile)
 
     elsif scheme.eql?("separated")
-      result_pure_log(identifier, "separated deployment begin...")
+      result_pure_log(identifier, "separated deployment begin...", processlog)
       execute 'create_vnet' do
         command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
@@ -917,7 +917,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
       result_log(identifier, "azure group deployment config hdi1 by sheme separated", processlog, returnflagfile)
       if ! azureaction.include?("read")
-        result_pure_log(identifier, "azure cluster seperate read and write, hdi2 create begin ...")
+        result_pure_log(identifier, "azure cluster seperate read and write, hdi2 create begin ...", processlog)
         execute 'create_hdi2' do
           command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err && touch #{returnflagfile}"
           # notifies :run, 'execute[commit_docker]', :immediately
@@ -932,7 +932,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
     end
   elsif azureaction.eql?("removehdi")
-    result_pure_log(identifier, "azure resouces removehdi begin ...")
+    result_pure_log(identifier, "azure resouces removehdi begin ...", processlog)
     execute 'removehdi_resources_group' do
       command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{kylin[:appType]} >> /root/.azure/azure.err && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
@@ -946,7 +946,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "azure hdinsight hdinsight cluster delete", processlog, returnflagfile)
     if scheme.eql?("separated")
-      result_pure_log(identifier, "hdinsight clushter is separated. begin remove hdinsight2...")
+      result_pure_log(identifier, "hdinsight clushter is separated. begin remove hdinsight2...", processlog)
       execute 'removehdi_hdinsight2' do
         command "azure hdinsight cluster delete #{clusterName2} -g #{identifier} >> /root/.azure/azure.err && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
@@ -955,7 +955,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       result_log(identifier, "azure hdinsight2 cluster delete", processlog, returnflagfile)
     end
   elsif azureaction.eql?("removeall")
-    result_pure_log(identifier, "azure group removeall begin...")
+    result_pure_log(identifier, "azure group removeall begin...", processlog)
     execute 'remove_resources_group' do
       command "azure group show #{identifier} > /root/.azure/check.txt || : ;NUM=`cat /root/.azure/check.txt| grep OK | wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then azure group delete #{identifier} -q >> /root/.azure/azure.err;else echo \"Resource group #{identifier} not exists\">> /root/.azure/azure.err;fi"
       # notifies :run, 'execute[commit_docker]', :immediately
