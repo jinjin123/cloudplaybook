@@ -30,7 +30,7 @@ basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
 
 # Adding custom log
-progresslog = "#{basedir}progress.log"
+processlog = "#{basedir}progress.log"
 returnflagfile = "/tmp/kap_process_success"
 
 #runtime = node[:deploycode][:runtime][:azure]
