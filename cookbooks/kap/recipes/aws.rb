@@ -34,6 +34,7 @@ username = node[:deployuser]
 # Adding custom log
 progresslog = "#{basedir}aws/#{identifier}/progress.log"
 returnflagfile = "/tmp/kap_process_success"
+
 # storing kylin variables to be called
 if (not (defined?(aws[:kylin])).nil?) && (not "#{aws[:kylin]}" == "")
   kylin = aws[:kylin]
