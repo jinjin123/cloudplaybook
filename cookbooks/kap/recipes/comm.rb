@@ -19,7 +19,7 @@ def result_log(identifier, message, processlog, returnflagfile)
     only_if { ::File.exist?(returnflagfile)}
   end
   execute "operation_failed" do
-    command "echo '#{logprefix} #{message} result:[failed]' >> #{processlog}"
+    command "echo '#{logprefix} #{message} result:[failed]' >> #{processlog} && ech --deploy_resouce_faild."
     not_if { ::File.exist?(returnflagfile)}
   end
   file "#{returnflagfile}" do
