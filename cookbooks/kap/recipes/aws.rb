@@ -31,15 +31,16 @@ basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
 #runtime = node[:deploycode][:runtime][:azure]
 
-# Adding custom log
-progresslog = "#{basedir}aws/#{identifier}/progress.log"
-returnflagfile = "/tmp/kap_process_success"
 
 # storing kylin variables to be called
 if (not (defined?(aws[:kylin])).nil?) && (not "#{aws[:kylin]}" == "")
   kylin = aws[:kylin]
 end
 identifier = kylin[:identifier]
+
+# Adding custom log
+progresslog = "#{basedir}aws/#{identifier}/progress.log"
+returnflagfile = "/tmp/kap_process_success"
 
 # Check what scheme, "allinone" or "separated" to be deployed
 if (not (defined?(aws[:scheme])).nil?) && (not "#{aws[:scheme]}" == "")

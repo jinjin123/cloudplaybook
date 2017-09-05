@@ -29,9 +29,6 @@ credentials = azure[:credentials]
 basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
 
-# Adding custom log
-progresslog = "#{basedir}azure/#{identifier}/progress.log"
-returnflagfile = "/tmp/kap_process_success"
 
 #runtime = node[:deploycode][:runtime][:azure]
 
@@ -40,6 +37,10 @@ if (not (defined?(azure[:kylin])).nil?) && (not "#{azure[:kylin]}" == "")
   kylin = azure[:kylin]
 end
 identifier = kylin[:identifier]
+
+# Adding custom log
+progresslog = "#{basedir}azure/#{identifier}/progress.log"
+returnflagfile = "/tmp/kap_process_success"
 
 # Removing token and
 execute "removecredentials" do
