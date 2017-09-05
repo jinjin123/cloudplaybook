@@ -688,7 +688,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
   end
 end
-result_pure_log(identifier, "basic files and directory created success")
+result_pure_log(identifier, "basic files and directory created success", progresslog)
 #execute "removeimage_if_exists" do
 #    command "if [ `docker images|awk {'print $NF'}|grep \'^#{image_name}$\'|wc -l` == \'1\' ];then docker rmi #{image_name};fi"
 #end
@@ -804,7 +804,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "azure enable telemetry", progresslog, returnflagfile)
     if scheme.eql?("allinone")
-      result_pure_log(identifier, "allinone deployment begin...")
+      result_pure_log(identifier, "allinone deployment begin...", result_pure_log)
       execute 'create_deployment' do
         command "azure group deployment create -g #{identifier} -n create_deployment -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
