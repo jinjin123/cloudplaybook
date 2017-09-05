@@ -31,16 +31,22 @@ basedir = node[:deploycode][:basedirectory]
 username = node[:deployuser]
 #runtime = node[:deploycode][:runtime][:azure]
 
+# Adding custom log
+progresslog = "#{basedir}aws/#{identifier}/progress.log"
+returnflagfile = "/tmp/kap_process_success"
+awserror = /root/.aws/aws.err
+
+#clear old stuff if exists
+execute "removeawsstuff" do
+  command "rm -rf /root/.aws/*"
+  ignore_failure true
+end
 
 # storing kylin variables to be called
 if (not (defined?(aws[:kylin])).nil?) && (not "#{aws[:kylin]}" == "")
   kylin = aws[:kylin]
 end
 identifier = kylin[:identifier]
-
-# Adding custom log
-progresslog = "#{basedir}aws/#{identifier}/progress.log"
-returnflagfile = "/tmp/kap_process_success"
 
 # Check what scheme, "allinone" or "separated" to be deployed
 if (not (defined?(aws[:scheme])).nil?) && (not "#{aws[:scheme]}" == "")
@@ -219,7 +225,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
 
   # Run checking for key pair
   execute "checkifkeypairexist" do
-    command "aws ec2 describe-key-pairs --key-name #{keypair} && touch #{returnflagfile}"
+    command "aws ec2 describe-key-pairs --key-name #{keypair} > #{awserror} && touch #{returnflagfile}"
     ignore_failure true
   end
   result_log(identifier, "check keypair existence", progresslog, returnflagfile)
@@ -328,17 +334,17 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     result_pure_log(identifier, "aws deployment create vpc and chefserver finish", progresslog)
 
     execute "create_emr" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh #{identifier} #{emrversion}\" && touch #{returnflagfile}"
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh #{identifier} #{emrversion}\" > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment create emr", progresslog, returnflagfile)
     execute "checkEMRid" do
-      command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt && touch #{returnflagfile}"
+      command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment checkEMRid", progresslog, returnflagfile)
     execute "run_install" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" >> #{basedir}aws/#{identifier}/deploy.log && touch #{returnflagfile}"
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" >> #{basedir}aws/#{identifier}/deploy.log > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment run_install for chefclient", progresslog, returnflagfile)
@@ -364,19 +370,20 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "aws deployment checkcurrentnodecount", progresslog, returnflagfile)
     execute "runresize" do
-      command "export COUNT=`cat #{basedir}aws/#{identifier}/nodecount.txt|awk {'print $2'}`;export INSTANCEGROUPS=`cat #{basedir}aws/#{identifier}/nodecount.txt|awk {'print $1'}`;aws emr modify-instance-groups --instance-groups InstanceGroupId=$INSTANCEGROUPS,InstanceCount=#{kylin[:clusterWorkerNodeCount]} && touch #{returnflagfile}"
+      command "export COUNT=`cat #{basedir}aws/#{identifier}/nodecount.txt|awk {'print $2'}`;export INSTANCEGROUPS=`cat #{basedir}aws/#{identifier}/nodecount.txt|awk {'print $1'}`;aws emr modify-instance-groups --instance-groups InstanceGroupId=$INSTANCEGROUPS,InstanceCount=#{kylin[:clusterWorkerNodeCount]} > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment runresize", progresslog, returnflagfile)
     execute "checkrunsize" do
-      command "export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');while [ \"#{kylin[:clusterWorkerNodeCount]}\" -ne \"$NEWCOUNT\" ];do sleep 5;echo \"Resize in progress\";export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');echo \"Current Node count = \"$NEWCOUNT >>  #{basedir}aws/#{identifier}/deploy.log;done"
+      command "export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');while [ \"#{kylin[:clusterWorkerNodeCount]}\" -ne \"$NEWCOUNT\" ];do sleep 5;echo \"Resize in progress\";export NEWCOUNT=$(aws emr describe-cluster --cluster-id `cat #{basedir}aws/#{identifier}/clusterID.txt` --output text | grep INSTANCEGROUPS| grep CORE | awk '{print $(NF)}');echo \"Current Node count = \"$NEWCOUNT >>  #{basedir}aws/#{identifier}/deploy.log ;done"
     end
     result_pure_log(identifier, "aws deployment action[resize] finish", progresslog)
   elsif awsaction.eql?("removeemr")
     result_pure_log(identifier, "aws deployment action:[removeemr] begin ...", progresslog)
     execute "remove_cloudformation" do
-      command "for x in -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x;done"
+      command "for x in -kylinserver;do aws cloudformation delete-stack --stack-name #{identifier}$x > #{awserror};done && touch #{returnflagfile}"
     end
+    result_log(identifier, "in action[removeemr] remove cloudformation", progresslog, returnflagfile)
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
       ignore_failure true
@@ -393,14 +400,18 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif awsaction.eql?("removeall")
     result_pure_log(identifier, "aws deployment action:[removeall] begin ...", progresslog)
     execute "remove_chefservercloudformation" do
-      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/checkchefserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkchefserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -chefserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi"
+      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/checkchefserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkchefserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -chefserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log > #{awserror};done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi && touch #{returnflagfile}"
     end
+    result_log(identifier, "in action[removeall] remove chefserver cloudformation", progresslog, returnflagfile)
     execute "remove_kylinservercloudformation" do
-      command "aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver > #{basedir}aws/#{identifier}/checkkylinserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkkylinserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done;else echo \"Stack #{identifier}-kylinserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi"
+      command "aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver > #{basedir}aws/#{identifier}/checkkylinserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkkylinserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log > #{awserror};done;else echo \"Stack #{identifier}-kylinserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi && touch #{returnflagfile}"
     end
+    result_log(identifier, "in action[removeall] remove kylinserver cloudformation", progresslog, returnflagfile)
     execute "remove_s3" do
-      command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket- || : `;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force >> #{basedir}aws/#{identifier}/deploy.log;done"
+      command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket- || : `;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force >> #{basedir}aws/#{identifier}/deploy.log > #{awserror};done && touch #{returnflagfile}"
+      ignore_failure true
     end
+    result_log(identifier, "in action[removeall] remove s3", progresslog, returnflagfile)
     execute "checkEMRid" do
       command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt"
       ignore_failure true
@@ -437,8 +448,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "aws deployment checkemrversion", progresslog, returnflagfile)
     execute "checkemrapplication" do
-      command "APPLICATIONS=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Applications' --output text);echo \"Application lists = \"$APPLICATIONS >> #{basedir}aws/#{identifier}/deploy.log;for x in Hadoop Hive Pig Hue ZooKeeper Phoenix HCatalog HBase;do if [[ $APPLICATIONS != *\"$x\"* ]];then echo \"Application $x did not found\" >> #{basedir}aws/#{identifier}/deploy.log;exit 1;fi; done"
+      command "APPLICATIONS=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Applications' --output text);echo \"Application lists = \"$APPLICATIONS >> #{basedir}aws/#{identifier}/deploy.log;for x in Hadoop Hive Pig Hue ZooKeeper Phoenix HCatalog HBase;do if [[ $APPLICATIONS != *\"$x\"* ]];then echo \"Application $x did not found\" >> #{basedir}aws/#{identifier}/deploy.log;exit 1;fi; done && touch #{returnflagfile}"
+      ignore_failure true
     end
+    result_log(identifier, "in action[existing] check emr application", progresslog, returnflagfile)
     execute "checkvpcforgateway" do
       command "
         subnetid=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Ec2InstanceAttributes.Ec2SubnetId'| cut -d '\"' -f2);
@@ -479,12 +492,12 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "aws deployment deploy chef", progresslog, returnflagfile)
     execute "checkcurrentemrnamebyidandrunintoemrcreate" do
-      command "CLUSTERNAME=$(aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Id==`#{emrid}`].Name' --output text);echo #{emrid} > #{basedir}aws/#{identifier}/clusterID.txt;ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh $CLUSTERNAME\" && touch #{returnflagfile}"
+      command "CLUSTERNAME=$(aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Id==`#{emrid}`].Name' --output text);echo #{emrid} > #{basedir}aws/#{identifier}/clusterID.txt;ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh $CLUSTERNAME\" > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment emrcreate", progresslog, returnflagfile)
     execute "run_install" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" >> #{basedir}aws/#{identifier}/deploy.log && touch #{returnflagfile}"
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" >> #{basedir}aws/#{identifier}/deploy.log > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment chefclient kylin", progresslog, returnflagfile)
@@ -500,7 +513,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif awsaction.eql?("removekap")
     result_pure_log(identifier, "aws deployment action[removekap] begin ...", progresslog)
     execute "remove_cloudformation" do
-      command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log;done && touch #{returnflagfile}"
+      command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log > #{awserror};done && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment removekap", progresslog, returnflagfile)

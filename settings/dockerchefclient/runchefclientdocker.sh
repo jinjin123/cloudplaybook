@@ -65,6 +65,7 @@ else
   -v /etc/chef/validator.pem:/etc/chef/validator.pem \
   -v /root/tools/code/aws/$IDENTIFIER/client.rb:/etc/chef/client.rb \
   -v /root/tools/code/aws/$IDENTIFIER/deploy.json:/etc/chef/deploy.json \
+  -v /root/tools/code/aws/$IDENTIFIER/aws:/root/.aws \
   dockerpriv.kybot.io:5002/keithyau/chefclient:latest \
   chef-client -o 'role[chefclient-kyligence-aws]' -j /etc/chef/deploy.json
   export RETURNCODE=$?

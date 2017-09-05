@@ -42,6 +42,8 @@ identifier = kylin[:identifier]
 progresslog = "#{basedir}azure/#{identifier}/progress.log"
 returnflagfile = "/tmp/kap_process_success"
 
+azureerror = /root/.azure/azure.err
+
 # Removing token and
 execute "removecredentials" do
   command "rm -rf /root/.azure/*"
@@ -718,7 +720,7 @@ if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:usernam
     envstring = ""
   end
   execute 'login' do
-    command "azure login --username #{credentials[:username]} --password #{credentials[:password]} #{envstring} && touch #{returnflagfile}"
+    command "azure login --username #{credentials[:username]} --password #{credentials[:password]} #{envstring} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
     ignore_failure true
   end
@@ -798,7 +800,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     # end
 
     execute 'disabletelemetry' do
-      command "azure telemetry --enable >> /root/.azure/azure.err && touch #{returnflagfile}"
+      command "azure telemetry --enable >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
@@ -806,7 +808,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     if scheme.eql?("allinone")
       result_pure_log(identifier, "allinone deployment begin...", result_pure_log)
       execute 'create_deployment' do
-        command "azure group deployment create -g #{identifier} -n create_deployment -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_deployment -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
@@ -814,81 +816,81 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     elsif scheme.eql?("allinonevnet")
       result_pure_log(identifier, "allinonevnet deployment begin...", progresslog)
       execute 'create_vnet' do
-        command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> #{azureerror} && touch #{returnflagfile}"
         notifies :run, 'execute[progress_vnetcompleted]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create vnet scheme allinonevnet", progresslog, returnflagfile)
       execute 'create_storageaccount1' do
-        command "azure group deployment create -g #{identifier} -n create_storageaccount1 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_storageaccount1 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create storageaccount1 with scheme allinonevnet", progresslog, returnflagfile)
       execute 'create_sqlserver' do
-        command "azure group deployment create -g #{identifier} -n create_sqlserver -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_sqlserver -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create sqlserver with scheme allinonevnet", progresslog, returnflagfile)
       execute 'create_hdi1' do
-        command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/singlehdi.#{identifier}.json -e #{basedir}azure/#{identifier}/singlehdi.parameters.#{identifier}.json -vv >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/singlehdi.#{identifier}.json -e #{basedir}azure/#{identifier}/singlehdi.parameters.#{identifier}.json -vv >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create hdi1 with scheme allinonevnet", progresslog, returnflagfile)
       execute 'config_hdi1' do
-        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{kylin[:appType]} #{clusterName} #{kaptoken} #{kapagentid}\" >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{kylin[:appType]} #{clusterName} #{kaptoken} #{kapagentid}\" >> #{azureerror} && touch #{returnflagfile}"
         ignore_failure true
       end
       result_log(identifier, "azure group deployment config hdi1 with scheme allinonevnet", progresslog, returnflagfile)
     elsif scheme.eql?("separated")
       result_pure_log(identifier, "separated deployment begin...", progresslog)
       execute 'create_vnet' do
-        command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create vnet by sheme separated", progresslog, returnflagfile)
       execute 'create_storageaccount1' do
-        command "azure group deployment create -g #{identifier} -n create_storageaccount1 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_storageaccount1 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount1.#{identifier}.parameters.json >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create storageaccount1 by sheme separated", progresslog, returnflagfile)
       execute 'create_storageaccount2' do
-        command "azure group deployment create -g #{identifier} -n create_storageaccount2 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_storageaccount2 -f #{basedir}azure/#{identifier}/storageaccount.#{identifier}.json -e #{basedir}azure/#{identifier}/storageaccount2.#{identifier}.parameters.json >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create storageaccount2 by sheme separated", progresslog, returnflagfile)
       execute 'create_sqlserver' do
-        command "azure group deployment create -g #{identifier} -n create_sqlserver -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_sqlserver -f #{basedir}azure/#{identifier}/sqlserver.#{identifier}.json -e #{basedir}azure/#{identifier}/sqlserver.parameters.#{identifier}.json -vv >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create sqlserver by sheme separated", progresslog, returnflagfile)
       execute 'create_hdi1' do
-        command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure group deployment create -g #{identifier} -n create_hdi1 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json -vv >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
       result_log(identifier, "azure group deployment create hdi1 by sheme separated", progresslog, returnflagfile)
       execute 'config_hdi1' do
-        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode >> #{azureerror} && touch #{returnflagfile}"
         ignore_failure true
       end
       result_log(identifier, "azure group deployment config hdi1 by sheme separated", progresslog, returnflagfile)
       if ! azureaction.include?("read")
         result_pure_log(identifier, "azure cluster seperate read and write, hdi2 create begin ...", progresslog)
         execute 'create_hdi2' do
-          command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> /root/.azure/azure.err && touch #{returnflagfile}"
+          command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> #{azureerror} && touch #{returnflagfile}"
           # notifies :run, 'execute[commit_docker]', :immediately
           ignore_failure true
         end
         result_log(identifier, "azure group deployment create hdi2 by sheme separated", progresslog, returnflagfile)
         execute 'config_hdi2' do
-          command "azure hdinsight script-action create #{clusterName2} -g #{identifier} -n KAP-hdi2-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0_writecluster.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{accountregion}\" >> /root/.azure/azure.err && touch #{returnflagfile}"
+          command "azure hdinsight script-action create #{clusterName2} -g #{identifier} -n KAP-hdi2-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0_writecluster.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{accountregion}\" >> #{azureerror} && touch #{returnflagfile}"
           ignore_failure true
         end
         result_log(identifier, "azure group deployment config hdi2 by sheme separated", progresslog, returnflagfile)
@@ -897,13 +899,13 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif azureaction.eql?("removehdi")
     result_pure_log(identifier, "azure resouces removehdi begin ...", progresslog)
     execute 'removehdi_resources_group' do
-      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{kylin[:appType]} >> /root/.azure/azure.err && touch #{returnflagfile}"
+      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{kylin[:appType]} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
     result_log(identifier, "azure hdinsight script-action create", progresslog, returnflagfile)
     execute 'removehdi_hdinsight' do
-      command "azure hdinsight cluster delete #{clusterName} -g #{identifier} >> /root/.azure/azure.err && touch #{returnflagfile}"
+      command "azure hdinsight cluster delete #{clusterName} -g #{identifier} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
@@ -911,7 +913,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     if scheme.eql?("separated")
       result_pure_log(identifier, "hdinsight clushter is separated. begin remove hdinsight2...", progresslog)
       execute 'removehdi_hdinsight2' do
-        command "azure hdinsight cluster delete #{clusterName2} -g #{identifier} >> /root/.azure/azure.err && touch #{returnflagfile}"
+        command "azure hdinsight cluster delete #{clusterName2} -g #{identifier} >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
@@ -920,20 +922,20 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif azureaction.eql?("removeall")
     result_pure_log(identifier, "azure group removeall begin...", progresslog)
     execute 'remove_resources_group' do
-      command "azure group show #{identifier} > /root/.azure/check.txt || : ;NUM=`cat /root/.azure/check.txt| grep OK | wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then azure group delete #{identifier} -q >> /root/.azure/azure.err;else echo \"Resource group #{identifier} not exists\">> /root/.azure/azure.err;fi"
+      command "azure group show #{identifier} > /root/.azure/check.txt || : ;NUM=`cat /root/.azure/check.txt| grep OK | wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then azure group delete #{identifier} -q >> #{azureerror};else echo \"Resource group #{identifier} not exists\">> #{azureerror};fi"
       # notifies :run, 'execute[commit_docker]', :immediately
       #ignore_failure true
     end
   elsif azureaction.eql?("resize")
     execute 'resize_resources_group' do
-      command "azure hdinsight cluster resize #{clusterName} -g #{identifier} #{kylin[:clusterWorkerNodeCount]} >> /root/.azure/azure.err && touch #{returnflagfile}"
+      command "azure hdinsight cluster resize #{clusterName} -g #{identifier} #{kylin[:clusterWorkerNodeCount]} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
     result_log(identifier, "azure hdinsight cluster resize", progresslog, returnflagfile)
   elsif azureaction.eql?("upgrade")
     execute 'upgradekap' do
-      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{kylin[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> /root/.azure/azure.err"
+      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{kylin[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> #{azureerror}"
       #ignore_failure true
     end
   end
