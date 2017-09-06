@@ -346,7 +346,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "aws deployment checkEMRid", progresslog, returnflagfile)
     execute "run_install" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" >> #{basedir}aws/#{identifier}/deploy.log > #{awserror} && touch #{returnflagfile}"
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment run_install for chefclient", progresslog, returnflagfile)
@@ -402,15 +402,15 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif awsaction.eql?("removeall")
     result_pure_log(identifier, "aws deployment action:[removeall] begin ...", progresslog)
     execute "remove_chefservercloudformation" do
-      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/checkchefserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkchefserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -chefserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log > #{awserror};done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi && touch #{returnflagfile}"
+      command "aws cloudformation describe-stacks --stack-name #{identifier}-chefserver > #{basedir}aws/#{identifier}/checkchefserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkchefserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -chefserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x > #{awserror};done;else echo \"Stack #{identifier}-chefserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi && touch #{returnflagfile}"
     end
     result_log(identifier, "in action[removeall] remove chefserver cloudformation", progresslog, returnflagfile)
     execute "remove_kylinservercloudformation" do
-      command "aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver > #{basedir}aws/#{identifier}/checkkylinserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkkylinserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log > #{awserror};done;else echo \"Stack #{identifier}-kylinserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi && touch #{returnflagfile}"
+      command "aws cloudformation describe-stacks --stack-name #{identifier}-kylinserver > #{basedir}aws/#{identifier}/checkkylinserver.txt || :;NUM=`cat #{basedir}aws/#{identifier}/checkkylinserver.txt| wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then for x in -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x > #{awserror};done;else echo \"Stack #{identifier}-kylinserver does not exists\">> #{basedir}aws/#{identifier}/deploy.log;fi && touch #{returnflagfile}"
     end
     result_log(identifier, "in action[removeall] remove kylinserver cloudformation", progresslog, returnflagfile)
     execute "remove_s3" do
-      command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket- || : `;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force >> #{basedir}aws/#{identifier}/deploy.log > #{awserror};done && touch #{returnflagfile}"
+      command "for x in `aws s3 ls| awk {'print $3'}| grep #{identifier}-chefserver-privatekeybucket- || : `;do echo \"Removing S3 bucket name as $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws s3 rb s3://$x --force  > #{awserror};done && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "in action[removeall] remove s3", progresslog, returnflagfile)
@@ -499,7 +499,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "aws deployment emrcreate", progresslog, returnflagfile)
     execute "run_install" do
-      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\" >> #{basedir}aws/#{identifier}/deploy.log > #{awserror} && touch #{returnflagfile}"
+      command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_client.sh #{identifier} #{instancetype} #{accountregion}\"  > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment chefclient kylin", progresslog, returnflagfile)
@@ -515,7 +515,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif awsaction.eql?("removekap")
     result_pure_log(identifier, "aws deployment action[removekap] begin ...", progresslog)
     execute "remove_cloudformation" do
-      command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x >> #{basedir}aws/#{identifier}/deploy.log > #{awserror};done && touch #{returnflagfile}"
+      command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x > #{awserror};done && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment removekap", progresslog, returnflagfile)
