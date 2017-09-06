@@ -34,7 +34,7 @@ username = node[:deployuser]
 # Adding custom log
 progresslog = "#{basedir}aws/#{identifier}/progress.log"
 returnflagfile = "/tmp/kap_process_success"
-awserror = /root/.aws/aws.err
+awserror = "/root/.aws/aws.err"
 
 #clear old stuff if exists
 execute "removeawsstuff" do

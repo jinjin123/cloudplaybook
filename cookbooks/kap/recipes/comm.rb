@@ -1,6 +1,5 @@
 require 'date'
 
-azureerror = /root/.azure/azure.err
 
 def get_time_prefix
   now = Time.now
@@ -24,10 +23,12 @@ def result_log(identifier, message, processlog, returnflagfile)
     command "echo '#{logprefix} #{message} result:[failed]' >> #{processlog}"
     not_if { ::File.exist?(returnflagfile)}
   end
-
-  #terminate chefclient if failure occured
-  Chef::Application.fatal!("chefclient is mannually aborted due to failure of execute ", 42) if not ::File.exists(returnflagfile)
-
+  ruby_block "manual_fatal" do
+    block do
+      Chef::Application.fatal!("chefclient is mannually aborted due to failure of execute ", 42) if not ::File.exist?(returnflagfile)
+    end
+    action :run
+  end
   file "#{returnflagfile}" do
     action :delete
     ignore_failure true

@@ -42,7 +42,7 @@ identifier = kylin[:identifier]
 progresslog = "#{basedir}azure/#{identifier}/progress.log"
 returnflagfile = "/tmp/kap_process_success"
 
-azureerror = /root/.azure/azure.err
+azureerror = "/root/.azure/azure.err"
 
 # Removing token and
 execute "removecredentials" do
@@ -806,7 +806,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "azure enable telemetry", progresslog, returnflagfile)
     if scheme.eql?("allinone")
-      result_pure_log(identifier, "allinone deployment begin...", result_pure_log)
+      result_pure_log(identifier, "allinone deployment begin...", progresslog)
       execute 'create_deployment' do
         command "azure group deployment create -g #{identifier} -n create_deployment -f #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.json -e #{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
