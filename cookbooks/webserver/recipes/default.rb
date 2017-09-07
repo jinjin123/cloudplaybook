@@ -271,7 +271,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
         restartbehavior = "true"
       end
 
-      if restartbehavior.eql?("true") do
+      if restartbehavior.eql?("true")
         if localfolder.eql?("bootproxy")
           # Using lazy evaluation if bootproxy
           docker_container container_name do
