@@ -263,49 +263,59 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
           node.run_state[:linking] = ""
         end
       end
-      if localfolder.eql?("bootproxy")
-        # Using lazy evaluation if bootproxy
-        docker_container container_name do
-          repo docker[:image]
-          tag docker[:tag]
-          #Add all docker link
-          # links node.set[:linking]
-          links lazy{node.run_state[:linking]}
-          env docker[:env]
-          command docker[:command]
-          kill_after 30
-    #      autoremove true
-          action :run
-          port docker[:ports]
-          volumes node.default["bindvolume"]
-          cap_add 'SYS_ADMIN'
-          devices []
-          privileged true
-          timeout 30
-          memory docker[:memory_limit]
-          network_mode docker[:network_mode]
-    #      {["/dev/fuse"]}
-        end
+
+      # Checking restart behavior of docker
+      if (not (defined?(docker[:restart])).nil?) && (not "#{docker[:restart]}" == "")
+        restartbehavior = kylin[:restart]
       else
-        docker_container container_name do
-          repo docker[:image]
-          tag docker[:tag]
-          #Add all docker link
-          links node.run_state[:linking]
-          env docker[:env]
-          command docker[:command]
-          kill_after 30
-    #      autoremove true
-          action :run
-          port docker[:ports]
-          volumes node.default["bindvolume"]
-          cap_add 'SYS_ADMIN'
-          devices []
-          privileged true
-          timeout 30
-          memory docker[:memory_limit]
-          network_mode docker[:network_mode]
-    #      {["/dev/fuse"]}
+        restartbehavior = "true"
+      end
+
+      if restartbehavior.eql?("true") do
+        if localfolder.eql?("bootproxy")
+          # Using lazy evaluation if bootproxy
+          docker_container container_name do
+            repo docker[:image]
+            tag docker[:tag]
+            #Add all docker link
+            # links node.set[:linking]
+            links lazy{node.run_state[:linking]}
+            env docker[:env]
+            command docker[:command]
+            kill_after 30
+      #      autoremove true
+            action :run
+            port docker[:ports]
+            volumes node.default["bindvolume"]
+            cap_add 'SYS_ADMIN'
+            devices []
+            privileged true
+            timeout 30
+            memory docker[:memory_limit]
+            network_mode docker[:network_mode]
+      #      {["/dev/fuse"]}
+          end
+        else
+          docker_container container_name do
+            repo docker[:image]
+            tag docker[:tag]
+            #Add all docker link
+            links node.run_state[:linking]
+            env docker[:env]
+            command docker[:command]
+            kill_after 30
+      #      autoremove true
+            action :run
+            port docker[:ports]
+            volumes node.default["bindvolume"]
+            cap_add 'SYS_ADMIN'
+            devices []
+            privileged true
+            timeout 30
+            memory docker[:memory_limit]
+            network_mode docker[:network_mode]
+      #      {["/dev/fuse"]}
+          end
         end
       end
 
