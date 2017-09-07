@@ -1,5 +1,6 @@
 require 'date'
 
+
 def get_time_prefix
   now = Time.now
   now_str = now.strftime("[%Y-%m-%d %H:%M:%S]")
@@ -21,6 +22,12 @@ def result_log(identifier, message, processlog, returnflagfile)
   execute "operation_failed" do
     command "echo '#{logprefix} #{message} result:[failed]' >> #{processlog}"
     not_if { ::File.exist?(returnflagfile)}
+  end
+  ruby_block "manual_fatal" do
+    block do
+      Chef::Application.fatal!("chefclient is mannually aborted due to failure of execute ", 42) if not ::File.exist?(returnflagfile)
+    end
+    action :run
   end
   file "#{returnflagfile}" do
     action :delete
