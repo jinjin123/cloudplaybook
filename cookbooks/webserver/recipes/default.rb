@@ -266,7 +266,7 @@ if (not (defined?(node[:deploycode][:runtime])).nil?) && (not "#{node[:deploycod
 
       # Checking restart behavior of docker
       if (not (defined?(docker[:restart])).nil?) && (not "#{docker[:restart]}" == "")
-        restartbehavior = kylin[:restart]
+        restartbehavior = docker[:restart]
       else
         restartbehavior = "true"
       end
