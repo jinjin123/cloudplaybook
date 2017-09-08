@@ -596,8 +596,8 @@
                       {
                         "Fn::If": [
                           "CheckAccountRegion",
-                          "wget -O ./chef-12.21.3-1.el6.x86_64.rpm https://kyhub.blob.core.chinacloudapi.cn/packages/chef/chef-12.21.3-1.el6.x86_64.rpm",
-                          "wget -O ./chef-12.21.3-1.el6.x86_64.rpm https://s3-ap-northeast-1.amazonaws.com/chefpackages/chef-12.21.3-1.el6.x86_64.rpm"
+                          "wget -O ./chef-12.21.3-1.el6.x86_64.rpm https://s3-ap-northeast-1.amazonaws.com/chefpackages/chef-12.21.3-1.el6.x86_64.rpm",
+                          "wget -O ./chef-12.21.3-1.el6.x86_64.rpm https://kyhub.blob.core.chinacloudapi.cn/packages/chef/chef-12.21.3-1.el6.x86_64.rpm"
                         ]
                       },
                       "; [ $? -eq 0 ] && break;n=$[$n+1];sleep 15;done"
