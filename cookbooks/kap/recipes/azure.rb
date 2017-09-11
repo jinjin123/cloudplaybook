@@ -38,6 +38,11 @@ if (not (defined?(azure[:kylin])).nil?) && (not "#{azure[:kylin]}" == "")
 end
 identifier = kylin[:identifier]
 
+# fetch app info
+if (not (defined?(kylin[:app])).nil?)
+  appinfo = kylin[:app]
+end
+
 # Adding custom log
 progresslog = "#{basedir}azure/#{identifier}/progress.log"
 returnflagfile = "/tmp/kap_process_success"
@@ -154,7 +159,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
       source "deploywithcluster.parameters.json.erb"
       variables(
-        :appType => kylin[:appType],
+        :appType => appinfo[:appType],
         :clusterName  => clusterName,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
@@ -369,7 +374,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     template "#{basedir}azure/#{identifier}/singlehdi.parameters.#{identifier}.json" do
       source "singlehdi.parameters.json.erb"
       variables(
-        :appType => kylin[:appType],
+        :appType => appinfo[:appType],
         :clusterName  => clusterName,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
@@ -626,7 +631,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
       source "separatedhdi.parameters.json.erb"
       variables(
-        :appType => kylin[:appType],
+        :appType => appinfo[:appType],
         :clusterName  => clusterName,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
@@ -840,7 +845,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
       result_log(identifier, "azure group deployment create hdi1 with scheme allinonevnet", progresslog, returnflagfile)
       execute 'config_hdi1' do
-        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{kylin[:appType]} #{clusterName} #{kaptoken} #{kapagentid}\" >> #{azureerror} && touch #{returnflagfile}"
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{appinfo[:appType]} #{clusterName} #{kaptoken} #{kapagentid}\" >> #{azureerror} && touch #{returnflagfile}"
         ignore_failure true
       end
       result_log(identifier, "azure group deployment config hdi1 with scheme allinonevnet", progresslog, returnflagfile)
@@ -899,7 +904,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif azureaction.eql?("removehdi")
     result_pure_log(identifier, "azure resouces removehdi begin ...", progresslog)
     execute 'removehdi_resources_group' do
-      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{kylin[:appType]} >> #{azureerror} && touch #{returnflagfile}"
+      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{appinfo[:appType]} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
@@ -935,7 +940,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     result_log(identifier, "azure hdinsight cluster resize", progresslog, returnflagfile)
   elsif azureaction.eql?("upgrade")
     execute 'upgradekap' do
-      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{kylin[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> #{azureerror}"
+      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{appinfo[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> #{azureerror}"
       #ignore_failure true
     end
   end
