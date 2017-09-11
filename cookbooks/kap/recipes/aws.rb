@@ -333,7 +333,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       block do
           #tricky way to load this Chef::Mixin::ShellOut utilities
           Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},#{appinfo[:kapUrl]},#{appinfo[:KyAnalyzerUrl]},#{appinfo[:ZeppelinUrl]} >>  #{basedir}aws/#{identifier}/deploy.log"
+          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appinfo[:appType]},#{kaptoken},#{kapagentid},#{instancecount},#{appinfo[:kapUrl]},#{appinfo[:KyAnalyzerUrl]},#{appinfo[:ZeppelinUrl]} >>  #{basedir}aws/#{identifier}/deploy.log"
           command_out = shell_out(command, :timeout => 3600)
       end
       action :create
@@ -494,7 +494,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "cat #{basedir}aws/#{identifier}/ZONE.txt >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "rundeploychef" do
-      command "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},#{appinfo[:kapUrl]},#{appinfo[:KyAnalyzerUrl]},#{appinfo[:ZeppelinUrl]},`cat #{basedir}aws/#{identifier}/vpcid.txt`,`cat #{basedir}aws/#{identifier}/subnetid.txt`,`cat #{basedir}aws/#{identifier}/securitygroupid.txt` >  #{awserror} && touch #{returnflagfile}"
+      command "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appinfo[:appType]},#{kaptoken},#{kapagentid},#{instancecount},#{appinfo[:kapUrl]},#{appinfo[:KyAnalyzerUrl]},#{appinfo[:ZeppelinUrl]},`cat #{basedir}aws/#{identifier}/vpcid.txt`,`cat #{basedir}aws/#{identifier}/subnetid.txt`,`cat #{basedir}aws/#{identifier}/securitygroupid.txt` >  #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment deploy chef", progresslog, returnflagfile)
