@@ -174,7 +174,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :sshPassword => sshPassword,
         :storageAccount => storageAccount,
         :kaptoken => kaptoken,
-        :kapagentid => kapagentid
+        :kapagentid => kapagentid,
+        :kapurl => appinfo[:kyanalyzerurl],
+        :kyanalyzerurl => appinfo[:kyanalyzerurl],
+        :zeppelinurl => appinfo[:zeppelinurl]
       )
       mode 0644
       retries 3
@@ -393,7 +396,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :subnet1Name => subnet1Name,
         :databaseName => clusterName,
         :kaptoken => kaptoken,
-        :kapagentid => kapagentid
+        :kapagentid => kapagentid,
+        :kapurl => appinfo[:kyanalyzerurl],
+        :kyanalyzerurl => appinfo[:kyanalyzerurl],
+        :zeppelinurl => appinfo[:zeppelinurl]
       )
       mode 0644
       retries 3
@@ -651,7 +657,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :subnet1Name => subnet1Name,
         :databaseName => clusterName,
         :kaptoken => kaptoken,
-        :kapagentid => kapagentid
+        :kapagentid => kapagentid,
+        :kapurl => appinfo[:kyanalyzerurl],
+        :kyanalyzerurl => appinfo[:kyanalyzerurl],
+        :zeppelinurl => appinfo[:zeppelinurl]
       )
       mode 0644
       retries 3
@@ -684,7 +693,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :subnet1Name => subnet1Name,
         :databaseName => clusterName,
         :kaptoken => kaptoken,
-        :kapagentid => kapagentid
+        :kapagentid => kapagentid,
+        :kapurl => appinfo[:kyanalyzerurl],
+        :kyanalyzerurl => appinfo[:kyanalyzerurl],
+        :zeppelinurl => appinfo[:zeppelinurl]
       )
       mode 0644
       retries 3
