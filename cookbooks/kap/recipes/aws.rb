@@ -341,7 +341,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(identifier, "aws deployment create emr", progresslog, returnflagfile)
     execute "checkEMRid" do
-      command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt > #{awserror} && touch #{returnflagfile}"
+      command "aws emr list-clusters --query 'Clusters[? Status.State==`WAITING` && Name==`#{identifier}`]'| grep Id| cut -d':' -f2|cut -d'\"' -f2 > #{basedir}aws/#{identifier}/clusterID.txt  && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment checkEMRid", progresslog, returnflagfile)
