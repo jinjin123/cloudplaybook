@@ -167,6 +167,27 @@
       "metadata": {
         "description": "kap agent Id for each kap node"
       }
+    },
+    "kapurl": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "kap tar file download url"
+      }
+    },
+    "kyanalyzerurl": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "kyanalyzerurl tar file download url"
+      }
+    },
+    "zeppelinurl": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "zeppelinurl tar file download url"
+      }
     }
   },
   "variables": {
@@ -345,7 +366,7 @@
           {
             "name": "[concat('KAP-install-v0','-' ,uniquestring(variables('applicationName')))]",
             "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh",
-            "parameters": "[concat(parameters('clusterLoginUserName'), ' ', parameters('clusterLoginPassword'), ' ', parameters('metastoreName'), ' ', parameters('appType'), ' ', parameters('clusterName'), ' ', parameters('kaptoken'), ' ', parameters('kapagentid'))]",
+            "parameters": "[concat(parameters('clusterLoginUserName'), ' ', parameters('clusterLoginPassword'), ' ', parameters('metastoreName'), ' ', parameters('appType'), ' ', parameters('clusterName'), ' ', parameters('kaptoken'), ' ', parameters('kapagentid'),' ',parameters('kapurl'), ' ', parameters('kyanalyzerurl'),' ',parameters('zeppelinurl'))]",
             "roles": [
               "edgenode"
             ]
