@@ -13,9 +13,13 @@ APPTYPE=`echo $VAR|cut -d ',' -f8`
 KYACCOUNTTOKEN=`echo $VAR|cut -d ',' -f9`
 KAPAGENTID=`echo $VAR|cut -d ',' -f10`
 INSTANCECOUNT=`echo $VAR|cut -d ',' -f11`
-VPCTODEPLOY=`echo $VAR|cut -d ',' -f12`
-SUBNETID=`echo $VAR|cut -d ',' -f13`
-VPCSECURITYGROUP=`echo $VAR|cut -d ',' -f14`
+KAPURL=`echo $VAR|cut -d ',' -f12`
+KYANALYZERURL=`echo $VAR|cut -d ',' -f13`
+ZEPPELINURL=`echo $VAR|cut -d ',' -f14`
+VPCTODEPLOY=`echo $VAR|cut -d ',' -f15`
+SUBNETID=`echo $VAR|cut -d ',' -f16`
+VPCSECURITYGROUP=`echo $VAR|cut -d ',' -f17`
+
 
 if [ -z "$VPCTODEPLOY" ] && [ -z "$SUBNETID"];
 then
@@ -129,6 +133,9 @@ ParameterKey=apptype,ParameterValue=$APPTYPE \
 ParameterKey=kyaccountToken,ParameterValue=$KYACCOUNTTOKEN \
 ParameterKey=kapagentid,ParameterValue=$KAPAGENTID \
 ParameterKey=InstanceCount,ParameterValue=$INSTANCECOUNT \
+ParameterKey=kapurl,ParameterValue=$KAPURL \
+ParameterKey=kyanalyzerurl,ParameterValue=$KYANALYZERURL \
+ParameterKey=zeppelinurl,ParameterValue=$ZEPPELINURL \
 
 #####################
 # Check status and return until success or failed

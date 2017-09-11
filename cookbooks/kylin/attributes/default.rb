@@ -10,6 +10,9 @@ default[:kylin][:var_kyaccountToken] = "KYACCOUNTTOKEN"
 default[:kylin][:emrserver] = "EMRSERVER"
 default[:kylin][:s3location] = ""
 default[:kylin][:var_kapagentid] = "KAPAGENTID"
+default[:kylin][:var_kapurl] = "KAPURL"
+default[:kylin][:var_kyanalyzerurl] = "KYANALYZERURL"
+default[:kylin][:var_zeppelinurl] = "ZEPPELINURL"
 
 # default[:kylin][:kylin_tarball]='https://s3.cn-north-1.amazonaws.com.cn/bootdevcn/apache-kylin-1.5.4.1-hbase1.x-bin.tar.gz'
 # default[:kylin][:KAP_DOWNLOAD_URI]='https://kyhub.blob.core.chinacloudapi.cn/packages/kap/'
