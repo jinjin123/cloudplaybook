@@ -175,9 +175,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :storageAccount => storageAccount,
         :kaptoken => kaptoken,
         :kapagentid => kapagentid,
-        :kapurl => appinfo[:kyanalyzerurl],
-        :kyanalyzerurl => appinfo[:kyanalyzerurl],
-        :zeppelinurl => appinfo[:zeppelinurl]
+        :kapurl => appinfo[:kapUrl],
+        :kyanalyzerurl => appinfo[:KyAnalyzerUrl],
+        :zeppelinurl => appinfo[:ZeppelinUrl]
       )
       mode 0644
       retries 3
@@ -397,9 +397,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :databaseName => clusterName,
         :kaptoken => kaptoken,
         :kapagentid => kapagentid,
-        :kapurl => appinfo[:kyanalyzerurl],
-        :kyanalyzerurl => appinfo[:kyanalyzerurl],
-        :zeppelinurl => appinfo[:zeppelinurl]
+        :kapurl => appinfo[:kapUrl],
+        :kyanalyzerurl => appinfo[:KyAnalyzerUrl],
+        :zeppelinurl => appinfo[:ZeppelinUrl]
       )
       mode 0644
       retries 3
@@ -658,9 +658,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :databaseName => clusterName,
         :kaptoken => kaptoken,
         :kapagentid => kapagentid,
-        :kapurl => appinfo[:kyanalyzerurl],
-        :kyanalyzerurl => appinfo[:kyanalyzerurl],
-        :zeppelinurl => appinfo[:zeppelinurl]
+        :kapurl => appinfo[:kapUrl],
+        :kyanalyzerurl => appinfo[:KyAnalyzerUrl],
+        :zeppelinurl => appinfo[:ZeppelinUrl]
       )
       mode 0644
       retries 3
@@ -694,9 +694,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :databaseName => clusterName,
         :kaptoken => kaptoken,
         :kapagentid => kapagentid,
-        :kapurl => appinfo[:kyanalyzerurl],
-        :kyanalyzerurl => appinfo[:kyanalyzerurl],
-        :zeppelinurl => appinfo[:zeppelinurl]
+        :kapurl => appinfo[:kapUrl],
+        :kyanalyzerurl => appinfo[:KyAnalyzerUrl],
+        :zeppelinurl => appinfo[:ZeppelinUrl]
       )
       mode 0644
       retries 3
