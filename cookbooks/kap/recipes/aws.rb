@@ -340,6 +340,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_pure_log(identifier, "aws deployment create vpc and chefserver finish", progresslog)
 
+    result_pure_log(identifier, "aws deployment create emr begin...", progresslog)
     execute "create_emr" do
       command "ssh -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"sudo /root/create_emr.sh #{identifier} #{emrversion}\" > #{awserror} && touch #{returnflagfile}"
       ignore_failure true
