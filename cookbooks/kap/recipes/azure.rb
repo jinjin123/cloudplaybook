@@ -857,7 +857,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
       result_log(identifier, "azure group deployment create hdi1 with scheme allinonevnet", progresslog, returnflagfile)
       execute 'config_hdi1' do
-        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{appinfo[:appType]} #{clusterName} #{kaptoken} #{kapagentid}\" >> #{azureerror} && touch #{returnflagfile}"
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{appinfo[:appType]} #{clusterName} #{kaptoken} #{kapagentid} #{appinfo[:kapUrl]} #{appinfo[:KyAnalyzerUrl]} #{appinfo[:ZeppelinUrl]}\" >> #{azureerror} && touch #{returnflagfile}"
         ignore_failure true
       end
       result_log(identifier, "azure group deployment config hdi1 with scheme allinonevnet", progresslog, returnflagfile)
