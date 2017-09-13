@@ -1,16 +1,86 @@
-[Unit]
-Description=kapagent
+#!/bin/bash
+# kap daemon
+# chkconfig: 345 20 80
+# description: kylin daemon
+# processname: kylin
 
-[Service]
-Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+# Environmental variables
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
-Type=forking
-Restart=on-failure
-RestartSec=60s
-User=kylin
+# Specify the user name
+USER=root
 
+NAME=kapagent
+DESC=kapagent
 
-ExecStart=/bin/bash -c "export KYLIN_HOME=/usr/local/kap;java -jar $KYLIN_HOME/kap-agent.jar --agentId=replaceAgentId"
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
 
-[Install]
-WantedBy=multi-user.target
+COMMAND='/bin/bash -c "export KYLIN_HOME=/usr/local/kap;java -jar $KYLIN_HOME/kap-agent.jar --agentId=replaceAgentId"'
+STOPCOMMAND="kill $(ps aux | grep 'kap-agent' | awk '{print $2}')"
+
+case "$1" in
+start)
+	printf "%-50s" "Starting $NAME..."
+	cd $DAEMON_PATH
+        pwd
+	echo "Saving PID" $PID " to " $PIDFILE
+
+        if [ ! -z "LC_CTYPE" ]; then
+            echo "Setting LC_CTYPE env variable to be en_US.utf-8";export LC_CTYPE="en_US.utf-8";export KYLIN_HOME="/usr/local/kap"
+        fi
+
+        eval $COMMAND
+        # PID=$(ps ax | grep kap | grep -v grep | awk {'print $1'});
+        PID=$(ps aux| grep kap| grep -v grep | awk {'print $2'})
+
+        if [[ -z ${PID+x} ]]; then
+            printf "%s\n" "Fail"
+        else
+            echo $PID > $PIDFILE
+            printf "%s\n" "Ok"
+        fi
+;;
+status)
+        printf "%-50s" "Checking $NAME..."
+        if [ -f $PIDFILE ]; then
+            PID=`cat $PIDFILE`
+						CHECK=0
+						for x in $PID
+						do
+							if [ -z "`ps axf | grep ${PID} | grep -v grep`" ];then
+								CHECK=1
+							fi
+						done
+            if [ "$CHECK" -eq 0 ]; then
+                printf "%s\n" "Process dead but pidfile exists"
+            else
+                echo "Running"
+            fi
+        else
+            printf "%s\n" "Service not running"
+        fi
+;;
+stop)
+        printf "%-50s" "Stopping $NAME"
+            PID=`cat $PIDFILE`
+            cd $DAEMON_PATH
+        if [ -f $PIDFILE ]; then
+            # kill -TERM $PID
+            eval $STOPCOMMAND
+            printf "%s\n" "Ok"
+            rm -f $PIDFILE
+        else
+            printf "%s\n" "pidfile not found"
+        fi
+;;
+
+restart)
+  	$0 stop
+  	$0 start
+;;
+
+*)
+        echo "Usage: $0 {status|start|stop|restart}"
+        exit 1
+esac

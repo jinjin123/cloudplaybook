@@ -96,6 +96,13 @@ template "/etc/init.d/kap" do
   mode  '0755'
 end
 
+template "/etc/init.d/kapagent" do
+  source 'kapagent.service'
+  owner 'root'
+  group 'root'
+  mode  '0755'
+end
+
 execute "updatingkylinpropertiesworkdir" do
   command "sed -i 's/kylin.env.hdfs-working-dir=.*/kylin.env.hdfs-working-dir=#{node[:kylin][:s3location]}/' /usr/local/kap/conf/kylin.properties"
   ignore_failure true
