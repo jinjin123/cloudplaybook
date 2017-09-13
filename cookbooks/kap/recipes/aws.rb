@@ -55,6 +55,26 @@ if (not (defined?(kylin[:app])).nil?)
   appinfo = kylin[:app]
 end
 
+appType = "KAP+KyAnalyzer+Zeppelin"
+if (not (defined?(appinfo[:appType])).nil?) && (not "#{appinfo[:appType]}" == "")
+  appType = appinfo[:appType]
+end
+
+kapUrl = "https://kyhub.blob.core.chinacloudapi.cn/packages/kap/kap-2.4.4-GA-hbase1.x.tar.gz"
+if (not (defined?(appinfo[:kapUrl])).nil?) && (not "#{appinfo[:kapUrl]}" == "")
+  kapUrl = appinfo[:kapUrl]
+end
+
+kyanalyzerUrl = "https://kyhub.blob.core.chinacloudapi.cn/packages/kyanalyzer/KyAnalyzer-2.4.0.tar.gz"
+if (not (defined?(appinfo[:KyAnalyzerUrl])).nil?) && (not "#{appinfo[:KyAnalyzerUrl]}" == "")
+  kyanalyzerUrl＝appinfo = appinfo[:KyAnalyzerUrl]
+end
+
+zeppelinUrl = "https://kyhub.blob.core.chinacloudapi.cn/packages/zeppelin/zeppelin-0.8.0-kylin.tar.gz"
+if (not (defined?(appinfo[:ZeppelinUrl])).nil?) && (not "#{appinfo[:ZeppelinUrl]}" == "")
+  zeppelinUrl = appinfo[:ZeppelinUrl]
+end
+
 # Check what scheme, "allinone" or "separated" to be deployed
 if (not (defined?(aws[:scheme])).nil?) && (not "#{aws[:scheme]}" == "")
   scheme = aws[:scheme]
@@ -158,10 +178,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   clusterLoginPassword = 'Kyligence2016'
   if (not (defined?(kylin[:clusterLoginPassword])).nil?) && (not "#{kylin[:clusterLoginPassword]}" == "")
     clusterLoginPassword = kylin[:clusterLoginPassword]
-  end
-  appType = "KAP+KyAnalyzer+Zeppelin"
-  if (not (defined?(kylin[:appType])).nil?) && (not "#{kylin[:appType]}" == "")
-    appType = kylin[:appType]
   end
   kaptoken = "dda18812-e57b-47f1-8aae-38adebecde8a"
   if (not (defined?(kylin[:kaptoken])).nil?) && (not "#{kylin[:kaptoken]}" == "")
@@ -333,7 +349,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       block do
           #tricky way to load this Chef::Mixin::ShellOut utilities
           Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appinfo[:appType]},#{kaptoken},#{kapagentid},#{instancecount},#{appinfo[:kapUrl]},#{appinfo[:KyAnalyzerUrl]},#{appinfo[:ZeppelinUrl]} >  #{awserror}"
+          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},#{kapUrl},#{kyanalyzerUrl},#{zeppelinUrl} >  #{awserror}"
           command_out = shell_out(command, :timeout => 3600)
       end
       action :create
@@ -495,7 +511,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "cat #{basedir}aws/#{identifier}/ZONE.txt >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "rundeploychef" do
-      command "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appinfo[:appType]},#{kaptoken},#{kapagentid},#{instancecount},#{appinfo[:kapUrl]},#{appinfo[:KyAnalyzerUrl]},#{appinfo[:ZeppelinUrl]},`cat #{basedir}aws/#{identifier}/vpcid.txt`,`cat #{basedir}aws/#{identifier}/subnetid.txt`,`cat #{basedir}aws/#{identifier}/securitygroupid.txt` >  #{awserror} && touch #{returnflagfile}"
+      command "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},#{kapUrl},#{kyanalyzerUrl},#{zeppelinUrl},`cat #{basedir}aws/#{identifier}/vpcid.txt`,`cat #{basedir}aws/#{identifier}/subnetid.txt`,`cat #{basedir}aws/#{identifier}/securitygroupid.txt` >  #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment deploy chef", progresslog, returnflagfile)
