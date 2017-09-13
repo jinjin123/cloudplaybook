@@ -235,8 +235,7 @@
       "type": "Microsoft.HDInsight/clusters",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount1'))]",
-        "AllowAllAzureIps"
+        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount1'))]"
       ],
       "properties": {
         "clusterVersion": "[parameters('clusterVersion')]",
