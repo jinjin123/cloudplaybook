@@ -253,8 +253,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount1'))]",
-        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount2'))]",
-        "AllowAllAzureIps"
+        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount2'))]"
       ],
       "properties": {
         "clusterVersion": "[parameters('clusterVersion')]",
