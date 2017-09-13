@@ -65,7 +65,7 @@ end
 
 execute "installkylin" do
     cwd "#{Chef::Config[:file_cache_path]}"
-    command "chmod 744 ./install.sh;./install.sh #{node[:kylin][:var_adminuser]} #{node[:kylin][:var_adminpassword]} #{node[:kylin][:var_apptype]} #{node[:kylin][:var_kyaccountToken]} #{node[:kylin][:var_kapurl]} #{node[:kylin][:var_kyanalyzerurl]} #{node[:kylin][:var_zeppelinurl]} #{node[:kylin][:var_kapagentid]};"
+    command "chmod 744 ./install.sh;./install.sh #{node[:kylin][:var_adminuser]} #{node[:kylin][:var_adminpassword]} #{node[:kylin][:var_apptype]} #{node[:kylin][:var_kyaccountToken]} #{node[:kylin][:var_kapurl]} #{node[:kylin][:var_kyanalyzerurl]} #{node[:kylin][:var_zeppelinurl]};"
 #    user 'hdfs'
 #    group 'root'
 end
@@ -97,7 +97,10 @@ template "/etc/init.d/kap" do
 end
 
 template "/etc/init.d/kapagent" do
-  source 'kapagent.service'
+  source 'kapagent.service.erb'
+  variables({
+     agentId: node[:kylin][:var_kapagentid]
+    })
   owner 'root'
   group 'root'
   mode  '0755'

@@ -16,7 +16,7 @@ DESC=kapagent
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
-COMMAND='/bin/bash -c "export KYLIN_HOME=/usr/local/kap;java -jar $KYLIN_HOME/kap-agent.jar --agentId=replaceAgentId"'
+COMMAND='/bin/bash -c "export KYLIN_HOME=/usr/local/kap;java -jar $KYLIN_HOME/kap-agent.jar --agentId=<%= agentId %>"'
 STOPCOMMAND="kill $(ps aux | grep 'kap-agent' | awk '{print $2}')"
 
 case "$1" in
