@@ -22,7 +22,7 @@
   "variables": {
     "sqlDatabase": {
       "serverName": "[concat(parameters('sqlvirtualMachinesname'))]",
-      "databaseName": "[concat(parameters('sqldatabaseName'))]"
+      "databaseName": "[concat(parameters('sqldatabaseName'), 'db')]"
     }
   },
   "resources": [
