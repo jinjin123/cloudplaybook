@@ -236,8 +236,6 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount1'))]",
-        "[concat('Microsoft.Sql/servers/', variables('sqlDatabase').serverName)]",
-        "[variables('sqlDatabase').databaseName]",
         "AllowAllAzureIps"
       ],
       "properties": {
