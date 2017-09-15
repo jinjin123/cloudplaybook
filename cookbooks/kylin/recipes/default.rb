@@ -91,9 +91,9 @@ end
 
 template "/etc/init.d/kapagent" do
   source 'kapagent.service.erb'
-  variables({
+  variables lazy { {
      agentId: node[:kylin][:var_kapagentid]
-    })
+    } }
   owner 'root'
   group 'root'
   mode  '0755'
