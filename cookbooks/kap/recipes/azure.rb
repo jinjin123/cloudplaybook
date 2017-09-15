@@ -44,20 +44,24 @@ if (not (defined?(kylin[:app])).nil?)
 end
 
 # add default value to appinfo
-if ( (defined?(appinfo[:appType])).nil? || "#{appinfo[:appType]}" == "")
-  appinfo[:appType] = "KAP+KyAnalyzer+Zeppelin"
+appType = "KAP+KyAnalyzer+Zeppelin"
+if (not (defined?(appinfo[:appType])).nil?) && (not "#{appinfo[:appType]}" == "")
+  appType = appinfo[:appType]
 end
 
-if ( (defined?(appinfo[:kapUrl])).nil? || "#{appinfo[:kapUrl]}" == "")
-  appinfo[:kapUrl] = "https://kyhub.blob.core.chinacloudapi.cn/packages/kap/kap-2.4.4-GA-hbase1.x.tar.gz"
+kapUrl = "https://kyhub.blob.core.chinacloudapi.cn/packages/kap/kap-2.4.4-GA-hbase1.x.tar.gz"
+if (not (defined?(appinfo[:kapUrl])).nil?) && (not "#{appinfo[:kapUrl]}" == "")
+  kapUrl = appinfo[:kapUrl]
 end
 
-if ( (defined?(appinfo[:KyAnalyzerUrl])).nil? || "#{appinfo[:KyAnalyzerUrl]}" == "")
-  appinfo[:KyAnalyzerUrl] = "https://kyhub.blob.core.chinacloudapi.cn/packages/kyanalyzer/KyAnalyzer-2.4.0.tar.gz"
+kyanalyzerUrl = "https://kyhub.blob.core.chinacloudapi.cn/packages/kyanalyzer/KyAnalyzer-2.4.0.tar.gz"
+if (not (defined?(appinfo[:KyAnalyzerUrl])).nil?) && (not "#{appinfo[:KyAnalyzerUrl]}" == "")
+  kyanalyzerUrl＝appinfo = appinfo[:KyAnalyzerUrl]
 end
 
-if ( (defined?(appinfo[:ZeppelinUrl])).nil? || "#{appinfo[:ZeppelinUrl]}" == "")
-  appinfo[:ZeppelinUrl] = "https://kyhub.blob.core.chinacloudapi.cn/packages/zeppelin/zeppelin-0.8.0-kylin.tar.gz"
+zeppelinUrl = "https://kyhub.blob.core.chinacloudapi.cn/packages/zeppelin/zeppelin-0.8.0-kylin.tar.gz"
+if (not (defined?(appinfo[:ZeppelinUrl])).nil?) && (not "#{appinfo[:ZeppelinUrl]}" == "")
+  zeppelinUrl = appinfo[:ZeppelinUrl]
 end
 
 
@@ -178,7 +182,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     template "#{basedir}azure/#{identifier}/deploymentTemplate.#{identifier}.parameters.json" do
       source "deploywithcluster.parameters.json.erb"
       variables(
-        :appType => appinfo[:appType],
+        :appType => appType,
         :clusterName  => clusterName,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
@@ -194,9 +198,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :storageAccount => storageAccount,
         :kaptoken => kaptoken,
         :kapagentid => kapagentid,
-        :kapurl => appinfo[:kapUrl],
-        :kyanalyzerurl => appinfo[:KyAnalyzerUrl],
-        :zeppelinurl => appinfo[:ZeppelinUrl]
+        :kapurl => kapUrl,
+        :kyanalyzerurl => kyanalyzerUrl,
+        :zeppelinurl => zeppelinUrl
       )
       mode 0644
       retries 3
@@ -396,7 +400,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     template "#{basedir}azure/#{identifier}/singlehdi.parameters.#{identifier}.json" do
       source "singlehdi.parameters.json.erb"
       variables(
-        :appType => appinfo[:appType],
+        :appType => appType,
         :clusterName  => clusterName,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
@@ -416,9 +420,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :databaseName => clusterName,
         :kaptoken => kaptoken,
         :kapagentid => kapagentid,
-        :kapurl => appinfo[:kapUrl],
-        :kyanalyzerurl => appinfo[:KyAnalyzerUrl],
-        :zeppelinurl => appinfo[:ZeppelinUrl]
+        :kapurl => kapUrl,
+        :kyanalyzerurl => kyanalyzerUrl,
+        :zeppelinurl => zeppelinUrl
       )
       mode 0644
       retries 3
@@ -656,7 +660,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
       source "separatedhdi.parameters.json.erb"
       variables(
-        :appType => appinfo[:appType],
+        :appType => appType,
         :clusterName  => clusterName,
         :clusterLoginUserName => kylin[:clusterLoginUserName],
         :clusterLoginPassword => kylin[:clusterLoginPassword],
@@ -677,9 +681,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :databaseName => clusterName,
         :kaptoken => kaptoken,
         :kapagentid => kapagentid,
-        :kapurl => appinfo[:kapUrl],
-        :kyanalyzerurl => appinfo[:KyAnalyzerUrl],
-        :zeppelinurl => appinfo[:ZeppelinUrl]
+        :kapurl => kapUrl,
+        :kyanalyzerurl => kyanalyzerUrl,
+        :zeppelinurl => zeppelinUrl
       )
       mode 0644
       retries 3
@@ -713,9 +717,9 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :databaseName => clusterName,
         :kaptoken => kaptoken,
         :kapagentid => kapagentid,
-        :kapurl => appinfo[:kapUrl],
-        :kyanalyzerurl => appinfo[:KyAnalyzerUrl],
-        :zeppelinurl => appinfo[:ZeppelinUrl]
+        :kapurl => kapUrl,
+        :kyanalyzerurl => kyanalyzerUrl,
+        :zeppelinurl => zeppelinUrl
       )
       mode 0644
       retries 3
@@ -876,7 +880,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
       result_log(identifier, "azure group deployment create hdi1 with scheme allinonevnet", progresslog, returnflagfile)
       execute 'config_hdi1' do
-        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{appinfo[:appType]} #{clusterName} #{kaptoken} #{kapagentid} #{appinfo[:kapUrl]} #{appinfo[:KyAnalyzerUrl]} #{appinfo[:ZeppelinUrl]}\" >> #{azureerror} && touch #{returnflagfile}"
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh -t edgenode -p \"#{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{metastoreName} #{appType} #{clusterName} #{kaptoken} #{kapagentid} #{kapUrl} #{kyanalyzerUrl} #{zeppelinUrl}\" >> #{azureerror} && touch #{returnflagfile}"
         ignore_failure true
       end
       result_log(identifier, "azure group deployment config hdi1 with scheme allinonevnet", progresslog, returnflagfile)
@@ -935,7 +939,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif azureaction.eql?("removehdi")
     result_pure_log(identifier, "azure resouces removehdi begin ...", progresslog)
     execute 'removehdi_resources_group' do
-      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{appinfo[:appType]} >> #{azureerror} && touch #{returnflagfile}"
+      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{appType} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
@@ -971,7 +975,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     result_log(identifier, "azure hdinsight cluster resize", progresslog, returnflagfile)
   elsif azureaction.eql?("upgrade")
     execute 'upgradekap' do
-      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{appinfo[:appType]} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> #{azureerror}"
+      command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{appType} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> #{azureerror}"
       #ignore_failure true
     end
   end
