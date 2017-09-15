@@ -536,6 +536,10 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     result_pure_log(identifier, "aws deployment action[existing] finish", progresslog)
   elsif awsaction.eql?("removekap")
     result_pure_log(identifier, "aws deployment action[removekap] begin ...", progresslog)
+    # TODO: need to backup kap whole folder to s3 first
+    execute "backup_kapfolder" do
+      command ""
+    end
     execute "remove_cloudformation" do
       command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x > #{awserror};done && touch #{returnflagfile}"
       ignore_failure true
