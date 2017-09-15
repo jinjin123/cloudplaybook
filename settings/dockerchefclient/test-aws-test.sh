@@ -21,6 +21,12 @@
             "clusterLoginUserName": "admintest",
             "clusterLoginPassword": "Kyligence2016",
             "appType": "KAP+KyAnalyzer+Zeppelin",
+            "app":{
+              "appType":"KAP+KyAnalyzer+Zeppelin",
+              "kapUrl":"https://kyhub.blob.core.chinacloudapi.cn/packages/kap/kap-2.4.4-GA-hbase1.x.tar.gz",
+              "KyAnalyzerUrl":"https://kyhub.blob.core.chinacloudapi.cn/packages/kyanalyzer/KyAnalyzer-2.4.0.tar.gz",
+              "ZeppelinUrl":"https://kyhub.blob.core.chinacloudapi.cn/packages/zeppelin/zeppelin-0.8.0-kylin.tar.gz"
+            },
             "keypair": "kylin",
             "keypairprivatekey": "-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAtSiICsAN2TNdi5lBGeF2KdvOR2mwO7fP3JZ3jr2ct7VsqZMvT7lyRiRjEgvC
