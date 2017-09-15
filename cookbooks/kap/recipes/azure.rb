@@ -43,6 +43,25 @@ if (not (defined?(kylin[:app])).nil?)
   appinfo = kylin[:app]
 end
 
+# add default value to appinfo
+if ( (defined?(appinfo[:appType])).nil? || "#{appinfo[:appType]}" == "")
+  appinfo[:appType] = "KAP+KyAnalyzer+Zeppelin"
+end
+
+if ( (defined?(appinfo[:kapUrl])).nil? || "#{appinfo[:kapUrl]}" == "")
+  appinfo[:kapUrl] = "https://kyhub.blob.core.chinacloudapi.cn/packages/kap/kap-2.4.4-GA-hbase1.x.tar.gz"
+end
+
+if ( (defined?(appinfo[:KyAnalyzerUrl])).nil? || "#{appinfo[:KyAnalyzerUrl]}" == "")
+  appinfo[:KyAnalyzerUrl] = "https://kyhub.blob.core.chinacloudapi.cn/packages/kyanalyzer/KyAnalyzer-2.4.0.tar.gz"
+end
+
+if ( (defined?(appinfo[:ZeppelinUrl])).nil? || "#{appinfo[:ZeppelinUrl]}" == "")
+  appinfo[:ZeppelinUrl] = "https://kyhub.blob.core.chinacloudapi.cn/packages/zeppelin/zeppelin-0.8.0-kylin.tar.gz"
+end
+
+
+
 # Adding custom log
 progresslog = "#{basedir}azure/#{identifier}/progress.log"
 returnflagfile = "/tmp/kap_process_success"
