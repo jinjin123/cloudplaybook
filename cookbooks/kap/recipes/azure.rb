@@ -917,7 +917,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       end
       result_log(identifier, "azure group deployment create hdi1 by sheme separated", progresslog, returnflagfile)
       execute 'config_hdi1' do
-        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode >> #{azureerror} && touch #{returnflagfile}"
+        command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{storageaccount2} #{accountregion}\" >> #{azureerror} && touch #{returnflagfile}"
         ignore_failure true
       end
       result_log(identifier, "azure group deployment config hdi1 by sheme separated", progresslog, returnflagfile)
@@ -930,7 +930,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         end
         result_log(identifier, "azure group deployment create hdi2 by sheme separated", progresslog, returnflagfile)
         execute 'config_hdi2' do
-          command "azure hdinsight script-action create #{clusterName2} -g #{identifier} -n KAP-hdi2-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0_writecluster.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{accountregion}\" >> #{azureerror} && touch #{returnflagfile}"
+          command "azure hdinsight script-action create #{clusterName2} -g #{identifier} -n KAP-hdi2-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0_writecluster.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{accountregion} #{storageaccount2}\" >> #{azureerror} && touch #{returnflagfile}"
           ignore_failure true
         end
         result_log(identifier, "azure group deployment config hdi2 by sheme separated", progresslog, returnflagfile)
