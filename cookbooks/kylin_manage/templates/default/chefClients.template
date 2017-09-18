@@ -527,7 +527,7 @@
                       {
                         "Ref": "ChefServerPrivateKeyBucket"
                       },
-                      "/kap --recursive --quiet"
+                      "/kap --recursive --only-show-errors"
                     ]
                   ]
                 },

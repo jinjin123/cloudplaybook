@@ -538,7 +538,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     result_pure_log(identifier, "aws deployment action[removekap] begin ...", progresslog)
     #  backup kap whole folder to s3 first
     execute "backup_kapfolder" do
-      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' '/etc/chef/backupkap.sh'\)\""
+      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo /etc/chef/backupkap.sh'\)\""
       #ignore_failure true
     end
     execute "remove_cloudformation" do
