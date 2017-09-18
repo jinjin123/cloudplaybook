@@ -538,8 +538,8 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     result_pure_log(identifier, "aws deployment action[removekap] begin ...", progresslog)
     #  backup kap whole folder to s3 first
     execute "backup_kapfolder" do
-      command "BACKUP_BUCKET=`/usr/bin/aws cloudformation describe-stacks --stack-name $StackName --query 'Stacks[*].{Outputs:Outputs}' --output text | grep privatekeybucket | awk '{print $NF}'`;ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' 'sudo aws s3 cp /usr/local/kap s3://$BACKUP_BUCKET/kap --recursive'\)\""
-      cwd "/home/ec2-user/chef11/chef-repo"
+      command "ssh -t -t -i #{basedir}aws/#{identifier}/credentials/kylin.pem -o StrictHostKeyChecking=no ec2-user@`aws cloudformation describe-stacks --stack-name #{identifier}-chefserver --query 'Stacks[*].Outputs[*]' --output text | grep ServerPublicIp| awk {'print $NF'}` \"\(cd /home/ec2-user/chef11/chef-repo;sudo knife ssh -i /root/.ssh/kylin.pem 'role:chefclient-kylin' '/etc/chef/backupkap.sh'\)\""
+      #ignore_failure true
     end
     execute "remove_cloudformation" do
       command "for x in -chefserver -kylinserver;do echo \"Removing $x\" >> #{basedir}aws/#{identifier}/deploy.log;aws cloudformation delete-stack --stack-name #{identifier}$x > #{awserror};done && touch #{returnflagfile}"

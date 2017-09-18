@@ -516,6 +516,24 @@
                 "mode": "000644",
                 "group": "root",
                 "owner": "root"
+              },
+              "/etc/chef/backupkap.sh": {
+                "content": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "aws s3 cp /usr/local/kap ",
+                      "s3://",
+                      {
+                        "Ref": "ChefServerPrivateKeyBucket"
+                      },
+                      "/kap --recursive --quiet"
+                    ]
+                  ]
+                },
+                "mode": "000755",
+                "group": "root",
+                "owner": "root"
               }
             },
             "commands": {
