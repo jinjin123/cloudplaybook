@@ -6,15 +6,15 @@ def get_time_prefix
   now_str = now.strftime("[%Y-%m-%d %H:%M:%S]")
 end
 
-def get_log_prefix(identifier)
+def get_log_prefix(title)
   now = Time.now
   now_str = now.strftime("[%Y-%m-%d %H:%M:%S]")
-  prefix = now_str + " " + identifier + ""
+  prefix = now_str + " " + title + " "
 end
 
 #function: output result log of important operation to processlog
-def result_log(identifier, message, processlog, returnflagfile)
-  logprefix = get_log_prefix(identifier)
+def result_log(title, message, processlog, returnflagfile)
+  logprefix = get_log_prefix(title)
   execute "operation_success" do
     command "echo '#{logprefix} #{message} result:[success]' >> #{processlog}"
     only_if { ::File.exist?(returnflagfile)}
@@ -36,8 +36,8 @@ def result_log(identifier, message, processlog, returnflagfile)
 end
 
 # just put the message to procees log without check the returnflagfile
-def result_pure_log(identifier, message, processlog)
-  logprefix = get_log_prefix(identifier)
+def result_pure_log(title, message, processlog)
+  logprefix = get_log_prefix(title)
   execute "result_pure_log" do
     command "echo '#{logprefix} #{message}' >> #{processlog}"
   end

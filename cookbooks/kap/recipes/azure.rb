@@ -71,6 +71,18 @@ progresslog = "#{basedir}azure/#{identifier}/progress.log"
 returnflagfile = "/tmp/kap_process_success"
 
 azureerror = "/root/.azure/azure.err"
+title0       = "### STEP 00: "
+title1       = "### STEP 01: "
+title2       = "### STEP 02: "
+title3       = "### STEP 03: "
+title4       = "### STEP 04: "
+title5       = "### STEP 05: "
+title6       = "### STEP 06: "
+title7       = "### STEP 07: "
+title8       = "### STEP 08: "
+title9       = "### STEP 09: "
+sampletitle  = "### STEP 00: "
+emptytitle   = "             "
 
 # Removing token and
 execute "removecredentials" do
@@ -97,6 +109,7 @@ image_name = container_name
 # end
 
 ## Writing deployment info into host
+result_pure_log(title0, "begin deployment with clusterid : [#{identifier}]", returnflagfile)
 
 # Create directory
 if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
@@ -191,6 +204,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
         :containerName => containerName,
         :edgeNodeSize => kylin[:edgeNodeSize],
+        :workerNodeSize => kylin[:workerNodeSize],
         :location => kylin[:region],
         :metastoreName => metastoreName,
         :sshUserName => sshUserName,
@@ -409,6 +423,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
         :containerName => containerName,
         :edgeNodeSize => kylin[:edgeNodeSize],
+        :workerNodeSize => kylin[:workerNodeSize],
         :location => kylin[:region],
         :metastoreName => metastoreName,
         :sshUserName => sshUserName,
@@ -669,6 +684,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
         :containerName => containerName,
         :edgeNodeSize => kylin[:edgeNodeSize],
+        :workerNodeSize => kylin[:workerNodeSize],
         :location => kylin[:region],
         :metastoreName => metastoreName,
         :sshUserName => sshUserName,
@@ -705,6 +721,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         :clusterWorkerNodeCount => kylin[:clusterWorkerNodeCount],
         :containerName => containerName,
         :edgeNodeSize => kylin[:edgeNodeSize],
+        :workerNodeSize => kylin[:workerNodeSize],
         :location => kylin[:region],
         :metastoreName => metastoreName,
         :sshUserName => sshUserName,
