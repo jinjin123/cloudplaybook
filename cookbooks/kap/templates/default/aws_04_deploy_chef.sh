@@ -16,9 +16,10 @@ INSTANCECOUNT=`echo $VAR|cut -d ',' -f11`
 KAPURL=`echo $VAR|cut -d ',' -f12`
 KYANALYZERURL=`echo $VAR|cut -d ',' -f13`
 ZEPPELINURL=`echo $VAR|cut -d ',' -f14`
-VPCTODEPLOY=`echo $VAR|cut -d ',' -f15`
-SUBNETID=`echo $VAR|cut -d ',' -f16`
-VPCSECURITYGROUP=`echo $VAR|cut -d ',' -f17`
+COREINSTANCETYPE=`echo $VAR|cut -d ',' -f15`
+VPCTODEPLOY=`echo $VAR|cut -d ',' -f16`
+SUBNETID=`echo $VAR|cut -d ',' -f17`
+VPCSECURITYGROUP=`echo $VAR|cut -d ',' -f18`
 
 
 if [ -z "$VPCTODEPLOY" ] && [ -z "$SUBNETID"];
@@ -136,6 +137,7 @@ ParameterKey=InstanceCount,ParameterValue=$INSTANCECOUNT \
 ParameterKey=kapurl,ParameterValue=$KAPURL \
 ParameterKey=kyanalyzerurl,ParameterValue=$KYANALYZERURL \
 ParameterKey=zeppelinurl,ParameterValue=$ZEPPELINURL \
+ParameterKey=CoreInstanceType,ParameterValue=$COREINSTANCETYPE \
 
 #####################
 # Check status and return until success or failed

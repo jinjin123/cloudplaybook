@@ -126,6 +126,11 @@
       "Description": "cluster admin username to be deployed",
       "Type": "String"
     },
+    "CoreInstanceType":{
+      "Description": "core instance type",
+      "Type": "String",
+      "Default": "m3.xlarge"
+    },
     "kapurl":{
       "Description": "kap package download url",
       "Type": "String"
@@ -370,6 +375,10 @@
                       "\",\n  \"INSTANCECOUNT\": \"",
                       {
                         "Ref": "InstanceCount"
+                      },
+                      "\"\n \"COREINSTANCETYPE\": \"",
+                      {
+                        "Ref": "CoreInstanceType"
                       },
                       "\"\n",
                       "}"

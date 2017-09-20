@@ -168,6 +168,16 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     instancetype = kylin[:instancetype]
   end
 
+  workerNodeInstanceType = "m3.xlarge"
+  if (not (defined?(kylin[:workerNodeSize])).nil?) && (not "#{kylin[:workerNodeSize]}" == "")
+    workerNodeInstanceType = kylin[:workerNodeSize]
+  end
+
+  edgeNodeInstanceType = ""
+  if (not (defined?(kylin[:edgeNodeSize])).nil?) && (not "#{kylin[:edgeNodeSize]}" == "")
+    edgeNodeInstanceType = kylin[:edgeNodeSize]
+  end
+
   clusterLoginUserName = 'kylin'
   if (not (defined?(kylin[:clusterLoginUserName])).nil?) && (not "#{kylin[:clusterLoginUserName]}" == "")
     clusterLoginUserName = kylin[:clusterLoginUserName]
@@ -349,7 +359,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       block do
           #tricky way to load this Chef::Mixin::ShellOut utilities
           Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},#{kapUrl},#{kyanalyzerUrl},#{zeppelinUrl} >  #{awserror}"
+          command = "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},#{kapUrl},#{kyanalyzerUrl},#{zeppelinUrl},#{workerNodeInstanceType} >  #{awserror}"
           command_out = shell_out(command, :timeout => 3600)
       end
       action :create
@@ -511,7 +521,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       command "cat #{basedir}aws/#{identifier}/ZONE.txt >> #{basedir}aws/#{identifier}/deploy.log"
     end
     execute "rundeploychef" do
-      command "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},#{kapUrl},#{kyanalyzerUrl},#{zeppelinUrl},`cat #{basedir}aws/#{identifier}/vpcid.txt`,`cat #{basedir}aws/#{identifier}/subnetid.txt`,`cat #{basedir}aws/#{identifier}/securitygroupid.txt` >  #{awserror} && touch #{returnflagfile}"
+      command "cd #{basedir}aws/#{identifier};#{basedir}aws/#{identifier}/scripts/04_deploy_chef.sh `cat #{basedir}aws/#{identifier}/ZONE.txt`,#{identifier},#{keypair},#{clusterLoginUserName},#{clusterLoginPassword},#{appType},#{kaptoken},#{kapagentid},#{instancecount},#{kapUrl},#{kyanalyzerUrl},#{zeppelinUrl},#{workerNodeInstanceType},`cat #{basedir}aws/#{identifier}/vpcid.txt`,`cat #{basedir}aws/#{identifier}/subnetid.txt`,`cat #{basedir}aws/#{identifier}/securitygroupid.txt` >  #{awserror} && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(identifier, "aws deployment deploy chef", progresslog, returnflagfile)
