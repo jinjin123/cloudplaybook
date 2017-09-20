@@ -807,7 +807,7 @@ elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}
   execute "chaningpermission" do
     command "chmod 400 /root/.azure/azureProfile.json;chmod 400 /root/.azure/accessTokens.json"
   end
-  result_pure_log(identifier, "use credential token login, prepare profile success.", progresslog)
+  result_pure_log(emptytitle, "use credential token login, prepare profile success.", progresslog)
 end
 result_pure_log(emptytitle, "Login Azure success", progresslog)
 # Setting basic config for azure
