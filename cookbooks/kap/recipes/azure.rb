@@ -81,9 +81,12 @@ title6       = "### STEP 06: "
 title7       = "### STEP 07: "
 title8       = "### STEP 08: "
 title9       = "### STEP 09: "
+title10      = "### STEP 10: "
+title11      = "### STEP 11: "
+title12      = "### STEP 12: "
 sampletitle  = "### STEP 00: "
 emptytitle   = "             "
-
+titleend     = "### FINISHED "
 # Removing token and
 execute "removecredentials" do
   command "rm -rf /root/.azure/*"
@@ -939,64 +942,69 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
         ignore_failure true
       end
       result_log(emptytitle, "azure group deployment create hdi1 by sheme separated", progresslog, returnflagfile)
+      result_pure_log(title8, "Config HDinsight", progresslog)
       execute 'config_hdi1' do
         command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-hdi1-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{storageaccount2} #{accountregion}\" >> #{azureerror} && touch #{returnflagfile}"
         ignore_failure true
       end
-      result_log(identifier, "azure group deployment config hdi1 by sheme separated", progresslog, returnflagfile)
+      result_log(emptytitle, "azure group deployment config hdi1 by sheme separated", progresslog, returnflagfile)
       if ! azureaction.include?("read")
-        result_pure_log(identifier, "azure cluster seperate read and write, hdi2 create begin ...", progresslog)
+        result_pure_log(title9, "Create HDinsight WriteCluster", progresslog)
         execute 'create_hdi2' do
           command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> #{azureerror} && touch #{returnflagfile}"
           # notifies :run, 'execute[commit_docker]', :immediately
           ignore_failure true
         end
-        result_log(identifier, "azure group deployment create hdi2 by sheme separated", progresslog, returnflagfile)
+        result_log(emptytitle, "azure group deployment create hdi2 by sheme separated", progresslog, returnflagfile)
+        result_pure_log(title10, "Config HDinsight WriteCluster", progresslog)
         execute 'config_hdi2' do
           command "azure hdinsight script-action create #{clusterName2} -g #{identifier} -n KAP-hdi2-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_separateread_v0_writecluster.sh -t edgenode -p \"#{containerName} #{storageaccount1} #{accountregion} #{storageaccount2}\" >> #{azureerror} && touch #{returnflagfile}"
           ignore_failure true
         end
-        result_log(identifier, "azure group deployment config hdi2 by sheme separated", progresslog, returnflagfile)
+        result_log(emptytitle, "azure group deployment config hdi2 by sheme separated", progresslog, returnflagfile)
       end
     end
   elsif azureaction.eql?("removehdi")
-    result_pure_log(identifier, "azure resouces removehdi begin ...", progresslog)
+    result_pure_log(title3, "Remove KAP", progresslog)
     execute 'removehdi_resources_group' do
       command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-uninstall-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh -t edgenode -p #{appType} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
-    result_log(identifier, "azure hdinsight script-action create", progresslog, returnflagfile)
+    result_log(emptytitle, "remove kap and backup it", progresslog, returnflagfile)
+    result_pure_log(title4, "Remove HDinsight Cluster", progresslog)
     execute 'removehdi_hdinsight' do
       command "azure hdinsight cluster delete #{clusterName} -g #{identifier} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
-    result_log(identifier, "azure hdinsight hdinsight cluster delete", progresslog, returnflagfile)
+    result_log(emptytitle, "azure hdinsight hdinsight cluster delete", progresslog, returnflagfile)
     if scheme.eql?("separated")
-      result_pure_log(identifier, "hdinsight clushter is separated. begin remove hdinsight2...", progresslog)
+      result_pure_log(title5, "Remove HDinsight write cluster", progresslog)
       execute 'removehdi_hdinsight2' do
         command "azure hdinsight cluster delete #{clusterName2} -g #{identifier} >> #{azureerror} && touch #{returnflagfile}"
         # notifies :run, 'execute[commit_docker]', :immediately
         ignore_failure true
       end
-      result_log(identifier, "azure hdinsight2 cluster delete", progresslog, returnflagfile)
+      result_log(emptytitle, "azure hdinsight2 cluster delete", progresslog, returnflagfile)
     end
   elsif azureaction.eql?("removeall")
-    result_pure_log(identifier, "azure group removeall begin...", progresslog)
+    result_pure_log(title3, "Remove Whole Resource Group", progresslog)
     execute 'remove_resources_group' do
       command "azure group show #{identifier} > /root/.azure/check.txt || : ;NUM=`cat /root/.azure/check.txt| grep OK | wc -l|xargs`;if [ \"$NUM\" -ne \"0\" ];then azure group delete #{identifier} -q >> #{azureerror};else echo \"Resource group #{identifier} not exists\">> #{azureerror};fi"
       # notifies :run, 'execute[commit_docker]', :immediately
       #ignore_failure true
     end
   elsif azureaction.eql?("resize")
+    result_pure_log(title3, "Resize HDinsight cluster", progresslog)
     execute 'resize_resources_group' do
       command "azure hdinsight cluster resize #{clusterName} -g #{identifier} #{kylin[:clusterWorkerNodeCount]} >> #{azureerror} && touch #{returnflagfile}"
       # notifies :run, 'execute[commit_docker]', :immediately
       ignore_failure true
     end
-    result_log(identifier, "azure hdinsight cluster resize", progresslog, returnflagfile)
+    result_log(emptytitle, "azure hdinsight cluster resize", progresslog, returnflagfile)
   elsif azureaction.eql?("upgrade")
+    result_pure_log(title3, "Upgrade HDinsight cluster", progresslog)
     execute 'upgradekap' do
       command "azure hdinsight script-action create #{clusterName} -g #{identifier} -n KAP-upgrade-v0-onca4kdxp6vhw -u https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_upgrade_v0.sh -t edgenode -p \"#{appType} #{kylin[:clusterLoginUserName]} #{kylin[:clusterLoginPassword]} #{kylin[:metastoreName]}\" >> #{azureerror}"
       #ignore_failure true
@@ -1004,7 +1012,4 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 end
 
-execute 'progress_vnetcompleted' do
-  command "echo \"Identifier: #{identifier}; Creation of Vnet succeed\" >> #{progresslog}"
-  action :nothing
-end
+result_pure_log(titleend, "Upgrade HDinsight cluster", progresslog)
