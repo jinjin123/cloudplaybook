@@ -876,7 +876,6 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       result_pure_log(title4, "Create Vnet", progresslog)
       execute 'create_vnet' do
         command "azure group deployment create -g #{identifier} -n create_vnet -f #{basedir}azure/#{identifier}/vnet.#{identifier}.json -e #{basedir}azure/#{identifier}/vnet.#{identifier}.parameters.json >> #{azureerror} && touch #{returnflagfile}"
-        notifies :run, 'execute[progress_vnetcompleted]', :immediately
         ignore_failure true
       end
       result_log(emptytitle, "azure group deployment create vnet scheme allinonevnet", progresslog, returnflagfile)
