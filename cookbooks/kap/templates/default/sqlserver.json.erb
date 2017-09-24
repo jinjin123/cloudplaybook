@@ -22,7 +22,7 @@
   "variables": {
     "sqlDatabase": {
       "serverName": "[concat(parameters('sqlvirtualMachinesname'))]",
-      "databaseName": "[concat(parameters('sqldatabaseName'))]"
+      "databaseName": "[concat(parameters('sqldatabaseName'), 'db')]"
     }
   },
   "resources": [
@@ -50,7 +50,7 @@
           },
           "apiVersion": "2015-05-01-preview",
           "dependsOn": [
-            "[variables('sqlDatabase').serverName]"
+            "[concat('Microsoft.Sql/servers/',variables('sqlDatabase').serverName)]"
           ],
           "properties": {
             "edition": "Basic",

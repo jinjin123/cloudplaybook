@@ -247,64 +247,13 @@
       }
     },
     {
-      "name": "[variables('sqlDatabase').serverName]",
-      "type": "Microsoft.Sql/servers",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "SqlServer"
-      },
-      "apiVersion": "2014-04-01",
-      "dependsOn": [],
-      "properties": {
-        "administratorLogin": "[parameters('clusterLoginUserName')]",
-        "administratorLoginPassword": "[parameters('clusterLoginPassword')]",
-        "version": "12.0"
-      },
-      "resources": [
-        {
-          "name": "[variables('sqlDatabase').databaseName]",
-          "type": "databases",
-          "location": "[resourceGroup().location]",
-          "tags": {
-            "displayName": "Database"
-          },
-          "apiVersion": "2015-05-01-preview",
-          "dependsOn": [
-            "[variables('sqlDatabase').serverName]"
-          ],
-          "properties": {
-            "edition": "Basic",
-            "collation": "SQL_Latin1_General_CP1_CI_AS",
-            "maxSizeBytes": "1073741824",
-            "requestedServiceObjectiveName": "Basic"
-          }
-        },
-        {
-          "name": "AllowAllAzureIps",
-          "type": "firewallrules",
-          "location": "[resourceGroup().location]",
-          "apiVersion": "2014-04-01",
-          "dependsOn": [
-            "[variables('sqlDatabase').serverName]"
-          ],
-          "properties": {
-            "startIpAddress": "0.0.0.0",
-            "endIpAddress": "0.0.0.0"
-          }
-        }
-      ]
-    },
-    {
       "apiVersion": "[variables('clusterApiVersion')]",
       "name": "[parameters('clusterName')]",
       "type": "Microsoft.HDInsight/clusters",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount1'))]",
-        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount2'))]",
-        "[concat('Microsoft.Sql/servers/', variables('sqlDatabase').serverName)]",
-        "[variables('sqlDatabase').databaseName]",
-        "AllowAllAzureIps"
+        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount2'))]"
       ],
       "properties": {
         "clusterVersion": "[parameters('clusterVersion')]",
@@ -321,8 +270,8 @@
             "hive-site": {
               "javax.jdo.option.ConnectionDriverName": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
               "javax.jdo.option.ConnectionURL": "[concat('jdbc:sqlserver://', variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>', ';databaseName=', variables('sqlDatabase').databaseName, ';')]",
-              "javax.jdo.option.ConnectionUserName": "[concat(parameters('clusterLoginUserName'), '@', variables('sqlDatabase').serverName)]",
-              "javax.jdo.option.ConnectionPassword": "[parameters('clusterLoginPassword')]"
+              "javax.jdo.option.ConnectionUserName": "[concat(parameters('sshUserName'), '@', variables('sqlDatabase').serverName)]",
+              "javax.jdo.option.ConnectionPassword": "[parameters('sshPassword')]"
             },
             "hive-env": {
               "hive_database": "Existing MSSQL Server database with SQL authentication",

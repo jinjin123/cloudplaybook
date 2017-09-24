@@ -49,13 +49,6 @@ user 'hadoop' do
   ignore_failure true
 end
 
-template "/etc/init.d/kapagent" do
-  source 'kapagent.service'
-  owner 'root'
-  group 'root'
-  mode  '0755'
-end
-
 # Download and execute installation script
 remote_file "#{Chef::Config[:file_cache_path]}/install.sh" do
     # source node[:kylin][:kylin_tarball]
@@ -98,9 +91,9 @@ end
 
 template "/etc/init.d/kapagent" do
   source 'kapagent.service.erb'
-  variables({
+  variables lazy { {
      agentId: node[:kylin][:var_kapagentid]
-    })
+    } }
   owner 'root'
   group 'root'
   mode  '0755'
