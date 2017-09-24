@@ -293,9 +293,9 @@
         "HVMebs": "ami-3b0c9926"
       },
       "cn-north-1": {
-        "PVinstancestore": "ami-1afa2b77",
-        "PVebs": "ami-a8f627c5",
-        "HVMebs": "ami-b6f928db"
+        "PVinstancestore": "ami-7c15c111",
+        "PVebs": "ami-7c15c111",
+        "HVMebs": "ami-7c15c111"
       }
     }
   },
@@ -631,7 +631,6 @@
                     ]
                   ]
                 }
-<<<<<<< HEAD
               },
               "20geminstallvault": {
                 "command": "#aws s3 cp s3://bootdevcn/chef-vault-2.6.1.gem ~/chef-vault-2.6.1.gem;#/usr/bin/gem install --local ~/chef-vault-2.6.1.gem"
@@ -658,135 +657,6 @@
                 },
                 "cwd": "/home/ec2-user"
               }
-=======
-            ]
-        }
-    },
-    "Mappings": {
-        "AWSInstanceType2Arch": {
-            "t1.micro": {
-                "Arch": "PVebs"
-            },
-            "m1.small": {
-                "Arch": "PVinstancestore"
-            },
-            "m3.medium": {
-                "Arch": "PVinstancestore"
-            },
-            "m3.large": {
-                "Arch": "PVinstancestore"
-            },
-            "m3.xlarge": {
-                "Arch": "PVinstancestore"
-            },
-            "m4.large": {
-                "Arch": "HVMebs"
-            },
-            "m4.xlarge": {
-                "Arch": "HVMebs"
-            },
-            "m3.2xlarge": {
-                "Arch": "PVinstancestore"
-            },
-            "c3.large": {
-                "Arch": "PVinstancestore"
-            },
-            "c3.xlarge": {
-                "Arch": "PVinstancestore"
-            },
-            "c3.2xlarge": {
-                "Arch": "PVinstancestore"
-            },
-            "c3.4xlarge": {
-                "Arch": "PVinstancestore"
-            },
-            "c3.8xlarge": {
-                "Arch": "PVinstancestore"
-            },
-            "c4.large": {
-                "Arch": "HVMebs"
-            },
-            "c4.xlarge": {
-                "Arch": "HVMebs"
-            },
-            "c4.2xlarge": {
-                "Arch": "HVMebs"
-            },
-            "c4.4xlarge": {
-                "Arch": "HVMebs"
-            },
-            "c4.8xlarge": {
-                "Arch": "HVMebs"
-            }
-        },
-        "AWSRegionArch2AMI": {
-            "us-east-1": {
-                "PVinstancestore": "ami-44c0ea52",
-                "PVebs": "ami-abc1ebbd",
-                "HVMebs": "ami-a4c7edb2"
-            },
-            "us-east-2": {
-                "PVinstancestore": "ami-d07657b5",
-                "PVebs": "ami-8a7859ef",
-                "HVMebs": "ami-8a7859ef"
-            },
-            "us-west-2": {
-                "PVinstancestore": "ami-2ff3e756",
-                "PVebs": "ami-98f3e7e1",
-                "HVMebs": "ami-6df1e514"
-            },
-            "us-west-1": {
-                "PVinstancestore": "ami-377e5257",
-                "PVebs": "ami-347e5254",
-                "HVMebs": "ami-327f5352"
-            },
-            "eu-west-1": {
-                "PVinstancestore": "ami-81b8a3e7",
-                "PVebs": "ami-c4bba0a2",
-                "HVMebs": "ami-d7b9a2b1"
-            },
-            "ca-central-1": {
-                "HVMebs": "ami-a7aa15c3"
-            },
-            "eu-west-2": {
-                "HVMebs": "ed100689"
-            },
-            "eu-central-1": {
-                "PVinstancestore": "ami-24bd1b4b",
-                "PVebs": "ami-4dbc1a22",
-                "HVMebs": "ami-82be18ed"
-            },
-            "ap-southeast-1": {
-                "PVinstancestore": "ami-74af2017",
-                "PVebs": "ami-42901f21",
-                "HVMebs": "ami-77af2014"
-            },
-           "ap-northeast-2": {
-                "HVMebs": "ami-e21cc38c"
-            },
-            "ap-northeast-1": {
-                "PVinstancestore": "ami-ded0c7b9",
-                "PVebs": "ami-d3d3c4b4",
-                "HVMebs": "ami-3bd3c45c"
-            },
-            "ap-southeast-2": {
-                "PVinstancestore": "ami-809383e3",
-                "PVebs": "ami-43918120",
-                "HVMebs": "ami-10918173"
-            },
-            "ap-south-1": {
-                "HVMebs": "ami-47205e28"
-            },
-            "sa-east-1": {
-                "PVinstancestore": "ami-98d9b2f4",
-                "PVebs": "ami-1cdab170",
-                "HVMebs": "ami-87dab1eb"
-            },
-            "cn-north-1": {
-                "PVinstancestore": "ami-afd303c2",
-                "PVebs": "ami-2fd40442",
-                "HVMebs": "ami-afd303c2"
->>>>>>> 67bce4f3... Updating EC2 templates' AMI IDs
             }
           }
         }
