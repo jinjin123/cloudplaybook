@@ -185,7 +185,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     instancetype = kylin[:instancetype]
   end
 
-  workerNodeInstanceType = "m3.xlarge"
+  workerNodeInstanceType = "m4.xlarge"
   if (not (defined?(kylin[:workerNodeSize])).nil?) && (not "#{kylin[:workerNodeSize]}" == "")
     workerNodeInstanceType = kylin[:workerNodeSize]
   end

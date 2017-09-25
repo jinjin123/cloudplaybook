@@ -46,7 +46,7 @@ if [ -z "$CURRENTID" ];then
   --log-uri "s3n://aws-logs-472319870699-$REGION/elasticmapreduce/" \
   --name $CLUSTERNAME \
   --configurations file:///etc/chef/emrconfig.json \
-  --instance-groups '[{"InstanceCount":<%= node[:INSTANCECOUNT] %>,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"<%= node[:COREINSTANCETYPE] %>","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"m3.xlarge","Name":"Master instance group - 1"}]' \
+  --instance-groups '[{"InstanceCount":<%= node[:INSTANCECOUNT] %>,"EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"SizeInGB":500,"VolumeType":"gp2"},"VolumesPerInstance":1}],"EbsOptimized":true},"InstanceGroupType":"CORE","InstanceType":"<%= node[:COREINSTANCETYPE] %>","Name":"Core instance group - 2"},{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"m4.xlarge","Name":"Master instance group - 1"}]' \
   --region $REGION|grep ClusterId|cut -d':' -f2| sed 's/\"\|,\| //g'`
 else
   CLUSTER_ID=$CURRENTID
