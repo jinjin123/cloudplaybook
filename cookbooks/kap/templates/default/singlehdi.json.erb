@@ -379,7 +379,14 @@
             }
           ]
         },
-        "installScriptActions": [],
+        "installScriptActions": [
+          {
+            "name": "[concat('KAP-install-v0','-' ,uniquestring(variables('applicationName')))]",
+            "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_nothing_v0.sh",
+            "parameters": "",
+            "roles":["edgenode"]
+          }
+        ],
         "uninstallScriptActions": [
           {
             "name": "[concat('KAP-uninstall-v0','-' ,uniquestring(variables('applicationName')))]",
