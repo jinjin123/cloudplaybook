@@ -112,18 +112,39 @@
       "metadata": {
         "description": "Size of the edge node that hosts the application"
       },
-      "defaultValue": "Standard_D3_V2",
+      "defaultValue": "Standard_D3",
       "allowedValues": [
-        "Standard_A1",
-        "Standard_A2",
-        "Standard_A3",
-        "Standard_A4",
-        "Standard_D1_V2",
-        "Standard_D2_V2",
         "Standard_D3",
         "Standard_D4",
+        "Standard_D12",
+        "Standard_D13",
+        "Standard_D14",
         "Standard_D3_V2",
-        "Standard_D4_V2"
+        "Standard_D4_V2",
+        "Standard_D5_V2",
+        "Standard_D12_V2",
+        "Standard_D13_V2",
+        "Standard_D14_V2"
+      ]
+    },
+    "workerNodeSize": {
+      "type": "string",
+      "metadata": {
+        "description": "Size of the worker node that hosts the application"
+      },
+      "defaultValue": "Standard_D3",
+      "allowedValues": [
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_D12",
+        "Standard_D13",
+        "Standard_D14",
+        "Standard_D3_V2",
+        "Standard_D4_V2",
+        "Standard_D5_V2",
+        "Standard_D12_V2",
+        "Standard_D13_V2",
+        "Standard_D14_V2"
       ]
     },
     "sshUserName": {
@@ -306,7 +327,7 @@
               "minInstanceCount": 1,
               "targetInstanceCount": 2,
               "hardwareProfile": {
-                "vmSize": "Standard_D3_V2"
+                "vmSize": "Standard_D3"
               },
               "osProfile": {
                 "linuxOperatingSystemProfile": {
@@ -325,7 +346,7 @@
               "minInstanceCount": 1,
               "targetInstanceCount": "[parameters('clusterWorkerNodeCount')]",
               "hardwareProfile": {
-                "vmSize": "Standard_D3_V2"
+                "vmSize": "[parameters('workerNodeSize')]"
               },
               "osProfile": {
                 "linuxOperatingSystemProfile": {
@@ -344,7 +365,7 @@
               "minInstanceCount": 1,
               "targetInstanceCount": 3,
               "hardwareProfile": {
-                "vmSize": "Standard_D3_V2"
+                "vmSize": "Standard_A3"
               },
               "osProfile": {
                 "linuxOperatingSystemProfile": {

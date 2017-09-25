@@ -528,6 +528,24 @@
                 "mode": "000644",
                 "group": "root",
                 "owner": "root"
+              },
+              "/etc/chef/backupkap.sh": {
+                "content": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "aws s3 cp /usr/local/kap ",
+                      "s3://",
+                      {
+                        "Ref": "ChefServerPrivateKeyBucket"
+                      },
+                      "/kap --recursive --only-show-errors"
+                    ]
+                  ]
+                },
+                "mode": "000755",
+                "group": "root",
+                "owner": "root"
               }
             },
             "commands": {
@@ -596,7 +614,13 @@
                 "cwd": "/home/ec2-user"
               },
               "06updategemtochina": {
-                "command": "/usr/bin/gem sources --add https://gems.ruby-china.org --remove https://rubygems.org",
+                "command":{
+                  "Fn::If":[
+                    "CheckAccountRegion",
+                    "/usr/bin/gem sources --add https://rubygems.org --remove https://gems.ruby-china.org",
+                    "/usr/bin/gem sources --add https://gems.ruby-china.org --remove https://rubygems.org"
+                  ]
+                },
                 "cwd": "/home/ec2-user"
               },
               "08downloadchefclient": {
