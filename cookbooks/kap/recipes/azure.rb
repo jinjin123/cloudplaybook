@@ -93,6 +93,12 @@ execute "removecredentials" do
   ignore_failure true
 end
 
+# empty progresslog
+execute "truncateprogresslog" do
+  command "echo \"\" > #{progresslog}"
+  ignore_failure true
+end
+
 # Check what scheme, "allinone" or "separated" to be deployed
 if (not (defined?(azure[:scheme])).nil?) && (not "#{azure[:scheme]}" == "")
   scheme = azure[:scheme]

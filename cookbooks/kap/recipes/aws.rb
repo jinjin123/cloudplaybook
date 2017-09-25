@@ -272,7 +272,11 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   #   command 'aws s3 ls'
   #   action :run
   # end
-
+  # empty progresslog
+  execute "truncateprogresslog" do
+    command "echo \"\" > #{progresslog}"
+    ignore_failure true
+  end
   result_pure_log(title0, "Check keypair", progresslog)
   # Run checking for key pair
   execute "checkifkeypairexist" do
