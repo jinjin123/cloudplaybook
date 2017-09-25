@@ -1017,4 +1017,4 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   end
 end
 
-result_pure_log(titleend, "Upgrade HDinsight cluster", progresslog)
+result_pure_log(titleend, "Azure Operation Finish", progresslog)
