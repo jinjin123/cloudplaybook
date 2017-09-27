@@ -510,7 +510,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
     end
     result_log(emptytitle, "aws deployment checkemrversion", progresslog, returnflagfile)
     execute "checkemrapplication" do
-      command "APPLICATIONS=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Applications' --output text);echo \"Application lists = \"$APPLICATIONS >> #{basedir}aws/#{identifier}/deploy.log;for x in Hadoop Hive Pig Hue ZooKeeper Phoenix HCatalog HBase;do if [[ $APPLICATIONS != *\"$x\"* ]];then echo \"Application $x did not found\" >> #{basedir}aws/#{identifier}/deploy.log;exit 1;fi; done && touch #{returnflagfile}"
+      command "APPLICATIONS=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.Applications' --output text);echo \"Application lists = \"$APPLICATIONS >> #{basedir}aws/#{identifier}/deploy.log;for x in Hadoop Hive Pig Hue ZooKeeper Phoenix HCatalog HBase;do if [[ $APPLICATIONS != *\"$x\"* ]];then echo \"Application $x did not found\" > #{awserror};exit 1;fi; done && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(emptytitle, "in action[existing] check emr application", progresslog, returnflagfile)
