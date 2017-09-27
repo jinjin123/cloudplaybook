@@ -505,7 +505,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
   elsif awsaction.eql?("existing")
     result_pure_log(title2, "Check EMR and applications etc", progresslog)
     execute "checkemrversion" do
-      command "VERSION=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.ReleaseLabel'  --output text);echo \"VERSION = \"$VERSION >> #{basedir}aws/#{identifier}/deploy.log;MAINVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f1);MINORVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f2);echo \"MAINVERSION = \"$MAINVERSION >> #{basedir}aws/#{identifier}/deploy.log;echo \"MINORVERSION = \"$MINORVERSION >> #{basedir}aws/#{identifier}/deploy.log;if [ \"$MAINVERSION\" -lt '5' ];then echo 'Main version not match prerequisite';exit 1;fi;if [ \"$MINORVERSION\" -lt '5' ];then echo 'Version not match prerequisite, minimum EMR 5.5.0';exit 1;fi && touch #{returnflagfile}"
+      command "VERSION=$(aws emr describe-cluster --cluster-id #{emrid} --query 'Cluster.ReleaseLabel'  --output text);echo \"VERSION = \"$VERSION >> #{basedir}aws/#{identifier}/deploy.log;MAINVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f1);MINORVERSION=$(echo $VERSION|cut -d'-' -f2| cut -d'.' -f2);echo \"MAINVERSION = \"$MAINVERSION >> #{basedir}aws/#{identifier}/deploy.log;echo \"MINORVERSION = \"$MINORVERSION >> #{basedir}aws/#{identifier}/deploy.log;if [ \"$MAINVERSION\" -lt '5' ];then echo 'Main version not match prerequisite' > #{awserror};exit 1;fi;if [ \"$MINORVERSION\" -lt '5' ];then echo 'Version not match prerequisite, minimum EMR 5.5.0' > #{awserror};exit 1;fi && touch #{returnflagfile}"
       ignore_failure true
     end
     result_log(emptytitle, "aws deployment check emrversion", progresslog, returnflagfile)

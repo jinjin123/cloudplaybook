@@ -21,6 +21,7 @@
             "password": "Kyligence2016"
           },
           "kylin": {
+            "kapagentid": "testf254cdea-a5f0-4d24-b151-a5b77a43408a",
             "kaptoken": "dda18812-e57b-47f1-8aae-38adebecde8a",
             "identifier": "20170815000000",
             "region": "chinaeast",
