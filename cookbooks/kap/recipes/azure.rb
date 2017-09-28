@@ -788,7 +788,7 @@ if (not (defined?(credentials[:username])).nil?) && (not "#{credentials[:usernam
       # notifies :run, 'execute[commit_docker]', :immediately
     ignore_failure true
   end
-  result_log(identifier, "use username and password to login azure", progresslog, returnflagfile)
+  result_log(emptytitle, "use username and password to login azure", progresslog, returnflagfile)
 elsif (not (defined?(credentials[:token])).nil?) && (not "#{credentials[:token]}" == "")
   deploymentmode = "token"
   tokenjson1 = Chef::JSONCompat.to_json_pretty(credentials[:token][0].to_hash)
