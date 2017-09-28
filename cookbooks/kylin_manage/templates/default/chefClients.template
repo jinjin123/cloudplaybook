@@ -352,6 +352,23 @@
         "CidrIp": "10.0.0.0/16"
       }
     },
+    "SecurityGroupRuleLoadBalancer": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "DependsOn": "AWSLoadBalancerSecurityGroup",
+      "Properties": {
+        "GroupId": {
+          "Ref": "VpcSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": {
+          "Ref": "InstancePort"
+        },
+        "ToPort": {
+          "Ref": "InstancePort"
+        },
+        "SourceSecurityGroupId": { "Ref": "AWSLoadBalancerSecurityGroup"}
+      }
+    },
     "ChefClientUser": {
       "Type": "AWS::IAM::User",
       "Properties": {
