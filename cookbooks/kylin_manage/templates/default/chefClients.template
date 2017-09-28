@@ -369,6 +369,32 @@
         "SourceSecurityGroupId": { "Ref": "AWSLoadBalancerSecurityGroup"}
       }
     },
+    "SecurityGroupRuleZepplin": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "DependsOn": "AWSLoadBalancerSecurityGroup",
+      "Properties": {
+        "GroupId": {
+          "Ref": "VpcSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": 9090,
+        "ToPort": 9090,
+        "SourceSecurityGroupId": { "Ref": "AWSLoadBalancerSecurityGroup"}
+      }
+    },
+    "SecurityGroupRuleKyanalyzer": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "DependsOn": "AWSLoadBalancerSecurityGroup",
+      "Properties": {
+        "GroupId": {
+          "Ref": "VpcSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": 8080,
+        "ToPort": 8080,
+        "SourceSecurityGroupId": { "Ref": "AWSLoadBalancerSecurityGroup"}
+      }
+    },
     "ChefClientUser": {
       "Type": "AWS::IAM::User",
       "Properties": {
