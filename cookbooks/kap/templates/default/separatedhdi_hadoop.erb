@@ -1,0 +1,443 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "clusterName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the HDInsight cluster to create."
+      }
+    },
+    "storageAccount1": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of StorageAccount1."
+      }
+    },
+    "storageAccount2": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of StorageAccount2."
+      }
+    },
+    "clusterLoginUserName": {
+      "type": "string",
+      "defaultValue": "admin",
+      "metadata": {
+        "description": "These credentials can be used to submit jobs to the cluster and to log into cluster dashboards."
+      }
+    },
+    "clusterLoginPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
+      }
+    },
+    "containerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify container name."
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "chinaeast",
+      "allowedValues": [
+        "chinaeast",
+        "chinanorth",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2",
+        "koreacentral",
+        "koreasouth"
+      ]
+    },
+    "clusterVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "The version of HDI."
+      },
+      "defaultValue": "3.5",
+      "allowedValues": [
+        "3.6",
+        "3.5",
+        "3.4",
+        "3.3",
+        "3.2"
+      ]
+    },
+    "clusterWorkerNodeCount": {
+      "type": "int",
+      "defaultValue": 1,
+      "metadata": {
+        "description": "The number of nodes in the HDInsight cluster."
+      }
+    },
+    "clusterType": {
+      "type": "string",
+      "defaultValue": "hbase",
+      "allowedValues": [
+        "hadoop",
+        "hbase",
+        "storm",
+        "spark"
+      ],
+      "metadata": {
+        "description": "The type of the HDInsight cluster to create."
+      }
+    },
+    "edgeNodeSize": {
+      "type": "string",
+      "metadata": {
+        "description": "Size of the edge node that hosts the application"
+      },
+      "defaultValue": "Standard_D3",
+      "allowedValues": [
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_D12",
+        "Standard_D13",
+        "Standard_D14",
+        "Standard_D3_V2",
+        "Standard_D4_V2",
+        "Standard_D5_V2",
+        "Standard_D12_V2",
+        "Standard_D13_V2",
+        "Standard_D14_V2"
+      ]
+    },
+    "workerNodeSize": {
+      "type": "string",
+      "metadata": {
+        "description": "Size of the worker node that hosts the application"
+      },
+      "defaultValue": "Standard_D3",
+      "allowedValues": [
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_D12",
+        "Standard_D13",
+        "Standard_D14",
+        "Standard_D3_V2",
+        "Standard_D4_V2",
+        "Standard_D5_V2",
+        "Standard_D12_V2",
+        "Standard_D13_V2",
+        "Standard_D14_V2"
+      ]
+    },
+    "sshUserName": {
+      "type": "string",
+      "defaultValue": "sshuser",
+      "metadata": {
+        "description": "These credentials can be used to remotely access the cluster."
+      }
+    },
+    "sshPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
+      }
+    },
+    "sqlvirtualMachinesname": {
+      "defaultValue": "sqltest",
+      "type": "String"
+    },
+    "vnetName": {
+      "defaultValue": "sqltest",
+      "type": "String"
+    },
+    "subnet1Name": {
+      "defaultValue": "subnet120170503000000",
+      "type": "String"
+    },
+    "appType": {
+      "type": "string",
+      "metadata": {
+        "description": "Which services you want to install"
+      },
+      "defaultValue": "KAP+KyAnalyzer+Zeppelin",
+      "allowedValues": [
+        "KAP+KyAnalyzer+Zeppelin",
+        "KAP+KyAnalyzer",
+        "KAP"
+      ]
+    },
+    "metastoreName": {
+      "type": "string",
+      "defaultValue": "kylin_default_instance",
+      "metadata": {
+        "description": "The name of metadata store for KAP"
+      }
+    },
+    "databaseName": {
+      "type": "string",
+      "metadata": {
+        "description": "Putting database name."
+      }
+    },
+    "kaptoken": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "kap token to be put into installation script"
+      }
+    },
+    "kapagentid": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "kap agent id to be put into installation script"
+      }
+    },
+    "kapurl": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "kap tar file download url"
+      }
+    },
+    "kyanalyzerurl": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "kyanalyzerurl tar file download url"
+      }
+    },
+    "zeppelinurl": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "zeppelinurl tar file download url"
+      }
+    }
+  },
+  "variables": {
+    "defaultApiVersion": "2015-05-01-preview",
+    "clusterApiVersion": "2015-03-01-preview",
+    "clusterStorageAccountName": "[parameters('storageAccount1')]",
+    "applicationName": "KAP",
+    "galleryPackageIdentity": "Kyligence",
+    "sqlDatabase": {
+      "serverName": "[parameters('sqlvirtualMachinesname')]",
+      "databaseName": "[concat(parameters('databaseName'),'db')]"
+    }
+  },
+  "resources": [
+    {
+      "name": "[parameters('storageAccount1')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[parameters('location')]",
+      "apiVersion": "[variables('defaultApiVersion')]",
+      "dependsOn": [],
+      "tags": {},
+      "properties": {
+        "accountType": "Standard_LRS"
+      }
+    },
+    {
+      "name": "[parameters('storageAccount2')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[parameters('location')]",
+      "apiVersion": "[variables('defaultApiVersion')]",
+      "dependsOn": [],
+      "tags": {},
+      "properties": {
+        "accountType": "Standard_LRS"
+      }
+    },
+    {
+      "apiVersion": "[variables('clusterApiVersion')]",
+      "name": "[parameters('clusterName')]",
+      "type": "Microsoft.HDInsight/clusters",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount1'))]",
+        "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount2'))]"
+      ],
+      "properties": {
+        "clusterVersion": "[parameters('clusterVersion')]",
+        "osType": "Linux",
+        "tier": "standard",
+        "clusterDefinition": {
+          "kind": "[parameters('clusterType')]",
+          "configurations": {
+            "gateway": {
+              "restAuthCredential.isEnabled": true,
+              "restAuthCredential.username": "[parameters('clusterLoginUserName')]",
+              "restAuthCredential.password": "[parameters('clusterLoginPassword')]"
+            },
+            "hive-site": {
+              "javax.jdo.option.ConnectionDriverName": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+              "javax.jdo.option.ConnectionURL": "[concat('jdbc:sqlserver://', variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>', ';databaseName=', variables('sqlDatabase').databaseName, ';')]",
+              "javax.jdo.option.ConnectionUserName": "[concat(parameters('sshUserName'), '@', variables('sqlDatabase').serverName)]",
+              "javax.jdo.option.ConnectionPassword": "[parameters('sshPassword')]"
+            },
+            "hive-env": {
+              "hive_database": "Existing MSSQL Server database with SQL authentication",
+              "hive_database_name": "[variables('sqlDatabase').databaseName]",
+              "hive_database_type": "mssql",
+              "hive_existing_mssql_server_database": "[variables('sqlDatabase').databaseName]",
+              "hive_existing_mssql_server_host": "[concat(variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>')]",
+              "hive_hostname": "[concat(variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>')]"
+            }
+          }
+        },
+        "storageProfile": {
+          "storageaccounts": [
+            {
+              "name": "[concat(parameters('storageAccount1'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
+              "isDefault": true,
+              "container": "[parameters('containerName')]",
+              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount1')), variables('defaultApiVersion')).key1]"
+            },
+            {
+              "name": "[concat(parameters('storageAccount2'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
+              "isDefault": false,
+              "container": "[parameters('containerName')]",
+              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount2')), variables('defaultApiVersion')).key1]"
+            }
+          ]
+        },
+        "computeProfile": {
+          "roles": [
+            {
+              "name": "headnode",
+              "minInstanceCount": 1,
+              "targetInstanceCount": 2,
+              "hardwareProfile": {
+                "vmSize": "Standard_D3"
+              },
+              "osProfile": {
+                "linuxOperatingSystemProfile": {
+                  "username": "[parameters('sshUserName')]",
+                  "password": "[parameters('sshPassword')]"
+                }
+              },
+              "virtualNetworkProfile": {
+                "id": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
+                "subnet": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
+              },
+              "scriptActions": []
+            },
+            {
+              "name": "workernode",
+              "minInstanceCount": 1,
+              "targetInstanceCount": "[parameters('clusterWorkerNodeCount')]",
+              "hardwareProfile": {
+                "vmSize": "[parameters('workerNodeSize')]"
+              },
+              "osProfile": {
+                "linuxOperatingSystemProfile": {
+                  "username": "[parameters('sshUserName')]",
+                  "password": "[parameters('sshPassword')]"
+                }
+              },
+              "virtualNetworkProfile": {
+                "id": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
+                "subnet": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
+              },
+              "scriptActions": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "[concat(parameters('clusterName'),'/', variables('applicationName'))]",
+      "type": "Microsoft.HDInsight/clusters/applications",
+      "dependsOn": [
+        "[concat('Microsoft.HDInsight/clusters/', parameters('clusterName'))]"
+      ],
+      "apiVersion": "[variables('clusterApiVersion')]",
+      "properties": {
+        "marketPlaceIdentifier": "[variables('galleryPackageIdentity')]",
+        "computeProfile": {
+          "roles": [
+            {
+              "name": "edgenode",
+              "targetInstanceCount": 1,
+              "hardwareProfile": {
+                "vmSize": "[parameters('edgeNodeSize')]"
+              }
+            }
+          ]
+        },
+        "installScriptActions": [
+          {
+            "name": "[concat('KAP-install-v0','-' ,uniquestring(variables('applicationName')))]",
+            "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh",
+            "parameters": "[concat(parameters('clusterLoginUserName'), ' ', parameters('clusterLoginPassword'), ' ', parameters('metastoreName'), ' ', parameters('appType'), ' ', parameters('clusterName'), ' ', parameters('kaptoken'), ' ', parameters('kapagentid'),' ',parameters('kapurl'), ' ', parameters('kyanalyzerurl'),' ',parameters('zeppelinurl'))]",
+            "roles": [
+              "edgenode"
+            ]
+          }
+        ],
+        "uninstallScriptActions": [
+          {
+            "name": "[concat('KAP-uninstall-v0','-' ,uniquestring(variables('applicationName')))]",
+            "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh",
+            "parameters": "[parameters('appType')]",
+            "roles": [
+              "edgenode"
+            ]
+          }
+        ],
+        "httpsEndpoints": [
+          {
+            "subDomainSuffix": "kap",
+            "destinationPort": 7070,
+            "disableGatewayAuth":true,
+            "accessModes": [
+              "webpage"
+            ]
+          },
+          {
+            "subDomainSuffix": "kya",
+            "destinationPort": 8080,
+            "disableGatewayAuth":true,
+            "accessModes": [
+              "webpage"
+            ]
+          },
+          {
+            "subDomainSuffix": "zep",
+            "destinationPort": 9090,
+            "disableGatewayAuth":true,
+            "accessModes": [
+              "webpage"
+            ]
+          }
+        ],
+        "applicationType": "CustomApplication"
+      }
+    }
+  ],
+  "outputs": {
+    "cluster": {
+      "type": "object",
+      "value": "[reference(resourceId('Microsoft.HDInsight/clusters',parameters('clusterName')))]"
+    }
+  }
+}

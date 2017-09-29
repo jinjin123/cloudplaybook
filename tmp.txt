@@ -1,0 +1,462 @@
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   1) {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   2)   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   3)   "contentVersion": "1.0.0.0",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   4)   "parameters": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   5)     "clusterName": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   6)       "type": "string",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   7)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   8)         "description": "The name of the HDInsight cluster to create."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800   9)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  10)     },
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800  11)     "storageAccount1": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  12)       "type": "string",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  13)       "metadata": {
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800  14)         "description": "The name of StorageAccount1."
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800  15)       }
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800  16)     },
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800  17)     "storageAccount2": {
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800  18)       "type": "string",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800  19)       "metadata": {
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800  20)         "description": "The name of StorageAccount2."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  21)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  22)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  23)     "clusterLoginUserName": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  24)       "type": "string",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  25)       "defaultValue": "admin",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  26)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  27)         "description": "These credentials can be used to submit jobs to the cluster and to log into cluster dashboards."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  28)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  29)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  30)     "clusterLoginPassword": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  31)       "type": "securestring",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  32)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  33)         "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  34)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  35)     },
+9931fa5ff cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:06:26 +0800  36)     "containerName": {
+9931fa5ff cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:06:26 +0800  37)       "type": "string",
+9931fa5ff cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:06:26 +0800  38)       "metadata": {
+9931fa5ff cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:06:26 +0800  39)         "description": "Specify container name."
+9931fa5ff cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:06:26 +0800  40)       }
+9931fa5ff cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:06:26 +0800  41)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  42)     "location": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  43)       "type": "string",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  44)       "defaultValue": "chinaeast",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  45)       "allowedValues": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  46)         "chinaeast",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  47)         "chinanorth",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  48)         "eastasia",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  49)         "southeastasia",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  50)         "centralus",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  51)         "eastus",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  52)         "eastus2",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  53)         "westus",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  54)         "northcentralus",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  55)         "southcentralus",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  56)         "northeurope",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  57)         "westeurope",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  58)         "japanwest",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  59)         "japaneast",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  60)         "brazilsouth",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  61)         "australiaeast",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  62)         "australiasoutheast",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  63)         "southindia",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  64)         "centralindia",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  65)         "westindia",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  66)         "canadacentral",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  67)         "canadaeast",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  68)         "uksouth",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  69)         "ukwest",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  70)         "westcentralus",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  71)         "westus2",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  72)         "koreacentral",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  73)         "koreasouth"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  74)       ]
+db9027c23 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:59:39 +0800  75)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  76)     "clusterVersion": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  77)       "type": "string",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  78)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  79)         "description": "The version of HDI."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  80)       },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  81)       "defaultValue": "3.5",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  82)       "allowedValues": [
+b18068aab cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-08-31 11:26:58 +0800  83)         "3.6",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  84)         "3.5",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  85)         "3.4",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  86)         "3.3",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  87)         "3.2"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  88)       ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  89)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  90)     "clusterWorkerNodeCount": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  91)       "type": "int",
+220fd44f0 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-04 14:51:43 +0800  92)       "defaultValue": 1,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  93)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  94)         "description": "The number of nodes in the HDInsight cluster."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  95)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  96)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  97)     "clusterType": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  98)       "type": "string",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800  99)       "defaultValue": "hbase",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 100)       "allowedValues": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 101)         "hadoop",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 102)         "hbase",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 103)         "storm",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 104)         "spark"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 105)       ],
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 106)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 107)         "description": "The type of the HDInsight cluster to create."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 108)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 109)     },
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 110)     "edgeNodeSize": {
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 111)       "type": "string",
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 112)       "metadata": {
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 113)         "description": "Size of the edge node that hosts the application"
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 114)       },
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 115)       "defaultValue": "Standard_D3",
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 116)       "allowedValues": [
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 117)         "Standard_D3",
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 118)         "Standard_D4",
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 119)         "Standard_D12",
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 120)         "Standard_D13",
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 121)         "Standard_D14",
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 122)         "Standard_D3_V2",
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 123)         "Standard_D4_V2",
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 124)         "Standard_D5_V2",
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 125)         "Standard_D12_V2",
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 126)         "Standard_D13_V2",
+371577ed7 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 18:30:16 +0800 127)         "Standard_D14_V2"
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 128)       ]
+04eb7a98e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 17:16:54 +0800 129)     },
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 130)     "workerNodeSize": {
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 131)       "type": "string",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 132)       "metadata": {
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 133)         "description": "Size of the worker node that hosts the application"
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 134)       },
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 135)       "defaultValue": "Standard_D3",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 136)       "allowedValues": [
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 137)         "Standard_D3",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 138)         "Standard_D4",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 139)         "Standard_D12",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 140)         "Standard_D13",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 141)         "Standard_D14",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 142)         "Standard_D3_V2",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 143)         "Standard_D4_V2",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 144)         "Standard_D5_V2",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 145)         "Standard_D12_V2",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 146)         "Standard_D13_V2",
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 147)         "Standard_D14_V2"
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 148)       ]
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 149)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 150)     "sshUserName": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 151)       "type": "string",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 152)       "defaultValue": "sshuser",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 153)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 154)         "description": "These credentials can be used to remotely access the cluster."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 155)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 156)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 157)     "sshPassword": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 158)       "type": "securestring",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 159)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 160)         "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 161)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 162)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 163)     "sqlvirtualMachinesname": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 164)       "defaultValue": "sqltest",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 165)       "type": "String"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 166)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 167)     "vnetName": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 168)       "defaultValue": "sqltest",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 169)       "type": "String"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 170)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 171)     "subnet1Name": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 172)       "defaultValue": "subnet120170503000000",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 173)       "type": "String"
+ba1f07949 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 17:07:11 +0800 174)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 175)     "appType": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 176)       "type": "string",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 177)       "metadata": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 178)         "description": "Which services you want to install"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 179)       },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 180)       "defaultValue": "KAP+KyAnalyzer+Zeppelin",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 181)       "allowedValues": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 182)         "KAP+KyAnalyzer+Zeppelin",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 183)         "KAP+KyAnalyzer",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 184)         "KAP"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 185)       ]
+398c2dc74 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-09 15:10:54 +0800 186)     },
+398c2dc74 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-09 15:10:54 +0800 187)     "metastoreName": {
+398c2dc74 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-09 15:10:54 +0800 188)       "type": "string",
+398c2dc74 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-09 15:10:54 +0800 189)       "defaultValue": "kylin_default_instance",
+398c2dc74 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-09 15:10:54 +0800 190)       "metadata": {
+398c2dc74 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-09 15:10:54 +0800 191)         "description": "The name of metadata store for KAP"
+398c2dc74 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-09 15:10:54 +0800 192)       }
+7a8c87fe4 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-23 15:35:08 +0800 193)     },
+7a8c87fe4 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-23 15:35:08 +0800 194)     "databaseName": {
+7a8c87fe4 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-23 15:35:08 +0800 195)       "type": "string",
+7a8c87fe4 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-23 15:35:08 +0800 196)       "metadata": {
+7a8c87fe4 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-23 15:35:08 +0800 197)         "description": "Putting database name."
+7a8c87fe4 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-23 15:35:08 +0800 198)       }
+074ad9c3e cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-06-05 16:43:49 +0800 199)     },
+074ad9c3e cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-06-05 16:43:49 +0800 200)     "kaptoken": {
+074ad9c3e cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-06-05 16:43:49 +0800 201)       "type": "string",
+074ad9c3e cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-06-05 16:43:49 +0800 202)       "defaultValue": "",
+074ad9c3e cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-06-05 16:43:49 +0800 203)       "metadata": {
+074ad9c3e cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-06-05 16:43:49 +0800 204)         "description": "kap token to be put into installation script"
+074ad9c3e cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-06-05 16:43:49 +0800 205)       }
+a1fd6ba40 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-08-17 14:37:10 +0800 206)     },
+a1fd6ba40 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-08-17 14:37:10 +0800 207)     "kapagentid": {
+a1fd6ba40 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-08-17 14:37:10 +0800 208)       "type": "string",
+a1fd6ba40 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-08-17 14:37:10 +0800 209)       "defaultValue": "",
+a1fd6ba40 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-08-17 14:37:10 +0800 210)       "metadata": {
+a1fd6ba40 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-08-17 14:37:10 +0800 211)         "description": "kap agent id to be put into installation script"
+a1fd6ba40 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-08-17 14:37:10 +0800 212)       }
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 213)     },
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 214)     "kapurl": {
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 215)       "type": "string",
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 216)       "defaultValue": "",
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 217)       "metadata": {
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 218)         "description": "kap tar file download url"
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 219)       }
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 220)     },
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 221)     "kyanalyzerurl": {
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 222)       "type": "string",
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 223)       "defaultValue": "",
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 224)       "metadata": {
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 225)         "description": "kyanalyzerurl tar file download url"
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 226)       }
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 227)     },
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 228)     "zeppelinurl": {
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 229)       "type": "string",
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 230)       "defaultValue": "",
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 231)       "metadata": {
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 232)         "description": "zeppelinurl tar file download url"
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 233)       }
+155e1936f cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-23 17:38:08 +0800 234)     }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 235)   },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 236)   "variables": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 237)     "defaultApiVersion": "2015-05-01-preview",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 238)     "clusterApiVersion": "2015-03-01-preview",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 239)     "clusterStorageAccountName": "[parameters('storageAccount1')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 240)     "applicationName": "KAP",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 241)     "galleryPackageIdentity": "Kyligence",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 242)     "sqlDatabase": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 243)       "serverName": "[parameters('sqlvirtualMachinesname')]",
+7a8c87fe4 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-23 15:35:08 +0800 244)       "databaseName": "[concat(parameters('databaseName'),'db')]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 245)     }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 246)   },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 247)   "resources": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 248)     {
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 249)       "name": "[parameters('storageAccount1')]",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 250)       "type": "Microsoft.Storage/storageAccounts",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 251)       "location": "[parameters('location')]",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 252)       "apiVersion": "[variables('defaultApiVersion')]",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 253)       "dependsOn": [],
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 254)       "tags": {},
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 255)       "properties": {
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 256)         "accountType": "Standard_LRS"
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 257)       }
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 258)     },
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 259)     {
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 260)       "name": "[parameters('storageAccount2')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 261)       "type": "Microsoft.Storage/storageAccounts",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 262)       "location": "[parameters('location')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 263)       "apiVersion": "[variables('defaultApiVersion')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 264)       "dependsOn": [],
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 265)       "tags": {},
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 266)       "properties": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 267)         "accountType": "Standard_LRS"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 268)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 269)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 270)     {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 271)       "apiVersion": "[variables('clusterApiVersion')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 272)       "name": "[parameters('clusterName')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 273)       "type": "Microsoft.HDInsight/clusters",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 274)       "location": "[parameters('location')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 275)       "dependsOn": [
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 276)         "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount1'))]",
+3f9e95f9d cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-13 19:34:50 +0800 277)         "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccount2'))]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 278)       ],
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 279)       "properties": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 280)         "clusterVersion": "[parameters('clusterVersion')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 281)         "osType": "Linux",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 282)         "tier": "standard",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 283)         "clusterDefinition": {
+1d569eedb cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 15:55:51 +0800 284)           "kind": "[parameters('clusterType')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 285)           "configurations": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 286)             "gateway": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 287)               "restAuthCredential.isEnabled": true,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 288)               "restAuthCredential.username": "[parameters('clusterLoginUserName')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 289)               "restAuthCredential.password": "[parameters('clusterLoginPassword')]"
+27b0fc45e cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 17:18:12 +0800 290)             },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 291)             "hive-site": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 292)               "javax.jdo.option.ConnectionDriverName": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 293)               "javax.jdo.option.ConnectionURL": "[concat('jdbc:sqlserver://', variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>', ';databaseName=', variables('sqlDatabase').databaseName, ';')]",
+d84b1de62 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-13 17:31:59 +0800 294)               "javax.jdo.option.ConnectionUserName": "[concat(parameters('sshUserName'), '@', variables('sqlDatabase').serverName)]",
+d84b1de62 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-13 17:31:59 +0800 295)               "javax.jdo.option.ConnectionPassword": "[parameters('sshPassword')]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 296)             },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 297)             "hive-env": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 298)               "hive_database": "Existing MSSQL Server database with SQL authentication",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 299)               "hive_database_name": "[variables('sqlDatabase').databaseName]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 300)               "hive_database_type": "mssql",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 301)               "hive_existing_mssql_server_database": "[variables('sqlDatabase').databaseName]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 302)               "hive_existing_mssql_server_host": "[concat(variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 303)               "hive_hostname": "[concat(variables('sqlDatabase').serverName, '<% if @accountregion.eql?("china") %><%= ".database.chinacloudapi.cn" %><% else %><%= ".database.windows.net" %><% end %>')]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 304)             }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 305)           }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 306)         },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 307)         "storageProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 308)           "storageaccounts": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 309)             {
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 310)               "name": "[concat(parameters('storageAccount1'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 311)               "isDefault": true,
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 312)               "container": "[parameters('containerName')]",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 313)               "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount1')), variables('defaultApiVersion')).key1]"
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 314)             },
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 315)             {
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 316)               "name": "[concat(parameters('storageAccount2'),'<% if @accountregion.eql?("china") %><%= ".blob.core.chinacloudapi.cn" %><% else %><%= ".blob.core.windows.net" %><% end %>')]",
+9c0ce9ed3 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-17 10:40:45 +0800 317)               "isDefault": false,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 318)               "container": "[parameters('containerName')]",
+5c9fd2760 cookbooks/azure/templates/default/separatedhdi.json.erb  (Jacky Chan 2017-05-16 12:01:48 +0800 319)               "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount2')), variables('defaultApiVersion')).key1]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 320)             }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 321)           ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 322)         },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 323)         "computeProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 324)           "roles": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 325)             {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 326)               "name": "headnode",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 327)               "minInstanceCount": 1,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 328)               "targetInstanceCount": 2,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 329)               "hardwareProfile": {
+33407ea44 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-20 09:08:04 +0800 330)                 "vmSize": "Standard_D3"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 331)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 332)               "osProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 333)                 "linuxOperatingSystemProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 334)                   "username": "[parameters('sshUserName')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 335)                   "password": "[parameters('sshPassword')]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 336)                 }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 337)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 338)               "virtualNetworkProfile": {
+ce46d9336 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:52:30 +0800 339)                 "id": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
+ce46d9336 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:52:30 +0800 340)                 "subnet": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 341)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 342)               "scriptActions": []
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 343)             },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 344)             {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 345)               "name": "workernode",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 346)               "minInstanceCount": 1,
+82af35da7 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-07-14 17:31:48 +0800 347)               "targetInstanceCount": "[parameters('clusterWorkerNodeCount')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 348)               "hardwareProfile": {
+17aaf0448 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-19 22:23:32 +0800 349)                 "vmSize": "[parameters('workerNodeSize')]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 350)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 351)               "osProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 352)                 "linuxOperatingSystemProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 353)                   "username": "[parameters('sshUserName')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 354)                   "password": "[parameters('sshPassword')]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 355)                 }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 356)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 357)               "virtualNetworkProfile": {
+ce46d9336 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:52:30 +0800 358)                 "id": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
+ce46d9336 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:52:30 +0800 359)                 "subnet": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 360)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 361)               "scriptActions": []
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 362)             },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 363)             {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 364)               "name": "zookeepernode",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 365)               "minInstanceCount": 1,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 366)               "targetInstanceCount": 3,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 367)               "hardwareProfile": {
+9b15add90 cookbooks/kap/templates/default/separatedhdi.json.erb    (jing.guo   2017-09-28 16:43:19 +0800 368)                 "vmSize": "Standard_A3"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 369)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 370)               "osProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 371)                 "linuxOperatingSystemProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 372)                   "username": "[parameters('sshUserName')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 373)                   "password": "[parameters('sshPassword')]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 374)                 }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 375)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 376)               "virtualNetworkProfile": {
+ce46d9336 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:52:30 +0800 377)                 "id": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'))]",
+ce46d9336 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-08 16:52:30 +0800 378)                 "subnet": "[concat(resourceGroup().id,'/providers/Microsoft.Network/virtualNetworks/',parameters('vnetName'),'/subnets/',parameters('subnet1Name'))]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 379)               },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 380)               "scriptActions": []
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 381)             }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 382)           ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 383)         }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 384)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 385)     },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 386)     {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 387)       "name": "[concat(parameters('clusterName'),'/', variables('applicationName'))]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 388)       "type": "Microsoft.HDInsight/clusters/applications",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 389)       "dependsOn": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 390)         "[concat('Microsoft.HDInsight/clusters/', parameters('clusterName'))]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 391)       ],
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 392)       "apiVersion": "[variables('clusterApiVersion')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 393)       "properties": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 394)         "marketPlaceIdentifier": "[variables('galleryPackageIdentity')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 395)         "computeProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 396)           "roles": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 397)             {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 398)               "name": "edgenode",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 399)               "targetInstanceCount": 1,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 400)               "hardwareProfile": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 401)                 "vmSize": "[parameters('edgeNodeSize')]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 402)               }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 403)             }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 404)           ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 405)         },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 406)         "installScriptActions": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 407)           {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 408)             "name": "[concat('KAP-install-v0','-' ,uniquestring(variables('applicationName')))]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 409)             "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP-install_v0.sh",
+9213b090c cookbooks/kap/templates/default/separatedhdi.json.erb    (Jing Guo   2017-09-11 13:55:00 +0800 410)             "parameters": "[concat(parameters('clusterLoginUserName'), ' ', parameters('clusterLoginPassword'), ' ', parameters('metastoreName'), ' ', parameters('appType'), ' ', parameters('clusterName'), ' ', parameters('kaptoken'), ' ', parameters('kapagentid'),' ',parameters('kapurl'), ' ', parameters('kyanalyzerurl'),' ',parameters('zeppelinurl'))]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 411)             "roles": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 412)               "edgenode"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 413)             ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 414)           }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 415)         ],
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 416)         "uninstallScriptActions": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 417)           {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 418)             "name": "[concat('KAP-uninstall-v0','-' ,uniquestring(variables('applicationName')))]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 419)             "uri": "https://raw.githubusercontent.com/Kyligence/Iaas-Applications/master/KAP/scripts/KAP_uninstall_v0.sh",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 420)             "parameters": "[parameters('appType')]",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 421)             "roles": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 422)               "edgenode"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 423)             ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 424)           }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 425)         ],
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 426)         "httpsEndpoints": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 427)           {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 428)             "subDomainSuffix": "kap",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 429)             "destinationPort": 7070,
+bb14ef982 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-06-30 14:00:07 +0800 430)             "disableGatewayAuth":true,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 431)             "accessModes": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 432)               "webpage"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 433)             ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 434)           },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 435)           {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 436)             "subDomainSuffix": "kya",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 437)             "destinationPort": 8080,
+bb14ef982 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-06-30 14:00:07 +0800 438)             "disableGatewayAuth":true,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 439)             "accessModes": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 440)               "webpage"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 441)             ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 442)           },
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 443)           {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 444)             "subDomainSuffix": "zep",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 445)             "destinationPort": 9090,
+bb14ef982 cookbooks/kap/templates/default/separatedhdi.json.erb    (Jacky Chan 2017-06-30 14:00:07 +0800 446)             "disableGatewayAuth":true,
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 447)             "accessModes": [
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 448)               "webpage"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 449)             ]
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 450)           }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 451)         ],
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 452)         "applicationType": "CustomApplication"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 453)       }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 454)     }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 455)   ],
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 456)   "outputs": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 457)     "cluster": {
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 458)       "type": "object",
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 459)       "value": "[reference(resourceId('Microsoft.HDInsight/clusters',parameters('clusterName')))]"
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 460)     }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 461)   }
+5de0ed7a4 cookbooks/azure/templates/default/separatedhdi1.json.erb (Jacky Chan 2017-05-05 15:22:06 +0800 462) }

@@ -678,6 +678,20 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       group "root"
       action :create
     end
+
+    template "#{basedir}azure/#{identifier}/separatedhdi_hadoop.#{identifier}.json" do
+      source "separatedhdi_hadoop.json.erb"
+      variables(
+        :accountregion => accountregion
+      )
+      mode 0644
+      retries 3
+      retry_delay 2
+      owner "root"
+      group "root"
+      action :create
+    end
+
     # Creating first cluster, hbase HDI node
     template "#{basedir}azure/#{identifier}/separatedhdi1.parameters.#{identifier}.json" do
       source "separatedhdi.parameters.json.erb"
@@ -956,7 +970,7 @@ if (not (defined?(kylin)).nil?) && (not "#{kylin}" == "")
       if ! azureaction.include?("read")
         result_pure_log(title9, "Create HDinsight WriteCluster", progresslog)
         execute 'create_hdi2' do
-          command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> #{azureerror} && touch #{returnflagfile}"
+          command "azure group deployment create -g #{identifier} -n create_hdi2 -f #{basedir}azure/#{identifier}/separatedhdi_hadoop.#{identifier}.json -e #{basedir}azure/#{identifier}/separatedhdi2.parameters.#{identifier}.json -vv >> #{azureerror} && touch #{returnflagfile}"
           # notifies :run, 'execute[commit_docker]', :immediately
           ignore_failure true
         end
