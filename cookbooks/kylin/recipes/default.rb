@@ -121,13 +121,12 @@ execute "Startkapagent" do
 end
 
 if (not (defined?(node[:kylin][:var_apptype])).nil?) && (not "#{node[:kylin][:var_apptype]}" == "")
-  # Download kyanalyzer required library
-  remote_file "/usr/local/kyanalyzer/tomcat/webapps/saiku/WEB-INF/lib/mondrian-kylin-2.0.jar" do
-      source node[:kylin][:kyanalyzerjarlib]
-      action :create
-  end
-
   if node[:kylin][:var_apptype].downcase.include?("kyanalyzer")
+    # Download kyanalyzer required library
+    remote_file "/usr/local/kyanalyzer/tomcat/webapps/saiku/WEB-INF/lib/mondrian-kylin-2.0.jar" do
+        source node[:kylin][:kyanalyzerjarlib]
+        action :create
+    end
     template "/etc/init.d/kyanalyzer" do
       source 'kyanalyzer.service'
       owner 'root'
