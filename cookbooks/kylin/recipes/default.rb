@@ -66,7 +66,7 @@ end
 
 execute "installkylin" do
     cwd "#{Chef::Config[:file_cache_path]}"
-    command "./install.sh #{node[:kylin][:var_adminuser]} #{node[:kylin][:var_adminpassword]} #{node[:kylin][:var_apptype]} #{node[:kylin][:var_kyaccountToken]} #{node[:kylin][:var_kapurl]} #{node[:kylin][:var_kyanalyzerurl]} #{node[:kylin][:var_zeppelinurl]} #{node[:kylin][:s3bucketname]};"
+    command "./install.sh #{node[:kylin][:var_adminuser]} #{node[:kylin][:var_adminpassword]} #{node[:kylin][:var_apptype]} #{node[:kylin][:var_kyaccountToken]} #{node[:kylin][:var_kapurl]} #{node[:kylin][:var_kyanalyzerurl]} #{node[:kylin][:var_zeppelinurl]} #{node[:kylin][:s3bucketname]} #{node[:kylin][:var_kapagentid]};"
 #    user 'hdfs'
 #    group 'root'
 end
