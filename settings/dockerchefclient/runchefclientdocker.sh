@@ -67,6 +67,7 @@ else
   -v /root/tools/code/aws/$DEPLOYID/client.rb:/etc/chef/client.rb \
   -v /root/tools/code/aws/$DEPLOYID/deploy.json:/etc/chef/deploy.json \
   -v /root/tools/code/aws/$DEPLOYID/aws:/root/.aws \
+  -v /etc/chef/config.sh:/root/config.sh \
   dockerpriv.kybot.io:5002/keithyau/chefclient:latest \
   chef-client -o 'role[chefclient-kyligence-aws]' -j /etc/chef/deploy.json
   export RETURNCODE=$?

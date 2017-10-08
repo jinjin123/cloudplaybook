@@ -98,7 +98,8 @@ EC2keypair=$(cat $EC2KEYPAIR)
 
 ####################
 # BootDev branch name
-BRANCH=docker-general-kyligence
+# BRANCH=docker-general-kyligence
+source /root/config.sh
 # keypair name
 #KEYPAIR=kylin
 
